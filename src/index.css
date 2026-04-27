@@ -1,0 +1,58 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    font-family: 'Manrope', system-ui, sans-serif;
+    background-color: #faf8f5;
+    color: #1a1a1a;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  h1, h2, h3 {
+    font-family: 'Fraunces', Georgia, serif;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  /* Scrollbar horizontal para tarjetas Netflix-style */
+  .scroll-snap-x {
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .scroll-snap-x > * {
+    scroll-snap-align: start;
+  }
+}
+
+@layer components {
+  /* Card base */
+  .card {
+    @apply rounded-2xl bg-white shadow-sm border border-gray-100 overflow-hidden;
+  }
+
+  /* Botón primario — azul egeo */
+  .btn-primary {
+    @apply bg-egeo text-white font-semibold px-4 py-2 rounded-xl
+           hover:bg-egeo-600 active:bg-egeo-700 transition-colors
+           focus:outline-none focus:ring-2 focus:ring-egeo/50;
+  }
+
+  /* Botón secundario */
+  .btn-secondary {
+    @apply bg-white text-egeo font-semibold px-4 py-2 rounded-xl border border-egeo
+           hover:bg-egeo/5 active:bg-egeo/10 transition-colors
+           focus:outline-none focus:ring-2 focus:ring-egeo/50;
+  }
+
+  /* Botón coral */
+  .btn-coral {
+    @apply bg-coral text-white font-semibold px-4 py-2 rounded-xl
+           hover:bg-coral-dark active:bg-coral-dark transition-colors
+           focus:outline-none focus:ring-2 focus:ring-coral/50;
+  }
+}
