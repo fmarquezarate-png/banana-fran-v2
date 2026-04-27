@@ -1,69 +1,87 @@
-// Catálogo estático de destinos — datos de v1
-// NO modificar sin revisar HANDOFF.md primero
+// ============================================================
+// TIPOS — estructura fiel al HTML v1
+// ============================================================
+
+export type DestinationCategory = 'perfect' | 'good' | 'ok' | 'warning'
+export type MatchEmoji = '🔥' | '👍' | '👌' | '🚫' | '⚠️'
+
+export interface DestinationFacts {
+  temp: string
+  crowd: string
+  language: string
+  english: string
+  currency: string
+  flight: string
+  bestArea: string
+}
+
+export interface DestinationBudget {
+  flightPP: number // vuelo por persona desde BCN
+  fr: number       // fracción de variación del vuelo (0.20 = ±20%)
+  hotelPD: number  // hotel por día pareja, nivel medio
+  hr: number       // variación hotel
+  foodPD: number   // comida por día pareja, nivel medio
+  fdr: number      // variación comida
+  actPD: number    // actividades por día pareja, nivel medio
+  ar: number       // variación actividades
+}
+
+// Plan corto (3 y 5 días): lista de strings
+export type ShortPlan = string[]
+
+// Plan largo (7, 10, 14 días): [etiqueta, título, texto]
+export type LongPlanEntry = [label: string, title: string, text: string]
+export type LongPlan = LongPlanEntry[]
 
 export interface Destination {
   id: string
   name: string
+  shortName: string
   country: string
-  region: string
-  description: string
-  coverImage: string
-  tags: string[]
-  lat: number
-  lng: number
-  budgetRange: {
-    min: number
-    max: number
-    currency: string
-  }
-  bestMonths: number[] // 1-12
-  matchScore?: number // calculado en v1 según preferencias
+  match: MatchEmoji
+  matchLabel: string
+  tagline: string
+  category: DestinationCategory
+  coords: [lat: number, lng: number]
+  images: string[]
+  story: string[]
+  fit: string
+  warning?: string
+  facts: DestinationFacts
+  musts: string[]
+  dishes: string[]
+  plans3: ShortPlan
+  plans5: ShortPlan
+  plans7: LongPlan
+  plans10: LongPlan
+  plans14: LongPlan
+  budget: DestinationBudget
 }
 
-// Placeholder con estructura — los 30 destinos se migrarán en Tarea 4
-export const destinations: Destination[] = [
-  {
-    id: 'grecia-santorini',
-    name: 'Santorini',
-    country: 'Grecia',
-    region: 'Islas del Egeo',
-    description: 'La isla más icónica de Grecia, con sus casas blancas y cúpulas azules sobre el caldera.',
-    coverImage: '',
-    tags: ['playa', 'romántico', 'gastronomía', 'fotografía'],
-    lat: 36.3932,
-    lng: 25.4615,
-    budgetRange: { min: 1200, max: 2500, currency: 'EUR' },
-    bestMonths: [5, 6, 9, 10],
-    matchScore: 95,
-  },
-  {
-    id: 'croacia-dubrovnik',
-    name: 'Dubrovnik',
-    country: 'Croacia',
-    region: 'Dalmacia',
-    description: 'La perla del Adriático, ciudad amurallada con historia medieval y mar cristalino.',
-    coverImage: '',
-    tags: ['historia', 'playa', 'casco antiguo', 'Game of Thrones'],
-    lat: 42.6507,
-    lng: 18.0944,
-    budgetRange: { min: 900, max: 1800, currency: 'EUR' },
-    bestMonths: [5, 6, 9, 10],
-    matchScore: 88,
-  },
-  {
-    id: 'portugal-alentejo',
-    name: 'Alentejo',
-    country: 'Portugal',
-    region: 'Alentejo',
-    description: 'Paisajes de cork oaks, vino y gastronomía auténtica en el corazón de Portugal.',
-    coverImage: '',
-    tags: ['naturaleza', 'vino', 'slow travel', 'gastronomía'],
-    lat: 38.5667,
-    lng: -7.9000,
-    budgetRange: { min: 600, max: 1200, currency: 'EUR' },
-    bestMonths: [3, 4, 5, 9, 10, 11],
-    matchScore: 82,
-  },
+// ============================================================
+// DATOS — se importan desde los archivos por tanda
+// ============================================================
+import { DESTINATIONS_PERFECT } from './destinations-perfect'
+import { DESTINATIONS_GOOD } from './destinations-good'
+import { DESTINATIONS_OK } from './destinations-ok'
+import { DESTINATIONS_WARNING } from './destinations-warning'
+
+export const DESTINATIONS: Destination[] = [
+  ...DESTINATIONS_PERFECT,
+  ...DESTINATIONS_GOOD,
+  ...DESTINATIONS_OK,
+  ...DESTINATIONS_WARNING,
 ]
 
-// TODO (Tarea 4): migrar los 30 destinos completos del HTML v1
+// Helpers de acceso rápido
+export const DESTINATIONS_BY_ID = Object.fromEntries(
+  DESTINATIONS.map((d) => [d.id, d])
+) as Record<string, Destination>
+
+export function getDestination(id: string): Destination | undefined {
+  return DESTINATIONS_BY_ID[id]
+}
+
+export function getDestinationsByCategory(category: DestinationCategory): Destination[] {
+  return DESTINATIONS.filter((d) => d.category === category)
+}
