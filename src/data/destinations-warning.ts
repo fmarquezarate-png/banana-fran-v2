@@ -1,4 +1,99 @@
 import type { Destination } from './destinations'
 
-// Paso 4d — se rellena en el siguiente paso
-export const DESTINATIONS_WARNING: Destination[] = []
+export const DESTINATIONS_WARNING: Destination[] = [
+  {
+    id: 'santorini',
+    name: 'Santorini',
+    shortName: 'Santorini',
+    country: 'Grecia — Cícladas',
+    match: '⚠️',
+    matchLabel: 'Con cautela',
+    tagline: 'El más fotogénico del Egeo, pero también el más masificado',
+    category: 'warning',
+    coords: [36.3932, 25.4615],
+    images: [
+      'https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff?w=800',
+      'https://images.unsplash.com/photo-1601581875309-fafbf2d3ed3a?w=800',
+    ],
+    story:
+      'Santorini es indiscutiblemente espectacular — la caldera volcánica, las casas blancas de Oia, el atardecer más famoso del mundo. El problema es que en verano llegan hasta 10.000 turistas por día en crucero, los caminos de Oia son intransitables a las 19h y los precios son los más altos de Grecia. Si vas, mejor en mayo o principios de octubre, y alojarte fuera de Oia.',
+    warning: 'En julio-agosto es prácticamente inhabitable de turistas. Los precios se duplican. El atardecer de Oia se convierte en una pared de gente.',
+    fit: [
+      'Las vistas de la caldera son únicas en el mundo',
+      'Vinos de uva asirtiko del volcán — excelentes',
+      'Mejor en mayo o primera quincena de octubre',
+      'Alojarse en Imerovigli o Firostefani (menos masificado que Oia)',
+      'Combinar con Folégandros o Milos para equilibrar',
+    ],
+    facts: {
+      clima: 'Mediterráneo muy seco. Viento fuerte (meltemi) en verano.',
+      vuelo: '~3.5h desde Barcelona (escala o vuelo directo en temporada)',
+      moneda: 'Euro',
+      idioma: 'Griego — inglés excelente en toda la isla',
+      visado: 'No (UE)',
+    },
+    musts: [
+      'Atardecer en Oia (llegar 2h antes para sitio)',
+      'Cata de vino asirtiko en una bodega del volcán',
+      'Akrotiri — Pompeya del Egeo, ciudad minoica enterrada',
+      'Playa Roja (Kokkini) — arena volcánica única',
+      'Navegar por la caldera al atardecer',
+    ],
+    dishes: [
+      'Tomatokeftedes — croquetas de tomate cherry de Santorini',
+      'Fava de Santorini — puré de guisantes partidos, diferente al resto',
+      'Asirtiko — el mejor vino blanco seco de Grecia',
+      'Apochti — embutido curado con especias de la isla',
+    ],
+    plans3: [
+      'Día 1 — Fira: caldera, museos, primera cena.',
+      'Día 2 — Oia al amanecer (sin gente) + bodega asirtiko.',
+      'Día 3 — Akrotiri + playa Roja. Vuelta.',
+    ],
+    plans5: [
+      'Día 1 — Llegada. Fira, primer vistazo a la caldera.',
+      'Día 2 — Oia temprano + senderismo Fira-Oia.',
+      'Día 3 — Akrotiri (Pompeya minoica) + playa Roja.',
+      'Día 4 — Bodega, cata de asirtiko, Pyrgos.',
+      'Día 5 — Playa negra de Kamari, vuelta.',
+    ],
+    plans7: [
+      ['día', 'Llegada', 'Fira, caldera, orientación.'],
+      ['día', 'Oia', 'Amanecer (sin masas), paseo, fotos.'],
+      ['día', 'Senderismo', 'Fira → Imerovigli → Oia (10 km de caldera).'],
+      ['día', 'Akrotiri', 'Ciudad minoica + playa Roja.'],
+      ['día', 'Vino', 'Bodegas Santo Wines y Domaine Sigalas.'],
+      ['día', 'Caldera', 'Excursión en barco, aguas termales.'],
+      ['día', 'Vuelta', 'Kamari, aeropuerto.'],
+    ],
+    plans10: [
+      ['día', 'Llegada', 'Fira, primer atardecer.'],
+      ['día', 'Oia', 'Amanecer, paseo tranquilo.'],
+      ['día', 'Senderismo', 'Ruta costera de caldera.'],
+      ['día', 'Akrotiri', 'Museo y playa volcánica.'],
+      ['día', 'Bodegas', 'Cata de asirtiko y nykteri.'],
+      ['día', 'Caldera barco', 'Excursión con snorkel.'],
+      ['día', 'Pyrgos', 'El pueblo más bonito del interior.'],
+      ['día', 'Perissa', 'Playa negra del sur.'],
+      ['día', 'Folégandros', 'Ferry de día a la vecina tranquila.'],
+      ['día', 'Vuelta', 'Aeropuerto.'],
+    ],
+    plans14: [
+      ['semana 1', 'Santorini', 'Todos los imprescindibles en calma.'],
+      ['semana 1', 'Profundidad', 'Museos, bodegas, senderismo, caldera.'],
+      ['semana 2', 'Folégandros', '3 días: la antítesis de Santorini.'],
+      ['semana 2', 'Milos', '4 días: Sarakiniko, Kleftiko, cuevas.'],
+      ['semana 2', 'Vuelta', 'Ferry a Atenas, vuelo.'],
+    ],
+    budget: {
+      flightPP: 280,
+      fr: 0.25,
+      hotelPD: 220,
+      hr: 0.35,
+      foodPD: 75,
+      fdr: 0.20,
+      actPD: 60,
+      ar: 0.25,
+    },
+  },
+]
