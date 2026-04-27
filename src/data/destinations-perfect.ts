@@ -1,4 +1,91 @@
 import type { Destination } from './destinations'
 
-// Paso 4b — se rellena en el siguiente paso
-export const DESTINATIONS_PERFECT: Destination[] = []
+export const DESTINATIONS_PERFECT: Destination[] = [
+  {
+    id: 'albania-riviera',
+    name: 'Riviera Albanesa',
+    shortName: 'Saranda → Himara',
+    country: 'Albania',
+    match: '🔥',
+    matchLabel: 'Match perfecto',
+    tagline: 'Playas vírgenes, precios de otra década, aún sin descubrir del todo.',
+    category: 'perfect',
+    coords: [40.0767, 19.7475],
+    images: [
+      'https://images.unsplash.com/photo-1596484552834-6a58f850e0a1?auto=format&fit=crop&w=1600&q=75',
+      'https://images.unsplash.com/photo-1578517928421-8c32e0fef92a?auto=format&fit=crop&w=1600&q=75',
+      'https://images.unsplash.com/photo-1610641818989-c2051b5e2cfd?auto=format&fit=crop&w=1600&q=75',
+      'https://images.unsplash.com/photo-1601581875309-fafbf2d3ed3a?auto=format&fit=crop&w=1600&q=75',
+      'https://images.unsplash.com/photo-1555990538-17392d6a3c24?auto=format&fit=crop&w=1600&q=75',
+    ],
+    story: [
+      'Durante cuarenta años, Albania fue el país más cerrado de Europa — un régimen comunista aislado que prohibió incluso la barba. Cuando cayó en 1991, el país emergió con una costa de 450km casi intacta: sin resorts masivos, sin arquitectura turística invasiva, con aldeas de piedra donde los abuelos todavía saludan desde sus balcones.',
+      'La Riviera Albanesa —desde Saranda hasta Himara pasando por Ksamil, Dhermi y Borsh— es lo que la Costa Amalfitana fue antes de convertirse en postal de Instagram. Aguas imposiblemente turquesas, calas escondidas, montañas que caen al mar, tabernas donde el pescado llega del puerto esa misma mañana.',
+      'Todavía se siente el aire pionero. La infraestructura mejora cada año pero aún permite que un chiringuito en la arena no cueste 8€ por una cerveza. Es el secreto mejor guardado del Mediterráneo — y cada verano se guarda un poco menos.',
+    ],
+    fit: 'Playas, aventura y naturaleza en estado puro, con muy baja masificación y precios bajísimos. Kayak en calas solitarias, senderismo hasta playas inaccesibles por carretera, snorkel con visibilidad de 20m. Exactamente tu perfil.',
+    facts: {
+      temp: '28°C / 22°C',
+      crowd: 'Media-baja',
+      language: 'Albanés',
+      english: 'Limitado',
+      currency: 'Lek · Euro aceptado',
+      flight: 'BCN → Tirana (~3h) + 4h bus a Saranda',
+      bestArea: 'Himara o Dhermi (más auténtico que Saranda)',
+    },
+    musts: [
+      'Kayak y snorkel en Gjipe y Jale (calas escondidas)',
+      'Road trip por el Paso de Llogara (vistas épicas)',
+      'Gjirokastër, ciudad UNESCO de piedra',
+      'Parque Nacional de Butrint (ruinas griegas/romanas)',
+      'Blue Eye (Syri i Kaltër), manantial turquesa',
+    ],
+    dishes: ['Tavë kosi', 'Byrek', 'Pescado a la parrilla', 'Raki de uva', 'Fërgesë'],
+    plans3: [
+      'Día 1: Saranda + tarde en Ksamil',
+      'Día 2: Butrint + kayak en Gjipe',
+      'Día 3: Porto Palermo + regreso',
+    ],
+    plans5: [
+      'Día 1: llegada a Himara',
+      'Día 2: kayak Gjipe + Jale',
+      'Día 3: road trip Llogara Pass',
+      'Día 4: Butrint + Blue Eye',
+      'Día 5: Dhermi relax + vuelta',
+    ],
+    plans7: [
+      ['Día 1', 'Aterrizaje y primer baño', 'Vuelo BCN→Tirana por la mañana. Traslado a Himara. Cena junto al mar.'],
+      ['Día 2', 'La cala secreta de Gjipe', 'Trekking 45min hasta Gjipe (solo a pie). Snorkel todo el día.'],
+      ['Día 3', 'Kayak Jale + Porto Palermo', 'Kayak doble. Cuevas marinas. Almuerzo en chiringuito sin carta.'],
+      ['Día 4', 'Road trip Llogara', 'Coche al paso de Llogara (1027m). Miradores, parada en Palasë.'],
+      ['Día 5', 'Butrint + Blue Eye', 'Ruinas UNESCO + manantial Blue Eye. Noche en Saranda.'],
+      ['Día 6', 'Ksamil islands', 'Lancha a las islitas. Comida de mariscos. Atardecer en Lëkurësi.'],
+      ['Día 7', 'Gjirokastër y vuelta', 'Mercado de piedra en Gjirokastër. Regreso a Tirana.'],
+    ],
+    plans10: [
+      ['Día 1-2', 'Aclimatación en Himara', 'Llegada, playa, ritmo local.'],
+      ['Día 3', 'Gjipe beach expedition', 'Trek + snorkel todo el día.'],
+      ['Día 4', 'Kayak Jale + cuevas', 'Exploración costera.'],
+      ['Día 5', 'Llogara Pass road trip', 'Carretera de montaña, miradores.'],
+      ['Día 6', 'Berat la blanca', 'Ciudad UNESCO de las mil ventanas.'],
+      ['Día 7', 'Butrint + Blue Eye', 'Ruinas y manantial.'],
+      ['Día 8', 'Islas de Ksamil', 'Día de lancha paradisíaco.'],
+      ['Día 9', 'Gjirokastër', 'Fortaleza, bazar.'],
+      ['Día 10', 'Tirana + vuelta', 'Café en Blloku, vuelo.'],
+    ],
+    plans14: [
+      ['Semana 1', 'Costa sur', 'Base en Himara: Gjipe, Jale, Dhermi, Porto Palermo, kayak, Llogara.'],
+      ['Semana 2', 'Interior + norte costero', 'Berat, Gjirokastër, Butrint, Ksamil, Vlorë, Durrës, Tirana.'],
+    ],
+    budget: {
+      flightPP: 140,
+      fr: 0.20,
+      hotelPD: 55,
+      hr: 0.15,
+      foodPD: 30,
+      fdr: 0.10,
+      actPD: 25,
+      ar: 0.15,
+    },
+  },
+]
