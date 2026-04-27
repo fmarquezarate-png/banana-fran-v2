@@ -1,4 +1,96 @@
 import type { Destination } from './destinations'
 
-// Paso 4c — se rellena en el siguiente paso
-export const DESTINATIONS_OK: Destination[] = []
+export const DESTINATIONS_OK: Destination[] = [
+  {
+    id: 'creta-oeste',
+    name: 'Creta Oeste',
+    shortName: 'Creta O.',
+    country: 'Grecia — Creta',
+    match: '👌',
+    matchLabel: 'Está bien',
+    tagline: 'La parte salvaje de Creta: gorge, mar de Libia y sin masas',
+    category: 'ok',
+    coords: [35.5138, 24.0180],
+    images: [
+      'https://images.unsplash.com/photo-1533104816931-20fa691ff6ca?w=800',
+      'https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff?w=800',
+    ],
+    story:
+      'El este de Creta es masas y todo incluido, pero el oeste es diferente: el desfiladero de Samaria (el más largo de Europa), el mar de Libia con playas como Elafonisi (rosa y turquesa) y Balos (laguna irreal), y Chania, la ciudad más bonita de la isla con el puerto veneciano. El problema es que en julio-agosto Elafonisi y Balos están igualmente saturadas.',
+    fit: [
+      'Chania — la ciudad más bonita de Creta, puerto veneciano',
+      'Elafonisi y Balos — playas de leyenda (mejor en junio o sept)',
+      'Desfiladero de Samaria — senderismo épico',
+      'Más auténtica que el este de la isla',
+      'Buena gastronomía cretense',
+    ],
+    warning: 'En julio-agosto Elafonisi y Balos están masificadas. Mejor junio o septiembre.',
+    facts: {
+      clima: 'Mediterráneo caluroso. Mejor mayo-junio y sept-oct.',
+      vuelo: '~3h desde Barcelona (vuelo directo a Chania en temporada)',
+      moneda: 'Euro',
+      idioma: 'Griego — inglés bueno en zonas turísticas',
+      visado: 'No (UE)',
+    },
+    musts: [
+      'Desfiladero de Samaria (16 km, día completo)',
+      'Elafonisi — playa rosa y turquesa',
+      'Balos — laguna con agua de dos colores',
+      'Chania: puerto veneciano, mezquita, mercado cubierto',
+      'Rethymno: otra ciudad veneciana, más tranquila',
+    ],
+    dishes: [
+      'Dakos — tostada de pan de cebada con tomate y mizithra',
+      'Lamb with stamnagathi — cordero con achicoria silvestre',
+      'Raki cretense (tsikoudia) — el aguardiente local',
+      'Miel de tomillo de Creta — la mejor de Grecia',
+    ],
+    plans3: [
+      'Día 1 — Chania: puerto veneciano, mercado, cena.',
+      'Día 2 — Elafonisi o Balos (barco desde Kissamos).',
+      'Día 3 — Desfiladero de Samaria (madrugada, día completo).',
+    ],
+    plans5: [
+      'Día 1 — Llegada. Chania a fondo.',
+      'Día 2 — Balos en barco desde Kissamos.',
+      'Día 3 — Elafonisi: playa rosa.',
+      'Día 4 — Samaria: senderismo del desfiladero.',
+      'Día 5 — Rethymno, vuelta.',
+    ],
+    plans7: [
+      ['día', 'Chania', 'Puerto veneciano, Splantzia, mercado.'],
+      ['día', 'Balos', 'Laguna en barco desde Kissamos.'],
+      ['día', 'Elafonisi', 'Playa rosa, agua turquesa.'],
+      ['día', 'Samaria', 'Senderismo gorge (día completo).'],
+      ['día', 'Rethymno', 'Segunda ciudad veneciana de Creta.'],
+      ['día', 'Costa sur', 'Agia Galini, pueblos del Mar de Libia.'],
+      ['día', 'Vuelta', 'Aeropuerto Chania.'],
+    ],
+    plans10: [
+      ['día', 'Chania', 'Llegada, ciudad veneciana.'],
+      ['día', 'Balos', 'Laguna irreal.'],
+      ['día', 'Elafonisi', 'Playa rosa.'],
+      ['día', 'Samaria', 'Gorge 16 km.'],
+      ['día', 'Agia Roumeli', 'Pueblo al final del gorge, noche allí.'],
+      ['día', 'Loutro', 'Solo accesible en barca, total calma.'],
+      ['día', 'Rethymno', 'Ciudad veneciana 2.'],
+    ],
+    plans14: [
+      ['semana 1', 'Creta Oeste', 'Chania, Balos, Elafonisi, Samaria, costa sur.'],
+      ['semana 1', 'Interior', 'Montañas Blancas, pueblos cretenses.'],
+      ['semana 2', 'Creta Centro', 'Heraklion, palacio de Knossos.'],
+      ['semana 2', 'Este', 'Spinalonga, Elounda, Vai.'],
+      ['semana 2', 'Vuelta', 'Vuelo desde Heraklion o Chania.'],
+    ],
+    budget: {
+      flightPP: 200,
+      fr: 0.20,
+      hotelPD: 95,
+      hr: 0.25,
+      foodPD: 45,
+      fdr: 0.15,
+      actPD: 40,
+      ar: 0.20,
+    },
+  },
+]
