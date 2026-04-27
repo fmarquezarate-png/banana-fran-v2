@@ -2,6 +2,10 @@
   command = "npm run build"
   publish = "dist"
 
+[build.environment]
+  NODE_VERSION = "20"
+
+# SPA redirect — necesario para que React Router funcione con URLs directas
 [[redirects]]
   from = "/*"
   to = "/index.html"
