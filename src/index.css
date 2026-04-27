@@ -66,3 +66,12 @@
     display: none;
   }
 }
+
+/* Warning theme — activado via data-theme="warning" en <html> */
+[data-theme="warning"] {
+  background-color: #030712;
+}
+
+[data-theme="warning"] body {
+  background-color: #030712;
+}
