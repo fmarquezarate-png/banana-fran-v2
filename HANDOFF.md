@@ -3,7 +3,7 @@
 **Fecha del handoff:** abril 2026  
 **Owner:** Fran (Barcelona)  
 **Pareja:** Ana  
-**Stack objetivo:** React + Vite + TypeScript + Supabase + Vercel  
+**Stack objetivo:** React + Vite + TypeScript + Supabase + Netlify  
 **Repositorio destino:** banana-fran-v2 (privado en GitHub fmarquezarate-png)
 
 ---
@@ -62,7 +62,7 @@ La v2 expande el alcance:
 | Frontend | React 18 + Vite + TypeScript |
 | Routing | React Router v6 |
 | Styling | Tailwind CSS (replicar paleta del HTML v1) |
-| Deploy | Vercel (auto-deploy desde GitHub main) |
+| Deploy | Netlify (auto-deploy desde GitHub main) |
 | Auth | Supabase Auth con magic link por email (sin contraseñas) |
 | Modo de uso | Single-user (solo Fran). Ana puede ver pero no editar (futuro) |
 | Estado del viaje | Auto-calculado por fechas, con override manual |
