@@ -1,13 +1,218 @@
-// Tarea 8: Crear y listar viajes
-export function TripsPage() {
+import { useState } from 'react'
+import { Link } from 'react-router-dom'
+import toast from 'react-hot-toast'
+import { useAuth } from '@/hooks/useAuth'
+import { useTrips } from '@/hooks/useTrips'
+import type { Trip } from '@/types/database'
+
+function getTripStatus(trip: Trip): { label: string; color: string } {
+  if (trip.status_override) {
+    const map: Record<string, { label: string; color: string }> = {
+      planning:  { label: 'Planificando', color: 'bg-egeo/10 text-egeo' },
+      upcoming:  { label: 'Próximo',      color: 'bg-arena/20 text-arena-dark' },
+      ongoing:   { label: 'En curso',     color: 'bg-green-100 text-green-700' },
+      completed: { label: 'Completado',   color: 'bg-gray-100 text-gray-500' },
+      cancelled: { label: 'Cancelado',    color: 'bg-red-50 text-red-400' },
+    }
+    return map[trip.status_override] ?? { label: trip.status_override, color: 'bg-gray-100 text-gray-500' }
+  }
+  const now = new Date()
+  if (!trip.start_date) return { label: 'Planificando', color: 'bg-egeo/10 text-egeo' }
+  const start = new Date(trip.start_date)
+  const end = trip.end_date ? new Date(trip.end_date) : null
+  if (end && now > end) return { label: 'Completado', color: 'bg-gray-100 text-gray-500' }
+  if (now >= start && (!end || now <= end)) return { label: 'En curso', color: 'bg-green-100 text-green-700' }
+  return { label: 'Próximo', color: 'bg-arena/20 text-arena-dark' }
+}
+
+function formatDate(iso: string | null) {
+  if (!iso) return '—'
+  return new Date(iso).toLocaleDateString('es-ES', { day: 'numeric', month: 'short', year: 'numeric' })
+}
+
+interface CreateModalProps {
+  onClose: () => void
+  onCreate: (v: Pick<Trip, 'name' | 'description' | 'start_date' | 'end_date' | 'destination_slug'>) => Promise<Trip | undefined>
+}
+
+function CreateTripModal({ onClose, onCreate }: CreateModalProps) {
+  const [name, setName] = useState('')
+  const [description, setDescription] = useState('')
+  const [startDate, setStartDate] = useState('')
+  const [endDate, setEndDate] = useState('')
+  const [saving, setSaving] = useState(false)
+
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault()
+    if (!name.trim()) return
+    setSaving(true)
+    try {
+      await onCreate({
+        name: name.trim(),
+        description: description.trim() || null,
+        start_date: startDate || null,
+        end_date: endDate || null,
+        destination_slug: null,
+      })
+      toast.success('Viaje creado')
+      onClose()
+    } catch {
+      toast.error('Error creando el viaje')
+    } finally {
+      setSaving(false)
+    }
+  }
+
   return (
-    <main className="max-w-5xl mx-auto px-4 py-6 pb-20 sm:pb-6">
-      <h1 className="font-display text-3xl font-bold text-gray-900 mb-6">Mis viajes</h1>
-      <div className="card p-8 text-center text-gray-400">
-        <span className="text-4xl block mb-3">✈️</span>
-        <p className="font-medium">Próximamente — Tarea 8</p>
-        <p className="text-sm mt-1">Aquí verás todos tus viajes planificados y pasados.</p>
+    <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center">
+      <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" onClick={onClose} />
+      <div className="relative bg-white w-full sm:max-w-md rounded-t-3xl sm:rounded-2xl p-6 shadow-xl">
+        <h2 className="font-display text-xl font-bold text-gray-900 mb-5">Nuevo viaje</h2>
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Nombre *</label>
+            <input
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder="Grecia agosto 2026"
+              required
+              autoFocus
+              className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm
+                         focus:outline-none focus:ring-2 focus:ring-egeo/50 focus:border-egeo"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Descripción</label>
+            <textarea
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              placeholder="Notas sobre el viaje…"
+              rows={2}
+              className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm resize-none
+                         focus:outline-none focus:ring-2 focus:ring-egeo/50 focus:border-egeo"
+            />
+          </div>
+          <div className="grid grid-cols-2 gap-3">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Inicio</label>
+              <input
+                type="date"
+                value={startDate}
+                onChange={(e) => setStartDate(e.target.value)}
+                className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm
+                           focus:outline-none focus:ring-2 focus:ring-egeo/50 focus:border-egeo"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Fin</label>
+              <input
+                type="date"
+                value={endDate}
+                min={startDate}
+                onChange={(e) => setEndDate(e.target.value)}
+                className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm
+                           focus:outline-none focus:ring-2 focus:ring-egeo/50 focus:border-egeo"
+              />
+            </div>
+          </div>
+          <div className="flex gap-2 pt-1">
+            <button type="submit" disabled={saving || !name.trim()} className="btn-primary flex-1 disabled:opacity-50">
+              {saving ? 'Creando…' : 'Crear viaje'}
+            </button>
+            <button type="button" onClick={onClose} className="btn-secondary px-5">Cancelar</button>
+          </div>
+        </form>
       </div>
+    </div>
+  )
+}
+
+function TripCard({ trip }: { trip: Trip }) {
+  const status = getTripStatus(trip)
+  const days = trip.start_date && trip.end_date
+    ? Math.round((new Date(trip.end_date).getTime() - new Date(trip.start_date).getTime()) / 86400000)
+    : null
+
+  return (
+    <Link to={`/viajes/${trip.id}`} className="card p-5 block hover:shadow-md transition-shadow">
+      <div className="flex items-start justify-between gap-3">
+        <div className="min-w-0">
+          <h3 className="font-display font-bold text-gray-900 truncate">{trip.name}</h3>
+          {trip.description && (
+            <p className="text-sm text-gray-400 mt-0.5 truncate">{trip.description}</p>
+          )}
+        </div>
+        <span className={`text-xs font-semibold px-2.5 py-1 rounded-full flex-shrink-0 ${status.color}`}>
+          {status.label}
+        </span>
+      </div>
+      <div className="flex gap-4 mt-3 text-xs text-gray-400">
+        <span>📅 {formatDate(trip.start_date)}</span>
+        {days !== null && <span>⏱ {days} días</span>}
+      </div>
+    </Link>
+  )
+}
+
+export function TripsPage() {
+  const { user } = useAuth()
+  const { trips, loading, createTrip } = useTrips(user?.id)
+  const [showCreate, setShowCreate] = useState(false)
+
+  const active = trips.filter((t) => !['Completado', 'Cancelado'].includes(getTripStatus(t).label))
+  const past = trips.filter((t) => getTripStatus(t).label === 'Completado')
+
+  return (
+    <main className="max-w-lg mx-auto px-4 py-6 pb-24 sm:pb-8">
+      <div className="flex items-center justify-between mb-6">
+        <h1 className="font-display text-3xl font-bold text-gray-900">Mis viajes</h1>
+        <button onClick={() => setShowCreate(true)} className="btn-primary text-sm py-2 px-4">
+          + Nuevo
+        </button>
+      </div>
+
+      {loading ? (
+        <div className="flex justify-center py-12">
+          <span className="text-3xl animate-pulse">🍌</span>
+        </div>
+      ) : trips.length === 0 ? (
+        <div className="card p-10 text-center">
+          <span className="text-5xl block mb-3">✈️</span>
+          <p className="font-display font-bold text-gray-800 mb-1">Sin viajes todavía</p>
+          <p className="text-gray-400 text-sm mb-4">Crea tu primer viaje para empezar a planificar.</p>
+          <button onClick={() => setShowCreate(true)} className="btn-primary text-sm">
+            Crear primer viaje
+          </button>
+        </div>
+      ) : (
+        <div className="space-y-6">
+          {active.length > 0 && (
+            <section>
+              <h2 className="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-3">
+                Próximos y en planificación
+              </h2>
+              <div className="space-y-3">
+                {active.map((t) => <TripCard key={t.id} trip={t} />)}
+              </div>
+            </section>
+          )}
+          {past.length > 0 && (
+            <section>
+              <h2 className="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-3">
+                Viajes pasados
+              </h2>
+              <div className="space-y-3">
+                {past.map((t) => <TripCard key={t.id} trip={t} />)}
+              </div>
+            </section>
+          )}
+        </div>
+      )}
+
+      {showCreate && (
+        <CreateTripModal onClose={() => setShowCreate(false)} onCreate={createTrip} />
+      )}
     </main>
   )
 }
