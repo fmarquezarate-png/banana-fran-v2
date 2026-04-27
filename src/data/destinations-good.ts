@@ -1,4 +1,99 @@
 import type { Destination } from './destinations'
 
-// Paso 4c — se rellena en el siguiente paso
-export const DESTINATIONS_GOOD: Destination[] = []
+export const DESTINATIONS_GOOD: Destination[] = [
+  {
+    id: 'naxos',
+    name: 'Naxos',
+    shortName: 'Naxos',
+    country: 'Grecia — Cícladas',
+    match: '👍',
+    matchLabel: 'Muy bueno',
+    tagline: 'La más grande y verde de las Cícladas, con playas infinitas',
+    category: 'good',
+    coords: [37.1035, 25.3748],
+    images: [
+      'https://images.unsplash.com/photo-1601581875309-fafbf2d3ed3a?w=800',
+      'https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff?w=800',
+    ],
+    story:
+      'Naxos es la ciclada con más personalidad propia: produce su propio queso, su propio licor (kitron) y tiene montañas y valles interiores que no parecen islas griegas. La Portara en la entrada del puerto es la postal, pero lo bueno está en las playas del oeste — kilómetros de arena fina sin aglomeraciones — y en los pueblos de montaña como Apeiranthos.',
+    fit: [
+      'Playas de arena fina de clase mundial (Plaka, Agios Prokopios)',
+      'Interior montañoso para explorar en moto',
+      'Cocina propia con productos locales (quesos, patatas, kitron)',
+      'Menos cara que Mykonos y Santorini',
+      'Buena conexión en ferry con otras Cícladas',
+    ],
+    facts: {
+      clima: 'Mediterráneo seco. Mejor mayo-junio y sept-oct.',
+      vuelo: '~3.5h desde Barcelona (escala en Atenas o Heraklion)',
+      moneda: 'Euro',
+      idioma: 'Griego — inglés bien en zonas turísticas',
+      visado: 'No (UE)',
+    },
+    musts: [
+      'Portara al atardecer',
+      'Playas de Plaka y Agios Prokopios',
+      'Pueblo de Apeiranthos en la montaña',
+      'Ruta en moto por el interior',
+      'Probar el kitron (licor local de cidro)',
+    ],
+    dishes: [
+      'Loukoumades — buñuelos de miel y canela',
+      'Graviera de Naxos — queso semicurado local',
+      'Kitron — licor de hoja de cidro, solo en Naxos',
+      'Paternoster — pasta local con mariscos',
+    ],
+    plans3: [
+      'Día 1 — Llegada, Portara, casco antiguo de Naxos Town.',
+      'Día 2 — Playas: Agios Prokopios y Plaka. Tarde en el pueblo.',
+      'Día 3 — Moto por el interior: Apeiranthos, destilerías de kitron.',
+    ],
+    plans5: [
+      'Día 1 — Llegada. Portara al atardecer, cena en Naxos Town.',
+      'Día 2 — Playa Agios Prokopios. Snorkel y descanso.',
+      'Día 3 — Plaka y playas del sur. Cala Mikri Vigla.',
+      'Día 4 — Interior en moto: Halki, Apeiranthos, vistas.',
+      'Día 5 — Mercado local, kitron, ferry o aeropuerto.',
+    ],
+    plans7: [
+      ['día', 'Llegada', 'Naxos Town, Portara, primer ouzo.'],
+      ['día', 'Agios Prokopios', 'Playa del norte, aguas turquesas, chiringuito.'],
+      ['día', 'Plaka', 'Kilómetros de arena fina, tarde en el pueblo.'],
+      ['día', 'Interior norte', 'Halki, iglesias bizantinas, pueblo de Filoti.'],
+      ['día', 'Apeiranthos', 'Pueblo de mármol en la montaña, museo local.'],
+      ['día', 'Sur de la isla', 'Playas de Mikri Vigla y Kastraki, viento para kite.'],
+      ['día', 'Vuelta', 'Mercado, kitron de compras, ferry/avión.'],
+    ],
+    plans10: [
+      ['día', 'Llegada', 'Naxos Town, Portara, orientación.'],
+      ['día', 'Playas norte', 'Agios Georgios y Agios Prokopios.'],
+      ['día', 'Plaka', 'Larga playa de arena, snorkel, descanso.'],
+      ['día', 'Halki', 'Antigua capital, destilerías de kitron, iglesias.'],
+      ['día', 'Apeiranthos', 'Pueblo de pizarra y mármol, museo de arte.'],
+      ['día', 'Monte Zeus', 'Caminata al pico más alto de las Cícladas (1001m).'],
+      ['día', 'Sur salvaje', 'Playas de Mikri Vigla y Alyko.'],
+      ['día', 'Ferry a Paros', 'Día en Paros (30 min), Naoussa.'],
+      ['día', 'Día libre', 'Descanso, mercado, compras.'],
+      ['día', 'Vuelta', 'Últimas playas, ferry/avión.'],
+    ],
+    plans14: [
+      ['semana 1', 'Naxos completa', 'Playas del oeste, interior, pueblos de montaña.'],
+      ['semana 1', 'Cocina local', 'Tour de productos: graviera, kitron, patatas de Naxos.'],
+      ['semana 1', 'Senderismo', 'Rutas por el monte Zeus y el interior verde.'],
+      ['semana 2', 'Islas cercanas', 'Ferry a Paros (30 min) y Koufonisia (45 min).'],
+      ['semana 2', 'Pequeñas Cícladas', 'Iraklia, Schinoussa — islas casi deshabitadas.'],
+      ['semana 2', 'Vuelta', 'Últimos días en Naxos Town, compras, aeropuerto.'],
+    ],
+    budget: {
+      flightPP: 280,
+      fr: 0.25,
+      hotelPD: 110,
+      hr: 0.30,
+      foodPD: 50,
+      fdr: 0.15,
+      actPD: 40,
+      ar: 0.20,
+    },
+  },
+]
