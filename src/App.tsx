@@ -3,6 +3,7 @@ import { Toaster } from 'react-hot-toast'
 import { useAuth } from '@/hooks/useAuth'
 import { TopBar } from '@/components/layout/TopBar'
 import { LoginPage } from '@/pages/LoginPage'
+import { AuthCallbackPage } from '@/pages/AuthCallbackPage'
 import { HomePage } from '@/pages/HomePage'
 import { DestinationPage } from '@/pages/DestinationPage'
 import { TripsPage } from '@/pages/TripsPage'
@@ -11,24 +12,18 @@ import { TripPhotosPage } from '@/pages/TripPhotosPage'
 import { TripJournalPage } from '@/pages/TripJournalPage'
 import { ProfilePage } from '@/pages/ProfilePage'
 
-function AppRoutes() {
-  const { user, loading } = useAuth()
-
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-crema flex items-center justify-center">
-        <div className="text-center">
-          <span className="text-4xl animate-pulse">🍌</span>
-          <p className="text-gray-400 mt-3 text-sm">Cargando...</p>
-        </div>
+function LoadingScreen() {
+  return (
+    <div className="min-h-screen bg-crema flex items-center justify-center">
+      <div className="text-center">
+        <span className="text-4xl animate-pulse">🍌</span>
+        <p className="text-gray-400 mt-3 text-sm">Cargando...</p>
       </div>
-    )
-  }
+    </div>
+  )
+}
 
-  if (!user) {
-    return <LoginPage />
-  }
-
+function AuthenticatedApp() {
   return (
     <>
       <TopBar />
@@ -43,6 +38,21 @@ function AppRoutes() {
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </>
+  )
+}
+
+function AppRoutes() {
+  const { user, loading } = useAuth()
+
+  return (
+    <Routes>
+      {/* Siempre accesible — procesa el token del magic link */}
+      <Route path="/auth/callback" element={<AuthCallbackPage />} />
+      <Route
+        path="*"
+        element={loading ? <LoadingScreen /> : user ? <AuthenticatedApp /> : <LoginPage />}
+      />
+    </Routes>
   )
 }
 
