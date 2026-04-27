@@ -3,6 +3,7 @@ import { Toaster } from 'react-hot-toast'
 import { useState, useEffect } from 'react'
 import { useAuth } from '@/hooks/useAuth'
 import { FavoritesProvider } from '@/contexts/FavoritesContext'
+import { RatingsProvider } from '@/contexts/RatingsContext'
 import { TopBar } from '@/components/layout/TopBar'
 import { LoginPage } from '@/pages/LoginPage'
 import { AuthCallbackPage } from '@/pages/AuthCallbackPage'
@@ -34,6 +35,7 @@ function LoadingScreen() {
 
 function AuthenticatedApp() {
   return (
+    <RatingsProvider>
     <FavoritesProvider>
       <TopBar />
       <Routes>
@@ -47,6 +49,7 @@ function AuthenticatedApp() {
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </FavoritesProvider>
+    </RatingsProvider>
   )
 }
 

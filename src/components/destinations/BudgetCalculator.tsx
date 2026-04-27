@@ -9,18 +9,10 @@ import {
   type TripDays,
 } from '@/lib/budget'
 
-interface Props {
-  dest: Destination
-}
+interface Props { dest: Destination }
 
 const LEVELS: BudgetLevel[] = ['mochilero', 'medio', 'confort', 'lujo']
-
-const LEVEL_EMOJI: Record<BudgetLevel, string> = {
-  mochilero: '🎒',
-  medio: '🧳',
-  confort: '✨',
-  lujo: '💎',
-}
+const LEVEL_EMOJI: Record<BudgetLevel, string> = { mochilero: '🎒', medio: '🧳', confort: '✨', lujo: '💎' }
 
 export function BudgetCalculator({ dest }: Props) {
   const [days, setDays] = useState<TripDays>(7)
@@ -30,32 +22,44 @@ export function BudgetCalculator({ dest }: Props) {
   const [customHotel, setCustomHotel] = useState('')
   const [showCustom, setShowCustom] = useState(false)
 
-  const result = calcBudget(dest, days, level, perPerson)
+  // Calcular siempre en escala PAREJA (perPerson=false), luego dividir al mostrar
+  const baseResult = calcBudget(dest, days, level, false)
 
-  // Overrides de precio personalizado
-  const flightOverride = customFlight ? parseFloat(customFlight) : null
-  const hotelOverride  = customHotel  ? parseFloat(customHotel)  : null
+  // Overrides en escala pareja:
+  // - vuelo: usuario introduce precio pp ida+vuelta → ×2
+  // - hotel: usuario introduce precio por noche para la pareja → ×días
+  const fv = customFlight ? parseFloat(customFlight) : NaN
+  const hv = customHotel  ? parseFloat(customHotel)  : NaN
+  const hasFlightOverride = !isNaN(fv) && fv > 0
+  const hasHotelOverride  = !isNaN(hv) && hv > 0
+  const hasOverride = hasFlightOverride || hasHotelOverride
 
-  const customCats = result.cats.map(cat => {
-    if (cat.key === 'flight' && flightOverride !== null && flightOverride > 0) {
-      const v = perPerson ? flightOverride : flightOverride * 2
-      return { ...cat, mid: v, min: v * 0.9, max: v * 1.1, custom: true }
+  const overriddenCats = baseResult.cats.map(cat => {
+    if (cat.key === 'flight' && hasFlightOverride) {
+      const total = fv * 2  // user entered per-person → couple total
+      return { ...cat, mid: total, min: total * 0.95, max: total * 1.05, custom: true as const }
     }
-    if (cat.key === 'hotel' && hotelOverride !== null && hotelOverride > 0) {
-      const ppd = perPerson ? hotelOverride * days : hotelOverride * days
-      return { ...cat, mid: ppd, min: ppd * 0.9, max: ppd * 1.1, custom: true }
+    if (cat.key === 'hotel' && hasHotelOverride) {
+      const total = hv * days  // user entered per-night couple price → trip total
+      return { ...cat, mid: total, min: total * 0.9, max: total * 1.1, custom: true as const }
     }
-    return { ...cat, custom: false }
+    return { ...cat, custom: false as const }
   })
 
-  const customTotal    = customCats.reduce((s, c) => s + c.mid, 0)
-  const customTotalMin = customCats.reduce((s, c) => s + c.min, 0)
-  const customTotalMax = customCats.reduce((s, c) => s + c.max, 0)
-  const hasCustom = (flightOverride !== null && flightOverride > 0) || (hotelOverride !== null && hotelOverride > 0)
-  const displayCats  = showCustom ? customCats  : result.cats
-  const displayTotal = showCustom && hasCustom  ? customTotal    : result.totalMid
-  const displayMin   = showCustom && hasCustom  ? customTotalMin : result.totalMin
-  const displayMax   = showCustom && hasCustom  ? customTotalMax : result.totalMax
+  const activeCats = hasOverride ? overriddenCats : baseResult.cats
+
+  // Aplicar perPerson al display
+  const divisor = perPerson ? 2 : 1
+  const displayCats = activeCats.map(c => ({
+    ...c,
+    mid: c.mid / divisor,
+    min: c.min / divisor,
+    max: c.max / divisor,
+  }))
+
+  const displayTotal    = displayCats.reduce((s, c) => s + c.mid, 0)
+  const displayTotalMin = displayCats.reduce((s, c) => s + c.min, 0)
+  const displayTotalMax = displayCats.reduce((s, c) => s + c.max, 0)
 
   return (
     <div className="card p-5">
@@ -68,9 +72,7 @@ export function BudgetCalculator({ dest }: Props) {
         <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2">Duración</p>
         <div className="flex gap-2 flex-wrap">
           {TRIP_DAYS.map(d => (
-            <button
-              key={d}
-              onClick={() => setDays(d)}
+            <button key={d} onClick={() => setDays(d)}
               className={`px-3 py-1.5 rounded-lg text-sm font-semibold transition-colors ${
                 days === d ? 'bg-egeo text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
               }`}
@@ -86,9 +88,7 @@ export function BudgetCalculator({ dest }: Props) {
         <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2">Nivel</p>
         <div className="flex gap-2 flex-wrap">
           {LEVELS.map(l => (
-            <button
-              key={l}
-              onClick={() => setLevel(l)}
+            <button key={l} onClick={() => setLevel(l)}
               className={`px-3 py-1.5 rounded-lg text-sm font-semibold transition-colors ${
                 level === l ? 'bg-egeo text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
               }`}
@@ -118,45 +118,63 @@ export function BudgetCalculator({ dest }: Props) {
       <div className="mb-5">
         <button
           onClick={() => setShowCustom(!showCustom)}
-          className="flex items-center gap-2 text-xs font-semibold text-egeo hover:text-egeo-600 transition-colors"
+          className="flex items-center gap-2 text-sm font-semibold text-egeo hover:text-egeo-600 transition-colors"
         >
-          <span className={`transition-transform ${showCustom ? 'rotate-90' : ''}`}>▶</span>
-          {showCustom ? 'Ocultar' : 'Personalizar'} mis precios reales
+          <span className={`text-xs transition-transform inline-block ${showCustom ? 'rotate-90' : ''}`}>▶</span>
+          Usar mis precios reales
+          {hasOverride && !showCustom && (
+            <span className="ml-1 text-xs bg-egeo text-white px-2 py-0.5 rounded-full">activo</span>
+          )}
         </button>
+
         {showCustom && (
-          <div className="mt-3 grid grid-cols-2 gap-3 p-3 bg-egeo/5 rounded-xl border border-egeo/10">
-            <div>
-              <label className="text-xs font-medium text-gray-600 block mb-1">
-                ✈️ Vuelo encontrado (€ ida/vuelta pp)
-              </label>
-              <input
-                type="number"
-                value={customFlight}
-                onChange={e => setCustomFlight(e.target.value)}
-                placeholder={String(Math.round(dest.budget.flightPP))}
-                min="0"
-                className="w-full border border-gray-200 rounded-lg px-3 py-1.5 text-sm
-                           focus:outline-none focus:ring-2 focus:ring-egeo/50"
-              />
+          <div className="mt-3 p-4 bg-egeo/5 rounded-2xl border border-egeo/10 space-y-3">
+            <p className="text-xs text-gray-500">
+              Introduce los precios reales que has encontrado. Dejar en blanco para usar estimación automática.
+            </p>
+            <div className="grid grid-cols-2 gap-3">
+              <div>
+                <label className="text-xs font-semibold text-gray-600 block mb-1">
+                  ✈️ Vuelo (€ por persona, ida+vuelta)
+                </label>
+                <input
+                  type="number"
+                  value={customFlight}
+                  onChange={e => setCustomFlight(e.target.value)}
+                  placeholder={String(Math.round(dest.budget.flightPP))}
+                  min="0"
+                  className="w-full border border-gray-200 rounded-xl px-3 py-2 text-sm
+                             focus:outline-none focus:ring-2 focus:ring-egeo/50"
+                />
+                {hasFlightOverride && (
+                  <p className="text-xs text-egeo mt-1">= {formatPrice(fv * 2)} los dos</p>
+                )}
+              </div>
+              <div>
+                <label className="text-xs font-semibold text-gray-600 block mb-1">
+                  🏨 Hotel (€ por noche, pareja)
+                </label>
+                <input
+                  type="number"
+                  value={customHotel}
+                  onChange={e => setCustomHotel(e.target.value)}
+                  placeholder={String(Math.round(dest.budget.hotelPD))}
+                  min="0"
+                  className="w-full border border-gray-200 rounded-xl px-3 py-2 text-sm
+                             focus:outline-none focus:ring-2 focus:ring-egeo/50"
+                />
+                {hasHotelOverride && (
+                  <p className="text-xs text-egeo mt-1">= {formatPrice(hv * days)} en {days} noches</p>
+                )}
+              </div>
             </div>
-            <div>
-              <label className="text-xs font-medium text-gray-600 block mb-1">
-                🏨 Hotel encontrado (€ por noche, pareja)
-              </label>
-              <input
-                type="number"
-                value={customHotel}
-                onChange={e => setCustomHotel(e.target.value)}
-                placeholder={String(Math.round(dest.budget.hotelPD))}
-                min="0"
-                className="w-full border border-gray-200 rounded-lg px-3 py-1.5 text-sm
-                           focus:outline-none focus:ring-2 focus:ring-egeo/50"
-              />
-            </div>
-            {hasCustom && (
-              <p className="col-span-2 text-xs text-egeo text-center">
-                ✓ Usando tus precios reales en el cálculo
-              </p>
+            {hasOverride && (
+              <button
+                onClick={() => { setCustomFlight(''); setCustomHotel('') }}
+                className="text-xs text-gray-400 hover:text-red-400 transition-colors"
+              >
+                ✕ Borrar precios personalizados
+              </button>
             )}
           </div>
         )}
@@ -169,11 +187,9 @@ export function BudgetCalculator({ dest }: Props) {
             <div className="flex items-center gap-2 min-w-0">
               <span className="text-base">{cat.icon}</span>
               <div className="min-w-0">
-                <p className="text-sm font-medium text-gray-800 truncate">
+                <p className="text-sm font-medium text-gray-800 truncate flex items-center gap-1">
                   {cat.name}
-                  {'custom' in cat && cat.custom && (
-                    <span className="ml-1 text-xs text-egeo font-bold">✓ real</span>
-                  )}
+                  {cat.custom && <span className="text-xs text-egeo font-bold bg-egeo/10 px-1.5 py-0.5 rounded-full">real</span>}
                 </p>
                 <p className="text-xs text-gray-400 truncate">{cat.desc}</p>
               </div>
@@ -188,14 +204,13 @@ export function BudgetCalculator({ dest }: Props) {
 
       {/* Total */}
       <div className="border-t border-gray-100 pt-3 flex items-baseline justify-between">
-        <p className="text-sm text-gray-500">Total estimado</p>
+        <div>
+          <p className="text-sm text-gray-500">Total estimado</p>
+          {hasOverride && <p className="text-xs text-egeo">con tus precios reales</p>}
+        </div>
         <div className="text-right">
-          <p className="text-2xl font-display font-bold text-egeo">
-            {formatPrice(displayTotal)}
-          </p>
-          <p className="text-xs text-gray-400">
-            {formatPrice(displayMin)} – {formatPrice(displayMax)}
-          </p>
+          <p className="text-2xl font-display font-bold text-egeo">{formatPrice(displayTotal)}</p>
+          <p className="text-xs text-gray-400">{formatPrice(displayTotalMin)} – {formatPrice(displayTotalMax)}</p>
         </div>
       </div>
     </div>

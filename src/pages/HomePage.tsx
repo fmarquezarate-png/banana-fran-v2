@@ -4,7 +4,10 @@ import { DESTINATIONS, getDestinationsByCategory, type Destination, type Destina
 import { CategoryRow } from '@/components/destinations/CategoryRow'
 import { DestinationCard } from '@/components/destinations/DestinationCard'
 import { useFavorites } from '@/contexts/FavoritesContext'
+import { useRatings } from '@/contexts/RatingsContext'
 import { calcBudget, formatPrice } from '@/lib/budget'
+
+type SortMode = 'match' | 'price_asc' | 'price_desc' | 'rating'
 
 const AllDestinationsMap = lazy(() =>
   import('@/components/destinations/AllDestinationsMap').then(m => ({ default: m.AllDestinationsMap }))
@@ -240,6 +243,10 @@ function CompareTab() {
 export function HomePage() {
   const [activeTab, setActiveTab] = useState<Tab>('destinos')
   const [view, setView] = useState<View>('cards')
+  const [sort, setSort] = useState<SortMode>('match')
+  const [minRating, setMinRating] = useState<0|1|2|3|4|5>(0)
+
+  const { getRating } = useRatings()
 
   const perfect = getDestinationsByCategory('perfect')
   const good    = getDestinationsByCategory('good')
@@ -303,8 +310,8 @@ export function HomePage() {
         <FavoritesTab />
       ) : (
         <main className="py-6 pb-24 sm:pb-8">
-          {/* Greeting + toggle */}
-          <div className="px-4 mb-6 flex items-start justify-between gap-3">
+          {/* Greeting + toggle vista */}
+          <div className="px-4 mb-4 flex items-start justify-between gap-3">
             <div>
               <h1 className="font-display text-3xl sm:text-4xl font-bold text-gray-900 leading-tight">
                 Hola Fran 👋<br />
@@ -315,33 +322,62 @@ export function HomePage() {
               </p>
             </div>
             <div className="flex bg-gray-100 rounded-xl p-1 flex-shrink-0 mt-1">
-              <button
-                onClick={() => setView('cards')}
-                className={`px-3 py-1.5 text-xs font-semibold rounded-lg transition-all ${
-                  view === 'cards' ? 'bg-white shadow text-gray-900' : 'text-gray-500'
-                }`}
-              >
+              <button onClick={() => setView('cards')}
+                className={`px-3 py-1.5 text-xs font-semibold rounded-lg transition-all ${view === 'cards' ? 'bg-white shadow text-gray-900' : 'text-gray-500'}`}>
                 ⊞ Lista
               </button>
-              <button
-                onClick={() => setView('map')}
-                className={`px-3 py-1.5 text-xs font-semibold rounded-lg transition-all ${
-                  view === 'map' ? 'bg-white shadow text-gray-900' : 'text-gray-500'
-                }`}
-              >
+              <button onClick={() => setView('map')}
+                className={`px-3 py-1.5 text-xs font-semibold rounded-lg transition-all ${view === 'map' ? 'bg-white shadow text-gray-900' : 'text-gray-500'}`}>
                 🗺️ Mapa
               </button>
             </div>
           </div>
 
+          {/* Filter bar — solo en vista Lista */}
+          {view === 'cards' && (
+            <div className="px-4 mb-5 flex flex-wrap gap-2 items-center">
+              {/* Orden */}
+              <div className="flex bg-gray-100 rounded-xl p-1 gap-0.5">
+                {([
+                  { id: 'match',      label: 'Coincidencia' },
+                  { id: 'price_asc',  label: 'Precio ↑' },
+                  { id: 'price_desc', label: 'Precio ↓' },
+                  { id: 'rating',     label: '⭐ Mis notas' },
+                ] as { id: SortMode; label: string }[]).map(s => (
+                  <button key={s.id} onClick={() => setSort(s.id)}
+                    className={`px-3 py-1.5 text-xs font-semibold rounded-lg transition-all whitespace-nowrap ${
+                      sort === s.id ? 'bg-white shadow text-gray-900' : 'text-gray-500 hover:text-gray-700'
+                    }`}>
+                    {s.label}
+                  </button>
+                ))}
+              </div>
+
+              {/* Filtro mínimo de estrellas */}
+              <div className="flex items-center gap-1 bg-gray-100 rounded-xl px-3 py-1.5">
+                <span className="text-xs text-gray-500 mr-1">min</span>
+                {([0,1,2,3,4,5] as const).map(n => (
+                  <button key={n} onClick={() => setMinRating(n)}
+                    className={`text-base leading-none transition-colors ${
+                      n === 0
+                        ? minRating === 0 ? 'text-egeo font-bold text-xs' : 'text-gray-400 text-xs hover:text-gray-600'
+                        : n <= minRating ? 'text-amber-400' : 'text-gray-300 hover:text-amber-300'
+                    }`}>
+                    {n === 0 ? 'todos' : '★'}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+
           {view === 'map' ? (
             <div className="px-4">
               <div className="flex flex-wrap gap-3 mb-4">
                 {[
-                  { color: 'bg-egeo',       label: '🔥 Perfecto' },
-                  { color: 'bg-arena',      label: '👍 Muy bueno' },
-                  { color: 'bg-gray-400',   label: '👌 Está bien' },
-                  { color: 'bg-warning-red',label: '⚠️ Cautela' },
+                  { color: 'bg-egeo',        label: '🔥 Perfecto' },
+                  { color: 'bg-arena',       label: '👍 Muy bueno' },
+                  { color: 'bg-gray-400',    label: '👌 Está bien' },
+                  { color: 'bg-warning-red', label: '⚠️ Cautela' },
                 ].map(l => (
                   <span key={l.label} className="flex items-center gap-1.5 text-xs text-gray-500">
                     <span className={`w-3 h-3 rounded-full ${l.color}`} />
@@ -357,13 +393,51 @@ export function HomePage() {
                 <AllDestinationsMap destinations={[...perfect, ...good, ...ok, ...warning]} />
               </Suspense>
             </div>
-          ) : (
+          ) : sort === 'match' && minRating === 0 ? (
+            // Vista por categorías (default)
             <>
               <CategoryRow category="perfect" title="🔥 Perfecto para vosotros" subtitle="Los que mejor encajan con lo que buscáis" destinations={perfect} />
               <CategoryRow category="good"    title="👍 Muy bueno"              subtitle="Grandes opciones con algún pero menor"  destinations={good} />
               <CategoryRow category="ok"      title="👌 Está bien"              subtitle="Vale la pena con expectativas claras"    destinations={ok} />
             </>
-          )}
+          ) : (() => {
+            // Vista filtrada/ordenada — grid plano
+            const base = [...perfect, ...good, ...ok]
+            const filtered = minRating > 0
+              ? base.filter(d => getRating(d.id) >= minRating)
+              : base
+
+            const sorted = [...filtered].sort((a, b) => {
+              if (sort === 'price_asc') return calcBudget(a, 7, 'medio', false).totalMid - calcBudget(b, 7, 'medio', false).totalMid
+              if (sort === 'price_desc') return calcBudget(b, 7, 'medio', false).totalMid - calcBudget(a, 7, 'medio', false).totalMid
+              if (sort === 'rating') return getRating(b.id) - getRating(a.id)
+              return 0
+            })
+
+            return filtered.length === 0 ? (
+              <div className="px-4 py-16 text-center">
+                <span className="text-5xl block mb-4">🔍</span>
+                <p className="font-display font-bold text-gray-800 mb-2">Sin resultados</p>
+                <p className="text-gray-400 text-sm">No hay destinos con {minRating}+ estrellas todavía.</p>
+                <button onClick={() => setMinRating(0)} className="mt-4 text-sm text-egeo hover:underline">
+                  Ver todos
+                </button>
+              </div>
+            ) : (
+              <div className="px-4">
+                <p className="text-xs text-gray-400 mb-4">
+                  {sorted.length} destino{sorted.length !== 1 ? 's' : ''}
+                  {sort === 'price_asc' && ' · precio ascendente (7 días, nivel medio)'}
+                  {sort === 'price_desc' && ' · precio descendente (7 días, nivel medio)'}
+                  {sort === 'rating' && ' · mejor valorados primero'}
+                  {minRating > 0 && ` · mínimo ${'★'.repeat(minRating)}`}
+                </p>
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                  {sorted.map(dest => <DestinationCard key={dest.id} dest={dest} />)}
+                </div>
+              </div>
+            )
+          })()}
         </main>
       )}
     </>

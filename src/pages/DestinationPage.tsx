@@ -4,6 +4,8 @@ import { getDestination, type Destination } from '@/data/destinations'
 import { BudgetCalculator } from '@/components/destinations/BudgetCalculator'
 import { TRIP_DAYS, type TripDays } from '@/lib/budget'
 import { useFavorites } from '@/contexts/FavoritesContext'
+import { useRatings } from '@/contexts/RatingsContext'
+import { StarRating } from '@/components/destinations/StarRating'
 
 const DestinationMap = lazy(() =>
   import('@/components/destinations/DestinationMap').then((m) => ({ default: m.DestinationMap }))
@@ -33,7 +35,9 @@ export function DestinationPage() {
   }
 
   const { isFav, toggle } = useFavorites()
+  const { getRating, setRating } = useRatings()
   const fav = isFav(dest.id)
+  const rating = getRating(dest.id)
   const isWarning = dest.category === 'warning'
   const plan = getPlan(dest, planDays)
   const storyParagraphs = Array.isArray(dest.story) ? dest.story : [dest.story]
@@ -103,6 +107,16 @@ export function DestinationPage() {
       {W && <div className="h-2 bg-warning-stripes" />}
 
       <div className="px-4 pt-5 space-y-8">
+
+        {/* Mi valoración */}
+        <div className={`flex items-center justify-between rounded-2xl px-4 py-3 ${W ? 'bg-gray-900' : 'bg-gray-50'}`}>
+          <p className={`text-sm font-medium ${W ? 'text-gray-300' : 'text-gray-600'}`}>Mi valoración</p>
+          <StarRating
+            value={rating}
+            onChange={v => setRating(dest.id, v)}
+            size="lg"
+          />
+        </div>
 
         {/* Tagline */}
         <p className={`text-base leading-relaxed italic ${W ? 'text-gray-500' : 'text-gray-500'}`}>

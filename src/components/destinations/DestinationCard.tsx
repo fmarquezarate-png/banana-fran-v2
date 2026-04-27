@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import type { Destination } from '@/data/destinations'
 import { useFavorites } from '@/contexts/FavoritesContext'
+import { useRatings } from '@/contexts/RatingsContext'
 
 interface Props {
   dest: Destination
@@ -16,7 +17,9 @@ const CATEGORY_BADGE: Record<Destination['category'], string> = {
 export function DestinationCard({ dest }: Props) {
   const isWarning = dest.category === 'warning'
   const { isFav, toggle } = useFavorites()
+  const { getRating } = useRatings()
   const fav = isFav(dest.id)
+  const rating = getRating(dest.id)
 
   return (
     <div className="group relative flex-shrink-0 w-44 sm:w-52">
@@ -50,6 +53,13 @@ export function DestinationCard({ dest }: Props) {
           <p className={`text-xs mt-0.5 truncate ${isWarning ? 'text-gray-400' : 'text-gray-500'}`}>
             {dest.country}
           </p>
+          {rating > 0 && (
+            <p className="text-xs mt-1 tracking-tight">
+              {[1,2,3,4,5].map(i => (
+                <span key={i} className={i <= rating ? 'text-amber-400' : 'text-gray-200'}>★</span>
+              ))}
+            </p>
+          )}
           <p className={`text-xs mt-1.5 leading-snug line-clamp-2 opacity-0 max-h-0
                          group-hover:opacity-100 group-hover:max-h-10
                          transition-all duration-300
