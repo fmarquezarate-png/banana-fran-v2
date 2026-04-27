@@ -3,6 +3,7 @@ import { useParams, Link } from 'react-router-dom'
 import { getDestination, type Destination } from '@/data/destinations'
 import { BudgetCalculator } from '@/components/destinations/BudgetCalculator'
 import { TRIP_DAYS, type TripDays } from '@/lib/budget'
+import { useFavorites } from '@/contexts/FavoritesContext'
 
 const DestinationMap = lazy(() =>
   import('@/components/destinations/DestinationMap').then((m) => ({ default: m.DestinationMap }))
@@ -31,6 +32,8 @@ export function DestinationPage() {
     )
   }
 
+  const { isFav, toggle } = useFavorites()
+  const fav = isFav(dest.id)
   const isWarning = dest.category === 'warning'
   const plan = getPlan(dest, planDays)
   const storyParagraphs = Array.isArray(dest.story) ? dest.story : [dest.story]
@@ -70,6 +73,20 @@ export function DestinationPage() {
         >
           ← Catálogo
         </Link>
+
+        {/* Favorite star */}
+        <button
+          onClick={() => toggle(dest.id)}
+          className={`absolute top-4 right-4 w-10 h-10 rounded-full flex items-center justify-center
+                      text-xl transition-all duration-200 ${
+            fav
+              ? 'bg-amber-400 text-white scale-110'
+              : 'bg-black/30 backdrop-blur-sm text-white/70 hover:bg-amber-400 hover:text-white'
+          }`}
+          title={fav ? 'Quitar de favoritos' : 'Añadir a favoritos'}
+        >
+          {fav ? '★' : '☆'}
+        </button>
 
         <div className="absolute bottom-4 left-4 right-4">
           <span className={`inline-block text-xs font-semibold px-2.5 py-1 rounded-full mb-2 ${MATCH_BG[dest.category]}`}>

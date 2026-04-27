@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { Toaster } from 'react-hot-toast'
 import { useState, useEffect } from 'react'
 import { useAuth } from '@/hooks/useAuth'
+import { FavoritesProvider } from '@/contexts/FavoritesContext'
 import { TopBar } from '@/components/layout/TopBar'
 import { LoginPage } from '@/pages/LoginPage'
 import { AuthCallbackPage } from '@/pages/AuthCallbackPage'
@@ -33,7 +34,7 @@ function LoadingScreen() {
 
 function AuthenticatedApp() {
   return (
-    <>
+    <FavoritesProvider>
       <TopBar />
       <Routes>
         <Route path="/" element={<HomePage />} />
@@ -45,7 +46,7 @@ function AuthenticatedApp() {
         <Route path="/perfil" element={<ProfilePage />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
-    </>
+    </FavoritesProvider>
   )
 }
 
