@@ -33,6 +33,8 @@ export function DestinationPage() {
 
   const isWarning = dest.category === 'warning'
   const plan = getPlan(dest, planDays)
+  const storyParagraphs = Array.isArray(dest.story) ? dest.story : [dest.story]
+  const fitItems = Array.isArray(dest.fit) ? dest.fit : [dest.fit]
 
   return (
     <main className="max-w-2xl mx-auto pb-24 sm:pb-8">
@@ -85,7 +87,11 @@ export function DestinationPage() {
         {/* Historia */}
         <section>
           <h2 className="font-display text-xl font-bold text-gray-900 mb-2">La historia</h2>
-          <p className="text-gray-600 leading-relaxed">{dest.story}</p>
+          <div className="space-y-3">
+            {storyParagraphs.map((p, i) => (
+              <p key={i} className="text-gray-600 leading-relaxed">{p}</p>
+            ))}
+          </div>
         </section>
 
         {/* Por qué encaja */}
@@ -94,7 +100,7 @@ export function DestinationPage() {
             {isWarning ? '¿Por qué considerarlo igualmente?' : '¿Por qué os encaja?'}
           </h2>
           <ul className="space-y-2">
-            {dest.fit.map((item, i) => (
+            {fitItems.map((item, i) => (
               <li key={i} className="flex gap-2 text-sm text-gray-600">
                 <span className="text-egeo font-bold flex-shrink-0">→</span>
                 {item}
