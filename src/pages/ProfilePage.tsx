@@ -3,9 +3,14 @@ import toast from 'react-hot-toast'
 import { useAuth } from '@/hooks/useAuth'
 import { useProfile } from '@/hooks/useProfile'
 
-const APP_VERSION = '0.7.0'
+const APP_VERSION = '0.7.1'
 
 const CHANGELOG: { v: string; date: string; notes: string[] }[] = [
+  { v: '0.7.1', date: 'Abr 2026', notes: [
+    'Imprescindibles ampliados: 12 opciones (gastronomía, arte, deportes acuáticos, fotografía, compras, wellness)',
+    '5 destinos nuevos: Madeira, Eslovenia, Puglia, Estambul, Sicilia',
+    'Scoring actualizado con keywords para los nuevos imprescindibles',
+  ]},
   { v: '0.7.0', date: 'Abr 2026', notes: [
     'Cuestionario ampliado: 13 preguntas (región, zona, ritmo, alojamiento, estaciones completas)',
     'Scoring más preciso: región geográfica filtra fuerte (±25pts), zona de entorno (±12pts)',

@@ -54,9 +54,16 @@ const KEYWORDS: Record<string, string[]> = {
   mountains: ['montaña', 'sierra', 'volcán', 'cañón', 'senderismo', 'cumbre', 'cordillera'],
   cities:    ['ciudad', 'capital', 'casco', 'barrio', 'urbano', 'museo', 'teatro', 'galería'],
   islands:   ['isla', 'islas', 'archipiélago', 'insular', 'azores', 'creta', 'malta', 'lefkada'],
+  // musts nuevos
+  gastronomy:  ['gastronomía', 'vino', 'restaurante', 'cocina', 'marisco', 'mercado gastro', 'bodega', 'maridaje', 'degustación'],
+  art:         ['arte', 'museo', 'galería', 'pintura', 'escultura', 'bellas artes', 'contemporáneo'],
+  watersports: ['surf', 'vela', 'kayak', 'windsurf', 'paddle', 'deportes acuáticos', 'kitesurf'],
+  photography: ['paisaje', 'panorámica', 'mirador', 'atardecer', 'amanecer', 'fotografía', 'vista espectacular'],
+  shopping:    ['mercado', 'compras', 'tiendas', 'artesanía', 'bazar', 'souvenirs', 'Grand Bazaar'],
+  wellness:    ['spa', 'termas', 'aguas termales', 'balneario', 'bienestar', 'hammam', 'baño turco'],
   // ritmo
-  relaxed:   ['tranquil', 'calma', 'descanso', 'pausado', 'slow', 'silencio', 'relajar'],
-  intense:   ['actividades', 'museos', 'rutas', 'excursión', 'visitar', 'imprescindible', 'agenda'],
+  relaxed:     ['tranquil', 'calma', 'descanso', 'pausado', 'slow', 'silencio', 'relajar'],
+  intense:     ['actividades', 'museos', 'rutas', 'excursión', 'visitar', 'imprescindible', 'agenda'],
 }
 
 function countKeywords(dest: Destination, keys: string[]): number {
