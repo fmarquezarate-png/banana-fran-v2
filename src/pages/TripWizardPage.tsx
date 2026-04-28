@@ -241,7 +241,7 @@ export function TripWizardPage() {
       const scored = scoreDests(DESTINATIONS, ans)
       const top = scored.slice(0, 6)
       setResults(top)
-      setSelectedId(top[0]?.dest.id ?? null)
+      setSelectedId(null)           // user must explicitly choose
       localStorage.setItem('quizAnswers', JSON.stringify(ans))
       setPhase('results')
     }
@@ -301,7 +301,7 @@ export function TripWizardPage() {
           <p className="text-xs text-gray-400 mb-1">Basado en tus respuestas</p>
           <h1 className="font-display text-2xl font-bold text-gray-900">Vuestros mejores destinos</h1>
           <p className="text-sm text-gray-500 mt-1">
-            Toca el que más os convenza para seleccionarlo.
+            Toca <strong>una tarjeta</strong> para elegir el destino y continuar.
           </p>
         </div>
 
@@ -344,6 +344,17 @@ export function TripWizardPage() {
   if (phase === 'create' && selectedDest) {
     const { n: planDays, plan, isShort } = getPlan(selectedDest, answers.days)
 
+    function handleStartDate(val: string) {
+      setStartDate(val)
+      setIgnoreMismatch(false)
+      // auto-fill end date when not yet set
+      if (val && !endDate) {
+        const d = new Date(val + 'T00:00:00')
+        d.setDate(d.getDate() + planDays - 1)
+        setEndDate(d.toISOString().slice(0, 10))
+      }
+    }
+
     return (
       <main className="max-w-lg mx-auto px-4 py-6 pb-24 sm:pb-8">
         <button onClick={() => setPhase('results')} className="text-sm text-gray-400 hover:text-egeo mb-5 block">
@@ -378,28 +389,41 @@ export function TripWizardPage() {
             />
           </div>
 
-          <div className="grid grid-cols-2 gap-3">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Salida</label>
-              <input
-                type="date"
-                value={startDate}
-                onChange={e => { setStartDate(e.target.value); setIgnoreMismatch(false) }}
-                className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm
-                           focus:outline-none focus:ring-2 focus:ring-egeo/50"
-              />
+          <div>
+            <div className="flex items-center justify-between mb-1">
+              <label className="text-sm font-medium text-gray-700">Fechas del viaje</label>
+              <span className="text-xs text-egeo font-medium bg-egeo/8 px-2 py-0.5 rounded-full">
+                Programa de {planDays} días
+              </span>
             </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Vuelta</label>
-              <input
-                type="date"
-                value={endDate}
-                min={startDate}
-                onChange={e => { setEndDate(e.target.value); setIgnoreMismatch(false) }}
-                className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm
-                           focus:outline-none focus:ring-2 focus:ring-egeo/50"
-              />
+            <div className="grid grid-cols-2 gap-3">
+              <div>
+                <p className="text-xs text-gray-400 mb-1">Salida</p>
+                <input
+                  type="date"
+                  value={startDate}
+                  onChange={e => handleStartDate(e.target.value)}
+                  className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm
+                             focus:outline-none focus:ring-2 focus:ring-egeo/50"
+                />
+              </div>
+              <div>
+                <p className="text-xs text-gray-400 mb-1">Vuelta</p>
+                <input
+                  type="date"
+                  value={endDate}
+                  min={startDate}
+                  onChange={e => { setEndDate(e.target.value); setIgnoreMismatch(false) }}
+                  className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm
+                             focus:outline-none focus:ring-2 focus:ring-egeo/50"
+                />
+              </div>
             </div>
+            {startDate && endDate && !dateMismatch && (
+              <p className="text-xs text-green-600 mt-1.5 flex items-center gap-1">
+                ✓ {actualDays} días — coincide con el programa
+              </p>
+            )}
           </div>
 
           {/* Mismatch warning — non-blocking */}
@@ -410,8 +434,7 @@ export function TripWizardPage() {
                   Los días no coinciden con el programa
                 </p>
                 <p className="text-xs text-amber-600 mt-0.5">
-                  Elegiste {daysMin}–{daysMax} días en el quiz, pero las fechas son {actualDays} días.
-                  El programa mostrado es de {planDays} días.
+                  El programa es de {planDays} días, pero las fechas elegidas son {actualDays} días.
                 </p>
               </div>
               <button
