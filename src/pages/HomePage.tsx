@@ -147,12 +147,12 @@ function FavoritesTab() {
 // ──────────────────────────────────────────────
 // Comparar
 // ──────────────────────────────────────────────
-function CompareTab() {
-  const [idA, setIdA] = useState('')
-  const [idB, setIdB] = useState('')
+const MAX_COMPARE = 5
 
-  const destA = DESTINATIONS.find(d => d.id === idA)
-  const destB = DESTINATIONS.find(d => d.id === idB)
+function CompareTab() {
+  const [slots, setSlots] = useState<string[]>(['', ''])
+
+  const selectedIds = slots.filter(Boolean)
 
   const groups = [
     { label: '🔥 Match perfecto', dests: DESTINATIONS.filter(d => d.category === 'perfect') },
@@ -161,18 +161,31 @@ function CompareTab() {
     { label: '⚠️ Con cautela',    dests: DESTINATIONS.filter(d => d.category === 'warning') },
   ]
 
-  function DestSelect({ value, onChange, exclude }: { value: string; onChange: (v: string) => void; exclude: string }) {
+  function setSlot(i: number, val: string) {
+    setSlots(prev => prev.map((v, idx) => idx === i ? val : v))
+  }
+
+  function addSlot() {
+    if (slots.length < MAX_COMPARE) setSlots(prev => [...prev, ''])
+  }
+
+  function removeSlot(i: number) {
+    setSlots(prev => prev.filter((_, idx) => idx !== i))
+  }
+
+  function DestSelect({ value, slotIdx }: { value: string; slotIdx: number }) {
+    const otherIds = slots.filter((v, i) => i !== slotIdx && v !== '')
     return (
       <select
         value={value}
-        onChange={e => onChange(e.target.value)}
+        onChange={e => setSlot(slotIdx, e.target.value)}
         className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm
                    focus:outline-none focus:ring-2 focus:ring-egeo/50 bg-white"
       >
         <option value="">— Elige destino —</option>
         {groups.map(g => (
           <optgroup key={g.label} label={g.label}>
-            {g.dests.filter(d => d.id !== exclude).map(d => (
+            {g.dests.filter(d => !otherIds.includes(d.id)).map(d => (
               <option key={d.id} value={d.id}>{d.name} — {d.country}</option>
             ))}
           </optgroup>
@@ -193,11 +206,11 @@ function CompareTab() {
   function DestColumn({ dest }: { dest: Destination }) {
     const budget = calcBudget(dest, 7, 'medio', false)
     return (
-      <div className="flex-1 min-w-0">
+      <div className="w-44 flex-shrink-0">
         <Link to={`/destino/${dest.id}`}>
           <img src={dest.images[0]} alt={dest.name} className="w-full h-28 object-cover rounded-xl mb-3" />
         </Link>
-        <p className="font-display font-bold text-gray-900 text-base leading-tight">{dest.name}</p>
+        <p className="font-display font-bold text-gray-900 text-sm leading-tight">{dest.name}</p>
         <p className="text-xs text-gray-500 mb-2">{dest.country}</p>
         <p className="text-xs text-gray-600 italic mb-3 line-clamp-2">"{dest.tagline}"</p>
         <div className="space-y-2">
@@ -207,36 +220,67 @@ function CompareTab() {
           <Row label="Idioma"  value={dest.facts['idioma'] ?? dest.facts['language'] ?? '—'} />
           <Row label="7 días"  value={`${formatPrice(budget.totalMin)}–${formatPrice(budget.totalMax)}`} />
         </div>
-        <Link to={`/destino/${dest.id}`} className="mt-4 block text-center text-sm btn-primary py-2">
+        <Link to={`/destino/${dest.id}`} className="mt-4 block text-center text-xs btn-primary py-1.5">
           Ver ficha →
         </Link>
       </div>
     )
   }
 
+  const filledDests = slots.map(id => DESTINATIONS.find(d => d.id === id)).filter(Boolean) as Destination[]
+
   return (
     <main className="max-w-2xl mx-auto px-4 py-6 pb-24 sm:pb-8">
       <h1 className="font-display text-2xl font-bold text-gray-900 mb-1">Comparar destinos</h1>
-      <p className="text-gray-400 text-sm mb-6">Pon dos destinos cara a cara y decide.</p>
-      <div className="grid grid-cols-2 gap-3 mb-6">
-        <div>
-          <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1.5">Destino A</p>
-          <DestSelect value={idA} onChange={setIdA} exclude={idB} />
-        </div>
-        <div>
-          <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1.5">Destino B</p>
-          <DestSelect value={idB} onChange={setIdB} exclude={idA} />
-        </div>
+      <p className="text-gray-400 text-sm mb-6">Hasta {MAX_COMPARE} destinos cara a cara.</p>
+
+      {/* Slot selectors */}
+      <div className="space-y-2 mb-4">
+        {slots.map((val, i) => (
+          <div key={i} className="flex items-center gap-2">
+            <span className="text-xs font-bold text-gray-400 w-5 text-center">{i + 1}</span>
+            <div className="flex-1">
+              <DestSelect value={val} slotIdx={i} />
+            </div>
+            {slots.length > 2 && (
+              <button
+                onClick={() => removeSlot(i)}
+                className="text-gray-300 hover:text-red-400 text-lg leading-none transition-colors"
+                aria-label="Eliminar slot"
+              >
+                ×
+              </button>
+            )}
+          </div>
+        ))}
       </div>
-      {destA && destB ? (
-        <div className="flex gap-4 items-start">
-          <DestColumn dest={destA} />
-          <div className="flex-shrink-0 pt-32 text-2xl font-bold text-gray-200">vs</div>
-          <DestColumn dest={destB} />
+
+      {slots.length < MAX_COMPARE && (
+        <button
+          onClick={addSlot}
+          className="mb-6 text-sm text-egeo font-semibold hover:text-egeo-600 transition-colors flex items-center gap-1"
+        >
+          <span className="text-base leading-none">+</span> Añadir destino
+        </button>
+      )}
+
+      {/* Comparison columns — horizontal scroll on mobile */}
+      {filledDests.length >= 2 ? (
+        <div className="overflow-x-auto -mx-4 px-4">
+          <div className="flex gap-4 items-start" style={{ minWidth: `${filledDests.length * 192}px` }}>
+            {filledDests.map((dest, i) => (
+              <div key={dest.id} className="flex items-start gap-4">
+                <DestColumn dest={dest} />
+                {i < filledDests.length - 1 && (
+                  <div className="flex-shrink-0 pt-12 text-xl font-bold text-gray-200 self-start">vs</div>
+                )}
+              </div>
+            ))}
+          </div>
         </div>
       ) : (
         <div className="card p-10 text-center text-gray-400 text-sm">
-          Selecciona dos destinos para compararlos
+          Selecciona al menos dos destinos para compararlos
         </div>
       )}
     </main>
