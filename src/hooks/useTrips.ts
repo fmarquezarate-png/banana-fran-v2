@@ -34,18 +34,19 @@ export function useTrips(userId: string | undefined) {
   }
 
   async function createTrip(
-    values: Pick<Trip, 'name' | 'description' | 'start_date' | 'end_date' | 'destination_slug'>
+    values: Pick<Trip, 'name' | 'description' | 'start_date' | 'end_date' | 'destination_slug' | 'travelers'>
   ) {
     if (!userId) throw new Error('No hay sesión activa')
 
-    // Garantizar que el perfil existe (necesario si el usuario se registró con contraseña
-    // y el trigger de Supabase no se ejecutó en ese entorno)
+    // Ensure profile row exists (FK requirement); use upsert without ignoreDuplicates
+    // so conflicts update the email in case it changed
     const { data: authData } = await supabase.auth.getUser()
     if (authData?.user) {
-      await supabase.from('profiles').upsert(
+      const { error: profileErr } = await supabase.from('profiles').upsert(
         { id: authData.user.id, email: authData.user.email ?? '' },
-        { onConflict: 'id', ignoreDuplicates: true }
+        { onConflict: 'id' }
       )
+      if (profileErr) console.error('Profile upsert failed:', profileErr)
     }
 
     const { data, error } = await supabase
@@ -53,7 +54,10 @@ export function useTrips(userId: string | undefined) {
       .insert({ ...values, user_id: userId })
       .select()
       .single()
-    if (error) throw error
+    if (error) {
+      console.error('createTrip insert error:', error)
+      throw error
+    }
     setTrips((prev) => [...prev, data])
     return data
   }

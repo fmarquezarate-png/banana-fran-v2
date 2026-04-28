@@ -2,14 +2,15 @@ import type { Destination } from '@/data/destinations'
 import { calcBudget } from '@/lib/budget'
 
 export interface TripAnswers {
-  days:     '3-5' | '5-7' | '7-10' | '10-14'
-  vibe:     'beach' | 'nature' | 'culture' | 'mix'
-  month:    'jun' | 'jul' | 'aug' | 'sep' | 'any'
-  crowds:   'hate' | 'ok' | 'dontcare'
-  budget:   'low' | 'mid' | 'high' | 'nolimit'
-  novelty:  'popular' | 'hidden' | 'any'
-  musts:    string[]  // 'snorkel' | 'hiking' | 'nightlife' | 'history' | 'beaches' | 'peace'
-  car:      'yes' | 'maybe' | 'no'
+  days:      '3-5' | '5-7' | '7-10' | '10-14'
+  travelers: '1' | '2' | '3' | '4+'
+  vibe:      'beach' | 'nature' | 'culture' | 'mix'
+  month:     'jun' | 'jul' | 'aug' | 'sep' | 'any'
+  crowds:    'hate' | 'ok' | 'dontcare'
+  budget:    'low' | 'mid' | 'high' | 'nolimit'
+  novelty:   'popular' | 'hidden' | 'any'
+  musts:     string[]  // 'snorkel' | 'hiking' | 'nightlife' | 'history' | 'beaches' | 'peace'
+  car:       'yes' | 'maybe' | 'no'
 }
 
 const DAYS_MAP: Record<TripAnswers['days'], number> = {

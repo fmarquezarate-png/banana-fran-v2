@@ -69,6 +69,7 @@ CREATE TABLE trips (
   -- estado auto-calculado: planning → upcoming → ongoing → completed
   -- el override permite forzar un estado manualmente
   status_override  TEXT CHECK (status_override IN ('planning', 'upcoming', 'ongoing', 'completed', 'cancelled')),
+  travelers        INTEGER DEFAULT 2 NOT NULL,
   cover_photo_url  TEXT,
   is_past          BOOLEAN DEFAULT FALSE,
   created_at       TIMESTAMPTZ DEFAULT NOW() NOT NULL,

@@ -2,15 +2,16 @@ import { useState } from 'react'
 import toast from 'react-hot-toast'
 import { useAuth } from '@/hooks/useAuth'
 
-type Mode = 'magic' | 'password'
+type Mode = 'magic' | 'password' | 'register'
 
 export function LoginPage() {
-  const { signInWithEmail, signInWithPassword } = useAuth()
+  const { signInWithEmail, signInWithPassword, signUp } = useAuth()
   const [mode, setMode] = useState<Mode>('magic')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
   const [sent, setSent] = useState(false)
+  const [registered, setRegistered] = useState(false)
 
   async function handleMagicLink(e: React.FormEvent) {
     e.preventDefault()
@@ -46,6 +47,36 @@ export function LoginPage() {
     }
   }
 
+  async function handleRegister(e: React.FormEvent) {
+    e.preventDefault()
+    if (!email || !password) return
+    if (password.length < 6) {
+      toast.error('La contraseña debe tener al menos 6 caracteres')
+      return
+    }
+    setLoading(true)
+    try {
+      await signUp(email, password)
+      setRegistered(true)
+    } catch (err: unknown) {
+      const msg = (err as Error).message?.toLowerCase() ?? ''
+      if (msg.includes('already registered') || msg.includes('already exists')) {
+        toast.error('Ya existe una cuenta con ese email — inicia sesión')
+        switchMode('password')
+      } else {
+        toast.error('Error creando la cuenta. Inténtalo de nuevo.')
+      }
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  function switchMode(m: Mode) {
+    setMode(m)
+    setSent(false)
+    setRegistered(false)
+  }
+
   return (
     <div className="min-h-screen bg-crema flex items-center justify-center px-4">
       <div className="w-full max-w-sm">
@@ -56,26 +87,34 @@ export function LoginPage() {
           <h1 className="font-display text-3xl font-bold text-gray-900">
             The Vacation Planner
           </h1>
-          <p className="text-gray-500 mt-1 text-sm">Hola Fran 👋 — bienvenida de vuelta</p>
+          <p className="text-gray-500 mt-1 text-sm">Tu próximo viaje empieza aquí</p>
         </div>
 
         {/* Tabs */}
         <div className="flex bg-gray-100 rounded-2xl p-1 mb-5">
           <button
-            onClick={() => { setMode('magic'); setSent(false) }}
-            className={`flex-1 py-2 text-sm font-semibold rounded-xl transition-all ${
+            onClick={() => switchMode('magic')}
+            className={`flex-1 py-2 text-xs font-semibold rounded-xl transition-all ${
               mode === 'magic' ? 'bg-white shadow text-gray-900' : 'text-gray-500'
             }`}
           >
             ✨ Magic link
           </button>
           <button
-            onClick={() => setMode('password')}
-            className={`flex-1 py-2 text-sm font-semibold rounded-xl transition-all ${
+            onClick={() => switchMode('password')}
+            className={`flex-1 py-2 text-xs font-semibold rounded-xl transition-all ${
               mode === 'password' ? 'bg-white shadow text-gray-900' : 'text-gray-500'
             }`}
           >
-            🔑 Contraseña
+            🔑 Entrar
+          </button>
+          <button
+            onClick={() => switchMode('register')}
+            className={`flex-1 py-2 text-xs font-semibold rounded-xl transition-all ${
+              mode === 'register' ? 'bg-white shadow text-gray-900' : 'text-gray-500'
+            }`}
+          >
+            🆕 Registro
           </button>
         </div>
 
@@ -100,7 +139,7 @@ export function LoginPage() {
                   type="email"
                   value={email}
                   onChange={e => setEmail(e.target.value)}
-                  placeholder="fran@ejemplo.com"
+                  placeholder="viajero@ejemplo.com"
                   required
                   autoFocus
                   className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm
@@ -121,7 +160,7 @@ export function LoginPage() {
           )
         )}
 
-        {/* Password */}
+        {/* Password login */}
         {mode === 'password' && (
           <form onSubmit={handlePassword} className="card p-6 space-y-4">
             <div>
@@ -130,7 +169,7 @@ export function LoginPage() {
                 type="email"
                 value={email}
                 onChange={e => setEmail(e.target.value)}
-                placeholder="fran@ejemplo.com"
+                placeholder="viajero@ejemplo.com"
                 required
                 autoFocus
                 className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm
@@ -157,16 +196,79 @@ export function LoginPage() {
               {loading ? 'Entrando…' : 'Entrar'}
             </button>
             <p className="text-center text-xs text-gray-400">
-              ¿No tienes contraseña?{' '}
-              <button
-                type="button"
-                onClick={() => setMode('magic')}
-                className="text-egeo hover:underline"
-              >
-                Usa el magic link
+              ¿Sin cuenta?{' '}
+              <button type="button" onClick={() => switchMode('register')} className="text-egeo hover:underline">
+                Regístrate
+              </button>
+              {' · '}
+              <button type="button" onClick={() => switchMode('magic')} className="text-egeo hover:underline">
+                Magic link
               </button>
             </p>
           </form>
+        )}
+
+        {/* Register */}
+        {mode === 'register' && (
+          registered ? (
+            <div className="card p-6 text-center">
+              <span className="text-4xl">📬</span>
+              <h2 className="font-semibold text-gray-900 mt-3 mb-1">¡Cuenta creada!</h2>
+              <p className="text-gray-500 text-sm">
+                Hemos enviado un email de confirmación a <strong>{email}</strong>.
+                Haz clic en el enlace para activar tu cuenta, luego inicia sesión con contraseña.
+              </p>
+              <button
+                onClick={() => switchMode('password')}
+                className="btn-primary w-full mt-4 text-sm"
+              >
+                Ir a iniciar sesión
+              </button>
+            </div>
+          ) : (
+            <form onSubmit={handleRegister} className="card p-6 space-y-4">
+              <p className="text-sm text-gray-600 font-medium">Crea una cuenta nueva</p>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                <input
+                  type="email"
+                  value={email}
+                  onChange={e => setEmail(e.target.value)}
+                  placeholder="viajero@ejemplo.com"
+                  required
+                  autoFocus
+                  className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm
+                             focus:outline-none focus:ring-2 focus:ring-egeo/50 focus:border-egeo"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Contraseña</label>
+                <input
+                  type="password"
+                  value={password}
+                  onChange={e => setPassword(e.target.value)}
+                  placeholder="Mínimo 6 caracteres"
+                  required
+                  minLength={6}
+                  className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm
+                             focus:outline-none focus:ring-2 focus:ring-egeo/50 focus:border-egeo"
+                />
+              </div>
+              <button
+                type="submit"
+                disabled={loading || !email || !password}
+                className="btn-primary w-full disabled:opacity-50"
+              >
+                {loading ? 'Creando cuenta…' : 'Crear cuenta'}
+              </button>
+              <p className="text-center text-xs text-gray-400">
+                ¿Ya tienes cuenta?{' '}
+                <button type="button" onClick={() => switchMode('password')} className="text-egeo hover:underline">
+                  Inicia sesión
+                </button>
+              </p>
+            </form>
+          )
         )}
       </div>
     </div>

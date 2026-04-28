@@ -11,23 +11,33 @@ import { calcBudget, formatPrice } from '@/lib/budget'
 // Definición de preguntas
 // ─────────────────────────────────────────────────────────────
 type Step =
-  | { key: 'days';    q: string; type: 'single'; opts: { v: TripAnswers['days'];    l: string; e: string }[] }
-  | { key: 'vibe';    q: string; type: 'single'; opts: { v: TripAnswers['vibe'];    l: string; e: string }[] }
-  | { key: 'crowds';  q: string; type: 'single'; opts: { v: TripAnswers['crowds'];  l: string; e: string }[] }
-  | { key: 'month';   q: string; type: 'single'; opts: { v: TripAnswers['month'];   l: string; e: string }[] }
-  | { key: 'budget';  q: string; type: 'single'; opts: { v: TripAnswers['budget'];  l: string; e: string }[] }
-  | { key: 'novelty'; q: string; type: 'single'; opts: { v: TripAnswers['novelty']; l: string; e: string }[] }
-  | { key: 'musts';   q: string; type: 'multi';  opts: { v: string; l: string; e: string }[] }
-  | { key: 'car';     q: string; type: 'single'; opts: { v: TripAnswers['car'];     l: string; e: string }[] }
+  | { key: 'days';      q: string; type: 'single'; opts: { v: TripAnswers['days'];      l: string; e: string }[] }
+  | { key: 'travelers'; q: string; type: 'single'; opts: { v: TripAnswers['travelers']; l: string; e: string }[] }
+  | { key: 'vibe';      q: string; type: 'single'; opts: { v: TripAnswers['vibe'];      l: string; e: string }[] }
+  | { key: 'crowds';    q: string; type: 'single'; opts: { v: TripAnswers['crowds'];    l: string; e: string }[] }
+  | { key: 'month';     q: string; type: 'single'; opts: { v: TripAnswers['month'];     l: string; e: string }[] }
+  | { key: 'budget';    q: string; type: 'single'; opts: { v: TripAnswers['budget'];    l: string; e: string }[] }
+  | { key: 'novelty';   q: string; type: 'single'; opts: { v: TripAnswers['novelty'];   l: string; e: string }[] }
+  | { key: 'musts';     q: string; type: 'multi';  opts: { v: string; l: string; e: string }[] }
+  | { key: 'car';       q: string; type: 'single'; opts: { v: TripAnswers['car'];       l: string; e: string }[] }
 
 const STEPS: Step[] = [
   {
     key: 'days', q: '¿Cuántos días tenéis para el viaje?', type: 'single',
     opts: [
-      { v: '3-5',   l: 'Un escapada corta', e: '📅' },
-      { v: '5-7',   l: 'Una semana',         e: '🗓️' },
-      { v: '7-10',  l: 'Diez días',          e: '✈️' },
-      { v: '10-14', l: 'Dos semanas',        e: '🌍' },
+      { v: '3-5',   l: 'Una escapada corta', e: '📅' },
+      { v: '5-7',   l: 'Una semana',          e: '🗓️' },
+      { v: '7-10',  l: 'Diez días',           e: '✈️' },
+      { v: '10-14', l: 'Dos semanas',         e: '🌍' },
+    ],
+  },
+  {
+    key: 'travelers', q: '¿Cuántas personas viajan?', type: 'single',
+    opts: [
+      { v: '1',  l: 'Solo/a',             e: '🧍' },
+      { v: '2',  l: 'Dos personas',        e: '👫' },
+      { v: '3',  l: 'Tres personas',       e: '👨‍👩‍👧' },
+      { v: '4+', l: 'Cuatro o más',        e: '👨‍👩‍👧‍👦' },
     ],
   },
   {
@@ -69,38 +79,45 @@ const STEPS: Step[] = [
   {
     key: 'novelty', q: '¿Preferís destino conocido o algo diferente?', type: 'single',
     opts: [
-      { v: 'popular', l: 'Icónico y probado',         e: '🌟' },
+      { v: 'popular', l: 'Icónico y probado',           e: '🌟' },
       { v: 'hidden',  l: 'Menos turístico y auténtico', e: '🗺️' },
-      { v: 'any',     l: 'No tenemos preferencia',    e: '🎲' },
+      { v: 'any',     l: 'No tenemos preferencia',      e: '🎲' },
     ],
   },
   {
     key: 'musts', q: '¿Qué no puede faltar? (elige todo lo que queráis)', type: 'multi',
     opts: [
-      { v: 'snorkel',   l: 'Snorkel / Buceo',      e: '🤿' },
-      { v: 'hiking',    l: 'Senderismo',            e: '🥾' },
-      { v: 'beaches',   l: 'Playas espectaculares', e: '🏝️' },
+      { v: 'snorkel',   l: 'Snorkel / Buceo',        e: '🤿' },
+      { v: 'hiking',    l: 'Senderismo',              e: '🥾' },
+      { v: 'beaches',   l: 'Playas espectaculares',   e: '🏝️' },
       { v: 'history',   l: 'Historia y arquitectura', e: '🏛️' },
-      { v: 'nightlife', l: 'Vida nocturna',         e: '🎉' },
-      { v: 'peace',     l: 'Tranquilidad total',    e: '🧘' },
+      { v: 'nightlife', l: 'Vida nocturna',           e: '🎉' },
+      { v: 'peace',     l: 'Tranquilidad total',      e: '🧘' },
     ],
   },
   {
     key: 'car', q: '¿Alquiláis coche en el destino?', type: 'single',
     opts: [
-      { v: 'yes',   l: 'Sí, siempre',          e: '🚗' },
-      { v: 'maybe', l: 'Depende del sitio',     e: '🤔' },
-      { v: 'no',    l: 'No, preferimos no',     e: '🚶' },
+      { v: 'yes',   l: 'Sí, siempre',      e: '🚗' },
+      { v: 'maybe', l: 'Depende del sitio', e: '🤔' },
+      { v: 'no',    l: 'No, preferimos no', e: '🚶' },
     ],
   },
 ]
 
+const TRAVELERS_NUM: Record<TripAnswers['travelers'], number> = {
+  '1': 1, '2': 2, '3': 3, '4+': 4,
+}
+
 // ─────────────────────────────────────────────────────────────
 // Componente resultado
 // ─────────────────────────────────────────────────────────────
-function ResultCard({ sd, rank }: { sd: ScoredDestination; rank: number }) {
+function ResultCard({ sd, rank, travelers }: { sd: ScoredDestination; rank: number; travelers: number }) {
   const navigate = useNavigate()
   const budget = calcBudget(sd.dest, 7, 'medio', true)
+  const totalMin = budget.totalMin * travelers
+  const totalMax = budget.totalMax * travelers
+  const ppLabel = travelers > 1 ? ` · ${formatPrice(budget.totalMid)} pp` : ''
 
   return (
     <div
@@ -122,7 +139,9 @@ function ResultCard({ sd, rank }: { sd: ScoredDestination; rank: number }) {
       <div className="p-3">
         <p className="font-display font-bold text-gray-900 text-sm">{sd.dest.name}</p>
         <p className="text-xs text-gray-500 mb-2">{sd.dest.country}</p>
-        <p className="text-xs text-gray-400 mb-2">{formatPrice(budget.totalMin)}–{formatPrice(budget.totalMax)} pp / 7 días</p>
+        <p className="text-xs text-gray-400 mb-2">
+          {formatPrice(totalMin)}–{formatPrice(totalMax)} total{ppLabel} / 7 días
+        </p>
         {sd.reasons.slice(0, 2).map((r, i) => (
           <p key={i} className="text-xs text-egeo flex items-start gap-1">
             <span className="flex-shrink-0">✓</span> {r}
@@ -137,7 +156,7 @@ function ResultCard({ sd, rank }: { sd: ScoredDestination; rank: number }) {
 // Wizard principal
 // ─────────────────────────────────────────────────────────────
 const DEFAULT_ANSWERS: TripAnswers = {
-  days: '7-10', vibe: 'mix', crowds: 'ok', month: 'any',
+  days: '7-10', travelers: '2', vibe: 'mix', crowds: 'ok', month: 'any',
   budget: 'mid', novelty: 'any', musts: [], car: 'maybe',
 }
 
@@ -146,7 +165,7 @@ export function TripWizardPage() {
   const { user } = useAuth()
   const { createTrip } = useTrips(user?.id)
 
-  const [step, setStep] = useState(0)                          // 0…STEPS.length-1 → results → create
+  const [step, setStep] = useState(0)
   const [answers, setAnswers] = useState<TripAnswers>(DEFAULT_ANSWERS)
   const [phase, setPhase] = useState<'quiz' | 'results' | 'create'>('quiz')
   const [results, setResults] = useState<ScoredDestination[]>([])
@@ -156,13 +175,14 @@ export function TripWizardPage() {
   const [saving, setSaving] = useState(false)
 
   const current = STEPS[step]
-  const progress = ((step) / STEPS.length) * 100
+  const progress = (step / STEPS.length) * 100
+  const travelersNum = TRAVELERS_NUM[answers.travelers]
 
   // ── Handlers ──────────────────────────────────────────────
   function selectSingle(key: string, value: string) {
-    setAnswers(prev => ({ ...prev, [key]: value }))
-    // Auto-advance on single-select after short delay
-    setTimeout(() => advance({ ...answers, [key]: value }), 180)
+    const updated = { ...answers, [key]: value }
+    setAnswers(updated)
+    setTimeout(() => advance(updated), 180)
   }
 
   function toggleMulti(value: string) {
@@ -179,7 +199,6 @@ export function TripWizardPage() {
     if (step < STEPS.length - 1) {
       setStep(s => s + 1)
     } else {
-      // Calcular resultados
       const scored = scoreDests(DESTINATIONS, ans)
       setResults(scored.slice(0, 6))
       setPhase('results')
@@ -201,10 +220,12 @@ export function TripWizardPage() {
         start_date: startDate || null,
         end_date: endDate || null,
         destination_slug: results[0]?.dest.id ?? null,
+        travelers: travelersNum,
       })
       toast.success('¡Viaje creado!')
       navigate(trip ? `/viajes/${trip.id}` : '/viajes')
-    } catch {
+    } catch (err) {
+      console.error('Wizard createTrip error:', err)
       toast.error('Error creando el viaje. Inténtalo de nuevo.')
     } finally {
       setSaving(false)
@@ -221,13 +242,14 @@ export function TripWizardPage() {
             Vuestros mejores destinos
           </h1>
           <p className="text-sm text-gray-500 mt-1">
-            Toca cualquiera para ver la ficha completa, o crea el viaje directamente.
+            Precios para {travelersNum} {travelersNum === 1 ? 'persona' : 'personas'} · 7 días.
+            Toca cualquiera para ver la ficha completa.
           </p>
         </div>
 
         <div className="grid grid-cols-2 gap-3 mb-8">
           {results.map((sd, i) => (
-            <ResultCard key={sd.dest.id} sd={sd} rank={i + 1} />
+            <ResultCard key={sd.dest.id} sd={sd} rank={i + 1} travelers={travelersNum} />
           ))}
         </div>
 
@@ -258,7 +280,7 @@ export function TripWizardPage() {
         </button>
         <h1 className="font-display text-2xl font-bold text-gray-900 mb-1">Crear el viaje</h1>
         <p className="text-gray-500 text-sm mb-6">
-          Destino principal sugerido: <strong>{results[0]?.dest.name}</strong>
+          Destino sugerido: <strong>{results[0]?.dest.name}</strong> · {travelersNum} {travelersNum === 1 ? 'viajero' : 'viajeros'}
         </p>
 
         <div className="card p-5 space-y-4">
@@ -296,6 +318,20 @@ export function TripWizardPage() {
                            focus:outline-none focus:ring-2 focus:ring-egeo/50"
               />
             </div>
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Viajeros</label>
+            <select
+              value={answers.travelers}
+              onChange={e => setAnswers(prev => ({ ...prev, travelers: e.target.value as TripAnswers['travelers'] }))}
+              className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm
+                         focus:outline-none focus:ring-2 focus:ring-egeo/50 bg-white"
+            >
+              <option value="1">1 persona</option>
+              <option value="2">2 personas</option>
+              <option value="3">3 personas</option>
+              <option value="4+">4 o más personas</option>
+            </select>
           </div>
           <button
             onClick={handleCreate}
