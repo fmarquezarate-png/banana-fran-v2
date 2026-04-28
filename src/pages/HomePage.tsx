@@ -716,7 +716,7 @@ export function HomePage() {
                 </div>
               </div>
             )
-          })() : null}
+          })()}
         </main>
       )}
     </>
