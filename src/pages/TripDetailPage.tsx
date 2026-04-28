@@ -6,6 +6,19 @@ import { useAuth } from '@/hooks/useAuth'
 import { useTrips } from '@/hooks/useTrips'
 import { useTripDocuments } from '@/hooks/useTripDocuments'
 import type { Trip, TripDocument, DocType } from '@/types/database'
+import { DESTINATIONS } from '@/data/destinations'
+import type { Destination, LongPlan, ShortPlan } from '@/data/destinations'
+import { calcBudget, formatPrice, LEVEL_LABEL } from '@/lib/budget'
+import type { BudgetLevel } from '@/lib/budget'
+
+function getPlanForDays(dest: Destination, days: number | null): { planDays: number; plan: ShortPlan | LongPlan; isShort: boolean } {
+  const n = days ?? 7
+  if (n <= 4)  return { planDays: 3,  plan: dest.plans3,  isShort: true  }
+  if (n <= 6)  return { planDays: 5,  plan: dest.plans5,  isShort: true  }
+  if (n <= 9)  return { planDays: 7,  plan: dest.plans7,  isShort: false }
+  if (n <= 13) return { planDays: 10, plan: dest.plans10, isShort: false }
+  return              { planDays: 14, plan: dest.plans14, isShort: false }
+}
 
 const DOC_TYPE_LABELS: Record<DocType, { label: string; emoji: string }> = {
   flight:    { label: 'Vuelo',     emoji: '✈️' },
@@ -243,6 +256,151 @@ function UploadModal({
 }
 
 // ─────────────────────────────────────────────────────────────
+// Itinerario embebido
+// ─────────────────────────────────────────────────────────────
+function TripItinerary({ dest, days }: { dest: Destination; days: number | null }) {
+  const [open, setOpen] = useState(true)
+  const { planDays, plan, isShort } = getPlanForDays(dest, days)
+
+  return (
+    <div className="card overflow-hidden">
+      <button
+        onClick={() => setOpen(o => !o)}
+        className="w-full flex items-center justify-between p-5"
+      >
+        <div className="flex items-center gap-2">
+          <span className="text-lg">🗺️</span>
+          <span className="font-semibold text-gray-800">Itinerario sugerido</span>
+          <span className="text-xs text-egeo bg-egeo/8 px-2 py-0.5 rounded-full font-medium">
+            {planDays} días
+          </span>
+        </div>
+        <span className="text-gray-400 text-sm">{open ? '▲' : '▼'}</span>
+      </button>
+
+      {open && (
+        <div className="px-5 pb-5 border-t border-gray-50">
+          {isShort ? (
+            <ul className="space-y-3 mt-4">
+              {(plan as ShortPlan).map((item, i) => (
+                <li key={i} className="flex items-start gap-3 text-sm text-gray-600">
+                  <span className="text-egeo font-bold flex-shrink-0 w-6 text-center">D{i + 1}</span>
+                  <span>{item}</span>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <ul className="space-y-4 mt-4">
+              {(plan as LongPlan).map(([label, title, text], i) => (
+                <li key={i} className="border-l-2 border-egeo/20 pl-3">
+                  <p className="text-xs font-bold text-egeo">{label}</p>
+                  <p className="text-sm font-semibold text-gray-800">{title}</p>
+                  <p className="text-xs text-gray-500 mt-0.5 leading-relaxed">{text}</p>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+      )}
+    </div>
+  )
+}
+
+// ─────────────────────────────────────────────────────────────
+// Presupuesto embebido
+// ─────────────────────────────────────────────────────────────
+const LEVELS: BudgetLevel[] = ['mochilero', 'medio', 'confort', 'lujo']
+
+function TripBudget({ dest, days, travelers }: { dest: Destination; days: number | null; travelers: number }) {
+  const [level, setLevel] = useState<BudgetLevel>('medio')
+  const [open, setOpen] = useState(false)
+  const n = days ?? 7
+  const budget = calcBudget(dest, n, level, false)
+  const perPax = {
+    min: budget.totalMin / 2,
+    mid: budget.totalMid / 2,
+    max: budget.totalMax / 2,
+  }
+  const total = {
+    min: perPax.min * travelers,
+    mid: perPax.mid * travelers,
+    max: perPax.max * travelers,
+  }
+
+  return (
+    <div className="card overflow-hidden">
+      <button
+        onClick={() => setOpen(o => !o)}
+        className="w-full flex items-center justify-between p-5"
+      >
+        <div className="flex items-center gap-2">
+          <span className="text-lg">💰</span>
+          <span className="font-semibold text-gray-800">Presupuesto estimado</span>
+        </div>
+        <div className="flex items-center gap-2">
+          <span className="text-sm font-semibold text-egeo">{formatPrice(perPax.mid)}<span className="text-xs text-gray-400 font-normal">/pp</span></span>
+          <span className="text-gray-400 text-sm">{open ? '▲' : '▼'}</span>
+        </div>
+      </button>
+
+      {open && (
+        <div className="px-5 pb-5 border-t border-gray-50">
+          {/* Level selector */}
+          <div className="flex gap-1 mt-4 mb-4 bg-gray-100 rounded-xl p-1">
+            {LEVELS.map(l => (
+              <button
+                key={l}
+                onClick={() => setLevel(l)}
+                className={`flex-1 py-1.5 text-xs font-semibold rounded-lg transition-all ${
+                  l === level ? 'bg-white shadow text-gray-900' : 'text-gray-500 hover:text-gray-700'
+                }`}
+              >
+                {LEVEL_LABEL[l]}
+              </button>
+            ))}
+          </div>
+
+          {/* Breakdown */}
+          <ul className="space-y-2.5 mb-4">
+            {budget.cats.map(cat => {
+              const catPP = { mid: cat.mid / 2, min: cat.min / 2, max: cat.max / 2 }
+              return (
+                <li key={cat.key} className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <span className="text-base">{cat.icon}</span>
+                    <div>
+                      <p className="text-sm font-medium text-gray-800">{cat.name}</p>
+                      <p className="text-xs text-gray-400">{cat.desc}</p>
+                    </div>
+                  </div>
+                  <p className="text-sm font-semibold text-gray-700 text-right flex-shrink-0 ml-2">
+                    {formatPrice(catPP.mid)}<span className="text-xs text-gray-400 font-normal">/pp</span>
+                  </p>
+                </li>
+              )
+            })}
+          </ul>
+
+          {/* Total */}
+          <div className="border-t border-gray-100 pt-3 flex items-end justify-between">
+            <div>
+              <p className="text-xs text-gray-400">Total {travelers} {travelers === 1 ? 'persona' : 'personas'} · {n} días</p>
+              <p className="text-xs text-gray-400 mt-0.5">
+                Rango: {formatPrice(total.min)} – {formatPrice(total.max)}
+              </p>
+            </div>
+            <div className="text-right">
+              <p className="text-xs text-gray-400">por persona</p>
+              <p className="font-display text-xl font-bold text-egeo">{formatPrice(perPax.mid)}</p>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  )
+}
+
+// ─────────────────────────────────────────────────────────────
 // Main page
 // ─────────────────────────────────────────────────────────────
 export function TripDetailPage() {
@@ -322,6 +480,9 @@ export function TripDetailPage() {
 
   const days = tripDays(trip)
   const travelers = trip.travelers ?? 2
+  const destData = trip.destination_slug
+    ? DESTINATIONS.find(d => d.id === trip.destination_slug) ?? null
+    : null
 
   return (
     <main className="max-w-lg mx-auto px-4 py-6 pb-24 sm:pb-8">
@@ -330,7 +491,17 @@ export function TripDetailPage() {
         <Link to="/viajes" className="text-sm text-gray-400 hover:text-egeo transition-colors">
           ← Mis viajes
         </Link>
-        <h1 className="font-display text-3xl font-bold text-gray-900 mt-2 leading-tight">
+        {destData && (
+          <div className="relative h-36 rounded-2xl overflow-hidden mt-3 mb-3">
+            <img src={destData.images[0]} alt={destData.name} className="w-full h-full object-cover" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+            <div className="absolute bottom-3 left-4">
+              <p className="text-white/70 text-xs">{destData.country}</p>
+              <p className="text-white font-display font-bold text-lg leading-tight">{destData.name}</p>
+            </div>
+          </div>
+        )}
+        <h1 className="font-display text-2xl font-bold text-gray-900 leading-tight">
           {trip.name}
         </h1>
         {trip.description && (
@@ -342,9 +513,6 @@ export function TripDetailPage() {
 
         {/* Fechas y viajeros */}
         <div className="card p-5">
-          <h2 className="font-semibold text-gray-700 mb-3 text-sm uppercase tracking-wide">
-            Detalles del viaje
-          </h2>
           <div className="grid grid-cols-2 gap-4">
             <div>
               <p className="text-xs text-gray-400 mb-0.5">Salida</p>
@@ -373,22 +541,27 @@ export function TripDetailPage() {
         <div className="grid grid-cols-2 gap-3">
           <Link
             to={`/viajes/${trip.id}/fotos`}
-            className="card p-5 flex flex-col items-center gap-2 hover:shadow-md transition-shadow text-center"
+            className="card p-4 flex flex-col items-center gap-2 hover:shadow-md transition-shadow text-center"
           >
             <span className="text-3xl">📷</span>
             <span className="font-semibold text-gray-800 text-sm">Fotos</span>
             <span className="text-xs text-gray-400">Galería del viaje</span>
           </Link>
-
           <Link
             to={`/viajes/${trip.id}/diario`}
-            className="card p-5 flex flex-col items-center gap-2 hover:shadow-md transition-shadow text-center"
+            className="card p-4 flex flex-col items-center gap-2 hover:shadow-md transition-shadow text-center"
           >
             <span className="text-3xl">📔</span>
             <span className="font-semibold text-gray-800 text-sm">Diario</span>
             <span className="text-xs text-gray-400">Bitácora del viaje</span>
           </Link>
         </div>
+
+        {/* Itinerario sugerido — sólo si hay destino */}
+        {destData && <TripItinerary dest={destData} days={days} />}
+
+        {/* Presupuesto estimado — sólo si hay destino */}
+        {destData && <TripBudget dest={destData} days={days} travelers={travelers} />}
 
         {/* Documentos */}
         <div className="card p-5">
@@ -430,19 +603,6 @@ export function TripDetailPage() {
               ))}
             </div>
           )}
-        </div>
-
-        {/* Lugares — placeholder */}
-        <div className="card p-5">
-          <div className="flex items-center justify-between mb-3">
-            <h2 className="font-semibold text-gray-800">📍 Lugares y reseñas</h2>
-            <span className="text-xs text-gray-400 bg-gray-100 px-2 py-0.5 rounded-full">
-              Próximamente
-            </span>
-          </div>
-          <p className="text-sm text-gray-400">
-            Restaurantes, playas, museos visitados con tu valoración.
-          </p>
         </div>
 
         {/* Eliminar */}
