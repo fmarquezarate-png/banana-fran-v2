@@ -15,7 +15,7 @@ export function TopBar() {
       <div className="max-w-5xl mx-auto px-4 h-14 flex items-center justify-between">
         {/* Logo */}
         <Link to="/" className="font-display text-xl font-bold text-egeo">
-          🍌 Banana & Fran
+          ✈️ The Vacation Planner
         </Link>
 
         {/* Nav desktop */}

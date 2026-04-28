@@ -5,16 +5,6 @@
 export type DestinationCategory = 'perfect' | 'good' | 'ok' | 'warning'
 export type MatchEmoji = '🔥' | '👍' | '👌' | '🚫' | '⚠️'
 
-export interface DestinationFacts {
-  temp: string
-  crowd: string
-  language: string
-  english: string
-  currency: string
-  flight: string
-  bestArea: string
-}
-
 export interface DestinationBudget {
   flightPP: number // vuelo por persona desde BCN
   fr: number       // fracción de variación del vuelo (0.20 = ±20%)
@@ -44,10 +34,13 @@ export interface Destination {
   category: DestinationCategory
   coords: [lat: number, lng: number]
   images: string[]
-  story: string[]
-  fit: string
+  // story puede ser un string único o array de párrafos (formato v1)
+  story: string | string[]
+  // fit puede ser un string único o array de bullets
+  fit: string | string[]
   warning?: string
-  facts: DestinationFacts
+  // facts es flexible: keys distintas según el origen del dato
+  facts: Record<string, string>
   musts: string[]
   dishes: string[]
   plans3: ShortPlan

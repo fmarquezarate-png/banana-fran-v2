@@ -34,15 +34,48 @@ export function useTrips(userId: string | undefined) {
   }
 
   async function createTrip(
-    values: Pick<Trip, 'name' | 'description' | 'start_date' | 'end_date' | 'destination_slug'>
+    values: Pick<Trip, 'name' | 'description' | 'start_date' | 'end_date' | 'destination_slug' | 'travelers'>
   ) {
-    if (!userId) return
+    if (!userId) throw new Error('No hay sesión activa')
+
+    // Ensure profile row exists (FK requirement); use upsert without ignoreDuplicates
+    // so conflicts update the email in case it changed
+    const { data: authData } = await supabase.auth.getUser()
+    if (authData?.user) {
+      const { error: profileErr } = await supabase.from('profiles').upsert(
+        { id: authData.user.id, email: authData.user.email ?? '' },
+        { onConflict: 'id' }
+      )
+      if (profileErr) console.error('Profile upsert failed:', profileErr)
+    }
+
     const { data, error } = await supabase
       .from('trips')
       .insert({ ...values, user_id: userId })
       .select()
       .single()
-    if (error) throw error
+
+    if (error) {
+      // If the travelers column doesn't exist yet (migration not run), retry without it
+      const missingCol = error.code === '42703' || error.message?.includes('travelers')
+      if (missingCol) {
+        console.warn('travelers column missing — run migration 001. Retrying without it.')
+        const { travelers: _t, ...rest } = values
+        const retry = await supabase
+          .from('trips')
+          .insert({ ...rest, user_id: userId })
+          .select()
+          .single()
+        if (retry.error) {
+          console.error('createTrip retry error:', retry.error)
+          throw retry.error
+        }
+        setTrips((prev) => [...prev, retry.data])
+        return retry.data
+      }
+      console.error('createTrip insert error:', error)
+      throw error
+    }
     setTrips((prev) => [...prev, data])
     return data
   }
