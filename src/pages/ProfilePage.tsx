@@ -3,9 +3,17 @@ import toast from 'react-hot-toast'
 import { useAuth } from '@/hooks/useAuth'
 import { useProfile } from '@/hooks/useProfile'
 
-const APP_VERSION = '0.6.0'
+const APP_VERSION = '0.6.1'
 
 const CHANGELOG: { v: string; date: string; notes: string[] }[] = [
+  { v: '0.6.1', date: 'Abr 2026', notes: [
+    'Cursor solo visible cuando hay algo clickeable (pointer sobre links/botones)',
+    'Zona Warning restaurada: letras en rojo/amarillo, tarjetas con franja policial amarillo/negro',
+    'Fondo de Zona Warning con rayas diagonales en toda la pantalla',
+    'Home oculta destinos hasta completar el cuestionario',
+    'Fix CTA del quiz: ahora lleva correctamente a /viajes/nuevo',
+    '5 destinos nuevos: Lisboa, Budapest, Azores, Praga, Marrakech',
+  ]},
   { v: '0.6.0', date: 'Abr 2026', notes: [
     'PWA instalable desde Safari y Chrome (manifest + meta tags)',
     'Fix login en PWA: sesión se sincroniza al volver desde el browser',

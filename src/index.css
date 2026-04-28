@@ -16,6 +16,22 @@
 
   * {
     box-sizing: border-box;
+    cursor: default;        /* nunca el cursor de texto en elementos no editables */
+    user-select: none;      /* sin selección accidental */
+  }
+
+  /* Restaurar cursor y selección donde tiene sentido */
+  input, textarea, [contenteditable] {
+    cursor: text;
+    user-select: text;
+  }
+  a, button, select,
+  [role="button"], label,
+  input[type="checkbox"],
+  input[type="radio"],
+  input[type="submit"],
+  input[type="file"] {
+    cursor: pointer;
   }
 
   /* Scrollbar horizontal para tarjetas Netflix-style */
