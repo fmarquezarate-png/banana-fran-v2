@@ -3,9 +3,19 @@ import toast from 'react-hot-toast'
 import { useAuth } from '@/hooks/useAuth'
 import { useProfile } from '@/hooks/useProfile'
 
-const APP_VERSION = '0.5.0'
+const APP_VERSION = '0.6.0'
 
 const CHANGELOG: { v: string; date: string; notes: string[] }[] = [
+  { v: '0.6.0', date: 'Abr 2026', notes: [
+    'PWA instalable desde Safari y Chrome (manifest + meta tags)',
+    'Fix login en PWA: sesión se sincroniza al volver desde el browser',
+    'Saludo usa el nombre real del perfil en lugar del email',
+    'Home muestra CTA del quiz si aún no se ha hecho',
+    'Comparar: hasta 5 destinos en paralelo (antes solo 2)',
+    'Nuevo tab Consolidado: presupuesto combinado por destino con nivel independiente',
+    'Wizard: destinos seleccionables, itinerario según días, aviso de fechas no coincidentes',
+    'Trip creation: tabla recreada sin FK a profiles (fix definitivo)',
+  ]},
   { v: '0.5.0', date: 'Abr 2026', notes: [
     'Fix creación de viaje: función SQL ensure_own_profile con SECURITY DEFINER',
     'Pestaña del navegador renombrada a "The Vacation Planner" con icono ✈️',

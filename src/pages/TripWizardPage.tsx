@@ -242,6 +242,7 @@ export function TripWizardPage() {
       const top = scored.slice(0, 6)
       setResults(top)
       setSelectedId(top[0]?.dest.id ?? null)
+      localStorage.setItem('quizAnswers', JSON.stringify(ans))
       setPhase('results')
     }
   }

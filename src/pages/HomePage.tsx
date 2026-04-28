@@ -7,6 +7,7 @@ import { useFavorites } from '@/contexts/FavoritesContext'
 import { useRatings } from '@/contexts/RatingsContext'
 import { calcBudget, formatPrice, TRIP_DAYS, LEVEL_LABEL, type BudgetLevel, type TripDays } from '@/lib/budget'
 import { useAuth } from '@/hooks/useAuth'
+import { useProfile } from '@/hooks/useProfile'
 
 type SortMode = 'match' | 'price_asc' | 'price_desc' | 'rating'
 
@@ -499,7 +500,10 @@ export function HomePage() {
 
   const { getRating } = useRatings()
   const { user } = useAuth()
-  const userName = user?.email ? user.email.split('@')[0] : null
+  const { profile } = useProfile(user?.id)
+  const userName = profile?.full_name ?? null
+
+  const hasQuiz = typeof window !== 'undefined' && !!localStorage.getItem('quizAnswers')
 
   const perfect = getDestinationsByCategory('perfect')
   const good    = getDestinationsByCategory('good')
@@ -587,6 +591,25 @@ export function HomePage() {
               </button>
             </div>
           </div>
+
+          {/* Quiz CTA — si aún no se ha hecho el quiz */}
+          {!hasQuiz && (
+            <div className="px-4 mb-5">
+              <Link
+                to="/wizard"
+                className="flex items-center gap-4 bg-egeo text-white rounded-2xl p-4 shadow-md hover:bg-egeo-600 transition-colors"
+              >
+                <span className="text-3xl flex-shrink-0">🧭</span>
+                <div className="min-w-0">
+                  <p className="font-semibold text-sm leading-tight">Descubre tu destino ideal</p>
+                  <p className="text-xs text-white/70 mt-0.5">
+                    Responde 9 preguntas y te encontramos el viaje perfecto
+                  </p>
+                </div>
+                <span className="ml-auto text-white/80 text-lg flex-shrink-0">→</span>
+              </Link>
+            </div>
+          )}
 
           {/* Filter bar — solo en vista Lista */}
           {view === 'cards' && (

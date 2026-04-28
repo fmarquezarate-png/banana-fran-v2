@@ -17,9 +17,27 @@ export function useAuth() {
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
       setSession(session)
       setUser(session?.user ?? null)
+      setLoading(false)
     })
 
-    return () => subscription.unsubscribe()
+    // PWA: when user returns from browser (e.g. after clicking magic link in Safari),
+    // re-read the session — Safari and the PWA share localStorage on iOS 16.4+
+    function refreshOnFocus() {
+      supabase.auth.getSession().then(({ data: { session } }) => {
+        setSession(session)
+        setUser(session?.user ?? null)
+      })
+    }
+    document.addEventListener('visibilitychange', () => {
+      if (!document.hidden) refreshOnFocus()
+    })
+    window.addEventListener('focus', refreshOnFocus)
+
+    return () => {
+      subscription.unsubscribe()
+      document.removeEventListener('visibilitychange', refreshOnFocus)
+      window.removeEventListener('focus', refreshOnFocus)
+    }
   }, [])
 
   async function signInWithEmail(email: string) {
