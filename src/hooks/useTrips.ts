@@ -33,14 +33,28 @@ export function useTrips(userId: string | undefined) {
     setLoading(false)
   }
 
+  async function ensureProfile() {
+    // Layer 1: SECURITY DEFINER RPC — bypasses RLS, always safe
+    const { error: rpcErr } = await supabase.rpc('ensure_own_profile')
+
+    if (rpcErr) {
+      // Layer 2: direct upsert fallback (works if RLS allows own-row insert)
+      console.warn('ensure_own_profile RPC failed, trying direct upsert:', rpcErr.message)
+      const { error: upsertErr } = await supabase
+        .from('profiles')
+        .upsert({ id: userId }, { onConflict: 'id' })
+      if (upsertErr) {
+        console.error('Profile upsert fallback also failed:', upsertErr.message)
+      }
+    }
+  }
+
   async function createTrip(
     values: Pick<Trip, 'name' | 'description' | 'start_date' | 'end_date' | 'destination_slug' | 'travelers'>
   ) {
     if (!userId) throw new Error('No hay sesión activa')
 
-    // Guarantee profile row exists via server-side function (SECURITY DEFINER bypasses RLS)
-    const { error: profileErr } = await supabase.rpc('ensure_own_profile')
-    if (profileErr) console.error('ensure_own_profile failed:', profileErr)
+    await ensureProfile()
 
     const { data, error } = await supabase
       .from('trips')
@@ -49,9 +63,13 @@ export function useTrips(userId: string | undefined) {
       .single()
 
     if (error) {
-      // If the travelers column doesn't exist yet (migration not run), retry without it
-      const missingCol = error.code === '42703' || error.message?.includes('travelers')
-      if (missingCol) {
+      // FK violation: profile still doesn't exist after both attempts
+      if (error.code === '23503') {
+        throw new Error('No se pudo crear tu perfil. Cierra sesión y vuelve a entrar.')
+      }
+
+      // travelers column not yet in DB (migration 001 not run) — retry without it
+      if (error.code === '42703' || error.message?.includes('travelers')) {
         console.warn('travelers column missing — run migration 001. Retrying without it.')
         const { travelers: _t, ...rest } = values
         const retry = await supabase
@@ -60,15 +78,20 @@ export function useTrips(userId: string | undefined) {
           .select()
           .single()
         if (retry.error) {
+          if (retry.error.code === '23503') {
+            throw new Error('No se pudo crear tu perfil. Cierra sesión y vuelve a entrar.')
+          }
           console.error('createTrip retry error:', retry.error)
           throw retry.error
         }
         setTrips((prev) => [...prev, retry.data])
         return retry.data
       }
+
       console.error('createTrip insert error:', error)
       throw error
     }
+
     setTrips((prev) => [...prev, data])
     return data
   }

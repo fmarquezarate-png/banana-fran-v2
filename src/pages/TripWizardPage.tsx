@@ -226,7 +226,8 @@ export function TripWizardPage() {
       navigate(trip ? `/viajes/${trip.id}` : '/viajes')
     } catch (err) {
       console.error('Wizard createTrip error:', err)
-      toast.error('Error creando el viaje. Inténtalo de nuevo.')
+      const msg = err instanceof Error ? err.message : 'Error creando el viaje. Inténtalo de nuevo.'
+      toast.error(msg)
     } finally {
       setSaving(false)
     }
