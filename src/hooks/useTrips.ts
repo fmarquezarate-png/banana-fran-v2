@@ -19,7 +19,7 @@ export function useTrips(userId: string | undefined) {
       .from('trips')
       .select('*')
       .eq('user_id', userId)
-      .order('start_date', { ascending: true, nullsFirst: false })
+      .order('created_at', { ascending: false })
     if (error) { toast.error('Error cargando viajes'); console.error(error) }
     else setTrips(data ?? [])
     setLoading(false)
@@ -30,10 +30,6 @@ export function useTrips(userId: string | undefined) {
   ) {
     if (!userId) throw new Error('No hay sesión activa')
 
-    // Ensure profile row exists (SECURITY DEFINER bypasses RLS)
-    const { error: rpcErr } = await supabase.rpc('ensure_own_profile')
-    if (rpcErr) console.warn('ensure_own_profile:', rpcErr.message)
-
     const { data, error } = await supabase
       .from('trips')
       .insert({ ...values, user_id: userId })
@@ -41,7 +37,7 @@ export function useTrips(userId: string | undefined) {
       .single()
 
     if (error) {
-      console.error('createTrip error:', error)
+      console.error('createTrip:', error)
       throw error
     }
 
