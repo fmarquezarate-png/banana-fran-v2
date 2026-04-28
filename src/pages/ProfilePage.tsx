@@ -3,12 +3,27 @@ import toast from 'react-hot-toast'
 import { useAuth } from '@/hooks/useAuth'
 import { useProfile } from '@/hooks/useProfile'
 
+const APP_VERSION = '0.4.0'
+
+const CHANGELOG = [
+  { v: '0.4.0', date: 'Abr 2026', notes: 'Registro con contraseña, viajeros por proyecto, subida de documentos (QRs), cambio de contraseña' },
+  { v: '0.3.0', date: 'Abr 2026', notes: 'Asistente de viaje (encuesta + ranking de destinos), corrección del inicio de sesión' },
+  { v: '0.2.0', date: 'Abr 2026', notes: 'Mapa de destinos, comparar, favoritos, valoraciones con estrellas, filtros y precio personalizado' },
+  { v: '0.1.0', date: 'Abr 2026', notes: 'Lanzamiento inicial: catálogo de 30 destinos, zona warning, login con magic link' },
+]
+
 export function ProfilePage() {
-  const { user, signOut } = useAuth()
+  const { user, signOut, updatePassword } = useAuth()
   const { profile, loading, updateProfile } = useProfile(user?.id)
+
   const [name, setName] = useState('')
   const [editing, setEditing] = useState(false)
   const [saving, setSaving] = useState(false)
+
+  const [changingPwd, setChangingPwd] = useState(false)
+  const [newPwd, setNewPwd] = useState('')
+  const [confirmPwd, setConfirmPwd] = useState('')
+  const [savingPwd, setSavingPwd] = useState(false)
 
   function startEdit() {
     setName(profile?.full_name ?? '')
@@ -31,6 +46,32 @@ export function ProfilePage() {
       toast.error('Error guardando el perfil')
     } finally {
       setSaving(false)
+    }
+  }
+
+  function cancelPwd() {
+    setChangingPwd(false)
+    setNewPwd('')
+    setConfirmPwd('')
+  }
+
+  async function handlePasswordSave() {
+    if (newPwd.length < 6) { toast.error('Mínimo 6 caracteres'); return }
+    if (newPwd !== confirmPwd) { toast.error('Las contraseñas no coinciden'); return }
+    setSavingPwd(true)
+    try {
+      await updatePassword(newPwd)
+      toast.success('Contraseña actualizada')
+      cancelPwd()
+    } catch (err: unknown) {
+      const msg = (err as Error).message?.toLowerCase() ?? ''
+      if (msg.includes('same password')) {
+        toast.error('La nueva contraseña es igual a la actual')
+      } else {
+        toast.error('Error al cambiar la contraseña')
+      }
+    } finally {
+      setSavingPwd(false)
     }
   }
 
@@ -127,16 +168,60 @@ export function ProfilePage() {
             )}
           </div>
 
+          {/* Contraseña */}
+          <div className="card p-5">
+            <div className="flex items-center justify-between mb-3">
+              <h2 className="font-semibold text-gray-800">Contraseña</h2>
+              {!changingPwd && (
+                <button onClick={() => setChangingPwd(true)} className="text-sm text-egeo hover:underline">
+                  Cambiar
+                </button>
+              )}
+            </div>
+
+            {changingPwd ? (
+              <div className="space-y-3">
+                <input
+                  type="password"
+                  value={newPwd}
+                  onChange={e => setNewPwd(e.target.value)}
+                  placeholder="Nueva contraseña (mín. 6 caracteres)"
+                  autoFocus
+                  className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm
+                             focus:outline-none focus:ring-2 focus:ring-egeo/50 focus:border-egeo"
+                />
+                <input
+                  type="password"
+                  value={confirmPwd}
+                  onChange={e => setConfirmPwd(e.target.value)}
+                  placeholder="Repite la nueva contraseña"
+                  className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm
+                             focus:outline-none focus:ring-2 focus:ring-egeo/50 focus:border-egeo"
+                />
+                <div className="flex gap-2">
+                  <button
+                    onClick={handlePasswordSave}
+                    disabled={savingPwd || !newPwd || !confirmPwd}
+                    className="btn-primary text-sm py-2 px-4 disabled:opacity-50"
+                  >
+                    {savingPwd ? 'Guardando…' : 'Guardar'}
+                  </button>
+                  <button onClick={cancelPwd} className="btn-secondary text-sm py-2 px-4">
+                    Cancelar
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <p className="text-gray-400 text-sm">••••••••</p>
+            )}
+          </div>
+
           {/* Info de cuenta */}
           <div className="card p-5 space-y-3">
             <h2 className="font-semibold text-gray-800">Cuenta</h2>
             <div className="flex justify-between text-sm">
               <span className="text-gray-500">Email</span>
               <span className="text-gray-700 font-mono text-xs">{user?.email}</span>
-            </div>
-            <div className="flex justify-between text-sm">
-              <span className="text-gray-500">Acceso</span>
-              <span className="text-gray-700">Magic link</span>
             </div>
             <div className="flex justify-between text-sm">
               <span className="text-gray-500">Miembro desde</span>
@@ -158,6 +243,28 @@ export function ProfilePage() {
           >
             Cerrar sesión
           </button>
+
+          {/* Versión y changelog */}
+          <div className="card p-5">
+            <div className="flex items-center justify-between mb-3">
+              <h2 className="font-semibold text-gray-800">The Vacation Planner</h2>
+              <span className="text-xs bg-egeo/10 text-egeo font-semibold px-2 py-0.5 rounded-full">
+                v{APP_VERSION}
+              </span>
+            </div>
+            <div className="space-y-3">
+              {CHANGELOG.map(entry => (
+                <div key={entry.v} className="border-l-2 border-gray-100 pl-3">
+                  <div className="flex items-center gap-2 mb-0.5">
+                    <span className="text-xs font-semibold text-gray-700">v{entry.v}</span>
+                    <span className="text-xs text-gray-400">{entry.date}</span>
+                  </div>
+                  <p className="text-xs text-gray-500">{entry.notes}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
         </div>
       )}
     </main>
