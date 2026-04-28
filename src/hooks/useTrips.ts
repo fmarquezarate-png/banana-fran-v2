@@ -38,16 +38,9 @@ export function useTrips(userId: string | undefined) {
   ) {
     if (!userId) throw new Error('No hay sesión activa')
 
-    // Ensure profile row exists (FK requirement); use upsert without ignoreDuplicates
-    // so conflicts update the email in case it changed
-    const { data: authData } = await supabase.auth.getUser()
-    if (authData?.user) {
-      const { error: profileErr } = await supabase.from('profiles').upsert(
-        { id: authData.user.id, email: authData.user.email ?? '' },
-        { onConflict: 'id' }
-      )
-      if (profileErr) console.error('Profile upsert failed:', profileErr)
-    }
+    // Guarantee profile row exists via server-side function (SECURITY DEFINER bypasses RLS)
+    const { error: profileErr } = await supabase.rpc('ensure_own_profile')
+    if (profileErr) console.error('ensure_own_profile failed:', profileErr)
 
     const { data, error } = await supabase
       .from('trips')

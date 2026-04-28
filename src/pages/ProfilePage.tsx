@@ -3,13 +3,36 @@ import toast from 'react-hot-toast'
 import { useAuth } from '@/hooks/useAuth'
 import { useProfile } from '@/hooks/useProfile'
 
-const APP_VERSION = '0.4.0'
+const APP_VERSION = '0.5.0'
 
-const CHANGELOG = [
-  { v: '0.4.0', date: 'Abr 2026', notes: 'Registro con contraseña, viajeros por proyecto, subida de documentos (QRs), cambio de contraseña' },
-  { v: '0.3.0', date: 'Abr 2026', notes: 'Asistente de viaje (encuesta + ranking de destinos), corrección del inicio de sesión' },
-  { v: '0.2.0', date: 'Abr 2026', notes: 'Mapa de destinos, comparar, favoritos, valoraciones con estrellas, filtros y precio personalizado' },
-  { v: '0.1.0', date: 'Abr 2026', notes: 'Lanzamiento inicial: catálogo de 30 destinos, zona warning, login con magic link' },
+const CHANGELOG: { v: string; date: string; notes: string[] }[] = [
+  { v: '0.5.0', date: 'Abr 2026', notes: [
+    'Fix creación de viaje: función SQL ensure_own_profile con SECURITY DEFINER',
+    'Pestaña del navegador renombrada a "The Vacation Planner" con icono ✈️',
+    'Changelog expandible al hacer click en la versión',
+    'Mejoras en mensajes de error del registro',
+  ]},
+  { v: '0.4.0', date: 'Abr 2026', notes: [
+    'Registro con contraseña (nueva pestaña en login)',
+    'Número de viajeros por proyecto',
+    'Subida de documentos/QRs dentro del viaje',
+    'Cambio de contraseña desde el perfil',
+  ]},
+  { v: '0.3.0', date: 'Abr 2026', notes: [
+    'Asistente de nuevo viaje: encuesta de 9 preguntas + ranking de destinos',
+    'Corrección crítica del inicio de sesión (magic link y contraseña)',
+  ]},
+  { v: '0.2.0', date: 'Abr 2026', notes: [
+    'Mapa interactivo con todos los destinos',
+    'Comparar destinos en paralelo',
+    'Favoritos y valoraciones con estrellas',
+    'Filtros, ordenación y ajuste de precios personalizado',
+  ]},
+  { v: '0.1.0', date: 'Abr 2026', notes: [
+    'Lanzamiento inicial: catálogo de 30 destinos',
+    'Zona Warning con tema visual propio',
+    'Login con magic link',
+  ]},
 ]
 
 export function ProfilePage() {
@@ -20,6 +43,7 @@ export function ProfilePage() {
   const [editing, setEditing] = useState(false)
   const [saving, setSaving] = useState(false)
 
+  const [changelogOpen, setChangelogOpen] = useState(false)
   const [changingPwd, setChangingPwd] = useState(false)
   const [newPwd, setNewPwd] = useState('')
   const [confirmPwd, setConfirmPwd] = useState('')
@@ -246,23 +270,46 @@ export function ProfilePage() {
 
           {/* Versión y changelog */}
           <div className="card p-5">
-            <div className="flex items-center justify-between mb-3">
+            <button
+              onClick={() => setChangelogOpen(o => !o)}
+              className="w-full flex items-center justify-between"
+            >
               <h2 className="font-semibold text-gray-800">The Vacation Planner</h2>
-              <span className="text-xs bg-egeo/10 text-egeo font-semibold px-2 py-0.5 rounded-full">
-                v{APP_VERSION}
-              </span>
-            </div>
-            <div className="space-y-3">
-              {CHANGELOG.map(entry => (
-                <div key={entry.v} className="border-l-2 border-gray-100 pl-3">
-                  <div className="flex items-center gap-2 mb-0.5">
-                    <span className="text-xs font-semibold text-gray-700">v{entry.v}</span>
-                    <span className="text-xs text-gray-400">{entry.date}</span>
+              <div className="flex items-center gap-2">
+                <span className="text-xs bg-egeo/10 text-egeo font-semibold px-2 py-0.5 rounded-full">
+                  v{APP_VERSION}
+                </span>
+                <span className="text-gray-400 text-xs">{changelogOpen ? '▲' : '▼'}</span>
+              </div>
+            </button>
+
+            {changelogOpen && (
+              <div className="mt-4 space-y-4">
+                {CHANGELOG.map((entry, i) => (
+                  <div key={entry.v} className="border-l-2 border-gray-100 pl-3">
+                    <div className="flex items-center gap-2 mb-1">
+                      <span className={`text-xs font-bold ${i === 0 ? 'text-egeo' : 'text-gray-700'}`}>
+                        v{entry.v}
+                      </span>
+                      <span className="text-xs text-gray-400">{entry.date}</span>
+                      {i === 0 && (
+                        <span className="text-xs bg-egeo/10 text-egeo px-1.5 py-0.5 rounded-full font-semibold">
+                          Actual
+                        </span>
+                      )}
+                    </div>
+                    <ul className="space-y-0.5">
+                      {entry.notes.map((note, j) => (
+                        <li key={j} className="text-xs text-gray-500 flex items-start gap-1">
+                          <span className="text-gray-300 flex-shrink-0">·</span>
+                          {note}
+                        </li>
+                      ))}
+                    </ul>
                   </div>
-                  <p className="text-xs text-gray-500">{entry.notes}</p>
-                </div>
-              ))}
-            </div>
+                ))}
+              </div>
+            )}
           </div>
 
         </div>
