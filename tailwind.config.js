@@ -36,9 +36,9 @@ export default {
         mono: ['JetBrains Mono', 'Fira Code', 'monospace'],
       },
       backgroundImage: {
-        // Stripes diagonales para modo warning
+        // Stripes diagonales grises — sensación de cinta policial en Warning zone
         'warning-stripes':
-          'repeating-linear-gradient(45deg, #ffd700 0px, #ffd700 10px, #000 10px, #000 20px)',
+          'repeating-linear-gradient(45deg, #111 0px, #111 20px, #1d1d1d 20px, #1d1d1d 40px)',
       },
     },
   },

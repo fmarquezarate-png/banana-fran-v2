@@ -17,7 +17,7 @@ export function AllDestinationsMap({ destinations }: Props) {
   const navigate = useNavigate()
 
   return (
-    <div className="rounded-2xl overflow-hidden border border-gray-100 shadow-sm h-[420px] sm:h-[520px]">
+    <div className="rounded-2xl overflow-hidden border border-gray-100 shadow-sm h-[300px] sm:h-[380px]">
       <MapContainer
         center={[39, 18]}
         zoom={4}
