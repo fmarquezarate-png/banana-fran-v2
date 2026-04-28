@@ -33,29 +33,46 @@ export function useTrips(userId: string | undefined) {
     setLoading(false)
   }
 
-  async function ensureProfile() {
-    // Layer 1: SECURITY DEFINER RPC — bypasses RLS, always safe
-    const { error: rpcErr } = await supabase.rpc('ensure_own_profile')
-
-    if (rpcErr) {
-      // Layer 2: direct upsert fallback (works if RLS allows own-row insert)
-      console.warn('ensure_own_profile RPC failed, trying direct upsert:', rpcErr.message)
-      const { error: upsertErr } = await supabase
-        .from('profiles')
-        .upsert({ id: userId }, { onConflict: 'id' })
-      if (upsertErr) {
-        console.error('Profile upsert fallback also failed:', upsertErr.message)
-      }
-    }
-  }
-
   async function createTrip(
     values: Pick<Trip, 'name' | 'description' | 'start_date' | 'end_date' | 'destination_slug' | 'travelers'>
   ) {
     if (!userId) throw new Error('No hay sesión activa')
 
-    await ensureProfile()
+    const diag: string[] = []
 
+    // ── Step 1: RPC ensure_own_profile ─────────────────────────
+    const { error: rpcErr } = await supabase.rpc('ensure_own_profile')
+    if (rpcErr) {
+      diag.push(`RPC ensure_own_profile → ERROR ${rpcErr.code}: ${rpcErr.message}`)
+    } else {
+      diag.push('RPC ensure_own_profile → OK')
+    }
+
+    // ── Step 2: Direct profile upsert (fallback / verify) ──────
+    const { error: upsertErr } = await supabase
+      .from('profiles')
+      .upsert({ id: userId }, { onConflict: 'id' })
+    if (upsertErr) {
+      diag.push(`profiles upsert → ERROR ${upsertErr.code}: ${upsertErr.message}`)
+    } else {
+      diag.push('profiles upsert → OK')
+    }
+
+    // ── Step 3: Verify profile row exists ─────────────────────
+    const { data: profileRow, error: profileSelectErr } = await supabase
+      .from('profiles')
+      .select('id')
+      .eq('id', userId)
+      .maybeSingle()
+    if (profileSelectErr) {
+      diag.push(`profiles select → ERROR ${profileSelectErr.code}: ${profileSelectErr.message}`)
+    } else if (!profileRow) {
+      diag.push('profiles select → ROW NOT FOUND (FK will fail!)')
+    } else {
+      diag.push('profiles select → row exists ✓')
+    }
+
+    // ── Step 4: Insert trip ────────────────────────────────────
     const { data, error } = await supabase
       .from('trips')
       .insert({ ...values, user_id: userId })
@@ -63,14 +80,22 @@ export function useTrips(userId: string | undefined) {
       .single()
 
     if (error) {
-      // FK violation: profile still doesn't exist after both attempts
-      if (error.code === '23503') {
-        throw new Error('No se pudo crear tu perfil. Cierra sesión y vuelve a entrar.')
-      }
+      diag.push(`trips insert → ERROR ${error.code}: ${error.message}`)
 
-      // travelers column not yet in DB (migration 001 not run) — retry without it
+      // Log full diagnostic to console
+      console.group('🔴 createTrip FAILED — diagnostic')
+      diag.forEach(l => console.log(l))
+      console.log('userId:', userId)
+      console.log('values:', values)
+      console.groupEnd()
+
+      // Show diagnostic in toast (truncated) + full detail in console
+      const summary = diag.find(l => l.includes('ERROR')) ?? error.message
+      toast.error(`Error: ${summary}`, { duration: 8000 })
+
+      // travelers column missing → retry without it
       if (error.code === '42703' || error.message?.includes('travelers')) {
-        console.warn('travelers column missing — run migration 001. Retrying without it.')
+        console.warn('Retrying without travelers column...')
         const { travelers: _t, ...rest } = values
         const retry = await supabase
           .from('trips')
@@ -78,19 +103,20 @@ export function useTrips(userId: string | undefined) {
           .select()
           .single()
         if (retry.error) {
-          if (retry.error.code === '23503') {
-            throw new Error('No se pudo crear tu perfil. Cierra sesión y vuelve a entrar.')
-          }
-          console.error('createTrip retry error:', retry.error)
+          console.error('Retry also failed:', retry.error)
           throw retry.error
         }
         setTrips((prev) => [...prev, retry.data])
         return retry.data
       }
 
-      console.error('createTrip insert error:', error)
       throw error
     }
+
+    diag.push('trips insert → OK ✓')
+    console.group('✅ createTrip OK — diagnostic')
+    diag.forEach(l => console.log(l))
+    console.groupEnd()
 
     setTrips((prev) => [...prev, data])
     return data
