@@ -6,6 +6,7 @@ import { DestinationCard } from '@/components/destinations/DestinationCard'
 import { useFavorites } from '@/contexts/FavoritesContext'
 import { useRatings } from '@/contexts/RatingsContext'
 import { calcBudget, formatPrice } from '@/lib/budget'
+import { useAuth } from '@/hooks/useAuth'
 
 type SortMode = 'match' | 'price_asc' | 'price_desc' | 'rating'
 
@@ -297,6 +298,8 @@ export function HomePage() {
   const [minRating, setMinRating] = useState<0|1|2|3|4|5>(0)
 
   const { getRating } = useRatings()
+  const { user } = useAuth()
+  const userName = user?.email ? user.email.split('@')[0] : null
 
   const perfect = getDestinationsByCategory('perfect')
   const good    = getDestinationsByCategory('good')
@@ -364,7 +367,7 @@ export function HomePage() {
           <div className="px-4 mb-4 flex items-start justify-between gap-3">
             <div>
               <h1 className="font-display text-3xl sm:text-4xl font-bold text-gray-900 leading-tight">
-                Hola Fran 👋<br />
+                {userName ? `Hola ${userName} 👋` : 'Hola 👋'}<br />
                 <span className="text-egeo">¿A dónde vamos?</span>
               </h1>
               <p className="text-gray-400 text-sm mt-2">
