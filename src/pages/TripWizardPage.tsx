@@ -1,14 +1,15 @@
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import toast from 'react-hot-toast'
 import { DESTINATIONS } from '@/data/destinations'
+import type { Destination } from '@/data/destinations'
 import { useAuth } from '@/hooks/useAuth'
 import { useTrips } from '@/hooks/useTrips'
 import { scoreDests, type TripAnswers, type ScoredDestination } from '@/lib/tripMatcher'
 import { calcBudget, formatPrice } from '@/lib/budget'
 
 // ─────────────────────────────────────────────────────────────
-// Definición de preguntas
+// Steps
 // ─────────────────────────────────────────────────────────────
 type Step =
   | { key: 'days';      q: string; type: 'single'; opts: { v: TripAnswers['days'];      l: string; e: string }[] }
@@ -34,10 +35,10 @@ const STEPS: Step[] = [
   {
     key: 'travelers', q: '¿Cuántas personas viajan?', type: 'single',
     opts: [
-      { v: '1',  l: 'Solo/a',             e: '🧍' },
-      { v: '2',  l: 'Dos personas',        e: '👫' },
-      { v: '3',  l: 'Tres personas',       e: '👨‍👩‍👧' },
-      { v: '4+', l: 'Cuatro o más',        e: '👨‍👩‍👧‍👦' },
+      { v: '1',  l: 'Solo/a',        e: '🧍' },
+      { v: '2',  l: 'Dos personas',  e: '👫' },
+      { v: '3',  l: 'Tres personas', e: '👨‍👩‍👧' },
+      { v: '4+', l: 'Cuatro o más',  e: '👨‍👩‍👧‍👦' },
     ],
   },
   {
@@ -92,7 +93,7 @@ const STEPS: Step[] = [
       { v: 'beaches',   l: 'Playas espectaculares',   e: '🏝️' },
       { v: 'history',   l: 'Historia y arquitectura', e: '🏛️' },
       { v: 'nightlife', l: 'Vida nocturna',           e: '🎉' },
-      { v: 'peace',     l: 'Tranquilidad total',      e: '🧘' },
+      { v: 'peace',     l: 'Tranquilidad total',       e: '🧘' },
     ],
   },
   {
@@ -109,44 +110,80 @@ const TRAVELERS_NUM: Record<TripAnswers['travelers'], number> = {
   '1': 1, '2': 2, '3': 3, '4+': 4,
 }
 
+// Days range from quiz answer → [min, max]
+const DAYS_RANGE: Record<TripAnswers['days'], [number, number]> = {
+  '3-5':   [3, 5],
+  '5-7':   [5, 7],
+  '7-10':  [7, 10],
+  '10-14': [10, 14],
+}
+
+// Which plan to show based on quiz days answer
+function getPlan(dest: Destination, daysAnswer: TripAnswers['days']) {
+  switch (daysAnswer) {
+    case '3-5':   return { n: 3,  plan: dest.plans3,  isShort: true  }
+    case '5-7':   return { n: 5,  plan: dest.plans5,  isShort: true  }
+    case '7-10':  return { n: 7,  plan: dest.plans7,  isShort: false }
+    case '10-14': return { n: 10, plan: dest.plans10, isShort: false }
+  }
+}
+
 // ─────────────────────────────────────────────────────────────
-// Componente resultado
+// ResultCard — seleccionable
 // ─────────────────────────────────────────────────────────────
-function ResultCard({ sd, rank, travelers }: { sd: ScoredDestination; rank: number; travelers: number }) {
-  const navigate = useNavigate()
+function ResultCard({
+  sd, rank, travelers, selected, onSelect,
+}: {
+  sd: ScoredDestination
+  rank: number
+  travelers: number
+  selected: boolean
+  onSelect: () => void
+}) {
   const budget = calcBudget(sd.dest, 7, 'medio', true)
   const totalMin = budget.totalMin * travelers
   const totalMax = budget.totalMax * travelers
-  const ppLabel = travelers > 1 ? ` · ${formatPrice(budget.totalMid)} pp` : ''
 
   return (
     <div
-      onClick={() => navigate(`/destino/${sd.dest.id}`)}
-      className="card overflow-hidden cursor-pointer hover:shadow-lg transition-all duration-300 hover:-translate-y-0.5"
+      onClick={onSelect}
+      className={`card overflow-hidden cursor-pointer transition-all duration-200 ${
+        selected
+          ? 'ring-2 ring-egeo shadow-md -translate-y-0.5'
+          : 'hover:shadow-md hover:-translate-y-0.5'
+      }`}
     >
       <div className="relative h-32 bg-gray-200">
-        <img
-          src={sd.dest.images[0]}
-          alt={sd.dest.name}
-          className="w-full h-full object-cover"
-          loading="lazy"
-        />
+        <img src={sd.dest.images[0]} alt={sd.dest.name} className="w-full h-full object-cover" loading="lazy" />
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-        <span className="absolute top-2 left-2 bg-egeo text-white text-xs font-bold px-2 py-1 rounded-full">
-          #{rank} · {sd.score}% match
-        </span>
+        {selected ? (
+          <span className="absolute top-2 left-2 bg-egeo text-white text-xs font-bold px-2 py-1 rounded-full flex items-center gap-1">
+            ✓ Elegido
+          </span>
+        ) : (
+          <span className="absolute top-2 left-2 bg-black/50 text-white text-xs font-bold px-2 py-1 rounded-full">
+            #{rank} · {sd.score}%
+          </span>
+        )}
       </div>
       <div className="p-3">
         <p className="font-display font-bold text-gray-900 text-sm">{sd.dest.name}</p>
-        <p className="text-xs text-gray-500 mb-2">{sd.dest.country}</p>
+        <p className="text-xs text-gray-500 mb-1">{sd.dest.country}</p>
         <p className="text-xs text-gray-400 mb-2">
-          {formatPrice(totalMin)}–{formatPrice(totalMax)} total{ppLabel} / 7 días
+          {formatPrice(totalMin)}–{formatPrice(totalMax)} · 7 días
         </p>
         {sd.reasons.slice(0, 2).map((r, i) => (
           <p key={i} className="text-xs text-egeo flex items-start gap-1">
             <span className="flex-shrink-0">✓</span> {r}
           </p>
         ))}
+        <Link
+          to={`/destino/${sd.dest.id}`}
+          onClick={e => e.stopPropagation()}
+          className="mt-2 text-xs text-gray-400 hover:text-egeo underline block"
+        >
+          Ver ficha completa →
+        </Link>
       </div>
     </div>
   )
@@ -165,20 +202,23 @@ export function TripWizardPage() {
   const { user } = useAuth()
   const { createTrip } = useTrips(user?.id)
 
-  const [step, setStep] = useState(0)
+  const [step, setStep]       = useState(0)
   const [answers, setAnswers] = useState<TripAnswers>(DEFAULT_ANSWERS)
-  const [phase, setPhase] = useState<'quiz' | 'results' | 'create'>('quiz')
+  const [phase, setPhase]     = useState<'quiz' | 'results' | 'create'>('quiz')
   const [results, setResults] = useState<ScoredDestination[]>([])
-  const [tripName, setTripName] = useState('')
-  const [startDate, setStartDate] = useState('')
-  const [endDate, setEndDate] = useState('')
-  const [saving, setSaving] = useState(false)
+  const [selectedId, setSelectedId] = useState<string | null>(null)
 
-  const current = STEPS[step]
-  const progress = (step / STEPS.length) * 100
+  const [tripName,   setTripName]   = useState('')
+  const [startDate,  setStartDate]  = useState('')
+  const [endDate,    setEndDate]    = useState('')
+  const [saving,     setSaving]     = useState(false)
+
+  const current      = STEPS[step]
+  const progress     = (step / STEPS.length) * 100
   const travelersNum = TRAVELERS_NUM[answers.travelers]
+  const selectedDest = results.find(r => r.dest.id === selectedId)?.dest ?? null
 
-  // ── Handlers ──────────────────────────────────────────────
+  // ── Handlers ────────────────────────────────────────────────
   function selectSingle(key: string, value: string) {
     const updated = { ...answers, [key]: value }
     setAnswers(updated)
@@ -186,13 +226,12 @@ export function TripWizardPage() {
   }
 
   function toggleMulti(value: string) {
-    setAnswers(prev => {
-      const cur = prev.musts
-      return {
-        ...prev,
-        musts: cur.includes(value) ? cur.filter(v => v !== value) : [...cur, value],
-      }
-    })
+    setAnswers(prev => ({
+      ...prev,
+      musts: prev.musts.includes(value)
+        ? prev.musts.filter(v => v !== value)
+        : [...prev.musts, value],
+    }))
   }
 
   function advance(ans = answers) {
@@ -200,7 +239,9 @@ export function TripWizardPage() {
       setStep(s => s + 1)
     } else {
       const scored = scoreDests(DESTINATIONS, ans)
-      setResults(scored.slice(0, 6))
+      const top = scored.slice(0, 6)
+      setResults(top)
+      setSelectedId(top[0]?.dest.id ?? null)
       setPhase('results')
     }
   }
@@ -210,16 +251,34 @@ export function TripWizardPage() {
     else navigate('/viajes')
   }
 
+  function goToCreate() {
+    if (!selectedDest) {
+      toast.error('Elige al menos un destino para continuar')
+      return
+    }
+    setTripName(`${selectedDest.shortName} ${new Date().getFullYear() + (new Date().getMonth() >= 8 ? 1 : 0)}`)
+    setPhase('create')
+  }
+
+  // Date mismatch detection
+  const actualDays = startDate && endDate
+    ? Math.round((new Date(endDate).getTime() - new Date(startDate).getTime()) / 86_400_000)
+    : null
+  const [daysMin, daysMax] = DAYS_RANGE[answers.days]
+  const dateMismatch = actualDays !== null && (actualDays < daysMin || actualDays > daysMax)
+  const [ignoreMismatch, setIgnoreMismatch] = useState(false)
+
   async function handleCreate() {
-    if (!tripName.trim()) return
+    if (!selectedDest) { toast.error('Selecciona un destino'); return }
+    if (!tripName.trim()) { toast.error('Ponle un nombre al viaje'); return }
     setSaving(true)
     try {
       const trip = await createTrip({
         name: tripName.trim(),
-        description: `Viaje planificado con el asistente — ${results[0]?.dest.name ?? ''}`,
+        description: `Viaje a ${selectedDest.name} — planificado con el asistente`,
         start_date: startDate || null,
-        end_date: endDate || null,
-        destination_slug: results[0]?.dest.id ?? null,
+        end_date:   endDate   || null,
+        destination_slug: selectedDest.id,
         travelers: travelersNum,
       })
       toast.success('¡Viaje creado!')
@@ -233,28 +292,33 @@ export function TripWizardPage() {
     }
   }
 
-  // ── Phase: Results ─────────────────────────────────────────
+  // ── Phase: Results ───────────────────────────────────────────
   if (phase === 'results') {
     return (
       <main className="max-w-2xl mx-auto px-4 py-6 pb-24 sm:pb-8">
-        <div className="mb-6">
+        <div className="mb-5">
           <p className="text-xs text-gray-400 mb-1">Basado en tus respuestas</p>
-          <h1 className="font-display text-2xl font-bold text-gray-900">
-            Vuestros mejores destinos
-          </h1>
+          <h1 className="font-display text-2xl font-bold text-gray-900">Vuestros mejores destinos</h1>
           <p className="text-sm text-gray-500 mt-1">
-            Precios para {travelersNum} {travelersNum === 1 ? 'persona' : 'personas'} · 7 días.
-            Toca cualquiera para ver la ficha completa.
+            Toca el que más os convenza para seleccionarlo.
           </p>
         </div>
 
-        <div className="grid grid-cols-2 gap-3 mb-8">
+        <div className="grid grid-cols-2 gap-3 mb-6">
           {results.map((sd, i) => (
-            <ResultCard key={sd.dest.id} sd={sd} rank={i + 1} travelers={travelersNum} />
+            <ResultCard
+              key={sd.dest.id}
+              sd={sd}
+              rank={i + 1}
+              travelers={travelersNum}
+              selected={sd.dest.id === selectedId}
+              onSelect={() => setSelectedId(sd.dest.id)}
+            />
           ))}
         </div>
 
-        <div className="flex gap-3">
+        {/* CTA bar */}
+        <div className="sticky bottom-4 sm:static flex gap-3 bg-crema/90 backdrop-blur pt-2 pb-1">
           <button
             onClick={() => { setPhase('quiz'); setStep(0) }}
             className="btn-secondary flex-shrink-0 px-4 text-sm"
@@ -262,48 +326,64 @@ export function TripWizardPage() {
             ← Repetir
           </button>
           <button
-            onClick={() => setPhase('create')}
-            className="btn-primary flex-1 text-sm"
+            onClick={goToCreate}
+            disabled={!selectedId}
+            className="btn-primary flex-1 text-sm disabled:opacity-40"
           >
-            Crear viaje con estos destinos →
+            {selectedDest
+              ? `Continuar con ${selectedDest.shortName} →`
+              : 'Elige un destino para continuar'}
           </button>
         </div>
       </main>
     )
   }
 
-  // ── Phase: Create ──────────────────────────────────────────
-  if (phase === 'create') {
+  // ── Phase: Create ────────────────────────────────────────────
+  if (phase === 'create' && selectedDest) {
+    const { n: planDays, plan, isShort } = getPlan(selectedDest, answers.days)
+
     return (
       <main className="max-w-lg mx-auto px-4 py-6 pb-24 sm:pb-8">
-        <button onClick={() => setPhase('results')} className="text-sm text-gray-400 hover:text-egeo mb-6 block">
-          ← Volver a resultados
+        <button onClick={() => setPhase('results')} className="text-sm text-gray-400 hover:text-egeo mb-5 block">
+          ← Cambiar destino
         </button>
-        <h1 className="font-display text-2xl font-bold text-gray-900 mb-1">Crear el viaje</h1>
-        <p className="text-gray-500 text-sm mb-6">
-          Destino sugerido: <strong>{results[0]?.dest.name}</strong> · {travelersNum} {travelersNum === 1 ? 'viajero' : 'viajeros'}
-        </p>
 
-        <div className="card p-5 space-y-4">
+        {/* Destino elegido */}
+        <div className="flex items-center gap-3 mb-6">
+          <img
+            src={selectedDest.images[0]}
+            alt={selectedDest.name}
+            className="w-14 h-14 rounded-xl object-cover flex-shrink-0"
+          />
+          <div>
+            <p className="text-xs text-gray-400">Destino elegido</p>
+            <h1 className="font-display text-xl font-bold text-gray-900 leading-tight">{selectedDest.name}</h1>
+            <p className="text-xs text-gray-500">{selectedDest.country} · {travelersNum} {travelersNum === 1 ? 'viajero' : 'viajeros'}</p>
+          </div>
+        </div>
+
+        {/* Formulario */}
+        <div className="card p-5 space-y-4 mb-5">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Nombre del viaje *</label>
             <input
               type="text"
               value={tripName}
               onChange={e => setTripName(e.target.value)}
-              placeholder={`${results[0]?.dest.shortName ?? 'Viaje'} 2025`}
               autoFocus
               className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm
                          focus:outline-none focus:ring-2 focus:ring-egeo/50"
             />
           </div>
+
           <div className="grid grid-cols-2 gap-3">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">Salida</label>
               <input
                 type="date"
                 value={startDate}
-                onChange={e => setStartDate(e.target.value)}
+                onChange={e => { setStartDate(e.target.value); setIgnoreMismatch(false) }}
                 className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm
                            focus:outline-none focus:ring-2 focus:ring-egeo/50"
               />
@@ -314,12 +394,34 @@ export function TripWizardPage() {
                 type="date"
                 value={endDate}
                 min={startDate}
-                onChange={e => setEndDate(e.target.value)}
+                onChange={e => { setEndDate(e.target.value); setIgnoreMismatch(false) }}
                 className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm
                            focus:outline-none focus:ring-2 focus:ring-egeo/50"
               />
             </div>
           </div>
+
+          {/* Mismatch warning — non-blocking */}
+          {dateMismatch && !ignoreMismatch && (
+            <div className="bg-amber-50 border border-amber-200 rounded-xl p-3 flex items-start justify-between gap-3">
+              <div>
+                <p className="text-xs font-semibold text-amber-700">
+                  Los días no coinciden con el programa
+                </p>
+                <p className="text-xs text-amber-600 mt-0.5">
+                  Elegiste {daysMin}–{daysMax} días en el quiz, pero las fechas son {actualDays} días.
+                  El programa mostrado es de {planDays} días.
+                </p>
+              </div>
+              <button
+                onClick={() => setIgnoreMismatch(true)}
+                className="text-xs text-amber-500 hover:text-amber-700 font-semibold flex-shrink-0"
+              >
+                Continuar igual
+              </button>
+            </div>
+          )}
+
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Viajeros</label>
             <select
@@ -334,6 +436,7 @@ export function TripWizardPage() {
               <option value="4+">4 o más personas</option>
             </select>
           </div>
+
           <button
             onClick={handleCreate}
             disabled={saving || !tripName.trim()}
@@ -342,41 +445,58 @@ export function TripWizardPage() {
             {saving ? 'Creando…' : '🎉 Crear viaje'}
           </button>
         </div>
+
+        {/* Itinerario sugerido */}
+        <div className="card p-5">
+          <p className="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-3">
+            Programa sugerido · {planDays} días
+          </p>
+          {isShort ? (
+            <ul className="space-y-2">
+              {(plan as string[]).map((item, i) => (
+                <li key={i} className="flex items-start gap-2 text-sm text-gray-600">
+                  <span className="text-egeo font-bold flex-shrink-0">D{i + 1}</span>
+                  {item}
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <ul className="space-y-3">
+              {(plan as [string, string, string][]).map(([label, title, text], i) => (
+                <li key={i} className="border-l-2 border-egeo/20 pl-3">
+                  <p className="text-xs font-bold text-egeo">{label}</p>
+                  <p className="text-sm font-semibold text-gray-800">{title}</p>
+                  <p className="text-xs text-gray-500 mt-0.5 line-clamp-2">{text}</p>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
       </main>
     )
   }
 
-  // ── Phase: Quiz ────────────────────────────────────────────
-  const isMulti = current.type === 'multi'
+  // ── Phase: Quiz ──────────────────────────────────────────────
+  const isMulti      = current.type === 'multi'
   const selectedMulti = answers.musts
 
   return (
     <main className="max-w-lg mx-auto px-4 py-6 pb-24 sm:pb-8">
-      {/* Header con progreso */}
       <div className="flex items-center gap-3 mb-8">
-        <button onClick={back} className="text-gray-400 hover:text-gray-700 flex-shrink-0 text-lg">
-          ←
-        </button>
+        <button onClick={back} className="text-gray-400 hover:text-gray-700 flex-shrink-0 text-lg">←</button>
         <div className="flex-1">
           <div className="flex justify-between text-xs text-gray-400 mb-1.5">
             <span>Pregunta {step + 1} de {STEPS.length}</span>
             <span>{Math.round(progress)}%</span>
           </div>
           <div className="h-1.5 bg-gray-100 rounded-full overflow-hidden">
-            <div
-              className="h-full bg-egeo rounded-full transition-all duration-500"
-              style={{ width: `${progress}%` }}
-            />
+            <div className="h-full bg-egeo rounded-full transition-all duration-500" style={{ width: `${progress}%` }} />
           </div>
         </div>
       </div>
 
-      {/* Pregunta */}
-      <h2 className="font-display text-2xl font-bold text-gray-900 mb-6 leading-snug">
-        {current.q}
-      </h2>
+      <h2 className="font-display text-2xl font-bold text-gray-900 mb-6 leading-snug">{current.q}</h2>
 
-      {/* Opciones */}
       <div className="space-y-3">
         {current.opts.map(opt => {
           const isSelected = isMulti
@@ -395,24 +515,16 @@ export function TripWizardPage() {
               }`}
             >
               <span className="text-2xl flex-shrink-0">{opt.e}</span>
-              <span className={`font-medium text-sm ${isSelected ? 'text-egeo' : 'text-gray-700'}`}>
-                {opt.l}
-              </span>
-              {isSelected && (
-                <span className="ml-auto text-egeo font-bold flex-shrink-0">✓</span>
-              )}
+              <span className={`font-medium text-sm ${isSelected ? 'text-egeo' : 'text-gray-700'}`}>{opt.l}</span>
+              {isSelected && <span className="ml-auto text-egeo font-bold flex-shrink-0">✓</span>}
             </button>
           )
         })}
       </div>
 
-      {/* Botón continuar (solo en multi-select) */}
       {isMulti && (
-        <div className="mt-6 flex gap-3">
-          <button
-            onClick={() => advance()}
-            className="btn-primary flex-1"
-          >
+        <div className="mt-6">
+          <button onClick={() => advance()} className="btn-primary w-full">
             {selectedMulti.length === 0 ? 'Saltar' : `Continuar (${selectedMulti.length} elegidos)`}
           </button>
         </div>
