@@ -60,11 +60,17 @@ export function LoginPage() {
       setRegistered(true)
     } catch (err: unknown) {
       const msg = (err as Error).message?.toLowerCase() ?? ''
-      if (msg.includes('already registered') || msg.includes('already exists')) {
-        toast.error('Ya existe una cuenta con ese email — inicia sesión')
+      console.error('signUp error:', err)
+      if (msg.includes('already registered') || msg.includes('already exists') || msg.includes('user already')) {
+        toast.error('Ya existe una cuenta con ese email — usa "Entrar" o el magic link')
         switchMode('password')
+      } else if (msg.includes('rate limit') || msg.includes('too many')) {
+        toast.error('Demasiados intentos. Espera unos minutos e inténtalo de nuevo.')
+      } else if (msg.includes('signup') && msg.includes('disabled')) {
+        toast.error('El registro no está habilitado. Usa el magic link para entrar.')
+        switchMode('magic')
       } else {
-        toast.error('Error creando la cuenta. Inténtalo de nuevo.')
+        toast.error((err as Error).message || 'Error creando la cuenta. Inténtalo de nuevo.')
       }
     } finally {
       setLoading(false)
