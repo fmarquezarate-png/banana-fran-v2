@@ -13,6 +13,7 @@ import { TripsPage } from '@/pages/TripsPage'
 import { TripDetailPage } from '@/pages/TripDetailPage'
 import { TripPhotosPage } from '@/pages/TripPhotosPage'
 import { TripJournalPage } from '@/pages/TripJournalPage'
+import { TripWizardPage } from '@/pages/TripWizardPage'
 import { ProfilePage } from '@/pages/ProfilePage'
 
 const LOADING_EMOJIS = ['✈️', '🛳️', '🏖️', '⛰️', '🧳', '🌍', '🗺️', '🍌']
@@ -42,6 +43,7 @@ function AuthenticatedApp() {
         <Route path="/" element={<HomePage />} />
         <Route path="/destino/:id" element={<DestinationPage />} />
         <Route path="/viajes" element={<TripsPage />} />
+        <Route path="/viajes/nuevo" element={<TripWizardPage />} />
         <Route path="/viajes/:id" element={<TripDetailPage />} />
         <Route path="/viajes/:id/fotos" element={<TripPhotosPage />} />
         <Route path="/viajes/:id/diario" element={<TripJournalPage />} />

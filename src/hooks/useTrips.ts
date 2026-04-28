@@ -36,7 +36,18 @@ export function useTrips(userId: string | undefined) {
   async function createTrip(
     values: Pick<Trip, 'name' | 'description' | 'start_date' | 'end_date' | 'destination_slug'>
   ) {
-    if (!userId) return
+    if (!userId) throw new Error('No hay sesión activa')
+
+    // Garantizar que el perfil existe (necesario si el usuario se registró con contraseña
+    // y el trigger de Supabase no se ejecutó en ese entorno)
+    const { data: authData } = await supabase.auth.getUser()
+    if (authData?.user) {
+      await supabase.from('profiles').upsert(
+        { id: authData.user.id, email: authData.user.email ?? '' },
+        { onConflict: 'id', ignoreDuplicates: true }
+      )
+    }
+
     const { data, error } = await supabase
       .from('trips')
       .insert({ ...values, user_id: userId })

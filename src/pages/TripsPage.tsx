@@ -1,6 +1,4 @@
-import { useState } from 'react'
-import { Link } from 'react-router-dom'
-import toast from 'react-hot-toast'
+import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '@/hooks/useAuth'
 import { useTrips } from '@/hooks/useTrips'
 import type { Trip } from '@/types/database'
@@ -28,104 +26,6 @@ function getTripStatus(trip: Trip): { label: string; color: string } {
 function formatDate(iso: string | null) {
   if (!iso) return '—'
   return new Date(iso).toLocaleDateString('es-ES', { day: 'numeric', month: 'short', year: 'numeric' })
-}
-
-interface CreateModalProps {
-  onClose: () => void
-  onCreate: (v: Pick<Trip, 'name' | 'description' | 'start_date' | 'end_date' | 'destination_slug'>) => Promise<Trip | undefined>
-}
-
-function CreateTripModal({ onClose, onCreate }: CreateModalProps) {
-  const [name, setName] = useState('')
-  const [description, setDescription] = useState('')
-  const [startDate, setStartDate] = useState('')
-  const [endDate, setEndDate] = useState('')
-  const [saving, setSaving] = useState(false)
-
-  async function handleSubmit(e: React.FormEvent) {
-    e.preventDefault()
-    if (!name.trim()) return
-    setSaving(true)
-    try {
-      await onCreate({
-        name: name.trim(),
-        description: description.trim() || null,
-        start_date: startDate || null,
-        end_date: endDate || null,
-        destination_slug: null,
-      })
-      toast.success('Viaje creado')
-      onClose()
-    } catch {
-      toast.error('Error creando el viaje')
-    } finally {
-      setSaving(false)
-    }
-  }
-
-  return (
-    <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center">
-      <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" onClick={onClose} />
-      <div className="relative bg-white w-full sm:max-w-md rounded-t-3xl sm:rounded-2xl p-6 shadow-xl">
-        <h2 className="font-display text-xl font-bold text-gray-900 mb-5">Nuevo viaje</h2>
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Nombre *</label>
-            <input
-              type="text"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              placeholder="Grecia agosto 2026"
-              required
-              autoFocus
-              className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm
-                         focus:outline-none focus:ring-2 focus:ring-egeo/50 focus:border-egeo"
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Descripción</label>
-            <textarea
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              placeholder="Notas sobre el viaje…"
-              rows={2}
-              className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm resize-none
-                         focus:outline-none focus:ring-2 focus:ring-egeo/50 focus:border-egeo"
-            />
-          </div>
-          <div className="grid grid-cols-2 gap-3">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Inicio</label>
-              <input
-                type="date"
-                value={startDate}
-                onChange={(e) => setStartDate(e.target.value)}
-                className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm
-                           focus:outline-none focus:ring-2 focus:ring-egeo/50 focus:border-egeo"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Fin</label>
-              <input
-                type="date"
-                value={endDate}
-                min={startDate}
-                onChange={(e) => setEndDate(e.target.value)}
-                className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm
-                           focus:outline-none focus:ring-2 focus:ring-egeo/50 focus:border-egeo"
-              />
-            </div>
-          </div>
-          <div className="flex gap-2 pt-1">
-            <button type="submit" disabled={saving || !name.trim()} className="btn-primary flex-1 disabled:opacity-50">
-              {saving ? 'Creando…' : 'Crear viaje'}
-            </button>
-            <button type="button" onClick={onClose} className="btn-secondary px-5">Cancelar</button>
-          </div>
-        </form>
-      </div>
-    </div>
-  )
 }
 
 function TripCard({ trip }: { trip: Trip }) {
@@ -156,9 +56,9 @@ function TripCard({ trip }: { trip: Trip }) {
 }
 
 export function TripsPage() {
+  const navigate = useNavigate()
   const { user } = useAuth()
-  const { trips, loading, createTrip } = useTrips(user?.id)
-  const [showCreate, setShowCreate] = useState(false)
+  const { trips, loading } = useTrips(user?.id)
 
   const active = trips.filter((t) => !['Completado', 'Cancelado'].includes(getTripStatus(t).label))
   const past = trips.filter((t) => getTripStatus(t).label === 'Completado')
@@ -167,7 +67,7 @@ export function TripsPage() {
     <main className="max-w-lg mx-auto px-4 py-6 pb-24 sm:pb-8">
       <div className="flex items-center justify-between mb-6">
         <h1 className="font-display text-3xl font-bold text-gray-900">Mis viajes</h1>
-        <button onClick={() => setShowCreate(true)} className="btn-primary text-sm py-2 px-4">
+        <button onClick={() => navigate('/viajes/nuevo')} className="btn-primary text-sm py-2 px-4">
           + Nuevo
         </button>
       </div>
@@ -181,7 +81,7 @@ export function TripsPage() {
           <span className="text-5xl block mb-3">✈️</span>
           <p className="font-display font-bold text-gray-800 mb-1">Sin viajes todavía</p>
           <p className="text-gray-400 text-sm mb-4">Crea tu primer viaje para empezar a planificar.</p>
-          <button onClick={() => setShowCreate(true)} className="btn-primary text-sm">
+          <button onClick={() => navigate('/viajes/nuevo')} className="btn-primary text-sm">
             Crear primer viaje
           </button>
         </div>
@@ -210,9 +110,6 @@ export function TripsPage() {
         </div>
       )}
 
-      {showCreate && (
-        <CreateTripModal onClose={() => setShowCreate(false)} onCreate={createTrip} />
-      )}
     </main>
   )
 }

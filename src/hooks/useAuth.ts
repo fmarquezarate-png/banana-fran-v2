@@ -35,19 +35,10 @@ export function useAuth() {
     if (error) throw error
   }
 
-  async function signUpWithPassword(email: string, password: string) {
-    const { error } = await supabase.auth.signUp({
-      email,
-      password,
-      options: { emailRedirectTo: `${window.location.origin}/auth/callback` },
-    })
-    if (error) throw error
-  }
-
   async function signOut() {
     const { error } = await supabase.auth.signOut()
     if (error) throw error
   }
 
-  return { session, user, loading, signInWithEmail, signInWithPassword, signUpWithPassword, signOut }
+  return { session, user, loading, signInWithEmail, signInWithPassword, signOut }
 }
