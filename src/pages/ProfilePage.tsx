@@ -3,9 +3,18 @@ import toast from 'react-hot-toast'
 import { useAuth } from '@/hooks/useAuth'
 import { useProfile } from '@/hooks/useProfile'
 
-const APP_VERSION = '0.6.2'
+const APP_VERSION = '0.7.0'
 
 const CHANGELOG: { v: string; date: string; notes: string[] }[] = [
+  { v: '0.7.0', date: 'Abr 2026', notes: [
+    'Cuestionario ampliado: 13 preguntas (región, zona, ritmo, alojamiento, estaciones completas)',
+    'Scoring más preciso: región geográfica filtra fuerte (±25pts), zona de entorno (±12pts)',
+    'Viaje: itinerario del destino integrado directamente en la ficha del viaje',
+    'Viaje: calculadora de presupuesto integrada con selector de nivel (mochilero/medio/confort/lujo)',
+    'Viaje: cabecera con imagen del destino elegido',
+    'Fotos: mejor mensaje de error si el bucket no existe en Supabase',
+    'Storage: migración SQL 005 para crear buckets photos y documents con RLS',
+  ]},
   { v: '0.6.2', date: 'Abr 2026', notes: [
     'Wizard: hay que elegir explícitamente un destino (sin auto-selección)',
     'Fechas: la vuelta se calcula automáticamente según los días del programa elegido',

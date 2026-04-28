@@ -43,7 +43,14 @@ export function TripPhotosPage() {
         const ext = file.name.split('.').pop()
         const path = `${user.id}/${tripId}/${Date.now()}.${ext}`
         const { error: uploadError } = await supabase.storage.from('photos').upload(path, file)
-        if (uploadError) throw uploadError
+        if (uploadError) {
+          if (uploadError.message?.toLowerCase().includes('bucket')) {
+            toast.error('El bucket "photos" no existe. Ejecuta la migración 005 en Supabase.')
+          } else {
+            toast.error(`Error subiendo ${file.name}: ${uploadError.message}`)
+          }
+          continue
+        }
 
         const { data, error: dbError } = await supabase
           .from('trip_photos')
@@ -58,8 +65,9 @@ export function TripPhotosPage() {
           .single()
         if (dbError) throw dbError
         setPhotos((prev) => [...prev, data])
-      } catch {
+      } catch (err: unknown) {
         toast.error(`Error subiendo ${file.name}`)
+        console.error(err)
       }
     }
 

@@ -12,24 +12,28 @@ import { calcBudget, formatPrice } from '@/lib/budget'
 // Steps
 // ─────────────────────────────────────────────────────────────
 type Step =
-  | { key: 'days';      q: string; type: 'single'; opts: { v: TripAnswers['days'];      l: string; e: string }[] }
-  | { key: 'travelers'; q: string; type: 'single'; opts: { v: TripAnswers['travelers']; l: string; e: string }[] }
-  | { key: 'vibe';      q: string; type: 'single'; opts: { v: TripAnswers['vibe'];      l: string; e: string }[] }
-  | { key: 'crowds';    q: string; type: 'single'; opts: { v: TripAnswers['crowds'];    l: string; e: string }[] }
-  | { key: 'month';     q: string; type: 'single'; opts: { v: TripAnswers['month'];     l: string; e: string }[] }
-  | { key: 'budget';    q: string; type: 'single'; opts: { v: TripAnswers['budget'];    l: string; e: string }[] }
-  | { key: 'novelty';   q: string; type: 'single'; opts: { v: TripAnswers['novelty'];   l: string; e: string }[] }
-  | { key: 'musts';     q: string; type: 'multi';  opts: { v: string; l: string; e: string }[] }
-  | { key: 'car';       q: string; type: 'single'; opts: { v: TripAnswers['car'];       l: string; e: string }[] }
+  | { key: 'days';          q: string; type: 'single'; opts: { v: TripAnswers['days'];          l: string; e: string }[] }
+  | { key: 'travelers';     q: string; type: 'single'; opts: { v: TripAnswers['travelers'];     l: string; e: string }[] }
+  | { key: 'region';        q: string; type: 'single'; opts: { v: TripAnswers['region'];        l: string; e: string }[] }
+  | { key: 'vibe';          q: string; type: 'single'; opts: { v: TripAnswers['vibe'];          l: string; e: string }[] }
+  | { key: 'zone';          q: string; type: 'single'; opts: { v: TripAnswers['zone'];          l: string; e: string }[] }
+  | { key: 'crowds';        q: string; type: 'single'; opts: { v: TripAnswers['crowds'];        l: string; e: string }[] }
+  | { key: 'pace';          q: string; type: 'single'; opts: { v: TripAnswers['pace'];          l: string; e: string }[] }
+  | { key: 'month';         q: string; type: 'single'; opts: { v: TripAnswers['month'];         l: string; e: string }[] }
+  | { key: 'budget';        q: string; type: 'single'; opts: { v: TripAnswers['budget'];        l: string; e: string }[] }
+  | { key: 'accommodation'; q: string; type: 'single'; opts: { v: TripAnswers['accommodation']; l: string; e: string }[] }
+  | { key: 'novelty';       q: string; type: 'single'; opts: { v: TripAnswers['novelty'];       l: string; e: string }[] }
+  | { key: 'musts';         q: string; type: 'multi';  opts: { v: string; l: string; e: string }[] }
+  | { key: 'car';           q: string; type: 'single'; opts: { v: TripAnswers['car'];           l: string; e: string }[] }
 
 const STEPS: Step[] = [
   {
     key: 'days', q: '¿Cuántos días tenéis para el viaje?', type: 'single',
     opts: [
-      { v: '3-5',   l: 'Una escapada corta', e: '📅' },
-      { v: '5-7',   l: 'Una semana',          e: '🗓️' },
-      { v: '7-10',  l: 'Diez días',           e: '✈️' },
-      { v: '10-14', l: 'Dos semanas',         e: '🌍' },
+      { v: '3-5',   l: 'Escapada corta (3–5 días)',  e: '📅' },
+      { v: '5-7',   l: 'Una semana (5–7 días)',       e: '🗓️' },
+      { v: '7-10',  l: 'Diez días (7–10 días)',       e: '✈️' },
+      { v: '10-14', l: 'Dos semanas (10–14 días)',    e: '🌍' },
     ],
   },
   {
@@ -42,30 +46,59 @@ const STEPS: Step[] = [
     ],
   },
   {
+    key: 'region', q: '¿Tenéis alguna zona del mundo en mente?', type: 'single',
+    opts: [
+      { v: 'europe',   l: 'Europa (incluye Mediterráneo)', e: '🇪🇺' },
+      { v: 'americas', l: 'Américas',                      e: '🌎' },
+      { v: 'asia',     l: 'Asia / Pacífico',               e: '🌏' },
+      { v: 'africa',   l: 'África / Medio Oriente',        e: '🌍' },
+      { v: 'oceania',  l: 'Oceanía',                       e: '🦘' },
+      { v: 'any',      l: 'Sin preferencia — sorprendednos', e: '🎲' },
+    ],
+  },
+  {
     key: 'vibe', q: '¿Qué tipo de viaje buscáis?', type: 'single',
     opts: [
       { v: 'beach',   l: 'Playa y descanso total',   e: '🏖️' },
-      { v: 'nature',  l: 'Naturaleza y senderismo',  e: '⛰️' },
-      { v: 'culture', l: 'Cultura e historia',        e: '🏛️' },
-      { v: 'mix',     l: 'Un mix de todo',            e: '🎒' },
+      { v: 'nature',  l: 'Naturaleza y aventura',    e: '⛰️' },
+      { v: 'culture', l: 'Cultura, historia y arte', e: '🏛️' },
+      { v: 'mix',     l: 'Un poco de todo',          e: '🎒' },
+    ],
+  },
+  {
+    key: 'zone', q: '¿Qué entorno os atrae más?', type: 'single',
+    opts: [
+      { v: 'coast',     l: 'Costa, playas y mar',        e: '🌊' },
+      { v: 'mountains', l: 'Montaña y naturaleza interior', e: '🏔️' },
+      { v: 'cities',    l: 'Ciudades y vida urbana',     e: '🏙️' },
+      { v: 'islands',   l: 'Islas',                      e: '🏝️' },
+      { v: 'any',       l: 'Sin preferencia',            e: '🗺️' },
     ],
   },
   {
     key: 'crowds', q: '¿Cómo os lleváis con las multitudes?', type: 'single',
     opts: [
-      { v: 'hate',     l: 'Las odiamos, queremos tranquilidad', e: '😤' },
-      { v: 'ok',       l: 'Las toleramos si el sitio lo vale',  e: '😐' },
-      { v: 'dontcare', l: 'No nos importan para nada',          e: '😊' },
+      { v: 'hate',     l: 'Las odiamos — tranquilidad ante todo', e: '😤' },
+      { v: 'ok',       l: 'Las toleramos si el sitio lo vale',    e: '😐' },
+      { v: 'dontcare', l: 'No nos importan para nada',            e: '😊' },
+    ],
+  },
+  {
+    key: 'pace', q: '¿A qué ritmo viajáis?', type: 'single',
+    opts: [
+      { v: 'relaxed',  l: 'Tranquilo — pocos sitios, bien vividos', e: '🧘' },
+      { v: 'moderate', l: 'Equilibrado — sin agobios pero sin perder nada', e: '🚶' },
+      { v: 'intense',  l: 'Intenso — aprovechar cada hora',         e: '⚡' },
     ],
   },
   {
     key: 'month', q: '¿En qué época del año iréis?', type: 'single',
     opts: [
-      { v: 'jun', l: 'Junio',              e: '🌤️' },
-      { v: 'jul', l: 'Julio',              e: '☀️' },
-      { v: 'aug', l: 'Agosto',             e: '🔆' },
-      { v: 'sep', l: 'Septiembre',         e: '🍂' },
-      { v: 'any', l: 'Sin fecha definida', e: '📆' },
+      { v: 'spring', l: 'Primavera (Mar–May)',    e: '🌸' },
+      { v: 'summer', l: 'Verano (Jun–Ago)',       e: '☀️' },
+      { v: 'autumn', l: 'Otoño (Sep–Nov)',        e: '🍂' },
+      { v: 'winter', l: 'Invierno (Dic–Feb)',     e: '❄️' },
+      { v: 'any',    l: 'Sin fecha definida',     e: '📆' },
     ],
   },
   {
@@ -78,30 +111,39 @@ const STEPS: Step[] = [
     ],
   },
   {
+    key: 'accommodation', q: '¿Cómo preferís alojaros?', type: 'single',
+    opts: [
+      { v: 'hotel',     l: 'Hotel ≥4★ — comodidad y servicios', e: '🏨' },
+      { v: 'boutique',  l: 'Boutique / diseño — experiencia única', e: '🛎️' },
+      { v: 'apartment', l: 'Apartamento / Airbnb — más local', e: '🏠' },
+      { v: 'any',       l: 'Sin preferencia',                   e: '🤷' },
+    ],
+  },
+  {
     key: 'novelty', q: '¿Preferís destino conocido o algo diferente?', type: 'single',
     opts: [
-      { v: 'popular', l: 'Icónico y probado',           e: '🌟' },
-      { v: 'hidden',  l: 'Menos turístico y auténtico', e: '🗺️' },
-      { v: 'any',     l: 'No tenemos preferencia',      e: '🎲' },
+      { v: 'popular', l: 'Icónico y probado — lo clásico funciona', e: '🌟' },
+      { v: 'hidden',  l: 'Menos turístico y más auténtico',         e: '🗺️' },
+      { v: 'any',     l: 'Sin preferencia',                         e: '🎲' },
     ],
   },
   {
     key: 'musts', q: '¿Qué no puede faltar? (elige todo lo que queráis)', type: 'multi',
     opts: [
       { v: 'snorkel',   l: 'Snorkel / Buceo',        e: '🤿' },
-      { v: 'hiking',    l: 'Senderismo',              e: '🥾' },
+      { v: 'hiking',    l: 'Senderismo y rutas',      e: '🥾' },
       { v: 'beaches',   l: 'Playas espectaculares',   e: '🏝️' },
       { v: 'history',   l: 'Historia y arquitectura', e: '🏛️' },
       { v: 'nightlife', l: 'Vida nocturna',           e: '🎉' },
-      { v: 'peace',     l: 'Tranquilidad total',       e: '🧘' },
+      { v: 'peace',     l: 'Tranquilidad total',      e: '🧘' },
     ],
   },
   {
     key: 'car', q: '¿Alquiláis coche en el destino?', type: 'single',
     opts: [
-      { v: 'yes',   l: 'Sí, siempre',      e: '🚗' },
-      { v: 'maybe', l: 'Depende del sitio', e: '🤔' },
-      { v: 'no',    l: 'No, preferimos no', e: '🚶' },
+      { v: 'yes',   l: 'Sí, siempre',       e: '🚗' },
+      { v: 'maybe', l: 'Depende del sitio',  e: '🤔' },
+      { v: 'no',    l: 'No, preferimos no',  e: '🚶' },
     ],
   },
 ]
@@ -195,6 +237,7 @@ function ResultCard({
 const DEFAULT_ANSWERS: TripAnswers = {
   days: '7-10', travelers: '2', vibe: 'mix', crowds: 'ok', month: 'any',
   budget: 'mid', novelty: 'any', musts: [], car: 'maybe',
+  region: 'any', zone: 'any', accommodation: 'any', pace: 'moderate',
 }
 
 export function TripWizardPage() {
