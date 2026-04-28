@@ -5,7 +5,7 @@ import { CategoryRow } from '@/components/destinations/CategoryRow'
 import { DestinationCard } from '@/components/destinations/DestinationCard'
 import { useFavorites } from '@/contexts/FavoritesContext'
 import { useRatings } from '@/contexts/RatingsContext'
-import { calcBudget, formatPrice } from '@/lib/budget'
+import { calcBudget, formatPrice, TRIP_DAYS, LEVEL_LABEL, type BudgetLevel, type TripDays } from '@/lib/budget'
 import { useAuth } from '@/hooks/useAuth'
 
 type SortMode = 'match' | 'price_asc' | 'price_desc' | 'rating'
@@ -14,14 +14,15 @@ const AllDestinationsMap = lazy(() =>
   import('@/components/destinations/AllDestinationsMap').then(m => ({ default: m.AllDestinationsMap }))
 )
 
-type Tab = 'destinos' | 'comparar' | 'favoritos' | 'warning'
+type Tab = 'destinos' | 'comparar' | 'consolidado' | 'favoritos' | 'warning'
 type View = 'cards' | 'map'
 
 const TABS: { id: Tab; label: string }[] = [
-  { id: 'destinos',  label: 'Destinos' },
-  { id: 'comparar',  label: 'Comparar' },
-  { id: 'favoritos', label: '⭐ Favoritos' },
-  { id: 'warning',   label: '⚠️ Zona Warning' },
+  { id: 'destinos',    label: 'Destinos' },
+  { id: 'comparar',    label: 'Comparar' },
+  { id: 'consolidado', label: '📊 Consolidado' },
+  { id: 'favoritos',   label: '⭐ Favoritos' },
+  { id: 'warning',     label: '⚠️ Zona Warning' },
 ]
 
 // ──────────────────────────────────────────────
@@ -289,6 +290,205 @@ function CompareTab() {
 }
 
 // ──────────────────────────────────────────────
+// Consolidado
+// ──────────────────────────────────────────────
+const LEVELS: BudgetLevel[] = ['mochilero', 'medio', 'confort', 'lujo']
+const LEVEL_EMOJI: Record<BudgetLevel, string> = { mochilero: '🎒', medio: '🧳', confort: '✨', lujo: '💎' }
+
+interface ConsolidadoSlot {
+  destId: string
+  level: BudgetLevel
+  days: TripDays
+}
+
+function ConsolidadoTab() {
+  const [slots, setSlots] = useState<ConsolidadoSlot[]>([
+    { destId: '', level: 'medio', days: 7 },
+    { destId: '', level: 'medio', days: 7 },
+  ])
+
+  const groups = [
+    { label: '🔥 Match perfecto', dests: DESTINATIONS.filter(d => d.category === 'perfect') },
+    { label: '👍 Muy bueno',      dests: DESTINATIONS.filter(d => d.category === 'good') },
+    { label: '👌 Está bien',      dests: DESTINATIONS.filter(d => d.category === 'ok') },
+    { label: '⚠️ Con cautela',    dests: DESTINATIONS.filter(d => d.category === 'warning') },
+  ]
+
+  function updateSlot(i: number, patch: Partial<ConsolidadoSlot>) {
+    setSlots(prev => prev.map((s, idx) => idx === i ? { ...s, ...patch } : s))
+  }
+
+  function addSlot() {
+    if (slots.length < 5) setSlots(prev => [...prev, { destId: '', level: 'medio', days: 7 }])
+  }
+
+  function removeSlot(i: number) {
+    setSlots(prev => prev.filter((_, idx) => idx !== i))
+  }
+
+  const filledSlots = slots.filter(s => s.destId !== '')
+  const hasEnough = filledSlots.length >= 1
+
+  const CAT_KEYS = ['flight', 'hotel', 'food', 'act'] as const
+  const CAT_LABELS: Record<string, string> = { flight: '✈️ Vuelos', hotel: '🏠 Hotel', food: '🍽️ Comida', act: '🎫 Actividades' }
+
+  const slotResults = filledSlots.map(slot => {
+    const dest = DESTINATIONS.find(d => d.id === slot.destId)!
+    return { slot, dest, result: calcBudget(dest, slot.days, slot.level, false) }
+  })
+
+  const grandMin = slotResults.reduce((s, r) => s + r.result.totalMin, 0)
+  const grandMid = slotResults.reduce((s, r) => s + r.result.totalMid, 0)
+  const grandMax = slotResults.reduce((s, r) => s + r.result.totalMax, 0)
+
+  return (
+    <main className="max-w-2xl mx-auto px-4 py-6 pb-24 sm:pb-8">
+      <h1 className="font-display text-2xl font-bold text-gray-900 mb-1">Consolidado</h1>
+      <p className="text-gray-400 text-sm mb-6">Configura cada destino con su nivel y días para ver el presupuesto total.</p>
+
+      {/* Slot editors */}
+      <div className="space-y-3 mb-4">
+        {slots.map((slot, i) => {
+          const otherIds = slots.filter((_, idx) => idx !== i).map(s => s.destId).filter(Boolean)
+          return (
+            <div key={i} className="card p-4">
+              <div className="flex items-center justify-between mb-3">
+                <span className="text-xs font-bold text-gray-400 uppercase tracking-wide">Destino {i + 1}</span>
+                {slots.length > 1 && (
+                  <button onClick={() => removeSlot(i)} className="text-gray-300 hover:text-red-400 text-sm transition-colors">
+                    ✕ quitar
+                  </button>
+                )}
+              </div>
+
+              {/* Destination picker */}
+              <select
+                value={slot.destId}
+                onChange={e => updateSlot(i, { destId: e.target.value })}
+                className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm mb-3
+                           focus:outline-none focus:ring-2 focus:ring-egeo/50 bg-white"
+              >
+                <option value="">— Elige destino —</option>
+                {groups.map(g => (
+                  <optgroup key={g.label} label={g.label}>
+                    {g.dests.filter(d => !otherIds.includes(d.id)).map(d => (
+                      <option key={d.id} value={d.id}>{d.name} — {d.country}</option>
+                    ))}
+                  </optgroup>
+                ))}
+              </select>
+
+              {/* Level + Days */}
+              <div className="flex gap-3 flex-wrap">
+                <div className="flex-1 min-w-0">
+                  <p className="text-xs font-semibold text-gray-400 mb-1.5">Nivel</p>
+                  <div className="flex gap-1 flex-wrap">
+                    {LEVELS.map(l => (
+                      <button key={l} onClick={() => updateSlot(i, { level: l })}
+                        className={`px-2 py-1 rounded-lg text-xs font-semibold transition-colors ${
+                          slot.level === l ? 'bg-egeo text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                        }`}
+                      >
+                        {LEVEL_EMOJI[l]} {LEVEL_LABEL[l]}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+                <div>
+                  <p className="text-xs font-semibold text-gray-400 mb-1.5">Días</p>
+                  <div className="flex gap-1 flex-wrap">
+                    {TRIP_DAYS.map(d => (
+                      <button key={d} onClick={() => updateSlot(i, { days: d })}
+                        className={`px-2 py-1 rounded-lg text-xs font-semibold transition-colors ${
+                          slot.days === d ? 'bg-egeo text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                        }`}
+                      >
+                        {d}d
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+          )
+        })}
+      </div>
+
+      {slots.length < 5 && (
+        <button onClick={addSlot}
+          className="mb-6 text-sm text-egeo font-semibold hover:text-egeo-600 transition-colors flex items-center gap-1"
+        >
+          <span className="text-base leading-none">+</span> Añadir destino
+        </button>
+      )}
+
+      {/* Results table */}
+      {hasEnough && (
+        <div className="card overflow-hidden">
+          {/* Header row */}
+          <div className="bg-gray-50 border-b border-gray-100 px-4 py-2 flex items-center gap-2">
+            <span className="text-xs font-bold text-gray-400 uppercase tracking-wide w-24 flex-shrink-0">Categoría</span>
+            {slotResults.map(({ dest, slot }, i) => (
+              <div key={i} className="flex-1 min-w-0 text-center">
+                <p className="text-xs font-bold text-gray-700 truncate">{dest.name}</p>
+                <p className="text-xs text-gray-400">{LEVEL_EMOJI[slot.level]} {slot.days}d</p>
+              </div>
+            ))}
+          </div>
+
+          {/* Category rows */}
+          {CAT_KEYS.map(key => (
+            <div key={key} className="flex items-center gap-2 px-4 py-2.5 border-b border-gray-50">
+              <span className="text-xs text-gray-500 w-24 flex-shrink-0">{CAT_LABELS[key]}</span>
+              {slotResults.map(({ result }, i) => {
+                const cat = result.cats.find(c => c.key === key)!
+                return (
+                  <div key={i} className="flex-1 text-center">
+                    <p className="text-xs font-bold text-gray-800">{formatPrice(cat.mid)}</p>
+                    <p className="text-xs text-gray-400">{formatPrice(cat.min)}–{formatPrice(cat.max)}</p>
+                  </div>
+                )
+              })}
+            </div>
+          ))}
+
+          {/* Per-trip totals */}
+          <div className="flex items-center gap-2 px-4 py-3 bg-egeo/5 border-b border-egeo/10">
+            <span className="text-xs font-bold text-egeo w-24 flex-shrink-0">Total viaje</span>
+            {slotResults.map(({ result }, i) => (
+              <div key={i} className="flex-1 text-center">
+                <p className="text-sm font-bold text-egeo">{formatPrice(result.totalMid)}</p>
+                <p className="text-xs text-gray-400">{formatPrice(result.totalMin)}–{formatPrice(result.totalMax)}</p>
+              </div>
+            ))}
+          </div>
+
+          {/* Grand total */}
+          {slotResults.length > 1 && (
+            <div className="px-4 py-4 flex items-baseline justify-between">
+              <div>
+                <p className="text-sm font-semibold text-gray-700">Total consolidado</p>
+                <p className="text-xs text-gray-400">{slotResults.length} destinos · pareja</p>
+              </div>
+              <div className="text-right">
+                <p className="text-2xl font-display font-bold text-egeo">{formatPrice(grandMid)}</p>
+                <p className="text-xs text-gray-400">{formatPrice(grandMin)} – {formatPrice(grandMax)}</p>
+              </div>
+            </div>
+          )}
+        </div>
+      )}
+
+      {!hasEnough && (
+        <div className="card p-10 text-center text-gray-400 text-sm">
+          Selecciona al menos un destino para ver el presupuesto
+        </div>
+      )}
+    </main>
+  )
+}
+
+// ──────────────────────────────────────────────
 // Main
 // ──────────────────────────────────────────────
 export function HomePage() {
@@ -359,6 +559,8 @@ export function HomePage() {
         <WarningZone destinations={warning} />
       ) : activeTab === 'comparar' ? (
         <CompareTab />
+      ) : activeTab === 'consolidado' ? (
+        <ConsolidadoTab />
       ) : activeTab === 'favoritos' ? (
         <FavoritesTab />
       ) : (
