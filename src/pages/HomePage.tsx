@@ -30,66 +30,72 @@ function WarningCard({ dest }: { dest: Destination }) {
   return (
     <Link
       to={`/destino/${dest.id}`}
-      className="group relative rounded-2xl overflow-hidden border border-warning-red/20
-                 hover:border-warning-red transition-all duration-300 hover:-translate-y-0.5"
+      className="group relative rounded-xl overflow-hidden border border-white/5
+                 hover:border-warning-red/50 transition-all duration-300 hover:-translate-y-0.5"
     >
-      <div className="relative h-36 overflow-hidden bg-gray-900">
+      <div className="relative h-36 overflow-hidden bg-black">
         <img
           src={dest.images[0]}
           alt={dest.name}
-          className="w-full h-full object-cover opacity-60 transition-all duration-500
-                     group-hover:opacity-80 group-hover:scale-105"
+          className="w-full h-full object-cover opacity-40 transition-all duration-500
+                     group-hover:opacity-60 group-hover:scale-105"
           loading="lazy"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-gray-950 via-gray-950/20 to-transparent" />
-        <span className="absolute top-2 left-2 text-xs font-bold text-warning-yellow
-                         bg-black/70 border border-warning-red/40 px-2 py-0.5 rounded-full">
-          ⚠️ Con cautela
+        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/30 to-transparent" />
+        <span className="absolute top-2 left-2 text-[10px] font-bold text-warning-red
+                         bg-black/80 border border-warning-red/60 px-2 py-0.5 rounded-full tracking-wide">
+          ⚠ CAUTELA
         </span>
       </div>
-      <div className="p-3 bg-gray-950">
-        <p className="font-display font-bold text-warning-yellow text-sm leading-tight truncate">{dest.name}</p>
-        <p className="text-gray-500 text-xs mt-0.5 truncate">{dest.country}</p>
-        <p className="text-gray-400 text-xs mt-2 line-clamp-2 leading-snug">{dest.tagline}</p>
+      <div className="p-3 bg-[#0a0a0a]">
+        <p className="font-display font-bold text-white text-sm leading-tight truncate">{dest.name}</p>
+        <p className="text-gray-600 text-xs mt-0.5 truncate">{dest.country}</p>
+        <p className="text-gray-500 text-xs mt-2 line-clamp-2 leading-snug">{dest.tagline}</p>
       </div>
-      <div className="h-1 w-full bg-warning-stripes" />
+      <div className="h-[3px] w-full bg-warning-stripes" />
     </Link>
   )
 }
 
 function WarningZone({ destinations }: { destinations: Destination[] }) {
   return (
-    <div className="min-h-screen">
-      <div className="h-3 bg-warning-stripes" />
+    <div className="min-h-screen bg-black">
+      {/* Franja superior de cinta policial */}
+      <div className="h-8 bg-warning-stripes opacity-60" />
+
       <div className="max-w-5xl mx-auto px-4 py-10 pb-24 sm:pb-10">
+        {/* Header */}
         <div className="mb-10">
-          <p className="font-mono text-xs tracking-[0.3em] uppercase text-warning-red mb-3">⚠ acceso restringido ⚠</p>
-          <h1 className="font-display text-5xl sm:text-6xl font-bold text-warning-yellow leading-none mb-4">
-            Zona<br />Warning
+          <p className="font-mono text-[10px] tracking-[0.4em] uppercase text-warning-red/70 mb-4">
+            ⚠ &nbsp; ZONA RESTRINGIDA &nbsp; ⚠
+          </p>
+          <h1 className="font-display text-6xl sm:text-7xl font-bold text-warning-red leading-none mb-5 drop-shadow-[0_0_30px_rgba(255,0,64,0.4)]">
+            ZONA<br />WARNING
           </h1>
-          <p className="text-gray-400 text-sm leading-relaxed max-w-lg">
-            Destinos famosos con masificación, precio alto o gestión turística deficiente.
+          <p className="text-gray-500 text-sm leading-relaxed max-w-md">
+            Destinos con masificación extrema, precio inflado o gestión turística deficiente.
             Con información, se pueden disfrutar — pero con los ojos bien abiertos.
           </p>
         </div>
-        <div className="bg-warning-stripes p-0.5 rounded-2xl mb-8">
-          <div className="bg-gray-900 rounded-[14px] p-4 flex gap-3">
-            <span className="text-2xl flex-shrink-0">🚫</span>
-            <div>
-              <p className="text-warning-yellow font-bold text-sm mb-1">Antes de entrar, lee esto</p>
-              <p className="text-gray-400 text-xs leading-relaxed">
-                Estos destinos tienen puntuación negativa no porque sean feos —
-                es que el turismo masivo ha destrozado la experiencia real.
-                Si vas, te decimos cómo minimizar el daño.
-              </p>
-            </div>
+
+        {/* Aviso */}
+        <div className="mb-8 border border-warning-red/20 rounded-xl p-4 bg-warning-red/5 flex gap-3">
+          <span className="text-xl flex-shrink-0 mt-0.5">🚫</span>
+          <div>
+            <p className="text-warning-red font-bold text-sm mb-1">Antes de entrar</p>
+            <p className="text-gray-500 text-xs leading-relaxed">
+              Puntuación negativa no porque sean feos — es que el turismo masivo ha destrozado la experiencia real.
+              Si vas, te decimos cómo minimizar el daño.
+            </p>
           </div>
         </div>
+
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
           {destinations.map(dest => <WarningCard key={dest.id} dest={dest} />)}
         </div>
       </div>
-      <div className="h-3 bg-warning-stripes" />
+
+      <div className="h-8 bg-warning-stripes opacity-60" />
     </div>
   )
 }
