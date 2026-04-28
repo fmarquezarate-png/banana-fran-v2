@@ -3,9 +3,16 @@ import toast from 'react-hot-toast'
 import { useAuth } from '@/hooks/useAuth'
 import { useProfile } from '@/hooks/useProfile'
 
-const APP_VERSION = '0.6.1'
+const APP_VERSION = '0.6.2'
 
 const CHANGELOG: { v: string; date: string; notes: string[] }[] = [
+  { v: '0.6.2', date: 'Abr 2026', notes: [
+    'Wizard: hay que elegir explícitamente un destino (sin auto-selección)',
+    'Fechas: la vuelta se calcula automáticamente según los días del programa elegido',
+    'Fechas: badge con el número de días del programa junto a los inputs',
+    'Fechas: confirmación verde cuando las fechas coinciden con el programa',
+    'Fix build: error de sintaxis en HomePage que impedía el deploy en Netlify',
+  ]},
   { v: '0.6.1', date: 'Abr 2026', notes: [
     'Cursor solo visible cuando hay algo clickeable (pointer sobre links/botones)',
     'Zona Warning restaurada: letras en rojo/amarillo, tarjetas con franja policial amarillo/negro',
