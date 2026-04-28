@@ -225,8 +225,9 @@ export function TripWizardPage() {
       toast.success('¡Viaje creado!')
       navigate(trip ? `/viajes/${trip.id}` : '/viajes')
     } catch (err) {
-      // Diagnostic toast already shown by useTrips — just log here
       console.error('Wizard createTrip error:', err)
+      const msg = err instanceof Error ? err.message : 'Error creando el viaje'
+      toast.error(msg)
     } finally {
       setSaving(false)
     }
