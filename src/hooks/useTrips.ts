@@ -8,10 +8,7 @@ export function useTrips(userId: string | undefined) {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    if (!userId) {
-      setLoading(false)
-      return
-    }
+    if (!userId) { setLoading(false); return }
     fetchTrips()
   }, [userId])
 
@@ -22,35 +19,36 @@ export function useTrips(userId: string | undefined) {
       .from('trips')
       .select('*')
       .eq('user_id', userId)
-      .order('start_date', { ascending: true, nullsFirst: false })
-
-    if (error) {
-      toast.error('Error cargando viajes')
-      console.error(error)
-    } else {
-      setTrips(data ?? [])
-    }
+      .order('created_at', { ascending: false })
+    if (error) { toast.error('Error cargando viajes'); console.error(error) }
+    else setTrips(data ?? [])
     setLoading(false)
   }
 
   async function createTrip(
-    values: Pick<Trip, 'name' | 'description' | 'start_date' | 'end_date' | 'destination_slug'>
+    values: Pick<Trip, 'name' | 'description' | 'start_date' | 'end_date' | 'destination_slug' | 'travelers'>
   ) {
-    if (!userId) return
+    if (!userId) throw new Error('No hay sesión activa')
+
     const { data, error } = await supabase
       .from('trips')
       .insert({ ...values, user_id: userId })
       .select()
       .single()
-    if (error) throw error
-    setTrips((prev) => [...prev, data])
+
+    if (error) {
+      console.error('createTrip:', error)
+      throw error
+    }
+
+    setTrips(prev => [...prev, data])
     return data
   }
 
   async function deleteTrip(id: string) {
     const { error } = await supabase.from('trips').delete().eq('id', id)
     if (error) throw error
-    setTrips((prev) => prev.filter((t) => t.id !== id))
+    setTrips(prev => prev.filter(t => t.id !== id))
   }
 
   return { trips, loading, createTrip, deleteTrip, refetch: fetchTrips }

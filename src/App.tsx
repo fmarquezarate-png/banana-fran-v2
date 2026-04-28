@@ -1,6 +1,9 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { Toaster } from 'react-hot-toast'
+import { useState, useEffect } from 'react'
 import { useAuth } from '@/hooks/useAuth'
+import { FavoritesProvider } from '@/contexts/FavoritesContext'
+import { RatingsProvider } from '@/contexts/RatingsContext'
 import { TopBar } from '@/components/layout/TopBar'
 import { LoginPage } from '@/pages/LoginPage'
 import { AuthCallbackPage } from '@/pages/AuthCallbackPage'
@@ -10,13 +13,21 @@ import { TripsPage } from '@/pages/TripsPage'
 import { TripDetailPage } from '@/pages/TripDetailPage'
 import { TripPhotosPage } from '@/pages/TripPhotosPage'
 import { TripJournalPage } from '@/pages/TripJournalPage'
+import { TripWizardPage } from '@/pages/TripWizardPage'
 import { ProfilePage } from '@/pages/ProfilePage'
 
+const LOADING_EMOJIS = ['✈️', '🛳️', '🏖️', '⛰️', '🧳', '🌍', '🗺️', '🍌']
+
 function LoadingScreen() {
+  const [idx, setIdx] = useState(0)
+  useEffect(() => {
+    const t = setInterval(() => setIdx((i) => (i + 1) % LOADING_EMOJIS.length), 600)
+    return () => clearInterval(t)
+  }, [])
   return (
     <div className="min-h-screen bg-crema flex items-center justify-center">
       <div className="text-center">
-        <span className="text-4xl animate-pulse">🍌</span>
+        <span className="text-5xl block transition-all duration-300">{LOADING_EMOJIS[idx]}</span>
         <p className="text-gray-400 mt-3 text-sm">Cargando...</p>
       </div>
     </div>
@@ -25,19 +36,22 @@ function LoadingScreen() {
 
 function AuthenticatedApp() {
   return (
-    <>
+    <RatingsProvider>
+    <FavoritesProvider>
       <TopBar />
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/destino/:id" element={<DestinationPage />} />
         <Route path="/viajes" element={<TripsPage />} />
+        <Route path="/viajes/nuevo" element={<TripWizardPage />} />
         <Route path="/viajes/:id" element={<TripDetailPage />} />
         <Route path="/viajes/:id/fotos" element={<TripPhotosPage />} />
         <Route path="/viajes/:id/diario" element={<TripJournalPage />} />
         <Route path="/perfil" element={<ProfilePage />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
-    </>
+    </FavoritesProvider>
+    </RatingsProvider>
   )
 }
 

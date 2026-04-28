@@ -3,12 +3,69 @@ import toast from 'react-hot-toast'
 import { useAuth } from '@/hooks/useAuth'
 import { useProfile } from '@/hooks/useProfile'
 
+const APP_VERSION = '0.6.1'
+
+const CHANGELOG: { v: string; date: string; notes: string[] }[] = [
+  { v: '0.6.1', date: 'Abr 2026', notes: [
+    'Cursor solo visible cuando hay algo clickeable (pointer sobre links/botones)',
+    'Zona Warning restaurada: letras en rojo/amarillo, tarjetas con franja policial amarillo/negro',
+    'Fondo de Zona Warning con rayas diagonales en toda la pantalla',
+    'Home oculta destinos hasta completar el cuestionario',
+    'Fix CTA del quiz: ahora lleva correctamente a /viajes/nuevo',
+    '5 destinos nuevos: Lisboa, Budapest, Azores, Praga, Marrakech',
+  ]},
+  { v: '0.6.0', date: 'Abr 2026', notes: [
+    'PWA instalable desde Safari y Chrome (manifest + meta tags)',
+    'Fix login en PWA: sesión se sincroniza al volver desde el browser',
+    'Saludo usa el nombre real del perfil en lugar del email',
+    'Home muestra CTA del quiz si aún no se ha hecho',
+    'Comparar: hasta 5 destinos en paralelo (antes solo 2)',
+    'Nuevo tab Consolidado: presupuesto combinado por destino con nivel independiente',
+    'Wizard: destinos seleccionables, itinerario según días, aviso de fechas no coincidentes',
+    'Trip creation: tabla recreada sin FK a profiles (fix definitivo)',
+  ]},
+  { v: '0.5.0', date: 'Abr 2026', notes: [
+    'Fix creación de viaje: función SQL ensure_own_profile con SECURITY DEFINER',
+    'Pestaña del navegador renombrada a "The Vacation Planner" con icono ✈️',
+    'Changelog expandible al hacer click en la versión',
+    'Mejoras en mensajes de error del registro',
+  ]},
+  { v: '0.4.0', date: 'Abr 2026', notes: [
+    'Registro con contraseña (nueva pestaña en login)',
+    'Número de viajeros por proyecto',
+    'Subida de documentos/QRs dentro del viaje',
+    'Cambio de contraseña desde el perfil',
+  ]},
+  { v: '0.3.0', date: 'Abr 2026', notes: [
+    'Asistente de nuevo viaje: encuesta de 9 preguntas + ranking de destinos',
+    'Corrección crítica del inicio de sesión (magic link y contraseña)',
+  ]},
+  { v: '0.2.0', date: 'Abr 2026', notes: [
+    'Mapa interactivo con todos los destinos',
+    'Comparar destinos en paralelo',
+    'Favoritos y valoraciones con estrellas',
+    'Filtros, ordenación y ajuste de precios personalizado',
+  ]},
+  { v: '0.1.0', date: 'Abr 2026', notes: [
+    'Lanzamiento inicial: catálogo de 30 destinos',
+    'Zona Warning con tema visual propio',
+    'Login con magic link',
+  ]},
+]
+
 export function ProfilePage() {
-  const { user, signOut } = useAuth()
+  const { user, signOut, updatePassword } = useAuth()
   const { profile, loading, updateProfile } = useProfile(user?.id)
+
   const [name, setName] = useState('')
   const [editing, setEditing] = useState(false)
   const [saving, setSaving] = useState(false)
+
+  const [changelogOpen, setChangelogOpen] = useState(false)
+  const [changingPwd, setChangingPwd] = useState(false)
+  const [newPwd, setNewPwd] = useState('')
+  const [confirmPwd, setConfirmPwd] = useState('')
+  const [savingPwd, setSavingPwd] = useState(false)
 
   function startEdit() {
     setName(profile?.full_name ?? '')
@@ -31,6 +88,32 @@ export function ProfilePage() {
       toast.error('Error guardando el perfil')
     } finally {
       setSaving(false)
+    }
+  }
+
+  function cancelPwd() {
+    setChangingPwd(false)
+    setNewPwd('')
+    setConfirmPwd('')
+  }
+
+  async function handlePasswordSave() {
+    if (newPwd.length < 6) { toast.error('Mínimo 6 caracteres'); return }
+    if (newPwd !== confirmPwd) { toast.error('Las contraseñas no coinciden'); return }
+    setSavingPwd(true)
+    try {
+      await updatePassword(newPwd)
+      toast.success('Contraseña actualizada')
+      cancelPwd()
+    } catch (err: unknown) {
+      const msg = (err as Error).message?.toLowerCase() ?? ''
+      if (msg.includes('same password')) {
+        toast.error('La nueva contraseña es igual a la actual')
+      } else {
+        toast.error('Error al cambiar la contraseña')
+      }
+    } finally {
+      setSavingPwd(false)
     }
   }
 
@@ -127,16 +210,60 @@ export function ProfilePage() {
             )}
           </div>
 
+          {/* Contraseña */}
+          <div className="card p-5">
+            <div className="flex items-center justify-between mb-3">
+              <h2 className="font-semibold text-gray-800">Contraseña</h2>
+              {!changingPwd && (
+                <button onClick={() => setChangingPwd(true)} className="text-sm text-egeo hover:underline">
+                  Cambiar
+                </button>
+              )}
+            </div>
+
+            {changingPwd ? (
+              <div className="space-y-3">
+                <input
+                  type="password"
+                  value={newPwd}
+                  onChange={e => setNewPwd(e.target.value)}
+                  placeholder="Nueva contraseña (mín. 6 caracteres)"
+                  autoFocus
+                  className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm
+                             focus:outline-none focus:ring-2 focus:ring-egeo/50 focus:border-egeo"
+                />
+                <input
+                  type="password"
+                  value={confirmPwd}
+                  onChange={e => setConfirmPwd(e.target.value)}
+                  placeholder="Repite la nueva contraseña"
+                  className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm
+                             focus:outline-none focus:ring-2 focus:ring-egeo/50 focus:border-egeo"
+                />
+                <div className="flex gap-2">
+                  <button
+                    onClick={handlePasswordSave}
+                    disabled={savingPwd || !newPwd || !confirmPwd}
+                    className="btn-primary text-sm py-2 px-4 disabled:opacity-50"
+                  >
+                    {savingPwd ? 'Guardando…' : 'Guardar'}
+                  </button>
+                  <button onClick={cancelPwd} className="btn-secondary text-sm py-2 px-4">
+                    Cancelar
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <p className="text-gray-400 text-sm">••••••••</p>
+            )}
+          </div>
+
           {/* Info de cuenta */}
           <div className="card p-5 space-y-3">
             <h2 className="font-semibold text-gray-800">Cuenta</h2>
             <div className="flex justify-between text-sm">
               <span className="text-gray-500">Email</span>
               <span className="text-gray-700 font-mono text-xs">{user?.email}</span>
-            </div>
-            <div className="flex justify-between text-sm">
-              <span className="text-gray-500">Acceso</span>
-              <span className="text-gray-700">Magic link</span>
             </div>
             <div className="flex justify-between text-sm">
               <span className="text-gray-500">Miembro desde</span>
@@ -158,6 +285,51 @@ export function ProfilePage() {
           >
             Cerrar sesión
           </button>
+
+          {/* Versión y changelog */}
+          <div className="card p-5">
+            <button
+              onClick={() => setChangelogOpen(o => !o)}
+              className="w-full flex items-center justify-between"
+            >
+              <h2 className="font-semibold text-gray-800">The Vacation Planner</h2>
+              <div className="flex items-center gap-2">
+                <span className="text-xs bg-egeo/10 text-egeo font-semibold px-2 py-0.5 rounded-full">
+                  v{APP_VERSION}
+                </span>
+                <span className="text-gray-400 text-xs">{changelogOpen ? '▲' : '▼'}</span>
+              </div>
+            </button>
+
+            {changelogOpen && (
+              <div className="mt-4 space-y-4">
+                {CHANGELOG.map((entry, i) => (
+                  <div key={entry.v} className="border-l-2 border-gray-100 pl-3">
+                    <div className="flex items-center gap-2 mb-1">
+                      <span className={`text-xs font-bold ${i === 0 ? 'text-egeo' : 'text-gray-700'}`}>
+                        v{entry.v}
+                      </span>
+                      <span className="text-xs text-gray-400">{entry.date}</span>
+                      {i === 0 && (
+                        <span className="text-xs bg-egeo/10 text-egeo px-1.5 py-0.5 rounded-full font-semibold">
+                          Actual
+                        </span>
+                      )}
+                    </div>
+                    <ul className="space-y-0.5">
+                      {entry.notes.map((note, j) => (
+                        <li key={j} className="text-xs text-gray-500 flex items-start gap-1">
+                          <span className="text-gray-300 flex-shrink-0">·</span>
+                          {note}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+
         </div>
       )}
     </main>

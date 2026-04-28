@@ -72,6 +72,7 @@ export interface Trip {
   destination_slug: string | null
   start_date: string | null
   end_date: string | null
+  travelers: number
   status_override: TripStatus | null
   cover_photo_url: string | null
   is_past: boolean
