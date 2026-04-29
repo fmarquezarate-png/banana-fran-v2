@@ -12,6 +12,7 @@ export interface TripAnswers {
   car:             'yes' | 'maybe' | 'no'
   region:          'europe' | 'americas' | 'asia' | 'africa' | 'oceania' | 'any'
   accommodation:   'hotel' | 'boutique' | 'apartment' | 'any'
+  noNegociable:    string[]   // ScaleKeys marcados como no negociables
   // Escalas 1-10 (10 dimensiones)
   playa_ciudad:          number
   relax_fiesta:          number
@@ -33,13 +34,26 @@ const SCALE_KEYS: (keyof DestinationScales)[] = [
 
 export function calcScaleMatch(answers: TripAnswers, dest: Destination): number {
   const s = dest.scales ?? {}
+  const nn = new Set(answers.noNegociable ?? [])
   let total = 0
+  let totalWeight = 0
+
   for (const key of SCALE_KEYS) {
     const dVal = (s[key] ?? 5) as number
     const uVal = answers[key as keyof TripAnswers] as number
-    total += 1 - Math.abs(uVal - dVal) / 10
+    const intensity = Math.abs(uVal - 5)       // 0=neutral, 4=extremo
+    if (intensity === 0) continue              // Sin preferencia → ignorar dimensión
+
+    const weight = intensity / 4               // 0.25 → 1.0
+    const diff   = Math.abs(uVal - dVal)
+    const dimScore = nn.has(key)
+      ? (diff <= 1 ? 1.0 : 0.0)               // No negociable: binario ±1
+      : 1 - diff / 10                          // Normal: gradual
+    total       += dimScore * weight
+    totalWeight += weight
   }
-  return total / SCALE_KEYS.length
+
+  return totalWeight > 0 ? total / totalWeight : 0.65  // sin preferencias → neutro
 }
 
 export function getScaleCategory(pct: number): DestinationCategory {

@@ -3,9 +3,16 @@ import toast from 'react-hot-toast'
 import { useAuth } from '@/hooks/useAuth'
 import { useProfile } from '@/hooks/useProfile'
 
-const APP_VERSION = '0.9.1'
+const APP_VERSION = '0.9.2'
 
 const CHANGELOG: { v: string; date: string; notes: string[] }[] = [
+  { v: '0.9.2', date: 'Abr 2026', notes: [
+    'Fix: changelog ahora abre por defecto en el perfil',
+    'Fix: planes se adaptan cuando los días reales > plantilla (añade "Día libre")',
+    'Fix: zona Warning activa — scoring ponderado por intensidad, ignora dimensiones neutras',
+    'Feature: "No Negociable" en sliders — puntuación binaria estricta',
+    'Scales añadidas: Paxos, Cefalonia, Ítaca',
+  ]},
   { v: '0.9.1', date: 'Abr 2026', notes: [
     'Scales añadidas: Vis, Azores, Naxos, Folégandros, Koufonisia',
     '17 de 41 destinos perfilados en las 10 dimensiones',
@@ -103,7 +110,7 @@ export function ProfilePage() {
   const [editing, setEditing] = useState(false)
   const [saving, setSaving] = useState(false)
 
-  const [changelogOpen, setChangelogOpen] = useState(false)
+  const [changelogOpen, setChangelogOpen] = useState(true)
   const [changingPwd, setChangingPwd] = useState(false)
   const [newPwd, setNewPwd] = useState('')
   const [confirmPwd, setConfirmPwd] = useState('')

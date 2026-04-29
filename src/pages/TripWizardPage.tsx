@@ -13,9 +13,11 @@ import { calcBudget, formatPrice } from '@/lib/budget'
 // ─────────────────────────────────────────────────────────────
 function ScaleSelector({
   value, onChange, leftEmoji, leftLabel, rightEmoji, rightLabel,
+  isNegociable, onToggleNegociable,
 }: {
   value: number; onChange: (n: number) => void
   leftEmoji: string; leftLabel: string; rightEmoji: string; rightLabel: string
+  isNegociable: boolean; onToggleNegociable: () => void
 }) {
   return (
     <div className="space-y-5">
@@ -26,8 +28,12 @@ function ScaleSelector({
             onClick={() => onChange(n)}
             className={`aspect-square rounded-xl font-bold text-sm transition-all duration-150 ${
               n === value
-                ? 'bg-egeo text-white shadow-lg scale-110 ring-2 ring-egeo/30'
-                : n < value
+                ? isNegociable
+                  ? 'bg-warning-red text-white shadow-lg scale-110 ring-2 ring-warning-red/30'
+                  : 'bg-egeo text-white shadow-lg scale-110 ring-2 ring-egeo/30'
+                : isNegociable && Math.abs(n - value) <= 1
+                ? 'bg-warning-red/20 text-warning-red font-semibold'
+                : n < value && !isNegociable
                 ? 'bg-egeo/20 text-egeo font-semibold'
                 : 'bg-gray-100 text-gray-400 hover:bg-gray-200'
             }`}
@@ -38,7 +44,7 @@ function ScaleSelector({
       </div>
       <div className="h-2 bg-gray-100 rounded-full overflow-hidden">
         <div
-          className="h-full bg-gradient-to-r from-egeo/50 to-egeo rounded-full transition-all duration-300"
+          className={`h-full rounded-full transition-all duration-300 ${isNegociable ? 'bg-warning-red' : 'bg-gradient-to-r from-egeo/50 to-egeo'}`}
           style={{ width: `${(value / 10) * 100}%` }}
         />
       </div>
@@ -48,7 +54,7 @@ function ScaleSelector({
           <span className="text-xs text-gray-500 mt-1 block max-w-[90px] leading-tight">{leftLabel}</span>
         </div>
         <div className="text-center">
-          <span className="font-display text-5xl font-bold text-egeo leading-none">{value}</span>
+          <span className={`font-display text-5xl font-bold leading-none ${isNegociable ? 'text-warning-red' : 'text-egeo'}`}>{value}</span>
           <span className="text-sm text-gray-400 block mt-0.5">/ 10</span>
         </div>
         <div className={`text-center transition-opacity ${value >= 8 ? 'opacity-100' : 'opacity-35'}`}>
@@ -56,6 +62,25 @@ function ScaleSelector({
           <span className="text-xs text-gray-500 mt-1 block max-w-[90px] leading-tight text-right">{rightLabel}</span>
         </div>
       </div>
+      {/* No negociable */}
+      <label className={`flex items-center gap-2.5 cursor-pointer rounded-xl px-4 py-2.5 transition-colors ${
+        isNegociable ? 'bg-warning-red/8 border border-warning-red/30' : 'bg-gray-50 border border-transparent'
+      }`}>
+        <input
+          type="checkbox"
+          checked={isNegociable}
+          onChange={onToggleNegociable}
+          className="w-4 h-4 accent-red-500 flex-shrink-0"
+        />
+        <div>
+          <span className={`text-xs font-semibold block ${isNegociable ? 'text-warning-red' : 'text-gray-500'}`}>
+            🔴 No negociable
+          </span>
+          <span className="text-xs text-gray-400 leading-tight">
+            {isNegociable ? 'Solo acepta valores muy cercanos — desacuerdo = Warning' : 'Marca si este criterio es innegociable para vosotros'}
+          </span>
+        </div>
+      </label>
     </div>
   )
 }
@@ -327,7 +352,7 @@ function ResultCard({
 const DEFAULT_ANSWERS: TripAnswers = {
   days: '7-10', travelers: '2', crowds: 'ok', month: 'any',
   budget: 'mid', novelty: 'any', musts: [], car: 'maybe',
-  region: 'any', accommodation: 'any',
+  region: 'any', accommodation: 'any', noNegociable: [],
   playa_ciudad: 5, relax_fiesta: 5, lowcost_fancy: 5, invierno_verano: 5,
   occidental_exotico: 5, streetfood_gourmet: 5, descanso_aventura: 5,
   solo_grupal: 5, naturaleza_metropolis: 5, moderno_historico: 5,
@@ -686,6 +711,16 @@ export function TripWizardPage() {
           leftLabel={(current as Extract<Step, { type: 'scale' }>).leftLabel}
           rightEmoji={(current as Extract<Step, { type: 'scale' }>).rightEmoji}
           rightLabel={(current as Extract<Step, { type: 'scale' }>).rightLabel}
+          isNegociable={answers.noNegociable.includes(current.key)}
+          onToggleNegociable={() => {
+            const k = current.key
+            setAnswers(prev => ({
+              ...prev,
+              noNegociable: prev.noNegociable.includes(k)
+                ? prev.noNegociable.filter(x => x !== k)
+                : [...prev.noNegociable, k],
+            }))
+          }}
         />
       ) : (
         <div className="space-y-3">

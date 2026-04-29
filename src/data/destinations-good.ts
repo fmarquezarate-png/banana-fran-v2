@@ -380,6 +380,7 @@ export const DESTINATIONS_GOOD: Destination[] = [
       actPD: 45,
       ar: 0.20,
     },
+    scales: { playa_ciudad: 7, relax_fiesta: 3, lowcost_fancy: 4, invierno_verano: 8, occidental_exotico: 2, streetfood_gourmet: 6, descanso_aventura: 4, solo_grupal: 3, naturaleza_metropolis: 3, moderno_historico: 4 },
   },
   {
     id: 'cefalonia',
@@ -474,6 +475,7 @@ export const DESTINATIONS_GOOD: Destination[] = [
       actPD: 40,
       ar: 0.20,
     },
+    scales: { playa_ciudad: 7, relax_fiesta: 4, lowcost_fancy: 5, invierno_verano: 9, occidental_exotico: 2, streetfood_gourmet: 6, descanso_aventura: 6, solo_grupal: 4, naturaleza_metropolis: 3, moderno_historico: 5 },
   },
   {
     id: 'itaca',
@@ -568,6 +570,7 @@ export const DESTINATIONS_GOOD: Destination[] = [
       actPD: 25,
       ar: 0.20,
     },
+    scales: { playa_ciudad: 5, relax_fiesta: 2, lowcost_fancy: 4, invierno_verano: 8, occidental_exotico: 3, streetfood_gourmet: 5, descanso_aventura: 4, solo_grupal: 2, naturaleza_metropolis: 2, moderno_historico: 7 },
   },
   {
     id: 'eslovenia',

@@ -161,13 +161,28 @@ function TripQuotes({ tripId, estimatedTotal }: { tripId: string; estimatedTotal
   )
 }
 
-function getPlanForDays(dest: Destination, days: number | null): { planDays: number; plan: ShortPlan | LongPlan; isShort: boolean } {
+function getPlanForDays(dest: Destination, days: number | null): { planDays: number; actualDays: number; plan: ShortPlan | LongPlan; isShort: boolean } {
   const n = days ?? 7
-  if (n <= 4)  return { planDays: 3,  plan: dest.plans3,  isShort: true  }
-  if (n <= 6)  return { planDays: 5,  plan: dest.plans5,  isShort: true  }
-  if (n <= 9)  return { planDays: 7,  plan: dest.plans7,  isShort: false }
-  if (n <= 13) return { planDays: 10, plan: dest.plans10, isShort: false }
-  return              { planDays: 14, plan: dest.plans14, isShort: false }
+  if (n <= 4)  return { planDays: 3,  actualDays: n, plan: dest.plans3,  isShort: true  }
+  if (n <= 6)  return { planDays: 5,  actualDays: n, plan: dest.plans5,  isShort: true  }
+  if (n <= 9)  return { planDays: 7,  actualDays: n, plan: dest.plans7,  isShort: false }
+  if (n <= 13) return { planDays: 10, actualDays: n, plan: dest.plans10, isShort: false }
+  return              { planDays: 14, actualDays: n, plan: dest.plans14, isShort: false }
+}
+
+function adaptPlan(plan: ShortPlan | LongPlan, planDays: number, actualDays: number, isShort: boolean): ShortPlan | LongPlan {
+  const extra = actualDays - planDays
+  if (extra <= 0) return plan
+  if (isShort) {
+    const adapted = [...plan as ShortPlan]
+    for (let i = 0; i < extra; i++)
+      adapted.push('Día libre — explorar sin agenda, mercado local o excursión espontánea')
+    return adapted
+  }
+  const adapted = [...plan as LongPlan]
+  for (let i = 0; i < extra; i++)
+    adapted.push([`Día ${planDays + i + 1}`, 'Día libre', 'Sin agenda fija — descansar, pasear o añadir una excursión a vuestro gusto.'])
+  return adapted
 }
 
 const DOC_TYPE_LABELS: Record<DocType, { label: string; emoji: string }> = {
@@ -410,7 +425,9 @@ function UploadModal({
 // ─────────────────────────────────────────────────────────────
 function TripItinerary({ dest, days }: { dest: Destination; days: number | null }) {
   const [open, setOpen] = useState(true)
-  const { planDays, plan, isShort } = getPlanForDays(dest, days)
+  const { planDays, actualDays, plan: rawPlan, isShort } = getPlanForDays(dest, days)
+  const plan = adaptPlan(rawPlan, planDays, actualDays, isShort)
+  const displayDays = actualDays > planDays ? actualDays : planDays
 
   return (
     <div className="card overflow-hidden">
@@ -422,7 +439,7 @@ function TripItinerary({ dest, days }: { dest: Destination; days: number | null 
           <span className="text-lg">🗺️</span>
           <span className="font-semibold text-gray-800">Itinerario sugerido</span>
           <span className="text-xs text-egeo bg-egeo/8 px-2 py-0.5 rounded-full font-medium">
-            {planDays} días
+            {displayDays} días
           </span>
         </div>
         <span className="text-gray-400 text-sm">{open ? '▲' : '▼'}</span>
@@ -434,7 +451,7 @@ function TripItinerary({ dest, days }: { dest: Destination; days: number | null 
             <ul className="space-y-3 mt-4">
               {(plan as ShortPlan).map((item, i) => (
                 <li key={i} className="flex items-start gap-3 text-sm text-gray-600">
-                  <span className="text-egeo font-bold flex-shrink-0 w-6 text-center">D{i + 1}</span>
+                  <span className="text-egeo font-bold flex-shrink-0 text-xs">Día {i + 1}</span>
                   <span>{item}</span>
                 </li>
               ))}
