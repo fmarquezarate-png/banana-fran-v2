@@ -4,7 +4,6 @@ import { calcBudget } from '@/lib/budget'
 export interface TripAnswers {
   days:            '3-5' | '5-7' | '7-10' | '10-14'
   travelers:       '1' | '2' | '3' | '4+'
-  vibe:            'beach' | 'nature' | 'culture' | 'mix'
   month:           'spring' | 'summer' | 'autumn' | 'winter' | 'any'
   crowds:          'hate' | 'ok' | 'dontcare'
   budget:          'low' | 'mid' | 'high' | 'nolimit'
@@ -12,9 +11,7 @@ export interface TripAnswers {
   musts:           string[]
   car:             'yes' | 'maybe' | 'no'
   region:          'europe' | 'americas' | 'asia' | 'africa' | 'oceania' | 'any'
-  zone:            'coast' | 'mountains' | 'cities' | 'islands' | 'any'
   accommodation:   'hotel' | 'boutique' | 'apartment' | 'any'
-  pace:            'relaxed' | 'moderate' | 'intense'
   // Escalas 1-10 (10 dimensiones)
   playa_ciudad:          number
   relax_fiesta:          number
@@ -144,20 +141,7 @@ export function scoreDests(
       }
     }
 
-    // 3. Zona / entorno (±12)
-    if (answers.zone !== 'any') {
-      const zoneKws = KEYWORDS[answers.zone] ?? []
-      const zoneHits = countKeywords(dest, zoneKws)
-      if (zoneHits >= 3) {
-        score += 12
-        const zoneLabels: Record<string, string> = { coast: 'Costa y playas', mountains: 'Montaña', cities: 'Ciudad/cultura', islands: 'Isla' }
-        reasons.push(`Encaja: ${zoneLabels[answers.zone]}`)
-      } else if (zoneHits === 0) {
-        score -= 8
-      }
-    }
-
-    // 4. Multitudes (±15)
+    // 3. Multitudes (±15)
     if (answers.crowds === 'hate') {
       if (dest.category === 'warning') { score -= 15; reasons.push('Muy masificado') }
       if (dest.category === 'perfect') { score += 8;  reasons.push('Buen nivel de tranquilidad') }
@@ -177,30 +161,7 @@ export function scoreDests(
       score -= 10
     }
 
-    // 6. Vibe (0-18)
-    const vibeKws = answers.vibe === 'mix'
-      ? [...KEYWORDS.beach, ...KEYWORDS.nature, ...KEYWORDS.culture]
-      : KEYWORDS[answers.vibe] ?? []
-    const vibeHits = countKeywords(dest, vibeKws)
-    const vibeScore = Math.min(18, vibeHits * 3)
-    score += vibeScore
-    if (vibeScore >= 12) {
-      const vibeLabels: Record<string, string> = { beach: 'Playas y agua', nature: 'Naturaleza', culture: 'Cultura', mix: 'Variedad' }
-      reasons.push(`Fuerte en: ${vibeLabels[answers.vibe]}`)
-    }
-
-    // 7. Ritmo de viaje (±8)
-    if (answers.pace !== 'moderate') {
-      const paceKws = KEYWORDS[answers.pace] ?? []
-      const paceHits = countKeywords(dest, paceKws)
-      if (paceHits >= 2) {
-        score += 8
-        if (answers.pace === 'relaxed') reasons.push('Ritmo tranquilo, sin prisas')
-        if (answers.pace === 'intense') reasons.push('Mucho que ver y hacer')
-      }
-    }
-
-    // 8. Novedad / popularidad (±10)
+    // 6. Novedad / popularidad (±10)
     if (answers.novelty === 'hidden') {
       if (dest.category === 'warning') { score -= 10 }
       if (dest.category === 'ok')      { score += 10; reasons.push('Destino menos turístico') }
@@ -224,15 +185,15 @@ export function scoreDests(
     }
     score += Math.min(15, actScore)
 
-    // 10. Temporada (±8)
-    if ((answers.month === 'summer') && dest.category === 'warning') {
-      score -= 8
-    }
-    if (answers.month === 'autumn' && (dest.category === 'perfect' || dest.category === 'good')) {
-      score += 5; reasons.push('Excelente en otoño')
-    }
-    if (answers.month === 'winter' && dest.category === 'perfect') {
-      score += 3
+    // 8. Temporada — cruza mes real con preferencia estacional del destino (±8)
+    const destSeason = dest.scales?.invierno_verano ?? 5
+    if (answers.month !== 'any') {
+      if (answers.month === 'summer'  && destSeason >= 7) { score += 6; reasons.push('Destino ideal en verano') }
+      if (answers.month === 'summer'  && destSeason <= 3) { score -= 8 }
+      if (answers.month === 'winter'  && destSeason <= 4) { score += 5; reasons.push('Funciona bien en invierno') }
+      if (answers.month === 'winter'  && destSeason >= 8) { score -= 6 }
+      if (answers.month === 'spring'  && destSeason >= 5) { score += 4; reasons.push('Primavera perfecta') }
+      if (answers.month === 'autumn'  && destSeason >= 5 && destSeason <= 8) { score += 4; reasons.push('Excelente en otoño') }
     }
 
     score = Math.max(0, Math.min(100, score))
