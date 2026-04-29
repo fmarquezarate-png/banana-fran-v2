@@ -295,6 +295,7 @@ export const DESTINATIONS_OK: Destination[] = [
     matchLabel: 'Está bien',
     tagline: 'El archipiélago volcánico siciliano: Stromboli, obsidiana y mar negro',
     category: 'ok',
+    scales: { playa_ciudad: 2, relax_fiesta: 2, lowcost_fancy: 4, invierno_verano: 9, occidental_exotico: 3, streetfood_gourmet: 7, descanso_aventura: 6, solo_grupal: 2, naturaleza_metropolis: 1, moderno_historico: 5 },
     coords: [38.4667, 14.9536],
     images: [
       'https://images.unsplash.com/photo-1533104816931-20fa691ff6ca?w=800',

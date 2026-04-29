@@ -581,6 +581,7 @@ export const DESTINATIONS_GOOD: Destination[] = [
     matchLabel: 'Muy bueno',
     tagline: 'El país más verde de Europa: lagos, cuevas y Alpes en miniatura',
     category: 'good',
+    scales: { playa_ciudad: 4, relax_fiesta: 2, lowcost_fancy: 4, invierno_verano: 6, occidental_exotico: 2, streetfood_gourmet: 5, descanso_aventura: 7, solo_grupal: 3, naturaleza_metropolis: 2, moderno_historico: 6 },
     coords: [46.1512, 14.9955],
     images: [
       'https://images.unsplash.com/photo-1563911892437-1feda0179e1b?w=800',

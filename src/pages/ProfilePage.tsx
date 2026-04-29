@@ -3,9 +3,13 @@ import toast from 'react-hot-toast'
 import { useAuth } from '@/hooks/useAuth'
 import { useProfile } from '@/hooks/useProfile'
 
-const APP_VERSION = '0.11.0'
+const APP_VERSION = '0.11.1'
 
 const CHANGELOG: { v: string; date: string; notes: string[] }[] = [
+  { v: '0.11.1', date: 'Abr 2026', notes: [
+    'Scales: Lipari, Eslovenia, Santorini, Mykonos, Dubrovnik',
+    '35 de 41 destinos perfilados en las 10 dimensiones',
+  ]},
   { v: '0.11.0', date: 'Abr 2026', notes: [
     'Slider bidireccional: fill centro→extremo, sin números visibles, indica dirección e intensidad',
     'Tester: mini-barras bidireccionales para visualizar posición usuario vs destino',

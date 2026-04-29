@@ -10,6 +10,7 @@ export const DESTINATIONS_WARNING: Destination[] = [
     matchLabel: 'Con cautela',
     tagline: 'El más fotogénico del Egeo, pero también el más masificado',
     category: 'warning',
+    scales: { playa_ciudad: 6, relax_fiesta: 5, lowcost_fancy: 8, invierno_verano: 9, occidental_exotico: 3, streetfood_gourmet: 7, descanso_aventura: 3, solo_grupal: 5, naturaleza_metropolis: 5, moderno_historico: 6 },
     coords: [36.3932, 25.4615],
     images: [
       'https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff?w=800',
@@ -105,6 +106,7 @@ export const DESTINATIONS_WARNING: Destination[] = [
     matchLabel: 'Con cautela',
     tagline: 'La isla del party — espectacular si te va ese rollo, ruinosa si no',
     category: 'warning',
+    scales: { playa_ciudad: 5, relax_fiesta: 9, lowcost_fancy: 9, invierno_verano: 9, occidental_exotico: 2, streetfood_gourmet: 7, descanso_aventura: 3, solo_grupal: 9, naturaleza_metropolis: 5, moderno_historico: 4 },
     coords: [37.4415, 25.3285],
     images: [
       'https://images.unsplash.com/photo-1601581875309-fafbf2d3ed3a?w=800',
@@ -200,6 +202,7 @@ export const DESTINATIONS_WARNING: Destination[] = [
     matchLabel: 'Con cautela',
     tagline: 'La perla del Adriático — con demasiados cruceristas encima',
     category: 'warning',
+    scales: { playa_ciudad: 7, relax_fiesta: 4, lowcost_fancy: 7, invierno_verano: 8, occidental_exotico: 2, streetfood_gourmet: 6, descanso_aventura: 4, solo_grupal: 5, naturaleza_metropolis: 5, moderno_historico: 9 },
     coords: [42.6507, 18.0944],
     images: [
       'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800',
