@@ -26,11 +26,74 @@ export interface TripAnswers {
   moderno_historico:     number
 }
 
-const SCALE_KEYS: (keyof DestinationScales)[] = [
+export const SCALE_KEYS: (keyof DestinationScales)[] = [
   'playa_ciudad', 'relax_fiesta', 'lowcost_fancy', 'invierno_verano',
   'occidental_exotico', 'streetfood_gourmet', 'descanso_aventura',
   'solo_grupal', 'naturaleza_metropolis', 'moderno_historico',
 ]
+
+export const SCALE_LABELS: Record<string, string> = {
+  playa_ciudad:          'Playa ↔ Ciudad',
+  relax_fiesta:          'Relax ↔ Fiesta',
+  lowcost_fancy:         'Lowcost ↔ Lujo',
+  invierno_verano:       'Invierno ↔ Verano',
+  occidental_exotico:    'Occidental ↔ Exótico',
+  streetfood_gourmet:    'Street food ↔ Gourmet',
+  descanso_aventura:     'Descanso ↔ Aventura',
+  solo_grupal:           'Solo ↔ Grupal',
+  naturaleza_metropolis: 'Naturaleza ↔ Metrópolis',
+  moderno_historico:     'Moderno ↔ Histórico',
+}
+
+export interface ScaleDimDetail {
+  key: string
+  label: string
+  userVal: number
+  destVal: number
+  intensity: number
+  weight: number
+  diff: number
+  dimScore: number
+  contribution: number
+  isNN: boolean
+  skipped: boolean
+}
+
+export function calcScaleMatchDetail(answers: TripAnswers, dest: Destination): {
+  pct: number
+  dims: ScaleDimDetail[]
+} {
+  const s = dest.scales ?? {}
+  const nn = new Set(answers.noNegociable ?? [])
+  let total = 0
+  let totalWeight = 0
+  const dims: ScaleDimDetail[] = []
+
+  for (const key of SCALE_KEYS) {
+    const dVal = (s[key] ?? 5) as number
+    const uVal = answers[key as keyof TripAnswers] as number
+    const intensity = Math.abs(uVal - 5)
+    const weight = intensity / 4
+    const diff = Math.abs(uVal - dVal)
+    const skipped = intensity === 0
+    const isNN = nn.has(key)
+    const dimScore = skipped ? 0 : isNN
+      ? (diff <= 1 ? 1.0 : 0.0)
+      : 1 - diff / 10
+    const contribution = skipped ? 0 : dimScore * weight
+
+    dims.push({ key, label: SCALE_LABELS[key], userVal: uVal, destVal: dVal,
+      intensity, weight, diff, dimScore, contribution, isNN, skipped })
+
+    if (!skipped) {
+      total += contribution
+      totalWeight += weight
+    }
+  }
+
+  const pct = totalWeight > 0 ? total / totalWeight : 0.65
+  return { pct, dims }
+}
 
 export function calcScaleMatch(answers: TripAnswers, dest: Destination): number {
   const s = dest.scales ?? {}

@@ -3,9 +3,16 @@ import toast from 'react-hot-toast'
 import { useAuth } from '@/hooks/useAuth'
 import { useProfile } from '@/hooks/useProfile'
 
-const APP_VERSION = '0.9.2'
+const APP_VERSION = '0.10.0'
 
 const CHANGELOG: { v: string; date: string; notes: string[] }[] = [
+  { v: '0.10.0', date: 'Abr 2026', notes: [
+    'Home rediseñado: solo CTA "Nuevo viaje" + galería nostálgica de viajes realizados',
+    'TripDetail: 3 tabs — Opciones (match), Planificado, Tester',
+    'Tab Opciones: destinos clasificados por % de afinidad del quiz en tiempo real',
+    'Tab Tester: desglose por dimensión (tú vs destino, peso, score)',
+    'Botón "Marcar como realizado" en cada viaje planificado',
+  ]},
   { v: '0.9.2', date: 'Abr 2026', notes: [
     'Fix: changelog ahora abre por defecto en el perfil',
     'Fix: planes se adaptan cuando los días reales > plantilla (añade "Día libre")',
