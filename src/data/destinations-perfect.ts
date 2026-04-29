@@ -714,6 +714,7 @@ export const DESTINATIONS_PERFECT: Destination[] = [
       actPD: 45,
       ar: 0.30,
     },
+    scales: { playa_ciudad: 2, relax_fiesta: 3, lowcost_fancy: 4, invierno_verano: 6, occidental_exotico: 2, streetfood_gourmet: 6, descanso_aventura: 7, solo_grupal: 4, naturaleza_metropolis: 2, moderno_historico: 4 },
   },
 
   // ── Eslovenia ─────────────────────────────────────────────────
