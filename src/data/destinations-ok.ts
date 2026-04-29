@@ -9,6 +9,7 @@ export const DESTINATIONS_OK: Destination[] = [
     match: '👌',
     matchLabel: 'Está bien',
     tagline: 'La parte salvaje de Creta: gorge, mar de Libia y sin masas',
+    scales: { playa_ciudad: 3, relax_fiesta: 3, lowcost_fancy: 4, invierno_verano: 8, occidental_exotico: 3, streetfood_gourmet: 6, descanso_aventura: 6, solo_grupal: 3, naturaleza_metropolis: 2, moderno_historico: 6 },
     category: 'ok',
     coords: [35.5138, 24.0180],
     images: [
@@ -101,6 +102,7 @@ export const DESTINATIONS_OK: Destination[] = [
     match: '👌',
     matchLabel: 'Está bien',
     tagline: 'La ciudad medieval y las playas tranquilas, lejos del caos del norte',
+    scales: { playa_ciudad: 4, relax_fiesta: 3, lowcost_fancy: 4, invierno_verano: 8, occidental_exotico: 4, streetfood_gourmet: 5, descanso_aventura: 5, solo_grupal: 3, naturaleza_metropolis: 3, moderno_historico: 8 },
     category: 'ok',
     coords: [36.0107, 27.9924],
     images: [
@@ -196,6 +198,7 @@ export const DESTINATIONS_OK: Destination[] = [
     match: '👌',
     matchLabel: 'Está bien',
     tagline: 'Pueblo turco con encanto, buceo espectacular y ruinas licias',
+    scales: { playa_ciudad: 3, relax_fiesta: 3, lowcost_fancy: 4, invierno_verano: 8, occidental_exotico: 7, streetfood_gourmet: 6, descanso_aventura: 6, solo_grupal: 2, naturaleza_metropolis: 2, moderno_historico: 7 },
     category: 'ok',
     coords: [36.2010, 29.6393],
     images: [

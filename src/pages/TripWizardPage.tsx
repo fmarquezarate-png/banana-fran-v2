@@ -9,7 +9,7 @@ import { scoreDests, type TripAnswers, type ScoredDestination } from '@/lib/trip
 import { calcBudget, formatPrice } from '@/lib/budget'
 
 // ─────────────────────────────────────────────────────────────
-// ScaleSelector — componente visual 1-10
+// ScaleSelector — slider bidireccional centrado en "neutral"
 // ─────────────────────────────────────────────────────────────
 function ScaleSelector({
   value, onChange, leftEmoji, leftLabel, rightEmoji, rightLabel,
@@ -19,52 +19,86 @@ function ScaleSelector({
   leftEmoji: string; leftLabel: string; rightEmoji: string; rightLabel: string
   isNegociable: boolean; onToggleNegociable: () => void
 }) {
+  const neutral = value === 5
+  const side = value < 5 ? 'left' : value > 5 ? 'right' : 'neutral'
+  // position% in the 1-10 range
+  const pct    = ((value - 1) / 9) * 100
+  const center = ((5 - 1) / 9) * 100   // 44.44% — posición real del neutro (v=5)
+
+  const col  = isNegociable ? '#ef4444' : '#1e6fb5'
+  const gray = '#e5e7eb'
+
+  const trackBg = neutral
+    ? gray
+    : side === 'left'
+      ? `linear-gradient(to right,${gray} 0%,${gray} ${pct}%,${col} ${pct}%,${col} ${center}%,${gray} ${center}%,${gray} 100%)`
+      : `linear-gradient(to right,${gray} 0%,${gray} ${center}%,${col} ${center}%,${col} ${pct}%,${gray} ${pct}%,${gray} 100%)`
+
+  const intensityLabel = (v: number) => {
+    const d = Math.abs(v - 5)
+    if (d >= 4) return 'Muy'
+    if (d >= 3) return 'Bastante'
+    if (d >= 2) return 'Algo'
+    return 'Ligeramente'
+  }
+
   return (
     <div className="space-y-5">
-      <div className="grid grid-cols-10 gap-1.5">
-        {Array.from({ length: 10 }, (_, i) => i + 1).map(n => (
-          <button
-            key={n}
-            onClick={() => onChange(n)}
-            className={`aspect-square rounded-xl font-bold text-sm transition-all duration-150 ${
-              n === value
-                ? isNegociable
-                  ? 'bg-warning-red text-white shadow-lg scale-110 ring-2 ring-warning-red/30'
-                  : 'bg-egeo text-white shadow-lg scale-110 ring-2 ring-egeo/30'
-                : isNegociable && Math.abs(n - value) <= 1
-                ? 'bg-warning-red/20 text-warning-red font-semibold'
-                : n < value && !isNegociable
-                ? 'bg-egeo/20 text-egeo font-semibold'
-                : 'bg-gray-100 text-gray-400 hover:bg-gray-200'
-            }`}
-          >
-            {n}
-          </button>
-        ))}
+
+      {/* Etiquetas izquierda / derecha */}
+      <div className="flex items-center justify-between gap-3">
+        <div className={`flex flex-col items-center gap-0.5 min-w-[72px] transition-all duration-200 ${
+          side === 'left' ? 'opacity-100 scale-105' : 'opacity-35 scale-100'
+        }`}>
+          <span className="text-3xl">{leftEmoji}</span>
+          <span className="text-xs font-semibold text-gray-700 text-center leading-tight">{leftLabel}</span>
+        </div>
+
+        {/* Indicador central */}
+        <div className="flex-1 text-center">
+          {neutral ? (
+            <span className="text-xs text-gray-400 italic">Sin preferencia</span>
+          ) : (
+            <span className={`text-xs font-semibold ${isNegociable ? 'text-red-500' : 'text-egeo'}`}>
+              {intensityLabel(value)} hacia {side === 'left' ? leftLabel : rightLabel}
+            </span>
+          )}
+        </div>
+
+        <div className={`flex flex-col items-center gap-0.5 min-w-[72px] transition-all duration-200 ${
+          side === 'right' ? 'opacity-100 scale-105' : 'opacity-35 scale-100'
+        }`}>
+          <span className="text-3xl">{rightEmoji}</span>
+          <span className="text-xs font-semibold text-gray-700 text-center leading-tight">{rightLabel}</span>
+        </div>
       </div>
-      <div className="h-2 bg-gray-100 rounded-full overflow-hidden">
+
+      {/* Slider con marca central */}
+      <div className="relative px-1">
+        <input
+          type="range" min={1} max={10} step={1}
+          value={value}
+          onChange={e => onChange(Number(e.target.value))}
+          className="scale-slider w-full"
+          style={{
+            background: trackBg,
+            ['--thumb-color' as string]: col,
+          }}
+        />
+        {/* Marca central en la posición de v=5 */}
         <div
-          className={`h-full rounded-full transition-all duration-300 ${isNegociable ? 'bg-warning-red' : 'bg-gradient-to-r from-egeo/50 to-egeo'}`}
-          style={{ width: `${(value / 10) * 100}%` }}
+          className="absolute top-1/2 -translate-y-1/2 w-0.5 h-5 rounded-full pointer-events-none"
+          style={{
+            left: `calc(${center}% + 4px)`,   /* +4px compensa el padding */
+            background: neutral ? col : '#9ca3af',
+            opacity: neutral ? 0.6 : 0.35,
+          }}
         />
       </div>
-      <div className="flex items-start justify-between">
-        <div className={`text-center transition-opacity ${value <= 3 ? 'opacity-100' : 'opacity-35'}`}>
-          <span className="text-3xl block">{leftEmoji}</span>
-          <span className="text-xs text-gray-500 mt-1 block max-w-[90px] leading-tight">{leftLabel}</span>
-        </div>
-        <div className="text-center">
-          <span className={`font-display text-5xl font-bold leading-none ${isNegociable ? 'text-warning-red' : 'text-egeo'}`}>{value}</span>
-          <span className="text-sm text-gray-400 block mt-0.5">/ 10</span>
-        </div>
-        <div className={`text-center transition-opacity ${value >= 8 ? 'opacity-100' : 'opacity-35'}`}>
-          <span className="text-3xl block">{rightEmoji}</span>
-          <span className="text-xs text-gray-500 mt-1 block max-w-[90px] leading-tight text-right">{rightLabel}</span>
-        </div>
-      </div>
+
       {/* No negociable */}
       <label className={`flex items-center gap-2.5 cursor-pointer rounded-xl px-4 py-2.5 transition-colors ${
-        isNegociable ? 'bg-warning-red/8 border border-warning-red/30' : 'bg-gray-50 border border-transparent'
+        isNegociable ? 'bg-red-50 border border-red-200' : 'bg-gray-50 border border-transparent'
       }`}>
         <input
           type="checkbox"
@@ -73,11 +107,13 @@ function ScaleSelector({
           className="w-4 h-4 accent-red-500 flex-shrink-0"
         />
         <div>
-          <span className={`text-xs font-semibold block ${isNegociable ? 'text-warning-red' : 'text-gray-500'}`}>
+          <span className={`text-xs font-semibold block ${isNegociable ? 'text-red-500' : 'text-gray-500'}`}>
             🔴 No negociable
           </span>
           <span className="text-xs text-gray-400 leading-tight">
-            {isNegociable ? 'Solo acepta valores muy cercanos — desacuerdo = Warning' : 'Marca si este criterio es innegociable para vosotros'}
+            {isNegociable
+              ? 'Desacuerdo de más de 1 punto → Zona Warning automática'
+              : 'Activa si este criterio es innegociable para vosotros'}
           </span>
         </div>
       </label>

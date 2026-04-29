@@ -806,49 +806,63 @@ function TesterTab({ quizAnswers, defaultDest }: { quizAnswers: TripAnswers | nu
 
           {/* Tabla de dimensiones */}
           <div className="card overflow-hidden">
-            <div className="bg-gray-50 border-b border-gray-100 px-3 py-2 grid grid-cols-6 gap-1">
-              {['Dimensión', 'Tú', 'Dest', 'Diff', 'Peso', 'Score'].map(h => (
-                <p key={h} className="text-[10px] font-bold text-gray-400 uppercase tracking-wide text-center first:text-left">{h}</p>
+            <div className="bg-gray-50 border-b border-gray-100 px-3 py-2 grid grid-cols-[2fr_3fr_3fr_1.5fr] gap-2">
+              {['Dimensión', 'Tú →', 'Destino →', 'Score'].map(h => (
+                <p key={h} className="text-[10px] font-bold text-gray-400 uppercase tracking-wide first:text-left text-center">{h}</p>
               ))}
             </div>
-            {detail.dims.map(d => (
-              <div
-                key={d.key}
-                className={`px-3 py-2 grid grid-cols-6 gap-1 border-b border-gray-50 text-center ${
-                  d.skipped ? 'opacity-40' : ''
-                }`}
-              >
-                <p className="text-[10px] text-gray-600 text-left leading-tight truncate" title={d.label}>
-                  {d.isNN && <span className="text-red-500 font-bold mr-0.5">!</span>}
-                  {d.label.split(' ↔ ')[0]}
-                </p>
-                <p className="text-xs font-bold text-egeo">{d.userVal}</p>
-                <p className={`text-xs font-semibold ${d.destVal === 5 ? 'text-gray-400 italic' : 'text-gray-700'}`}>
-                  {d.destVal === 5 && !dest.scales ? '—' : d.destVal}
-                </p>
-                <p className={`text-xs font-semibold ${d.diff >= 5 ? 'text-red-500' : d.diff >= 3 ? 'text-amber-500' : 'text-green-600'}`}>
-                  {d.skipped ? '—' : d.diff}
-                </p>
-                <p className="text-xs text-gray-500">{d.skipped ? '—' : d.weight.toFixed(2)}</p>
-                <p className={`text-xs font-bold ${
-                  d.skipped ? 'text-gray-300' :
-                  d.dimScore >= 0.8 ? 'text-green-600' :
-                  d.dimScore >= 0.5 ? 'text-amber-500' : 'text-red-500'
-                }`}>
-                  {d.skipped ? '·' : d.isNN
-                    ? (d.dimScore === 1 ? '✓' : '✗')
-                    : `${Math.round(d.dimScore * 100)}%`
-                  }
-                </p>
-              </div>
-            ))}
-            {/* Total */}
-            <div className="px-3 py-2.5 bg-egeo/5 grid grid-cols-6 gap-1 text-center">
-              <p className="text-xs font-bold text-egeo text-left">TOTAL</p>
-              <p className="col-span-4 text-xs text-gray-400">
-                ponderado · {activeKeys.length} dims activas
-              </p>
-              <p className="text-sm font-display font-bold text-egeo">{Math.round(detail.pct * 100)}%</p>
+            {detail.dims.map(d => {
+              const [leftLbl] = d.label.split(' ↔ ')
+              const c = 44.44  // center%
+              const userPct  = ((d.userVal  - 1) / 9) * 100
+              const destPct  = ((d.destVal  - 1) / 9) * 100
+
+              function MiniBar({ val, color }: { val: number; color: string }) {
+                const s = val < 5 ? 'left' : val > 5 ? 'right' : 'neutral'
+                const p = ((val - 1) / 9) * 100
+                return (
+                  <div className="flex flex-col items-center gap-0.5 w-full">
+                    <span className="text-[9px] font-bold" style={{ color }}>{val}</span>
+                    <div className="relative h-1.5 bg-gray-100 rounded-full w-full">
+                      {val !== 5 && (
+                        <div className="absolute top-0 h-full rounded-full transition-all"
+                          style={{ background: color, left: s === 'left' ? `${p}%` : `${c}%`, width: `${Math.abs(p - c)}%` }} />
+                      )}
+                      <div className="absolute top-1/2 -translate-y-1/2 w-px h-2.5 bg-gray-300 rounded-full"
+                        style={{ left: `${c}%` }} />
+                    </div>
+                  </div>
+                )
+              }
+
+              return (
+                <div key={d.key}
+                  className={`px-3 py-2.5 grid grid-cols-[2fr_3fr_3fr_1.5fr] gap-2 border-b border-gray-50 items-center ${
+                    d.skipped ? 'opacity-35' : ''
+                  }`}
+                >
+                  <p className="text-[10px] text-gray-600 leading-tight truncate" title={d.label}>
+                    {d.isNN && <span className="text-red-500 font-bold mr-0.5">!</span>}
+                    {leftLbl}
+                  </p>
+                  <MiniBar val={d.userVal}  color={d.skipped ? '#9ca3af' : '#1e6fb5'} />
+                  <MiniBar val={d.destVal}  color={d.skipped ? '#9ca3af' : '#6b7280'} />
+                  <p className={`text-xs font-bold text-center ${
+                    d.skipped ? 'text-gray-300' :
+                    d.dimScore >= 0.8 ? 'text-green-600' :
+                    d.dimScore >= 0.5 ? 'text-amber-500' : 'text-red-500'
+                  }`}>
+                    {d.skipped ? '·' : d.isNN
+                      ? (d.dimScore === 1 ? '✓' : '✗')
+                      : `${Math.round(d.dimScore * 100)}%`}
+                  </p>
+                </div>
+              )
+            })}
+            <div className="px-3 py-2.5 bg-egeo/5 grid grid-cols-[2fr_3fr_3fr_1.5fr] gap-2 items-center">
+              <p className="text-xs font-bold text-egeo">TOTAL</p>
+              <p className="col-span-2 text-xs text-gray-400">ponderado · {activeKeys.length} dims activas</p>
+              <p className="text-sm font-display font-bold text-egeo text-center">{Math.round(detail.pct * 100)}%</p>
             </div>
           </div>
 
