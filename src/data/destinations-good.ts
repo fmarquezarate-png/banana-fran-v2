@@ -1315,5 +1315,6 @@ export const DESTINATIONS_GOOD: Destination[] = [
       actPD: 30,
       ar: 0.30,
     },
+    scales: { playa_ciudad: 9, relax_fiesta: 6, lowcost_fancy: 5, invierno_verano: 6, occidental_exotico: 8, streetfood_gourmet: 8, descanso_aventura: 4, solo_grupal: 6, naturaleza_metropolis: 9, moderno_historico: 9 },
   },
 ]
