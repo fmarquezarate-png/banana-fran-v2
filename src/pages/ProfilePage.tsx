@@ -3,9 +3,21 @@ import toast from 'react-hot-toast'
 import { useAuth } from '@/hooks/useAuth'
 import { useProfile } from '@/hooks/useProfile'
 
-const APP_VERSION = '0.7.1'
+const APP_VERSION = '0.8.1'
 
 const CHANGELOG: { v: string; date: string; notes: string[] }[] = [
+  { v: '0.8.1', date: 'Abr 2026', notes: [
+    'Scales añadidas: Milos, Amorgos, Léucade, Albania Riviera, Kotor, Ksamil, Estambul, Sicilia, Madeira',
+    'Motor de matching: 12 destinos con perfilado completo en las 10 dimensiones',
+  ]},
+  { v: '0.8.0', date: 'Abr 2026', notes: [
+    'Motor de matching rediseñado: 10 dimensiones dinámicas (playa↔ciudad, relax↔fiesta, lowcost↔lujo…)',
+    'Quiz: 10 preguntas de escala 1-10 con emojis y barra de progreso visual',
+    'Categorías (Perfect/Good/Ok/Warning) calculadas en tiempo real vs perfil del usuario',
+    'Cotizador de precios reales en viajes planificados (localStorage)',
+    'Botón "Planificar este viaje" desde ficha de destino y desde comparación',
+    'Highlands de Escocia: nuevo destino con planes 3/5/7/10/14 días',
+  ]},
   { v: '0.7.1', date: 'Abr 2026', notes: [
     'Imprescindibles ampliados: 12 opciones (gastronomía, arte, deportes acuáticos, fotografía, compras, wellness)',
     '5 destinos nuevos: Madeira, Eslovenia, Puglia, Estambul, Sicilia',
