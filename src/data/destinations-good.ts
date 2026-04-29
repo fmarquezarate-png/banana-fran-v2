@@ -847,6 +847,7 @@ export const DESTINATIONS_GOOD: Destination[] = [
       actPD: 20,
       ar: 0.20,
     },
+    scales: { playa_ciudad: 9, relax_fiesta: 6, lowcost_fancy: 2, invierno_verano: 9, occidental_exotico: 5, streetfood_gourmet: 5, descanso_aventura: 3, solo_grupal: 4, naturaleza_metropolis: 5, moderno_historico: 4 },
   },
   {
     id: 'corfu-norte',

@@ -87,6 +87,7 @@ export const DESTINATIONS_PERFECT: Destination[] = [
       actPD: 25,
       ar: 0.15,
     },
+    scales: { playa_ciudad: 8, relax_fiesta: 5, lowcost_fancy: 2, invierno_verano: 9, occidental_exotico: 5, streetfood_gourmet: 6, descanso_aventura: 5, solo_grupal: 4, naturaleza_metropolis: 4, moderno_historico: 6 },
   },
 
   // ── #2 ──────────────────────────────────────────────────────
@@ -538,6 +539,7 @@ export const DESTINATIONS_PERFECT: Destination[] = [
       actPD: 30,
       ar: 0.20,
     },
+    scales: { playa_ciudad: 6, relax_fiesta: 4, lowcost_fancy: 3, invierno_verano: 7, occidental_exotico: 4, streetfood_gourmet: 6, descanso_aventura: 6, solo_grupal: 4, naturaleza_metropolis: 3, moderno_historico: 9 },
   },
 
   // ── Azores ──────────────────────────────────────────────────
