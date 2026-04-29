@@ -1,6 +1,7 @@
-import { useEffect, useState, lazy, Suspense } from 'react'
+import { useEffect, useState, lazy, Suspense, useMemo } from 'react'
 import { Link } from 'react-router-dom'
 import { DESTINATIONS, getDestinationsByCategory, type Destination, type DestinationCategory } from '@/data/destinations'
+import { calcScaleMatch, getScaleCategory, type TripAnswers } from '@/lib/tripMatcher'
 import { CategoryRow } from '@/components/destinations/CategoryRow'
 import { DestinationCard } from '@/components/destinations/DestinationCard'
 import { useFavorites } from '@/contexts/FavoritesContext'
@@ -224,8 +225,11 @@ function CompareTab() {
           <Row label="Idioma"  value={dest.facts['idioma'] ?? dest.facts['language'] ?? '—'} />
           <Row label="7 días"  value={`${formatPrice(budget.totalMin)}–${formatPrice(budget.totalMax)}`} />
         </div>
-        <Link to={`/destino/${dest.id}`} className="mt-4 block text-center text-xs btn-primary py-1.5">
+        <Link to={`/destino/${dest.id}`} className="mt-3 block text-center text-xs btn-secondary py-1.5">
           Ver ficha →
+        </Link>
+        <Link to={`/viajes/nuevo?dest=${dest.id}`} className="mt-2 block text-center text-xs btn-primary py-1.5">
+          🗺️ Planificar viaje
         </Link>
       </div>
     )
@@ -506,10 +510,21 @@ export function HomePage() {
 
   const hasQuiz = typeof window !== 'undefined' && !!localStorage.getItem('quizAnswers')
 
-  const perfect = getDestinationsByCategory('perfect')
-  const good    = getDestinationsByCategory('good')
-  const ok      = getDestinationsByCategory('ok')
-  const warning = getDestinationsByCategory('warning')
+  const savedAnswers = useMemo<TripAnswers | null>(() => {
+    if (typeof window === 'undefined') return null
+    try { return JSON.parse(localStorage.getItem('quizAnswers') ?? '') as TripAnswers }
+    catch { return null }
+  }, [])
+
+  function dynCategory(dest: Destination): DestinationCategory {
+    if (!savedAnswers) return dest.category
+    return getScaleCategory(calcScaleMatch(savedAnswers, dest))
+  }
+
+  const perfect = hasQuiz ? DESTINATIONS.filter(d => dynCategory(d) === 'perfect') : getDestinationsByCategory('perfect')
+  const good    = hasQuiz ? DESTINATIONS.filter(d => dynCategory(d) === 'good')    : getDestinationsByCategory('good')
+  const ok      = hasQuiz ? DESTINATIONS.filter(d => dynCategory(d) === 'ok')      : getDestinationsByCategory('ok')
+  const warning = hasQuiz ? DESTINATIONS.filter(d => dynCategory(d) === 'warning') : getDestinationsByCategory('warning')
 
   const isWarning = activeTab === 'warning'
 

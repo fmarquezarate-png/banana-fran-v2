@@ -1,5 +1,5 @@
-import { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { useState, useEffect } from 'react'
+import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import toast from 'react-hot-toast'
 import { DESTINATIONS } from '@/data/destinations'
 import type { Destination } from '@/data/destinations'
@@ -9,8 +9,64 @@ import { scoreDests, type TripAnswers, type ScoredDestination } from '@/lib/trip
 import { calcBudget, formatPrice } from '@/lib/budget'
 
 // ─────────────────────────────────────────────────────────────
+// ScaleSelector — componente visual 1-10
+// ─────────────────────────────────────────────────────────────
+function ScaleSelector({
+  value, onChange, leftEmoji, leftLabel, rightEmoji, rightLabel,
+}: {
+  value: number; onChange: (n: number) => void
+  leftEmoji: string; leftLabel: string; rightEmoji: string; rightLabel: string
+}) {
+  return (
+    <div className="space-y-5">
+      <div className="grid grid-cols-10 gap-1.5">
+        {Array.from({ length: 10 }, (_, i) => i + 1).map(n => (
+          <button
+            key={n}
+            onClick={() => onChange(n)}
+            className={`aspect-square rounded-xl font-bold text-sm transition-all duration-150 ${
+              n === value
+                ? 'bg-egeo text-white shadow-lg scale-110 ring-2 ring-egeo/30'
+                : n < value
+                ? 'bg-egeo/20 text-egeo font-semibold'
+                : 'bg-gray-100 text-gray-400 hover:bg-gray-200'
+            }`}
+          >
+            {n}
+          </button>
+        ))}
+      </div>
+      <div className="h-2 bg-gray-100 rounded-full overflow-hidden">
+        <div
+          className="h-full bg-gradient-to-r from-egeo/50 to-egeo rounded-full transition-all duration-300"
+          style={{ width: `${(value / 10) * 100}%` }}
+        />
+      </div>
+      <div className="flex items-start justify-between">
+        <div className={`text-center transition-opacity ${value <= 3 ? 'opacity-100' : 'opacity-35'}`}>
+          <span className="text-3xl block">{leftEmoji}</span>
+          <span className="text-xs text-gray-500 mt-1 block max-w-[90px] leading-tight">{leftLabel}</span>
+        </div>
+        <div className="text-center">
+          <span className="font-display text-5xl font-bold text-egeo leading-none">{value}</span>
+          <span className="text-sm text-gray-400 block mt-0.5">/ 10</span>
+        </div>
+        <div className={`text-center transition-opacity ${value >= 8 ? 'opacity-100' : 'opacity-35'}`}>
+          <span className="text-3xl block">{rightEmoji}</span>
+          <span className="text-xs text-gray-500 mt-1 block max-w-[90px] leading-tight text-right">{rightLabel}</span>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+// ─────────────────────────────────────────────────────────────
 // Steps
 // ─────────────────────────────────────────────────────────────
+type ScaleKey = 'playa_ciudad' | 'relax_fiesta' | 'lowcost_fancy' | 'invierno_verano' |
+  'occidental_exotico' | 'streetfood_gourmet' | 'descanso_aventura' |
+  'solo_grupal' | 'naturaleza_metropolis' | 'moderno_historico'
+
 type Step =
   | { key: 'days';          q: string; type: 'single'; opts: { v: TripAnswers['days'];          l: string; e: string }[] }
   | { key: 'travelers';     q: string; type: 'single'; opts: { v: TripAnswers['travelers'];     l: string; e: string }[] }
@@ -25,6 +81,8 @@ type Step =
   | { key: 'novelty';       q: string; type: 'single'; opts: { v: TripAnswers['novelty'];       l: string; e: string }[] }
   | { key: 'musts';         q: string; type: 'multi';  opts: { v: string; l: string; e: string }[] }
   | { key: 'car';           q: string; type: 'single'; opts: { v: TripAnswers['car'];           l: string; e: string }[] }
+  | { key: ScaleKey;        q: string; type: 'scale';
+      leftEmoji: string; leftLabel: string; rightEmoji: string; rightLabel: string }
 
 const STEPS: Step[] = [
   {
@@ -130,19 +188,75 @@ const STEPS: Step[] = [
   {
     key: 'musts', q: '¿Qué no puede faltar? (elige todo lo que queráis)', type: 'multi',
     opts: [
-      { v: 'beaches',    l: 'Playas espectaculares',   e: '🏝️' },
-      { v: 'snorkel',    l: 'Snorkel / Buceo',         e: '🤿' },
-      { v: 'watersports',l: 'Deportes acuáticos',      e: '🏄' },
-      { v: 'hiking',     l: 'Senderismo y rutas',      e: '🥾' },
-      { v: 'history',    l: 'Historia y arquitectura',  e: '🏛️' },
-      { v: 'art',        l: 'Arte y museos',            e: '🎨' },
-      { v: 'gastronomy', l: 'Gastronomía y vino',      e: '🍷' },
-      { v: 'shopping',   l: 'Mercados y compras',       e: '🛍️' },
-      { v: 'nightlife',  l: 'Vida nocturna',            e: '🎉' },
-      { v: 'photography',l: 'Fotografía y paisajes',   e: '📸' },
-      { v: 'wellness',   l: 'Wellness / Termas',        e: '♨️' },
-      { v: 'peace',      l: 'Tranquilidad total',       e: '🧘' },
+      { v: 'beaches',    l: 'Playas espectaculares',      e: '🏝️' },
+      { v: 'snorkel',    l: 'Snorkel / Buceo',            e: '🤿' },
+      { v: 'watersports',l: 'Deportes acuáticos',         e: '🏄' },
+      { v: 'hiking',     l: 'Senderismo y rutas',         e: '🥾' },
+      { v: 'skiing',     l: 'Esquí / Deportes de nieve',  e: '⛷️' },
+      { v: 'history',    l: 'Historia y arquitectura',    e: '🏛️' },
+      { v: 'art',        l: 'Arte y museos',              e: '🎨' },
+      { v: 'gastronomy', l: 'Gastronomía y vino',        e: '🍷' },
+      { v: 'winetour',   l: 'Enoturismo y bodegas',      e: '🍾' },
+      { v: 'shopping',   l: 'Mercados y compras',         e: '🛍️' },
+      { v: 'nightlife',  l: 'Vida nocturna',              e: '🎉' },
+      { v: 'photography',l: 'Fotografía y paisajes',     e: '📸' },
+      { v: 'wellness',   l: 'Wellness / Termas / Spa',    e: '♨️' },
+      { v: 'wildlife',   l: 'Fauna y naturaleza salvaje', e: '🦁' },
+      { v: 'family',     l: 'Apto para niños / familia',  e: '👨‍👩‍👧' },
+      { v: 'romantic',   l: 'Escapada romántica',         e: '💑' },
+      { v: 'peace',      l: 'Tranquilidad total',         e: '🧘' },
     ],
+  },
+  // ── Escalas 1-10 — 10 dimensiones ───────────────────────────
+  {
+    key: 'playa_ciudad', q: '¿Playa o ciudad?', type: 'scale',
+    leftEmoji: '🏖️', leftLabel: 'Playa pura — sol, agua y arena',
+    rightEmoji: '🏙️', rightLabel: 'Ciudad — cultura, gente y ambiente',
+  },
+  {
+    key: 'relax_fiesta', q: '¿Relax o ambiente nocturno?', type: 'scale',
+    leftEmoji: '😴', leftLabel: 'Desconectar totalmente',
+    rightEmoji: '🎉', rightLabel: 'Bares, gente y vida nocturna',
+  },
+  {
+    key: 'lowcost_fancy', q: '¿Estilo de viaje?', type: 'scale',
+    leftEmoji: '🎒', leftLabel: 'Mochilero — autenticidad y precio',
+    rightEmoji: '💎', rightLabel: 'Con comodidad y algo de lujo',
+  },
+  {
+    key: 'invierno_verano', q: '¿Invierno o verano?', type: 'scale',
+    leftEmoji: '❄️', leftLabel: 'Frío, nieve y temporada invernal',
+    rightEmoji: '☀️', rightLabel: 'Calor, sol y temporada estival',
+  },
+  {
+    key: 'occidental_exotico', q: '¿Cercano o exótico?', type: 'scale',
+    leftEmoji: '🏛️', leftLabel: 'Europa y lo conocido',
+    rightEmoji: '🌏', rightLabel: 'Asia, África o lo muy diferente',
+  },
+  {
+    key: 'streetfood_gourmet', q: '¿Cómo coméis en viaje?', type: 'scale',
+    leftEmoji: '🌮', leftLabel: 'Street food y mercados locales',
+    rightEmoji: '🍽️', rightLabel: 'Restaurantes y gastronomía seria',
+  },
+  {
+    key: 'descanso_aventura', q: '¿Descanso o aventura?', type: 'scale',
+    leftEmoji: '🛋️', leftLabel: 'Recuperar energía y descansar',
+    rightEmoji: '🧗', rightLabel: 'Adrenalina, deporte y retos',
+  },
+  {
+    key: 'solo_grupal', q: '¿Experiencia íntima o social?', type: 'scale',
+    leftEmoji: '💑', leftLabel: 'Pareja / experiencia íntima',
+    rightEmoji: '👥', rightLabel: 'Conocer gente y ambiente social',
+  },
+  {
+    key: 'naturaleza_metropolis', q: '¿Naturaleza o gran ciudad?', type: 'scale',
+    leftEmoji: '🌿', leftLabel: 'Parajes naturales y silencio',
+    rightEmoji: '🌆', rightLabel: 'Gran ciudad, vida y movimiento',
+  },
+  {
+    key: 'moderno_historico', q: '¿Modernidad o historia?', type: 'scale',
+    leftEmoji: '🔮', leftLabel: 'Diseño y arte contemporáneo',
+    rightEmoji: '🏛️', rightLabel: 'Historia, patrimonio y antigüedad',
   },
   {
     key: 'car', q: '¿Alquiláis coche en el destino?', type: 'single',
@@ -244,10 +358,14 @@ const DEFAULT_ANSWERS: TripAnswers = {
   days: '7-10', travelers: '2', vibe: 'mix', crowds: 'ok', month: 'any',
   budget: 'mid', novelty: 'any', musts: [], car: 'maybe',
   region: 'any', zone: 'any', accommodation: 'any', pace: 'moderate',
+  playa_ciudad: 5, relax_fiesta: 5, lowcost_fancy: 5, invierno_verano: 5,
+  occidental_exotico: 5, streetfood_gourmet: 5, descanso_aventura: 5,
+  solo_grupal: 5, naturaleza_metropolis: 5, moderno_historico: 5,
 }
 
 export function TripWizardPage() {
   const navigate = useNavigate()
+  const [searchParams] = useSearchParams()
   const { user } = useAuth()
   const { createTrip } = useTrips(user?.id)
 
@@ -256,6 +374,18 @@ export function TripWizardPage() {
   const [phase, setPhase]     = useState<'quiz' | 'results' | 'create'>('quiz')
   const [results, setResults] = useState<ScoredDestination[]>([])
   const [selectedId, setSelectedId] = useState<string | null>(null)
+
+  // Si viene ?dest=<id>, ir directo a create con ese destino
+  useEffect(() => {
+    const destId = searchParams.get('dest')
+    if (!destId) return
+    const dest = DESTINATIONS.find(d => d.id === destId)
+    if (!dest) return
+    setResults([{ dest, score: 100, reasons: ['Destino seleccionado directamente'] }])
+    setSelectedId(destId)
+    setTripName(`${dest.shortName} ${new Date().getFullYear() + (new Date().getMonth() >= 8 ? 1 : 0)}`)
+    setPhase('create')
+  }, [])
 
   const [tripName,   setTripName]   = useState('')
   const [startDate,  setStartDate]  = useState('')
@@ -272,6 +402,12 @@ export function TripWizardPage() {
     const updated = { ...answers, [key]: value }
     setAnswers(updated)
     setTimeout(() => advance(updated), 180)
+  }
+
+  function selectScale(key: ScaleKey, value: number) {
+    const updated = { ...answers, [key]: value }
+    setAnswers(updated)
+    setTimeout(() => advance(updated), 500)
   }
 
   function toggleMulti(value: string) {
@@ -550,7 +686,8 @@ export function TripWizardPage() {
   }
 
   // ── Phase: Quiz ──────────────────────────────────────────────
-  const isMulti      = current.type === 'multi'
+  const isScale = current.type === 'scale'
+  const isMulti = current.type === 'multi'
   const selectedMulti = answers.musts
 
   return (
@@ -570,30 +707,42 @@ export function TripWizardPage() {
 
       <h2 className="font-display text-2xl font-bold text-gray-900 mb-6 leading-snug">{current.q}</h2>
 
-      <div className="space-y-3">
-        {current.opts.map(opt => {
-          const isSelected = isMulti
-            ? selectedMulti.includes(opt.v)
-            : answers[current.key as keyof TripAnswers] === opt.v
+      {isScale ? (
+        // Escala 1-10
+        <ScaleSelector
+          value={answers[current.key as ScaleKey] as number}
+          onChange={n => selectScale(current.key as ScaleKey, n)}
+          leftEmoji={(current as Extract<Step, { type: 'scale' }>).leftEmoji}
+          leftLabel={(current as Extract<Step, { type: 'scale' }>).leftLabel}
+          rightEmoji={(current as Extract<Step, { type: 'scale' }>).rightEmoji}
+          rightLabel={(current as Extract<Step, { type: 'scale' }>).rightLabel}
+        />
+      ) : (
+        <div className="space-y-3">
+          {(current as Extract<Step, { type: 'single' | 'multi' }>).opts.map(opt => {
+            const isSelected = isMulti
+              ? selectedMulti.includes(opt.v)
+              : answers[current.key as keyof TripAnswers] === opt.v
 
-          return (
-            <button
-              key={opt.v}
-              onClick={() => isMulti ? toggleMulti(opt.v) : selectSingle(current.key, opt.v)}
-              className={`w-full flex items-center gap-4 px-5 py-4 rounded-2xl border-2 text-left
-                          transition-all duration-200 ${
-                isSelected
-                  ? 'border-egeo bg-egeo/5 shadow-sm'
-                  : 'border-gray-100 bg-white hover:border-gray-200 hover:bg-gray-50'
-              }`}
-            >
-              <span className="text-2xl flex-shrink-0">{opt.e}</span>
-              <span className={`font-medium text-sm ${isSelected ? 'text-egeo' : 'text-gray-700'}`}>{opt.l}</span>
-              {isSelected && <span className="ml-auto text-egeo font-bold flex-shrink-0">✓</span>}
-            </button>
-          )
-        })}
-      </div>
+            return (
+              <button
+                key={opt.v}
+                onClick={() => isMulti ? toggleMulti(opt.v) : selectSingle(current.key, opt.v)}
+                className={`w-full flex items-center gap-4 px-5 py-4 rounded-2xl border-2 text-left
+                            transition-all duration-200 ${
+                  isSelected
+                    ? 'border-egeo bg-egeo/5 shadow-sm'
+                    : 'border-gray-100 bg-white hover:border-gray-200 hover:bg-gray-50'
+                }`}
+              >
+                <span className="text-2xl flex-shrink-0">{opt.e}</span>
+                <span className={`font-medium text-sm ${isSelected ? 'text-egeo' : 'text-gray-700'}`}>{opt.l}</span>
+                {isSelected && <span className="ml-auto text-egeo font-bold flex-shrink-0">✓</span>}
+              </button>
+            )
+          })}
+        </div>
+      )}
 
       {isMulti && (
         <div className="mt-6">

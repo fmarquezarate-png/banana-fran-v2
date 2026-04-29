@@ -49,6 +49,20 @@ export interface Destination {
   plans10: LongPlan
   plans14: LongPlan
   budget: DestinationBudget
+  scales?: DestinationScales
+}
+
+export interface DestinationScales {
+  playa_ciudad?:          number  // 1=playa pura,         10=ciudad pura
+  relax_fiesta?:          number  // 1=relax total,        10=fiesta/animación
+  lowcost_fancy?:         number  // 1=mochilero,          10=lujo
+  invierno_verano?:       number  // 1=mejor en invierno,  10=mejor en verano
+  occidental_exotico?:    number  // 1=muy occidental,     10=muy exótico
+  streetfood_gourmet?:    number  // 1=street food,        10=alta gastronomía
+  descanso_aventura?:     number  // 1=descanso total,     10=aventura extrema
+  solo_grupal?:           number  // 1=experiencia íntima, 10=muy social/grupal
+  naturaleza_metropolis?: number  // 1=naturaleza pura,    10=metrópolis
+  moderno_historico?:     number  // 1=moderno/vanguardista, 10=histórico
 }
 
 // ============================================================

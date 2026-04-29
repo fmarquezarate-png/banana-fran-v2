@@ -11,6 +11,156 @@ import type { Destination, LongPlan, ShortPlan } from '@/data/destinations'
 import { calcBudget, formatPrice, LEVEL_LABEL } from '@/lib/budget'
 import type { BudgetLevel } from '@/lib/budget'
 
+// ─────────────────────────────────────────────────────────────
+// Precios cotizados (localStorage MVP)
+// ─────────────────────────────────────────────────────────────
+type QuoteCategory = 'flight' | 'hotel' | 'activity' | 'transfer' | 'other'
+interface Quote { id: string; cat: QuoteCategory; concept: string; amount: number }
+
+const QUOTE_CATS: Record<QuoteCategory, { label: string; emoji: string }> = {
+  flight:   { label: 'Vuelo',      emoji: '✈️' },
+  hotel:    { label: 'Hotel',      emoji: '🏨' },
+  activity: { label: 'Actividad',  emoji: '🎟️' },
+  transfer: { label: 'Traslado',   emoji: '🚌' },
+  other:    { label: 'Otro',       emoji: '📌' },
+}
+
+function loadQuotes(tripId: string): Quote[] {
+  try { return JSON.parse(localStorage.getItem(`quotes_${tripId}`) ?? '[]') } catch { return [] }
+}
+function saveQuotes(tripId: string, q: Quote[]) {
+  localStorage.setItem(`quotes_${tripId}`, JSON.stringify(q))
+}
+
+function TripQuotes({ tripId, estimatedTotal }: { tripId: string; estimatedTotal: number }) {
+  const [quotes, setQuotes]     = useState<Quote[]>(() => loadQuotes(tripId))
+  const [open, setOpen]         = useState(false)
+  const [showForm, setShowForm] = useState(false)
+  const [cat, setCat]           = useState<QuoteCategory>('flight')
+  const [concept, setConcept]   = useState('')
+  const [amount, setAmount]     = useState('')
+
+  const total = quotes.reduce((s, q) => s + q.amount, 0)
+  const diff  = total - estimatedTotal
+  const hasDiff = estimatedTotal > 0 && total > 0
+
+  function addQuote() {
+    const n = parseFloat(amount)
+    if (!concept.trim() || isNaN(n) || n <= 0) return
+    const q: Quote = { id: Date.now().toString(), cat, concept: concept.trim(), amount: n }
+    const updated = [...quotes, q]
+    setQuotes(updated)
+    saveQuotes(tripId, updated)
+    setConcept(''); setAmount(''); setShowForm(false)
+  }
+
+  function removeQuote(id: string) {
+    const updated = quotes.filter(q => q.id !== id)
+    setQuotes(updated)
+    saveQuotes(tripId, updated)
+  }
+
+  return (
+    <div className="card overflow-hidden">
+      <button onClick={() => setOpen(o => !o)} className="w-full flex items-center justify-between p-5">
+        <div className="flex items-center gap-2">
+          <span className="text-lg">🧾</span>
+          <span className="font-semibold text-gray-800">Mis precios cotizados</span>
+          {quotes.length > 0 && (
+            <span className="text-xs bg-gray-100 text-gray-500 px-2 py-0.5 rounded-full">{quotes.length}</span>
+          )}
+        </div>
+        <div className="flex items-center gap-2">
+          {total > 0 && (
+            <span className={`text-sm font-semibold ${hasDiff && diff > 0 ? 'text-red-500' : hasDiff ? 'text-green-600' : 'text-egeo'}`}>
+              {formatPrice(total)}
+            </span>
+          )}
+          <span className="text-gray-400 text-sm">{open ? '▲' : '▼'}</span>
+        </div>
+      </button>
+
+      {open && (
+        <div className="border-t border-gray-50 px-5 pb-5">
+          {/* Comparativa vs estimado */}
+          {hasDiff && (
+            <div className={`mt-4 mb-4 rounded-xl p-3 text-sm ${diff > 0 ? 'bg-red-50 text-red-700' : 'bg-green-50 text-green-700'}`}>
+              {diff > 0
+                ? `⚠️ ${formatPrice(diff)} por encima del presupuesto estimado`
+                : `✓ ${formatPrice(Math.abs(diff))} por debajo del presupuesto estimado`}
+            </div>
+          )}
+
+          {/* Lista de cotizaciones */}
+          {quotes.length > 0 && (
+            <ul className="space-y-2 mt-4 mb-4">
+              {quotes.map(q => (
+                <li key={q.id} className="flex items-center justify-between bg-gray-50 rounded-xl px-3 py-2">
+                  <div className="flex items-center gap-2">
+                    <span className="text-base">{QUOTE_CATS[q.cat].emoji}</span>
+                    <div>
+                      <p className="text-sm font-medium text-gray-800">{q.concept}</p>
+                      <p className="text-xs text-gray-400">{QUOTE_CATS[q.cat].label}</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="text-sm font-semibold text-gray-700">{formatPrice(q.amount)}</span>
+                    <button onClick={() => removeQuote(q.id)} className="text-gray-300 hover:text-red-400 text-lg leading-none">×</button>
+                  </div>
+                </li>
+              ))}
+              <li className="flex justify-between border-t border-gray-200 pt-2 px-3">
+                <span className="text-sm font-semibold text-gray-700">Total cotizado</span>
+                <span className="text-sm font-bold text-egeo">{formatPrice(total)}</span>
+              </li>
+            </ul>
+          )}
+
+          {/* Formulario añadir */}
+          {showForm ? (
+            <div className="bg-gray-50 rounded-2xl p-4 space-y-3 mt-2">
+              <select
+                value={cat}
+                onChange={e => setCat(e.target.value as QuoteCategory)}
+                className="w-full border border-gray-200 rounded-xl px-3 py-2 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-egeo/50"
+              >
+                {(Object.entries(QUOTE_CATS) as [QuoteCategory, { label: string; emoji: string }][]).map(([v, { label, emoji }]) => (
+                  <option key={v} value={v}>{emoji} {label}</option>
+                ))}
+              </select>
+              <input
+                type="text"
+                value={concept}
+                onChange={e => setConcept(e.target.value)}
+                placeholder="Ej: Vuelos BCN-DUB-BCN (Ryanair)"
+                className="w-full border border-gray-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-egeo/50"
+              />
+              <div className="flex gap-2">
+                <input
+                  type="number"
+                  value={amount}
+                  onChange={e => setAmount(e.target.value)}
+                  placeholder="€ total"
+                  className="flex-1 border border-gray-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-egeo/50"
+                />
+                <button onClick={addQuote} className="btn-primary px-4 text-sm">Añadir</button>
+                <button onClick={() => setShowForm(false)} className="btn-secondary px-3 text-sm">✕</button>
+              </div>
+            </div>
+          ) : (
+            <button
+              onClick={() => setShowForm(true)}
+              className="mt-2 w-full border-2 border-dashed border-gray-200 hover:border-egeo/40 rounded-xl py-2.5 text-sm text-gray-400 hover:text-egeo transition-colors"
+            >
+              + Añadir precio cotizado
+            </button>
+          )}
+        </div>
+      )}
+    </div>
+  )
+}
+
 function getPlanForDays(dest: Destination, days: number | null): { planDays: number; plan: ShortPlan | LongPlan; isShort: boolean } {
   const n = days ?? 7
   if (n <= 4)  return { planDays: 3,  plan: dest.plans3,  isShort: true  }
@@ -562,6 +712,12 @@ export function TripDetailPage() {
 
         {/* Presupuesto estimado — sólo si hay destino */}
         {destData && <TripBudget dest={destData} days={days} travelers={travelers} />}
+
+        {/* Precios cotizados */}
+        {(() => {
+          const est = destData ? calcBudget(destData, days ?? 7, 'medio', false).totalMid : 0
+          return <TripQuotes tripId={trip.id} estimatedTotal={est} />
+        })()}
 
         {/* Documentos */}
         <div className="card p-5">

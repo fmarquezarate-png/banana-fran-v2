@@ -1,21 +1,55 @@
-import type { Destination } from '@/data/destinations'
+import type { Destination, DestinationCategory, DestinationScales } from '@/data/destinations'
 import { calcBudget } from '@/lib/budget'
 
 export interface TripAnswers {
-  days:          '3-5' | '5-7' | '7-10' | '10-14'
-  travelers:     '1' | '2' | '3' | '4+'
-  vibe:          'beach' | 'nature' | 'culture' | 'mix'
-  month:         'spring' | 'summer' | 'autumn' | 'winter' | 'any'
-  crowds:        'hate' | 'ok' | 'dontcare'
-  budget:        'low' | 'mid' | 'high' | 'nolimit'
-  novelty:       'popular' | 'hidden' | 'any'
-  musts:         string[]   // 'snorkel'|'hiking'|'nightlife'|'history'|'beaches'|'peace'
-  car:           'yes' | 'maybe' | 'no'
-  // ── Nuevas (v0.7) ──────────────────────────────────────────
-  region:        'europe' | 'americas' | 'asia' | 'africa' | 'oceania' | 'any'
-  zone:          'coast' | 'mountains' | 'cities' | 'islands' | 'any'
-  accommodation: 'hotel' | 'boutique' | 'apartment' | 'any'
-  pace:          'relaxed' | 'moderate' | 'intense'
+  days:            '3-5' | '5-7' | '7-10' | '10-14'
+  travelers:       '1' | '2' | '3' | '4+'
+  vibe:            'beach' | 'nature' | 'culture' | 'mix'
+  month:           'spring' | 'summer' | 'autumn' | 'winter' | 'any'
+  crowds:          'hate' | 'ok' | 'dontcare'
+  budget:          'low' | 'mid' | 'high' | 'nolimit'
+  novelty:         'popular' | 'hidden' | 'any'
+  musts:           string[]
+  car:             'yes' | 'maybe' | 'no'
+  region:          'europe' | 'americas' | 'asia' | 'africa' | 'oceania' | 'any'
+  zone:            'coast' | 'mountains' | 'cities' | 'islands' | 'any'
+  accommodation:   'hotel' | 'boutique' | 'apartment' | 'any'
+  pace:            'relaxed' | 'moderate' | 'intense'
+  // Escalas 1-10 (10 dimensiones)
+  playa_ciudad:          number
+  relax_fiesta:          number
+  lowcost_fancy:         number
+  invierno_verano:       number
+  occidental_exotico:    number
+  streetfood_gourmet:    number
+  descanso_aventura:     number
+  solo_grupal:           number
+  naturaleza_metropolis: number
+  moderno_historico:     number
+}
+
+const SCALE_KEYS: (keyof DestinationScales)[] = [
+  'playa_ciudad', 'relax_fiesta', 'lowcost_fancy', 'invierno_verano',
+  'occidental_exotico', 'streetfood_gourmet', 'descanso_aventura',
+  'solo_grupal', 'naturaleza_metropolis', 'moderno_historico',
+]
+
+export function calcScaleMatch(answers: TripAnswers, dest: Destination): number {
+  const s = dest.scales ?? {}
+  let total = 0
+  for (const key of SCALE_KEYS) {
+    const dVal = (s[key] ?? 5) as number
+    const uVal = answers[key as keyof TripAnswers] as number
+    total += 1 - Math.abs(uVal - dVal) / 10
+  }
+  return total / SCALE_KEYS.length
+}
+
+export function getScaleCategory(pct: number): DestinationCategory {
+  if (pct >= 0.80) return 'perfect'
+  if (pct >= 0.60) return 'good'
+  if (pct >= 0.40) return 'ok'
+  return 'warning'
 }
 
 const DAYS_MAP: Record<TripAnswers['days'], number> = {
@@ -88,9 +122,12 @@ export function scoreDests(
     let score = 0
     const reasons: string[] = []
 
-    // 1. Base por categoría (0-30)
-    const catBase = { perfect: 30, good: 22, ok: 16, warning: 6 }
-    score += catBase[dest.category]
+    // 1. Afinidad por escalas — determinante principal (0-40)
+    const scalePct = calcScaleMatch(answers, dest)
+    score += Math.round(scalePct * 40)
+    if (scalePct >= 0.80) reasons.push('Perfil ideal para vosotros')
+    else if (scalePct >= 0.65) reasons.push('Buena afinidad general')
+    else if (scalePct < 0.40) score -= 10
 
     // 2. Región geográfica (±25) — filtro fuerte
     if (answers.region !== 'any') {
@@ -195,7 +232,7 @@ export function scoreDests(
       score += 5; reasons.push('Excelente en otoño')
     }
     if (answers.month === 'winter' && dest.category === 'perfect') {
-      score += 3 // destinos curados suelen aguantar bien el invierno
+      score += 3
     }
 
     score = Math.max(0, Math.min(100, score))
