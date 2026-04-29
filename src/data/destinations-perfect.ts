@@ -177,6 +177,7 @@ export const DESTINATIONS_PERFECT: Destination[] = [
       actPD: 50,
       ar: 0.20,
     },
+    scales: { playa_ciudad: 8, relax_fiesta: 3, lowcost_fancy: 5, invierno_verano: 9, occidental_exotico: 2, streetfood_gourmet: 6, descanso_aventura: 5, solo_grupal: 4, naturaleza_metropolis: 3, moderno_historico: 5 },
   },
 
   // ── #3 ──────────────────────────────────────────────────────
@@ -265,6 +266,7 @@ export const DESTINATIONS_PERFECT: Destination[] = [
       actPD: 45,
       ar: 0.20,
     },
+    scales: { playa_ciudad: 6, relax_fiesta: 2, lowcost_fancy: 4, invierno_verano: 8, occidental_exotico: 2, streetfood_gourmet: 5, descanso_aventura: 7, solo_grupal: 3, naturaleza_metropolis: 2, moderno_historico: 6 },
   },
 
   // ── #4 ──────────────────────────────────────────────────────
@@ -354,6 +356,7 @@ export const DESTINATIONS_PERFECT: Destination[] = [
       actPD: 55,
       ar: 0.20,
     },
+    scales: { playa_ciudad: 8, relax_fiesta: 5, lowcost_fancy: 4, invierno_verano: 9, occidental_exotico: 2, streetfood_gourmet: 5, descanso_aventura: 6, solo_grupal: 5, naturaleza_metropolis: 3, moderno_historico: 4 },
   },
 
   // ── #5 ──────────────────────────────────────────────────────
