@@ -863,6 +863,7 @@ export const DESTINATIONS_GOOD: Destination[] = [
     country: 'Grecia — Islas Jónicas',
     match: '👍',
     matchLabel: 'Muy bueno',
+    scales: { playa_ciudad: 3, relax_fiesta: 3, lowcost_fancy: 4, invierno_verano: 9, occidental_exotico: 2, streetfood_gourmet: 5, descanso_aventura: 4, solo_grupal: 3, naturaleza_metropolis: 2, moderno_historico: 5 },
     tagline: 'La parte verde y tranquila de Corfú, lejos del turismo de masas',
     category: 'good',
     coords: [39.8027, 19.7595],

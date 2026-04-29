@@ -3,9 +3,13 @@ import toast from 'react-hot-toast'
 import { useAuth } from '@/hooks/useAuth'
 import { useProfile } from '@/hooks/useProfile'
 
-const APP_VERSION = '0.10.1'
+const APP_VERSION = '0.10.2'
 
 const CHANGELOG: { v: string; date: string; notes: string[] }[] = [
+  { v: '0.10.2', date: 'Abr 2026', notes: [
+    'Scales añadidas: Corfú Norte, Praga, Marrakech',
+    '27 de 41 destinos perfilados en las 10 dimensiones',
+  ]},
   { v: '0.10.1', date: 'Abr 2026', notes: [
     'Scales añadidas: Lisboa, Budapest, Istria',
     '24 de 41 destinos perfilados en las 10 dimensiones',
