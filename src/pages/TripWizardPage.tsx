@@ -436,9 +436,8 @@ export function TripWizardPage() {
   }
 
   function selectScale(key: ScaleKey, value: number) {
-    const updated = { ...answers, [key]: value }
-    setAnswers(updated)
-    setTimeout(() => advance(updated), 500)
+    setAnswers(prev => ({ ...prev, [key]: value }))
+    // No auto-advance: el usuario confirma con el botón "Siguiente"
   }
 
   function toggleMulti(value: string) {

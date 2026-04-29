@@ -3,9 +3,14 @@ import toast from 'react-hot-toast'
 import { useAuth } from '@/hooks/useAuth'
 import { useProfile } from '@/hooks/useProfile'
 
-const APP_VERSION = '0.11.1'
+const APP_VERSION = '0.12.0'
 
 const CHANGELOG: { v: string; date: string; notes: string[] }[] = [
+  { v: '0.12.0', date: 'Abr 2026', notes: [
+    'Fix crítico: slider ya no colapsa la app — eliminado auto-advance en escalas',
+    'Tester: valores mostrados como magnitud bidireccional (0-10 desde neutro)',
+    'Scales: Hvar, Ibiza, Costa Amalfitana — 38 de 41 destinos perfilados',
+  ]},
   { v: '0.11.1', date: 'Abr 2026', notes: [
     'Scales: Lipari, Eslovenia, Santorini, Mykonos, Dubrovnik',
     '35 de 41 destinos perfilados en las 10 dimensiones',

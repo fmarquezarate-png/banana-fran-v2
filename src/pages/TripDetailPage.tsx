@@ -820,9 +820,12 @@ function TesterTab({ quizAnswers, defaultDest }: { quizAnswers: TripAnswers | nu
               function MiniBar({ val, color }: { val: number; color: string }) {
                 const s = val < 5 ? 'left' : val > 5 ? 'right' : 'neutral'
                 const p = ((val - 1) / 9) * 100
+                // Valor bidireccional: magnitud 0-10 desde el centro (v=5)
+                const biVal = val === 5 ? 0 : Math.min(10, Math.round(Math.abs(val - 5) / 4 * 10))
+                const biLabel = val === 5 ? '·' : `${biVal}`
                 return (
                   <div className="flex flex-col items-center gap-0.5 w-full">
-                    <span className="text-[9px] font-bold" style={{ color }}>{val}</span>
+                    <span className="text-[9px] font-bold" style={{ color }}>{biLabel}</span>
                     <div className="relative h-1.5 bg-gray-100 rounded-full w-full">
                       {val !== 5 && (
                         <div className="absolute top-0 h-full rounded-full transition-all"

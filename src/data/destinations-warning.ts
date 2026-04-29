@@ -297,6 +297,7 @@ export const DESTINATIONS_WARNING: Destination[] = [
     match: '⚠️',
     matchLabel: 'Con cautela',
     tagline: 'La isla más glamurosa de Croacia — bonita pero cara y de fiesta',
+    scales: { playa_ciudad: 4, relax_fiesta: 8, lowcost_fancy: 8, invierno_verano: 9, occidental_exotico: 2, streetfood_gourmet: 6, descanso_aventura: 4, solo_grupal: 8, naturaleza_metropolis: 4, moderno_historico: 6 },
     category: 'warning',
     coords: [43.1729, 16.4412],
     images: [
@@ -392,6 +393,7 @@ export const DESTINATIONS_WARNING: Destination[] = [
     match: '⚠️',
     matchLabel: 'Con cautela',
     tagline: 'La isla de la fiesta también tiene un norte secreto y tranquilo',
+    scales: { playa_ciudad: 4, relax_fiesta: 10, lowcost_fancy: 8, invierno_verano: 9, occidental_exotico: 1, streetfood_gourmet: 5, descanso_aventura: 4, solo_grupal: 10, naturaleza_metropolis: 5, moderno_historico: 4 },
     category: 'warning',
     coords: [38.9067, 1.4206],
     images: [
@@ -487,6 +489,7 @@ export const DESTINATIONS_WARNING: Destination[] = [
     match: '⚠️',
     matchLabel: 'Con cautela',
     tagline: 'La carretera más bonita de Europa, atascada de turistas en verano',
+    scales: { playa_ciudad: 5, relax_fiesta: 3, lowcost_fancy: 8, invierno_verano: 8, occidental_exotico: 2, streetfood_gourmet: 8, descanso_aventura: 4, solo_grupal: 4, naturaleza_metropolis: 4, moderno_historico: 8 },
     category: 'warning',
     coords: [40.6340, 14.6027],
     images: [
