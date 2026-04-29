@@ -95,6 +95,7 @@ export const DESTINATIONS_GOOD: Destination[] = [
       actPD: 40,
       ar: 0.20,
     },
+    scales: { playa_ciudad: 7, relax_fiesta: 4, lowcost_fancy: 5, invierno_verano: 9, occidental_exotico: 2, streetfood_gourmet: 7, descanso_aventura: 5, solo_grupal: 5, naturaleza_metropolis: 4, moderno_historico: 7 },
   },
   {
     id: 'folegandros',
@@ -189,6 +190,7 @@ export const DESTINATIONS_GOOD: Destination[] = [
       actPD: 35,
       ar: 0.20,
     },
+    scales: { playa_ciudad: 5, relax_fiesta: 2, lowcost_fancy: 4, invierno_verano: 9, occidental_exotico: 2, streetfood_gourmet: 5, descanso_aventura: 4, solo_grupal: 2, naturaleza_metropolis: 3, moderno_historico: 5 },
   },
   {
     id: 'koufonisia',
@@ -283,6 +285,7 @@ export const DESTINATIONS_GOOD: Destination[] = [
       actPD: 45,
       ar: 0.20,
     },
+    scales: { playa_ciudad: 8, relax_fiesta: 5, lowcost_fancy: 3, invierno_verano: 9, occidental_exotico: 2, streetfood_gourmet: 4, descanso_aventura: 4, solo_grupal: 6, naturaleza_metropolis: 4, moderno_historico: 3 },
   },
   {
     id: 'paxos',
