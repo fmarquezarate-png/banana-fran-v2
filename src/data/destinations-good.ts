@@ -675,6 +675,7 @@ export const DESTINATIONS_GOOD: Destination[] = [
     matchLabel: 'Muy bueno',
     tagline: 'La Toscana del Adriático: trufas, vino y pueblos medievales',
     category: 'good',
+    scales: { playa_ciudad: 5, relax_fiesta: 3, lowcost_fancy: 4, invierno_verano: 8, occidental_exotico: 2, streetfood_gourmet: 8, descanso_aventura: 5, solo_grupal: 3, naturaleza_metropolis: 3, moderno_historico: 7 },
     coords: [45.2292, 13.9528],
     images: [
       'https://images.unsplash.com/photo-1555993539-1732b0258235?w=800',
@@ -960,6 +961,7 @@ export const DESTINATIONS_GOOD: Destination[] = [
     matchLabel: 'Muy bueno',
     tagline: 'La ciudad más de moda de Europa que aún no se ha vendido del todo.',
     category: 'good',
+    scales: { playa_ciudad: 8, relax_fiesta: 5, lowcost_fancy: 4, invierno_verano: 6, occidental_exotico: 2, streetfood_gourmet: 5, descanso_aventura: 4, solo_grupal: 5, naturaleza_metropolis: 8, moderno_historico: 7 },
     coords: [38.7223, -9.1393],
     images: [
       'https://images.unsplash.com/photo-1555881400-74d7acaacd8b?auto=format&fit=crop&w=1600&q=75',
@@ -1049,6 +1051,7 @@ export const DESTINATIONS_GOOD: Destination[] = [
     matchLabel: 'Muy bueno',
     tagline: 'Palacios barrocos, baños termales y vida nocturna en ruinas reconvertidas.',
     category: 'good',
+    scales: { playa_ciudad: 9, relax_fiesta: 6, lowcost_fancy: 3, invierno_verano: 5, occidental_exotico: 2, streetfood_gourmet: 7, descanso_aventura: 4, solo_grupal: 5, naturaleza_metropolis: 9, moderno_historico: 8 },
     coords: [47.4979, 19.0402],
     images: [
       'https://images.unsplash.com/photo-1592496431122-2349e0fbc666?auto=format&fit=crop&w=1600&q=75',
