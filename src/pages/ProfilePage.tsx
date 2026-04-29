@@ -3,9 +3,13 @@ import toast from 'react-hot-toast'
 import { useAuth } from '@/hooks/useAuth'
 import { useProfile } from '@/hooks/useProfile'
 
-const APP_VERSION = '0.9.0'
+const APP_VERSION = '0.9.1'
 
 const CHANGELOG: { v: string; date: string; notes: string[] }[] = [
+  { v: '0.9.1', date: 'Abr 2026', notes: [
+    'Scales añadidas: Vis, Azores, Naxos, Folégandros, Koufonisia',
+    '17 de 41 destinos perfilados en las 10 dimensiones',
+  ]},
   { v: '0.9.0', date: 'Abr 2026', notes: [
     'Quiz: eliminadas preguntas duplicadas con los sliders (vibe, zone, pace)',
     'Scoring: temporada ahora cruza mes real vs escala invierno_verano del destino',

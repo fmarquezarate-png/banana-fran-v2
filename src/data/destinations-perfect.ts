@@ -447,6 +447,7 @@ export const DESTINATIONS_PERFECT: Destination[] = [
       actPD: 55,
       ar: 0.20,
     },
+    scales: { playa_ciudad: 7, relax_fiesta: 3, lowcost_fancy: 4, invierno_verano: 8, occidental_exotico: 2, streetfood_gourmet: 6, descanso_aventura: 5, solo_grupal: 3, naturaleza_metropolis: 3, moderno_historico: 5 },
   },
   {
     id: 'kotor',
@@ -629,6 +630,7 @@ export const DESTINATIONS_PERFECT: Destination[] = [
       actPD: 60,
       ar: 0.25,
     },
+    scales: { playa_ciudad: 3, relax_fiesta: 3, lowcost_fancy: 4, invierno_verano: 5, occidental_exotico: 3, streetfood_gourmet: 5, descanso_aventura: 8, solo_grupal: 3, naturaleza_metropolis: 1, moderno_historico: 3 },
   },
 
   // ── Madeira ──────────────────────────────────────────────────
