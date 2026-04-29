@@ -71,10 +71,7 @@ type Step =
   | { key: 'days';          q: string; type: 'single'; opts: { v: TripAnswers['days'];          l: string; e: string }[] }
   | { key: 'travelers';     q: string; type: 'single'; opts: { v: TripAnswers['travelers'];     l: string; e: string }[] }
   | { key: 'region';        q: string; type: 'single'; opts: { v: TripAnswers['region'];        l: string; e: string }[] }
-  | { key: 'vibe';          q: string; type: 'single'; opts: { v: TripAnswers['vibe'];          l: string; e: string }[] }
-  | { key: 'zone';          q: string; type: 'single'; opts: { v: TripAnswers['zone'];          l: string; e: string }[] }
   | { key: 'crowds';        q: string; type: 'single'; opts: { v: TripAnswers['crowds'];        l: string; e: string }[] }
-  | { key: 'pace';          q: string; type: 'single'; opts: { v: TripAnswers['pace'];          l: string; e: string }[] }
   | { key: 'month';         q: string; type: 'single'; opts: { v: TripAnswers['month'];         l: string; e: string }[] }
   | { key: 'budget';        q: string; type: 'single'; opts: { v: TripAnswers['budget'];        l: string; e: string }[] }
   | { key: 'accommodation'; q: string; type: 'single'; opts: { v: TripAnswers['accommodation']; l: string; e: string }[] }
@@ -115,38 +112,11 @@ const STEPS: Step[] = [
     ],
   },
   {
-    key: 'vibe', q: '¿Qué tipo de viaje buscáis?', type: 'single',
-    opts: [
-      { v: 'beach',   l: 'Playa y descanso total',   e: '🏖️' },
-      { v: 'nature',  l: 'Naturaleza y aventura',    e: '⛰️' },
-      { v: 'culture', l: 'Cultura, historia y arte', e: '🏛️' },
-      { v: 'mix',     l: 'Un poco de todo',          e: '🎒' },
-    ],
-  },
-  {
-    key: 'zone', q: '¿Qué entorno os atrae más?', type: 'single',
-    opts: [
-      { v: 'coast',     l: 'Costa, playas y mar',        e: '🌊' },
-      { v: 'mountains', l: 'Montaña y naturaleza interior', e: '🏔️' },
-      { v: 'cities',    l: 'Ciudades y vida urbana',     e: '🏙️' },
-      { v: 'islands',   l: 'Islas',                      e: '🏝️' },
-      { v: 'any',       l: 'Sin preferencia',            e: '🗺️' },
-    ],
-  },
-  {
     key: 'crowds', q: '¿Cómo os lleváis con las multitudes?', type: 'single',
     opts: [
       { v: 'hate',     l: 'Las odiamos — tranquilidad ante todo', e: '😤' },
       { v: 'ok',       l: 'Las toleramos si el sitio lo vale',    e: '😐' },
       { v: 'dontcare', l: 'No nos importan para nada',            e: '😊' },
-    ],
-  },
-  {
-    key: 'pace', q: '¿A qué ritmo viajáis?', type: 'single',
-    opts: [
-      { v: 'relaxed',  l: 'Tranquilo — pocos sitios, bien vividos', e: '🧘' },
-      { v: 'moderate', l: 'Equilibrado — sin agobios pero sin perder nada', e: '🚶' },
-      { v: 'intense',  l: 'Intenso — aprovechar cada hora',         e: '⚡' },
     ],
   },
   {
@@ -355,9 +325,9 @@ function ResultCard({
 // Wizard principal
 // ─────────────────────────────────────────────────────────────
 const DEFAULT_ANSWERS: TripAnswers = {
-  days: '7-10', travelers: '2', vibe: 'mix', crowds: 'ok', month: 'any',
+  days: '7-10', travelers: '2', crowds: 'ok', month: 'any',
   budget: 'mid', novelty: 'any', musts: [], car: 'maybe',
-  region: 'any', zone: 'any', accommodation: 'any', pace: 'moderate',
+  region: 'any', accommodation: 'any',
   playa_ciudad: 5, relax_fiesta: 5, lowcost_fancy: 5, invierno_verano: 5,
   occidental_exotico: 5, streetfood_gourmet: 5, descanso_aventura: 5,
   solo_grupal: 5, naturaleza_metropolis: 5, moderno_historico: 5,
