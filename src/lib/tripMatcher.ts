@@ -1,4 +1,4 @@
-import type { Destination } from '@/data/destinations'
+import type { Destination, DestinationCategory, DestinationScales } from '@/data/destinations'
 import { calcBudget } from '@/lib/budget'
 
 export interface TripAnswers {
@@ -15,10 +15,41 @@ export interface TripAnswers {
   zone:            'coast' | 'mountains' | 'cities' | 'islands' | 'any'
   accommodation:   'hotel' | 'boutique' | 'apartment' | 'any'
   pace:            'relaxed' | 'moderate' | 'intense'
-  // Escalas 1-10
-  activityLevel:   number   // 1=playa/relax, 10=senderismo intenso
-  urbanRural:      number   // 1=naturaleza pura, 10=ciudad/cultura
-  gastronomyLevel: number   // 1=da igual la comida, 10=eje del viaje
+  // Escalas 1-10 (10 dimensiones)
+  playa_ciudad:          number
+  relax_fiesta:          number
+  lowcost_fancy:         number
+  invierno_verano:       number
+  occidental_exotico:    number
+  streetfood_gourmet:    number
+  descanso_aventura:     number
+  solo_grupal:           number
+  naturaleza_metropolis: number
+  moderno_historico:     number
+}
+
+const SCALE_KEYS: (keyof DestinationScales)[] = [
+  'playa_ciudad', 'relax_fiesta', 'lowcost_fancy', 'invierno_verano',
+  'occidental_exotico', 'streetfood_gourmet', 'descanso_aventura',
+  'solo_grupal', 'naturaleza_metropolis', 'moderno_historico',
+]
+
+export function calcScaleMatch(answers: TripAnswers, dest: Destination): number {
+  const s = dest.scales ?? {}
+  let total = 0
+  for (const key of SCALE_KEYS) {
+    const dVal = (s[key] ?? 5) as number
+    const uVal = answers[key as keyof TripAnswers] as number
+    total += 1 - Math.abs(uVal - dVal) / 10
+  }
+  return total / SCALE_KEYS.length
+}
+
+export function getScaleCategory(pct: number): DestinationCategory {
+  if (pct >= 0.80) return 'perfect'
+  if (pct >= 0.60) return 'good'
+  if (pct >= 0.40) return 'ok'
+  return 'warning'
 }
 
 const DAYS_MAP: Record<TripAnswers['days'], number> = {
@@ -91,9 +122,12 @@ export function scoreDests(
     let score = 0
     const reasons: string[] = []
 
-    // 1. Base por categoría (0-30)
-    const catBase = { perfect: 30, good: 22, ok: 16, warning: 6 }
-    score += catBase[dest.category]
+    // 1. Afinidad por escalas — determinante principal (0-40)
+    const scalePct = calcScaleMatch(answers, dest)
+    score += Math.round(scalePct * 40)
+    if (scalePct >= 0.80) reasons.push('Perfil ideal para vosotros')
+    else if (scalePct >= 0.65) reasons.push('Buena afinidad general')
+    else if (scalePct < 0.40) score -= 10
 
     // 2. Región geográfica (±25) — filtro fuerte
     if (answers.region !== 'any') {
@@ -199,25 +233,6 @@ export function scoreDests(
     }
     if (answers.month === 'winter' && dest.category === 'perfect') {
       score += 3
-    }
-
-    // 11. Escalas 1-10 (±20 total si el destino tiene scales definidos)
-    if (dest.scales) {
-      const actDiff = Math.abs(answers.activityLevel - dest.scales.activity)
-      if (actDiff <= 1)      { score += 8; reasons.push('Nivel de actividad ideal') }
-      else if (actDiff <= 3) { score += 4 }
-      else if (actDiff >= 6) { score -= 10 }
-
-      const urbanDiff = Math.abs(answers.urbanRural - dest.scales.urban)
-      if (urbanDiff <= 1)      { score += 7 }
-      else if (urbanDiff <= 3) { score += 3 }
-      else if (urbanDiff >= 6) { score -= 8 }
-
-      if (answers.gastronomyLevel >= 7 && dest.scales.gastronomy >= 8) {
-        score += 5; reasons.push('Destino gastronómico top')
-      } else if (answers.gastronomyLevel >= 8 && dest.scales.gastronomy <= 4) {
-        score -= 5
-      }
     }
 
     score = Math.max(0, Math.min(100, score))

@@ -1,6 +1,7 @@
-import { useEffect, useState, lazy, Suspense } from 'react'
+import { useEffect, useState, lazy, Suspense, useMemo } from 'react'
 import { Link } from 'react-router-dom'
 import { DESTINATIONS, getDestinationsByCategory, type Destination, type DestinationCategory } from '@/data/destinations'
+import { calcScaleMatch, getScaleCategory, type TripAnswers } from '@/lib/tripMatcher'
 import { CategoryRow } from '@/components/destinations/CategoryRow'
 import { DestinationCard } from '@/components/destinations/DestinationCard'
 import { useFavorites } from '@/contexts/FavoritesContext'
@@ -509,10 +510,21 @@ export function HomePage() {
 
   const hasQuiz = typeof window !== 'undefined' && !!localStorage.getItem('quizAnswers')
 
-  const perfect = getDestinationsByCategory('perfect')
-  const good    = getDestinationsByCategory('good')
-  const ok      = getDestinationsByCategory('ok')
-  const warning = getDestinationsByCategory('warning')
+  const savedAnswers = useMemo<TripAnswers | null>(() => {
+    if (typeof window === 'undefined') return null
+    try { return JSON.parse(localStorage.getItem('quizAnswers') ?? '') as TripAnswers }
+    catch { return null }
+  }, [])
+
+  function dynCategory(dest: Destination): DestinationCategory {
+    if (!savedAnswers) return dest.category
+    return getScaleCategory(calcScaleMatch(savedAnswers, dest))
+  }
+
+  const perfect = hasQuiz ? DESTINATIONS.filter(d => dynCategory(d) === 'perfect') : getDestinationsByCategory('perfect')
+  const good    = hasQuiz ? DESTINATIONS.filter(d => dynCategory(d) === 'good')    : getDestinationsByCategory('good')
+  const ok      = hasQuiz ? DESTINATIONS.filter(d => dynCategory(d) === 'ok')      : getDestinationsByCategory('ok')
+  const warning = hasQuiz ? DESTINATIONS.filter(d => dynCategory(d) === 'warning') : getDestinationsByCategory('warning')
 
   const isWarning = activeTab === 'warning'
 

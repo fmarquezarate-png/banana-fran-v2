@@ -63,7 +63,9 @@ function ScaleSelector({
 // ─────────────────────────────────────────────────────────────
 // Steps
 // ─────────────────────────────────────────────────────────────
-type ScaleKey = 'activityLevel' | 'urbanRural' | 'gastronomyLevel'
+type ScaleKey = 'playa_ciudad' | 'relax_fiesta' | 'lowcost_fancy' | 'invierno_verano' |
+  'occidental_exotico' | 'streetfood_gourmet' | 'descanso_aventura' |
+  'solo_grupal' | 'naturaleza_metropolis' | 'moderno_historico'
 
 type Step =
   | { key: 'days';          q: string; type: 'single'; opts: { v: TripAnswers['days'];          l: string; e: string }[] }
@@ -205,21 +207,56 @@ const STEPS: Step[] = [
       { v: 'peace',      l: 'Tranquilidad total',         e: '🧘' },
     ],
   },
-  // ── Escalas 1-10 ─────────────────────────────────────────────
+  // ── Escalas 1-10 — 10 dimensiones ───────────────────────────
   {
-    key: 'activityLevel', q: '¿Qué tan activos sois como viajeros?', type: 'scale',
-    leftEmoji: '🏖️', leftLabel: 'Playa y relax total',
-    rightEmoji: '🥾', rightLabel: 'Senderismo e intensidad',
+    key: 'playa_ciudad', q: '¿Playa o ciudad?', type: 'scale',
+    leftEmoji: '🏖️', leftLabel: 'Playa pura — sol, agua y arena',
+    rightEmoji: '🏙️', rightLabel: 'Ciudad — cultura, gente y ambiente',
   },
   {
-    key: 'urbanRural', q: '¿Naturaleza o ciudad?', type: 'scale',
-    leftEmoji: '🌿', leftLabel: 'Naturaleza y paisaje',
-    rightEmoji: '🏙️', rightLabel: 'Ciudad y cultura urbana',
+    key: 'relax_fiesta', q: '¿Relax o ambiente nocturno?', type: 'scale',
+    leftEmoji: '😴', leftLabel: 'Desconectar totalmente',
+    rightEmoji: '🎉', rightLabel: 'Bares, gente y vida nocturna',
   },
   {
-    key: 'gastronomyLevel', q: '¿Cuánto importa la gastronomía en vuestros viajes?', type: 'scale',
-    leftEmoji: '🍕', leftLabel: 'Da igual la comida',
-    rightEmoji: '🍷', rightLabel: 'Es el eje del viaje',
+    key: 'lowcost_fancy', q: '¿Estilo de viaje?', type: 'scale',
+    leftEmoji: '🎒', leftLabel: 'Mochilero — autenticidad y precio',
+    rightEmoji: '💎', rightLabel: 'Con comodidad y algo de lujo',
+  },
+  {
+    key: 'invierno_verano', q: '¿Invierno o verano?', type: 'scale',
+    leftEmoji: '❄️', leftLabel: 'Frío, nieve y temporada invernal',
+    rightEmoji: '☀️', rightLabel: 'Calor, sol y temporada estival',
+  },
+  {
+    key: 'occidental_exotico', q: '¿Cercano o exótico?', type: 'scale',
+    leftEmoji: '🏛️', leftLabel: 'Europa y lo conocido',
+    rightEmoji: '🌏', rightLabel: 'Asia, África o lo muy diferente',
+  },
+  {
+    key: 'streetfood_gourmet', q: '¿Cómo coméis en viaje?', type: 'scale',
+    leftEmoji: '🌮', leftLabel: 'Street food y mercados locales',
+    rightEmoji: '🍽️', rightLabel: 'Restaurantes y gastronomía seria',
+  },
+  {
+    key: 'descanso_aventura', q: '¿Descanso o aventura?', type: 'scale',
+    leftEmoji: '🛋️', leftLabel: 'Recuperar energía y descansar',
+    rightEmoji: '🧗', rightLabel: 'Adrenalina, deporte y retos',
+  },
+  {
+    key: 'solo_grupal', q: '¿Experiencia íntima o social?', type: 'scale',
+    leftEmoji: '💑', leftLabel: 'Pareja / experiencia íntima',
+    rightEmoji: '👥', rightLabel: 'Conocer gente y ambiente social',
+  },
+  {
+    key: 'naturaleza_metropolis', q: '¿Naturaleza o gran ciudad?', type: 'scale',
+    leftEmoji: '🌿', leftLabel: 'Parajes naturales y silencio',
+    rightEmoji: '🌆', rightLabel: 'Gran ciudad, vida y movimiento',
+  },
+  {
+    key: 'moderno_historico', q: '¿Modernidad o historia?', type: 'scale',
+    leftEmoji: '🔮', leftLabel: 'Diseño y arte contemporáneo',
+    rightEmoji: '🏛️', rightLabel: 'Historia, patrimonio y antigüedad',
   },
   {
     key: 'car', q: '¿Alquiláis coche en el destino?', type: 'single',
@@ -321,7 +358,9 @@ const DEFAULT_ANSWERS: TripAnswers = {
   days: '7-10', travelers: '2', vibe: 'mix', crowds: 'ok', month: 'any',
   budget: 'mid', novelty: 'any', musts: [], car: 'maybe',
   region: 'any', zone: 'any', accommodation: 'any', pace: 'moderate',
-  activityLevel: 5, urbanRural: 5, gastronomyLevel: 5,
+  playa_ciudad: 5, relax_fiesta: 5, lowcost_fancy: 5, invierno_verano: 5,
+  occidental_exotico: 5, streetfood_gourmet: 5, descanso_aventura: 5,
+  solo_grupal: 5, naturaleza_metropolis: 5, moderno_historico: 5,
 }
 
 export function TripWizardPage() {

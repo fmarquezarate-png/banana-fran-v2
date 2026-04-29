@@ -1216,7 +1216,7 @@ export const DESTINATIONS_GOOD: Destination[] = [
       actPD: 35,
       ar: 0.30,
     },
-    scales: { activity: 4, urban: 5, gastronomy: 9 },
+    scales: { playa_ciudad: 4, relax_fiesta: 4, lowcost_fancy: 5, invierno_verano: 8, occidental_exotico: 2, streetfood_gourmet: 9, descanso_aventura: 4, solo_grupal: 5, naturaleza_metropolis: 4, moderno_historico: 8 },
   },
 
   // ── Estambul ──────────────────────────────────────────────────

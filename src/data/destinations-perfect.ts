@@ -805,7 +805,7 @@ export const DESTINATIONS_PERFECT: Destination[] = [
       actPD: 40,
       ar: 0.30,
     },
-    scales: { activity: 9, urban: 4, gastronomy: 4 },
+    scales: { playa_ciudad: 2, relax_fiesta: 3, lowcost_fancy: 4, invierno_verano: 7, occidental_exotico: 2, streetfood_gourmet: 4, descanso_aventura: 8, solo_grupal: 4, naturaleza_metropolis: 2, moderno_historico: 5 },
   },
 
   // ── Highlands de Escocia ──────────────────────────────────────
@@ -903,6 +903,6 @@ export const DESTINATIONS_PERFECT: Destination[] = [
       actPD: 50,
       ar: 0.30,
     },
-    scales: { activity: 9, urban: 3, gastronomy: 4 },
+    scales: { playa_ciudad: 2, relax_fiesta: 2, lowcost_fancy: 4, invierno_verano: 5, occidental_exotico: 2, streetfood_gourmet: 3, descanso_aventura: 9, solo_grupal: 3, naturaleza_metropolis: 1, moderno_historico: 7 },
   },
 ]
