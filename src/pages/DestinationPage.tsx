@@ -268,6 +268,26 @@ export function DestinationPage() {
         {/* Cotizador */}
         <BudgetCalculator dest={dest} />
 
+        {/* CTA — Planificar viaje */}
+        <div className={`rounded-2xl p-5 text-center ${W ? 'bg-gray-900 border border-gray-800' : 'bg-egeo/5 border border-egeo/20'}`}>
+          <p className={`text-sm font-semibold mb-1 ${W ? 'text-warning-yellow' : 'text-egeo'}`}>
+            ¿Os convence {dest.shortName}?
+          </p>
+          <p className={`text-xs mb-4 ${W ? 'text-gray-400' : 'text-gray-500'}`}>
+            Crea el viaje ahora y tendrás el itinerario y presupuesto listos.
+          </p>
+          <Link
+            to={`/viajes/nuevo?dest=${dest.id}`}
+            className={`inline-flex items-center gap-2 font-semibold text-sm px-6 py-3 rounded-xl transition-colors ${
+              W
+                ? 'bg-warning-yellow text-black hover:bg-warning-yellow/90'
+                : 'bg-egeo text-white hover:bg-egeo-600'
+            }`}
+          >
+            🗺️ Planificar este viaje
+          </Link>
+        </div>
+
       </div>
     </main>
   )

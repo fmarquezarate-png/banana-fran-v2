@@ -224,8 +224,11 @@ function CompareTab() {
           <Row label="Idioma"  value={dest.facts['idioma'] ?? dest.facts['language'] ?? '—'} />
           <Row label="7 días"  value={`${formatPrice(budget.totalMin)}–${formatPrice(budget.totalMax)}`} />
         </div>
-        <Link to={`/destino/${dest.id}`} className="mt-4 block text-center text-xs btn-primary py-1.5">
+        <Link to={`/destino/${dest.id}`} className="mt-3 block text-center text-xs btn-secondary py-1.5">
           Ver ficha →
+        </Link>
+        <Link to={`/viajes/nuevo?dest=${dest.id}`} className="mt-2 block text-center text-xs btn-primary py-1.5">
+          🗺️ Planificar viaje
         </Link>
       </div>
     )

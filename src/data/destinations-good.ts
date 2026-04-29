@@ -1216,6 +1216,7 @@ export const DESTINATIONS_GOOD: Destination[] = [
       actPD: 35,
       ar: 0.30,
     },
+    scales: { activity: 4, urban: 5, gastronomy: 9 },
   },
 
   // ── Estambul ──────────────────────────────────────────────────

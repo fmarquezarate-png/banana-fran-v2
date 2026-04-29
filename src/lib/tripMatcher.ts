@@ -2,20 +2,23 @@ import type { Destination } from '@/data/destinations'
 import { calcBudget } from '@/lib/budget'
 
 export interface TripAnswers {
-  days:          '3-5' | '5-7' | '7-10' | '10-14'
-  travelers:     '1' | '2' | '3' | '4+'
-  vibe:          'beach' | 'nature' | 'culture' | 'mix'
-  month:         'spring' | 'summer' | 'autumn' | 'winter' | 'any'
-  crowds:        'hate' | 'ok' | 'dontcare'
-  budget:        'low' | 'mid' | 'high' | 'nolimit'
-  novelty:       'popular' | 'hidden' | 'any'
-  musts:         string[]   // 'snorkel'|'hiking'|'nightlife'|'history'|'beaches'|'peace'
-  car:           'yes' | 'maybe' | 'no'
-  // ── Nuevas (v0.7) ──────────────────────────────────────────
-  region:        'europe' | 'americas' | 'asia' | 'africa' | 'oceania' | 'any'
-  zone:          'coast' | 'mountains' | 'cities' | 'islands' | 'any'
-  accommodation: 'hotel' | 'boutique' | 'apartment' | 'any'
-  pace:          'relaxed' | 'moderate' | 'intense'
+  days:            '3-5' | '5-7' | '7-10' | '10-14'
+  travelers:       '1' | '2' | '3' | '4+'
+  vibe:            'beach' | 'nature' | 'culture' | 'mix'
+  month:           'spring' | 'summer' | 'autumn' | 'winter' | 'any'
+  crowds:          'hate' | 'ok' | 'dontcare'
+  budget:          'low' | 'mid' | 'high' | 'nolimit'
+  novelty:         'popular' | 'hidden' | 'any'
+  musts:           string[]
+  car:             'yes' | 'maybe' | 'no'
+  region:          'europe' | 'americas' | 'asia' | 'africa' | 'oceania' | 'any'
+  zone:            'coast' | 'mountains' | 'cities' | 'islands' | 'any'
+  accommodation:   'hotel' | 'boutique' | 'apartment' | 'any'
+  pace:            'relaxed' | 'moderate' | 'intense'
+  // Escalas 1-10
+  activityLevel:   number   // 1=playa/relax, 10=senderismo intenso
+  urbanRural:      number   // 1=naturaleza pura, 10=ciudad/cultura
+  gastronomyLevel: number   // 1=da igual la comida, 10=eje del viaje
 }
 
 const DAYS_MAP: Record<TripAnswers['days'], number> = {
@@ -195,7 +198,26 @@ export function scoreDests(
       score += 5; reasons.push('Excelente en otoño')
     }
     if (answers.month === 'winter' && dest.category === 'perfect') {
-      score += 3 // destinos curados suelen aguantar bien el invierno
+      score += 3
+    }
+
+    // 11. Escalas 1-10 (±20 total si el destino tiene scales definidos)
+    if (dest.scales) {
+      const actDiff = Math.abs(answers.activityLevel - dest.scales.activity)
+      if (actDiff <= 1)      { score += 8; reasons.push('Nivel de actividad ideal') }
+      else if (actDiff <= 3) { score += 4 }
+      else if (actDiff >= 6) { score -= 10 }
+
+      const urbanDiff = Math.abs(answers.urbanRural - dest.scales.urban)
+      if (urbanDiff <= 1)      { score += 7 }
+      else if (urbanDiff <= 3) { score += 3 }
+      else if (urbanDiff >= 6) { score -= 8 }
+
+      if (answers.gastronomyLevel >= 7 && dest.scales.gastronomy >= 8) {
+        score += 5; reasons.push('Destino gastronómico top')
+      } else if (answers.gastronomyLevel >= 8 && dest.scales.gastronomy <= 4) {
+        score -= 5
+      }
     }
 
     score = Math.max(0, Math.min(100, score))

@@ -49,6 +49,11 @@ export interface Destination {
   plans10: LongPlan
   plans14: LongPlan
   budget: DestinationBudget
+  scales?: {
+    activity: number     // 1=playa/relax, 10=senderismo/deportes intensos
+    urban: number        // 1=naturaleza pura, 10=ciudad y cultura densa
+    gastronomy: number   // 1=básico, 10=gastronomía excepcional
+  }
 }
 
 // ============================================================
