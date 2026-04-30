@@ -4,13 +4,13 @@ import { calcBudget } from '@/lib/budget'
 export interface TripAnswers {
   days:            number    // días totales de viaje (ej: 7)
   travelers:       number    // número de viajeros (ej: 2)
-  month:           'spring' | 'summer' | 'autumn' | 'winter' | 'any'
-  crowds:          'hate' | 'ok' | 'dontcare'
+  month:           'spring' | 'summer' | 'autumn' | 'winter' | 'any' | null
+  crowds:          'hate' | 'ok' | 'dontcare' | null
   budget:          number    // presupuesto máx por persona en € (ej: 800)
   musts:           string[]
-  car:             'yes' | 'maybe' | 'no'
-  region:          'europe' | 'americas' | 'asia' | 'africa' | 'oceania' | 'any'
-  noNegociable:    string[]   // ScaleKeys marcados como no negociables
+  car:             'yes' | 'maybe' | 'no' | null
+  region:          'europe' | 'americas' | 'asia' | 'africa' | 'oceania' | 'any' | null
+  noNegociable:    string[]
   // Escalas 1-10 (11 dimensiones)
   playa_ciudad:           number
   relax_fiesta:           number
@@ -22,7 +22,7 @@ export interface TripAnswers {
   solo_grupal:            number
   naturaleza_metropolis:  number
   moderno_historico:      number
-  turistico_desconocido:  number  // 1=muy turístico/icónico, 10=muy desconocido
+  turistico_desconocido:  number
 }
 
 export const SCALE_KEYS: (keyof DestinationScales)[] = [
@@ -195,7 +195,7 @@ export function scoreDests(
     else if (scalePct < 0.40) score -= 10
 
     // 2. Región geográfica (±25) — filtro fuerte
-    if (answers.region !== 'any') {
+    if (answers.region && answers.region !== 'any') {
       const countryLower = dest.country.toLowerCase()
       const inRegion = (REGION_COUNTRIES[answers.region] ?? []).some(c => countryLower.includes(c))
       if (inRegion) {
@@ -246,7 +246,7 @@ export function scoreDests(
 
     // 8. Temporada — cruza mes real con preferencia estacional del destino (±8)
     const destSeason = dest.scales?.invierno_verano ?? 5
-    if (answers.month !== 'any') {
+    if (answers.month && answers.month !== 'any') {
       if (answers.month === 'summer'  && destSeason >= 7) { score += 6; reasons.push('Destino ideal en verano') }
       if (answers.month === 'summer'  && destSeason <= 3) { score -= 8 }
       if (answers.month === 'winter'  && destSeason <= 4) { score += 5; reasons.push('Funciona bien en invierno') }

@@ -126,41 +126,36 @@ function ScaleSelector({
 // ─────────────────────────────────────────────────────────────
 type ScaleKey = 'playa_ciudad' | 'relax_fiesta' | 'lowcost_fancy' | 'invierno_verano' |
   'occidental_exotico' | 'streetfood_gourmet' | 'descanso_aventura' |
-  'solo_grupal' | 'naturaleza_metropolis' | 'moderno_historico'
+  'solo_grupal' | 'naturaleza_metropolis' | 'moderno_historico' | 'turistico_desconocido'
 
 type Step =
-  | { key: 'days';          q: string; type: 'single'; opts: { v: TripAnswers['days'];          l: string; e: string }[] }
-  | { key: 'travelers';     q: string; type: 'single'; opts: { v: TripAnswers['travelers'];     l: string; e: string }[] }
-  | { key: 'region';        q: string; type: 'single'; opts: { v: TripAnswers['region'];        l: string; e: string }[] }
-  | { key: 'crowds';        q: string; type: 'single'; opts: { v: TripAnswers['crowds'];        l: string; e: string }[] }
-  | { key: 'month';         q: string; type: 'single'; opts: { v: TripAnswers['month'];         l: string; e: string }[] }
-  | { key: 'budget';        q: string; type: 'single'; opts: { v: TripAnswers['budget'];        l: string; e: string }[] }
-  | { key: 'accommodation'; q: string; type: 'single'; opts: { v: TripAnswers['accommodation']; l: string; e: string }[] }
-  | { key: 'novelty';       q: string; type: 'single'; opts: { v: TripAnswers['novelty'];       l: string; e: string }[] }
-  | { key: 'musts';         q: string; type: 'multi';  opts: { v: string; l: string; e: string }[] }
-  | { key: 'car';           q: string; type: 'single'; opts: { v: TripAnswers['car'];           l: string; e: string }[] }
-  | { key: ScaleKey;        q: string; type: 'scale';
+  | { key: 'days' | 'travelers' | 'budget'; q: string; type: 'number';
+      placeholder: string; min: number; max: number; unit: string; hint?: string }
+  | { key: 'region';  q: string; type: 'single'; opts: { v: NonNullable<TripAnswers['region']>;  l: string; e: string }[] }
+  | { key: 'crowds';  q: string; type: 'single'; opts: { v: NonNullable<TripAnswers['crowds']>;  l: string; e: string }[] }
+  | { key: 'month';   q: string; type: 'single'; opts: { v: NonNullable<TripAnswers['month']>;   l: string; e: string }[] }
+  | { key: 'car';     q: string; type: 'single'; opts: { v: NonNullable<TripAnswers['car']>;     l: string; e: string }[] }
+  | { key: 'musts';   q: string; type: 'multi';  opts: { v: string; l: string; e: string }[] }
+  | { key: ScaleKey;  q: string; type: 'scale';
       leftEmoji: string; leftLabel: string; rightEmoji: string; rightLabel: string }
 
+// ── Preguntas (número libre) ─────────────────────────────────
 const STEPS: Step[] = [
   {
-    key: 'days', q: '¿Cuántos días tenéis para el viaje?', type: 'single',
-    opts: [
-      { v: '3-5',   l: 'Escapada corta (3–5 días)',  e: '📅' },
-      { v: '5-7',   l: 'Una semana (5–7 días)',       e: '🗓️' },
-      { v: '7-10',  l: 'Diez días (7–10 días)',       e: '✈️' },
-      { v: '10-14', l: 'Dos semanas (10–14 días)',    e: '🌍' },
-    ],
+    key: 'days', q: '¿Cuántos días tenéis para el viaje?', type: 'number',
+    placeholder: 'ej: 7', min: 1, max: 90, unit: 'días',
+    hint: 'Cuenta desde la salida hasta la vuelta',
   },
   {
-    key: 'travelers', q: '¿Cuántas personas viajan?', type: 'single',
-    opts: [
-      { v: '1',  l: 'Solo/a',        e: '🧍' },
-      { v: '2',  l: 'Dos personas',  e: '👫' },
-      { v: '3',  l: 'Tres personas', e: '👨‍👩‍👧' },
-      { v: '4+', l: 'Cuatro o más',  e: '👨‍👩‍👧‍👦' },
-    ],
+    key: 'travelers', q: '¿Cuántas personas viajan?', type: 'number',
+    placeholder: 'ej: 2', min: 1, max: 20, unit: 'personas',
   },
+  {
+    key: 'budget', q: '¿Cuánto presupuesto por persona? (todo incluido)', type: 'number',
+    placeholder: 'ej: 800', min: 0, max: 99999, unit: '€ por persona',
+    hint: 'Vuelos + alojamiento + comida + actividades',
+  },
+  // ── Preguntas de opción única ────────────────────────────────
   {
     key: 'region', q: '¿Tenéis alguna zona del mundo en mente?', type: 'single',
     opts: [
@@ -183,62 +178,44 @@ const STEPS: Step[] = [
   {
     key: 'month', q: '¿En qué época del año iréis?', type: 'single',
     opts: [
-      { v: 'spring', l: 'Primavera (Mar–May)',    e: '🌸' },
-      { v: 'summer', l: 'Verano (Jun–Ago)',       e: '☀️' },
-      { v: 'autumn', l: 'Otoño (Sep–Nov)',        e: '🍂' },
-      { v: 'winter', l: 'Invierno (Dic–Feb)',     e: '❄️' },
-      { v: 'any',    l: 'Sin fecha definida',     e: '📆' },
-    ],
-  },
-  {
-    key: 'budget', q: '¿Cuánto presupuesto por persona (todo incluido)?', type: 'single',
-    opts: [
-      { v: 'low',     l: 'Hasta 600 €',     e: '💶' },
-      { v: 'mid',     l: '600 – 1.100 €',   e: '💳' },
-      { v: 'high',    l: '1.100 – 1.600 €', e: '💰' },
-      { v: 'nolimit', l: 'Sin límite',       e: '💎' },
-    ],
-  },
-  {
-    key: 'accommodation', q: '¿Cómo preferís alojaros?', type: 'single',
-    opts: [
-      { v: 'hotel',     l: 'Hotel ≥4★ — comodidad y servicios', e: '🏨' },
-      { v: 'boutique',  l: 'Boutique / diseño — experiencia única', e: '🛎️' },
-      { v: 'apartment', l: 'Apartamento / Airbnb — más local', e: '🏠' },
-      { v: 'any',       l: 'Sin preferencia',                   e: '🤷' },
-    ],
-  },
-  {
-    key: 'novelty', q: '¿Preferís destino conocido o algo diferente?', type: 'single',
-    opts: [
-      { v: 'popular', l: 'Icónico y probado — lo clásico funciona', e: '🌟' },
-      { v: 'hidden',  l: 'Menos turístico y más auténtico',         e: '🗺️' },
-      { v: 'any',     l: 'Sin preferencia',                         e: '🎲' },
+      { v: 'spring', l: 'Primavera (Mar–May)', e: '🌸' },
+      { v: 'summer', l: 'Verano (Jun–Ago)',    e: '☀️' },
+      { v: 'autumn', l: 'Otoño (Sep–Nov)',     e: '🍂' },
+      { v: 'winter', l: 'Invierno (Dic–Feb)',  e: '❄️' },
+      { v: 'any',    l: 'Sin fecha definida',  e: '📆' },
     ],
   },
   {
     key: 'musts', q: '¿Qué no puede faltar? (elige todo lo que queráis)', type: 'multi',
     opts: [
-      { v: 'beaches',    l: 'Playas espectaculares',      e: '🏝️' },
-      { v: 'snorkel',    l: 'Snorkel / Buceo',            e: '🤿' },
-      { v: 'watersports',l: 'Deportes acuáticos',         e: '🏄' },
-      { v: 'hiking',     l: 'Senderismo y rutas',         e: '🥾' },
-      { v: 'skiing',     l: 'Esquí / Deportes de nieve',  e: '⛷️' },
-      { v: 'history',    l: 'Historia y arquitectura',    e: '🏛️' },
-      { v: 'art',        l: 'Arte y museos',              e: '🎨' },
-      { v: 'gastronomy', l: 'Gastronomía y vino',        e: '🍷' },
-      { v: 'winetour',   l: 'Enoturismo y bodegas',      e: '🍾' },
-      { v: 'shopping',   l: 'Mercados y compras',         e: '🛍️' },
-      { v: 'nightlife',  l: 'Vida nocturna',              e: '🎉' },
-      { v: 'photography',l: 'Fotografía y paisajes',     e: '📸' },
-      { v: 'wellness',   l: 'Wellness / Termas / Spa',    e: '♨️' },
-      { v: 'wildlife',   l: 'Fauna y naturaleza salvaje', e: '🦁' },
-      { v: 'family',     l: 'Apto para niños / familia',  e: '👨‍👩‍👧' },
-      { v: 'romantic',   l: 'Escapada romántica',         e: '💑' },
-      { v: 'peace',      l: 'Tranquilidad total',         e: '🧘' },
+      { v: 'beaches',     l: 'Playas espectaculares',      e: '🏝️' },
+      { v: 'snorkel',     l: 'Snorkel / Buceo',            e: '🤿' },
+      { v: 'watersports', l: 'Deportes acuáticos',         e: '🏄' },
+      { v: 'hiking',      l: 'Senderismo y rutas',         e: '🥾' },
+      { v: 'skiing',      l: 'Esquí / Deportes de nieve',  e: '⛷️' },
+      { v: 'history',     l: 'Historia y arquitectura',    e: '🏛️' },
+      { v: 'art',         l: 'Arte y museos',              e: '🎨' },
+      { v: 'gastronomy',  l: 'Gastronomía y vino',         e: '🍷' },
+      { v: 'winetour',    l: 'Enoturismo y bodegas',       e: '🍾' },
+      { v: 'shopping',    l: 'Mercados y compras',         e: '🛍️' },
+      { v: 'nightlife',   l: 'Vida nocturna',              e: '🎉' },
+      { v: 'photography', l: 'Fotografía y paisajes',      e: '📸' },
+      { v: 'wellness',    l: 'Wellness / Termas / Spa',    e: '♨️' },
+      { v: 'wildlife',    l: 'Fauna y naturaleza salvaje', e: '🦁' },
+      { v: 'family',      l: 'Apto para niños / familia',  e: '👨‍👩‍👧' },
+      { v: 'romantic',    l: 'Escapada romántica',         e: '💑' },
+      { v: 'peace',       l: 'Tranquilidad total',         e: '🧘' },
     ],
   },
-  // ── Escalas 1-10 — 10 dimensiones ───────────────────────────
+  {
+    key: 'car', q: '¿Alquiláis coche en el destino?', type: 'single',
+    opts: [
+      { v: 'yes',   l: 'Sí, siempre',      e: '🚗' },
+      { v: 'maybe', l: 'Depende del sitio', e: '🤔' },
+      { v: 'no',    l: 'No, preferimos no', e: '🚶' },
+    ],
+  },
+  // ── Escalas 1-10 — 11 dimensiones ───────────────────────────
   {
     key: 'playa_ciudad', q: '¿Playa o ciudad?', type: 'scale',
     leftEmoji: '🏖️', leftLabel: 'Playa pura — sol, agua y arena',
@@ -290,35 +267,18 @@ const STEPS: Step[] = [
     rightEmoji: '🏛️', rightLabel: 'Historia, patrimonio y antigüedad',
   },
   {
-    key: 'car', q: '¿Alquiláis coche en el destino?', type: 'single',
-    opts: [
-      { v: 'yes',   l: 'Sí, siempre',       e: '🚗' },
-      { v: 'maybe', l: 'Depende del sitio',  e: '🤔' },
-      { v: 'no',    l: 'No, preferimos no',  e: '🚶' },
-    ],
+    key: 'turistico_desconocido', q: '¿Destino conocido o fuera del radar?', type: 'scale',
+    leftEmoji: '🌟', leftLabel: 'Icónico — lo clásico funciona',
+    rightEmoji: '🗺️', rightLabel: 'Desconocido — auténtico y diferente',
   },
 ]
 
-const TRAVELERS_NUM: Record<TripAnswers['travelers'], number> = {
-  '1': 1, '2': 2, '3': 3, '4+': 4,
-}
-
-// Days range from quiz answer → [min, max]
-const DAYS_RANGE: Record<TripAnswers['days'], [number, number]> = {
-  '3-5':   [3, 5],
-  '5-7':   [5, 7],
-  '7-10':  [7, 10],
-  '10-14': [10, 14],
-}
-
-// Which plan to show based on quiz days answer
-function getPlan(dest: Destination, daysAnswer: TripAnswers['days']) {
-  switch (daysAnswer) {
-    case '3-5':   return { n: 3,  plan: dest.plans3,  isShort: true  }
-    case '5-7':   return { n: 5,  plan: dest.plans5,  isShort: true  }
-    case '7-10':  return { n: 7,  plan: dest.plans7,  isShort: false }
-    case '10-14': return { n: 10, plan: dest.plans10, isShort: false }
-  }
+// Elige el plan más cercano según los días introducidos
+function getPlan(dest: Destination, days: number) {
+  if (days <= 4)  return { n: 3,  plan: dest.plans3,  isShort: true  }
+  if (days <= 6)  return { n: 5,  plan: dest.plans5,  isShort: true  }
+  if (days <= 9)  return { n: 7,  plan: dest.plans7,  isShort: false }
+  return           { n: 10, plan: dest.plans10, isShort: false }
 }
 
 // ─────────────────────────────────────────────────────────────
@@ -386,9 +346,9 @@ function ResultCard({
 // Wizard principal
 // ─────────────────────────────────────────────────────────────
 const DEFAULT_ANSWERS: TripAnswers = {
-  days: '7-10', travelers: '2', crowds: 'ok', month: 'any',
-  budget: 'mid', novelty: 'any', musts: [], car: 'maybe',
-  region: 'any', accommodation: 'any', noNegociable: [],
+  days: 0, travelers: 0, budget: 0,
+  crowds: null, month: null, car: null, region: null,
+  musts: [], noNegociable: [],
   playa_ciudad: 5, relax_fiesta: 5, lowcost_fancy: 5, invierno_verano: 5,
   occidental_exotico: 5, streetfood_gourmet: 5, descanso_aventura: 5,
   solo_grupal: 5, naturaleza_metropolis: 5, moderno_historico: 5,
@@ -425,7 +385,7 @@ export function TripWizardPage() {
 
   const current      = STEPS[step]
   const progress     = (step / STEPS.length) * 100
-  const travelersNum = TRAVELERS_NUM[answers.travelers]
+  const travelersNum = answers.travelers || 1
   const selectedDest = results.find(r => r.dest.id === selectedId)?.dest ?? null
 
   // ── Handlers ────────────────────────────────────────────────
@@ -480,8 +440,8 @@ export function TripWizardPage() {
   const actualDays = startDate && endDate
     ? Math.round((new Date(endDate).getTime() - new Date(startDate).getTime()) / 86_400_000)
     : null
-  const [daysMin, daysMax] = DAYS_RANGE[answers.days]
-  const dateMismatch = actualDays !== null && (actualDays < daysMin || actualDays > daysMax)
+  const plannedDays = answers.days || 7
+  const dateMismatch = actualDays !== null && Math.abs(actualDays - plannedDays) > 2
   const [ignoreMismatch, setIgnoreMismatch] = useState(false)
 
   async function handleCreate() {
@@ -663,17 +623,15 @@ export function TripWizardPage() {
 
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Viajeros</label>
-            <select
-              value={answers.travelers}
-              onChange={e => setAnswers(prev => ({ ...prev, travelers: e.target.value as TripAnswers['travelers'] }))}
+            <input
+              type="number"
+              min={1} max={20}
+              value={answers.travelers || ''}
+              onChange={e => setAnswers(prev => ({ ...prev, travelers: Number(e.target.value) || 1 }))}
+              placeholder="ej: 2"
               className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm
-                         focus:outline-none focus:ring-2 focus:ring-egeo/50 bg-white"
-            >
-              <option value="1">1 persona</option>
-              <option value="2">2 personas</option>
-              <option value="3">3 personas</option>
-              <option value="4+">4 o más personas</option>
-            </select>
+                         focus:outline-none focus:ring-2 focus:ring-egeo/50"
+            />
           </div>
 
           <button
@@ -716,9 +674,13 @@ export function TripWizardPage() {
   }
 
   // ── Phase: Quiz ──────────────────────────────────────────────
-  const isScale = current.type === 'scale'
-  const isMulti = current.type === 'multi'
+  const isScale  = current.type === 'scale'
+  const isMulti  = current.type === 'multi'
+  const isNumber = current.type === 'number'
   const selectedMulti = answers.musts
+
+  // Para inputs numéricos: valor actual del campo
+  const numVal = isNumber ? (answers[current.key as 'days' | 'travelers' | 'budget'] as number) : 0
 
   return (
     <main className="max-w-lg mx-auto px-4 py-6 pb-24 sm:pb-8">
@@ -738,7 +700,7 @@ export function TripWizardPage() {
       <h2 className="font-display text-2xl font-bold text-gray-900 mb-6 leading-snug">{current.q}</h2>
 
       {isScale ? (
-        // Escala 1-10
+        // Escala bidireccional
         <ScaleSelector
           value={answers[current.key as ScaleKey] as number}
           onChange={n => selectScale(current.key as ScaleKey, n)}
@@ -757,7 +719,33 @@ export function TripWizardPage() {
             }))
           }}
         />
+      ) : isNumber ? (
+        // Input numérico libre
+        (() => {
+          const numStep = current as Extract<Step, { type: 'number' }>
+          return (
+            <div className="space-y-4">
+              <div className="flex items-center gap-3">
+                <input
+                  type="number"
+                  min={numStep.min} max={numStep.max}
+                  value={numVal || ''}
+                  placeholder={numStep.placeholder}
+                  autoFocus
+                  onChange={e => setAnswers(prev => ({ ...prev, [current.key]: Number(e.target.value) || 0 }))}
+                  className="flex-1 border-2 border-gray-200 rounded-2xl px-5 py-4 text-2xl font-bold text-gray-900
+                             focus:outline-none focus:border-egeo text-center"
+                />
+                <span className="text-sm text-gray-500 font-medium whitespace-nowrap">{numStep.unit}</span>
+              </div>
+              {numStep.hint && (
+                <p className="text-xs text-gray-400 text-center">{numStep.hint}</p>
+              )}
+            </div>
+          )
+        })()
       ) : (
+        // Opciones (single / multi)
         <div className="space-y-3">
           {(current as Extract<Step, { type: 'single' | 'multi' }>).opts.map(opt => {
             const isSelected = isMulti
@@ -784,9 +772,13 @@ export function TripWizardPage() {
         </div>
       )}
 
-      {(isScale || isMulti) && (
+      {(isScale || isMulti || isNumber) && (
         <div className="mt-6">
-          <button onClick={() => advance()} className="btn-primary w-full">
+          <button
+            onClick={() => advance()}
+            disabled={isNumber && numVal <= 0}
+            className="btn-primary w-full disabled:opacity-40"
+          >
             {isMulti
               ? (selectedMulti.length === 0 ? 'Saltar' : `Continuar (${selectedMulti.length} elegidos)`)
               : 'Siguiente →'}

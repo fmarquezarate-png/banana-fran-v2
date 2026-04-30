@@ -586,6 +586,7 @@ export const DESTINATIONS_WARNING: Destination[] = [
     matchLabel: 'Con cautela',
     tagline: 'Cinco pueblos de postal — con demasiada gente encima en verano',
     category: 'warning',
+    scales: { playa_ciudad: 3, relax_fiesta: 2, lowcost_fancy: 6, invierno_verano: 7, occidental_exotico: 1, streetfood_gourmet: 5, descanso_aventura: 4, solo_grupal: 5, naturaleza_metropolis: 3, moderno_historico: 8, turistico_desconocido: 1 },
     coords: [44.1460, 9.6615],
     images: [
       'https://images.unsplash.com/photo-1527631746610-bca00a040d60?w=800',
@@ -681,6 +682,7 @@ export const DESTINATIONS_WARNING: Destination[] = [
     matchLabel: 'Con cautela',
     tagline: 'La isla más glamurosa del Mediterráneo — y la más cara',
     category: 'warning',
+    scales: { playa_ciudad: 3, relax_fiesta: 4, lowcost_fancy: 8, invierno_verano: 8, occidental_exotico: 1, streetfood_gourmet: 7, descanso_aventura: 3, solo_grupal: 4, naturaleza_metropolis: 3, moderno_historico: 6, turistico_desconocido: 1 },
     coords: [40.5530, 14.2418],
     images: [
       'https://images.unsplash.com/photo-1527631746610-bca00a040d60?w=800',
@@ -776,6 +778,7 @@ export const DESTINATIONS_WARNING: Destination[] = [
     matchLabel: 'Con cautela',
     tagline: 'La Tramuntana es preciosa; el sur es Magaluf — saber qué buscar',
     category: 'warning',
+    scales: { playa_ciudad: 3, relax_fiesta: 5, lowcost_fancy: 5, invierno_verano: 8, occidental_exotico: 1, streetfood_gourmet: 4, descanso_aventura: 5, solo_grupal: 6, naturaleza_metropolis: 4, moderno_historico: 5, turistico_desconocido: 2 },
     coords: [39.6953, 3.0176],
     images: [
       'https://images.unsplash.com/photo-1555993539-1732b0258235?w=800',

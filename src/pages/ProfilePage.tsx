@@ -3,9 +3,18 @@ import toast from 'react-hot-toast'
 import { useAuth } from '@/hooks/useAuth'
 import { useProfile } from '@/hooks/useProfile'
 
-const APP_VERSION = '0.12.0'
+const APP_VERSION = '0.13.0'
 
 const CHANGELOG: { v: string; date: string; notes: string[] }[] = [
+  { v: '0.13.0', date: 'Abr 2026', notes: [
+    'Quiz reordenado: todas las preguntas primero, todos los sliders al final',
+    'Días, viajeros y presupuesto: ahora son inputs numéricos libres (sin opciones pre-definidas)',
+    'Eliminadas preguntas de alojamiento y novedad (novedad pasa a ser slider turistico_desconocido)',
+    'Sin respuestas pre-seleccionadas — el usuario parte de cero sin condicionamiento',
+    'Nueva dimensión de escala: Turístico ↔ Desconocido (11 dimensiones totales)',
+    'Texto de intensidad del slider movido debajo — sin layout shift',
+    'Botón Siguiente visible en sliders y campos numéricos',
+  ]},
   { v: '0.12.0', date: 'Abr 2026', notes: [
     'Fix crítico: slider ya no colapsa la app — eliminado auto-advance en escalas',
     'Tester: valores mostrados como magnitud bidireccional (0-10 desde neutro)',
