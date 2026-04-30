@@ -2,47 +2,48 @@ import type { Destination, DestinationCategory, DestinationScales } from '@/data
 import { calcBudget } from '@/lib/budget'
 
 export interface TripAnswers {
-  days:            '3-5' | '5-7' | '7-10' | '10-14'
-  travelers:       '1' | '2' | '3' | '4+'
+  days:            number    // días totales de viaje (ej: 7)
+  travelers:       number    // número de viajeros (ej: 2)
   month:           'spring' | 'summer' | 'autumn' | 'winter' | 'any'
   crowds:          'hate' | 'ok' | 'dontcare'
-  budget:          'low' | 'mid' | 'high' | 'nolimit'
-  novelty:         'popular' | 'hidden' | 'any'
+  budget:          number    // presupuesto máx por persona en € (ej: 800)
   musts:           string[]
   car:             'yes' | 'maybe' | 'no'
   region:          'europe' | 'americas' | 'asia' | 'africa' | 'oceania' | 'any'
-  accommodation:   'hotel' | 'boutique' | 'apartment' | 'any'
   noNegociable:    string[]   // ScaleKeys marcados como no negociables
-  // Escalas 1-10 (10 dimensiones)
-  playa_ciudad:          number
-  relax_fiesta:          number
-  lowcost_fancy:         number
-  invierno_verano:       number
-  occidental_exotico:    number
-  streetfood_gourmet:    number
-  descanso_aventura:     number
-  solo_grupal:           number
-  naturaleza_metropolis: number
-  moderno_historico:     number
+  // Escalas 1-10 (11 dimensiones)
+  playa_ciudad:           number
+  relax_fiesta:           number
+  lowcost_fancy:          number
+  invierno_verano:        number
+  occidental_exotico:     number
+  streetfood_gourmet:     number
+  descanso_aventura:      number
+  solo_grupal:            number
+  naturaleza_metropolis:  number
+  moderno_historico:      number
+  turistico_desconocido:  number  // 1=muy turístico/icónico, 10=muy desconocido
 }
 
 export const SCALE_KEYS: (keyof DestinationScales)[] = [
   'playa_ciudad', 'relax_fiesta', 'lowcost_fancy', 'invierno_verano',
   'occidental_exotico', 'streetfood_gourmet', 'descanso_aventura',
   'solo_grupal', 'naturaleza_metropolis', 'moderno_historico',
+  'turistico_desconocido',
 ]
 
 export const SCALE_LABELS: Record<string, string> = {
-  playa_ciudad:          'Playa ↔ Ciudad',
-  relax_fiesta:          'Relax ↔ Fiesta',
-  lowcost_fancy:         'Lowcost ↔ Lujo',
-  invierno_verano:       'Invierno ↔ Verano',
-  occidental_exotico:    'Occidental ↔ Exótico',
-  streetfood_gourmet:    'Street food ↔ Gourmet',
-  descanso_aventura:     'Descanso ↔ Aventura',
-  solo_grupal:           'Solo ↔ Grupal',
-  naturaleza_metropolis: 'Naturaleza ↔ Metrópolis',
-  moderno_historico:     'Moderno ↔ Histórico',
+  playa_ciudad:           'Playa ↔ Ciudad',
+  relax_fiesta:           'Relax ↔ Fiesta',
+  lowcost_fancy:          'Lowcost ↔ Lujo',
+  invierno_verano:        'Invierno ↔ Verano',
+  occidental_exotico:     'Occidental ↔ Exótico',
+  streetfood_gourmet:     'Street food ↔ Gourmet',
+  descanso_aventura:      'Descanso ↔ Aventura',
+  solo_grupal:            'Solo ↔ Grupal',
+  naturaleza_metropolis:  'Naturaleza ↔ Metrópolis',
+  moderno_historico:      'Moderno ↔ Histórico',
+  turistico_desconocido:  'Turístico ↔ Desconocido',
 }
 
 export interface ScaleDimDetail {
@@ -126,16 +127,6 @@ export function getScaleCategory(pct: number): DestinationCategory {
   return 'warning'
 }
 
-const DAYS_MAP: Record<TripAnswers['days'], number> = {
-  '3-5': 4, '5-7': 6, '7-10': 8, '10-14': 12,
-}
-
-const BUDGET_RANGE: Record<TripAnswers['budget'], [number, number]> = {
-  low:     [0,    600],
-  mid:     [600,  1100],
-  high:    [1100, 1600],
-  nolimit: [1600, 9999],
-}
 
 const REGION_COUNTRIES: Record<string, string[]> = {
   europe:   ['italia', 'grecia', 'portugal', 'croacia', 'montenegro', 'hungría', 'malta',
@@ -189,8 +180,8 @@ export function scoreDests(
   destinations: Destination[],
   answers: TripAnswers
 ): ScoredDestination[] {
-  const days = DAYS_MAP[answers.days]
-  const [budgetMin, budgetMax] = BUDGET_RANGE[answers.budget]
+  const days = answers.days || 7
+  const budgetMax = answers.budget || 9999
 
   return destinations.map(dest => {
     let score = 0
@@ -226,25 +217,16 @@ export function scoreDests(
       if (dest.category === 'warning') score -= 6
     }
 
-    // 5. Presupuesto (±15)
+    // 5. Presupuesto (±15) — compara precio estimado contra máximo del usuario
     const budgetResult = calcBudget(dest, days, 'medio', true)
     const ppTotal = budgetResult.totalMid
-    if (ppTotal >= budgetMin && ppTotal <= budgetMax) {
+    if (ppTotal <= budgetMax) {
       score += 15
       reasons.push(`Encaja en presupuesto (~€${Math.round(ppTotal)}pp)`)
-    } else if (ppTotal < budgetMin) {
-      score += 6
+    } else if (ppTotal <= budgetMax * 1.25) {
+      score += 4  // ligeramente por encima — no penalizar fuerte
     } else {
       score -= 10
-    }
-
-    // 6. Novedad / popularidad (±10)
-    if (answers.novelty === 'hidden') {
-      if (dest.category === 'warning') { score -= 10 }
-      if (dest.category === 'ok')      { score += 10; reasons.push('Destino menos turístico') }
-      if (dest.category === 'perfect') { score += 5;  reasons.push('Destino curado y auténtico') }
-    } else if (answers.novelty === 'popular') {
-      if (dest.category === 'warning') { score += 5; reasons.push('Destino icónico') }
     }
 
     // 9. Actividades imprescindibles (0-15)

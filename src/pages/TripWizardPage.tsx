@@ -54,17 +54,6 @@ function ScaleSelector({
           <span className="text-xs font-semibold text-gray-700 text-center leading-tight">{leftLabel}</span>
         </div>
 
-        {/* Indicador central */}
-        <div className="flex-1 text-center">
-          {neutral ? (
-            <span className="text-xs text-gray-400 italic">Sin preferencia</span>
-          ) : (
-            <span className={`text-xs font-semibold ${isNegociable ? 'text-red-500' : 'text-egeo'}`}>
-              {intensityLabel(value)} hacia {side === 'left' ? leftLabel : rightLabel}
-            </span>
-          )}
-        </div>
-
         <div className={`flex flex-col items-center gap-0.5 min-w-[72px] transition-all duration-200 ${
           side === 'right' ? 'opacity-100 scale-105' : 'opacity-35 scale-100'
         }`}>
@@ -89,11 +78,22 @@ function ScaleSelector({
         <div
           className="absolute top-1/2 -translate-y-1/2 w-0.5 h-5 rounded-full pointer-events-none"
           style={{
-            left: `calc(${center}% + 4px)`,   /* +4px compensa el padding */
+            left: `calc(${center}% + 4px)`,
             background: neutral ? col : '#9ca3af',
             opacity: neutral ? 0.6 : 0.35,
           }}
         />
+      </div>
+
+      {/* Indicador de dirección — altura fija para evitar layout shift */}
+      <div className="h-5 flex items-center justify-center">
+        {neutral ? (
+          <span className="text-xs text-gray-400 italic">Sin preferencia — punto neutro</span>
+        ) : (
+          <span className={`text-xs font-semibold ${isNegociable ? 'text-red-500' : 'text-egeo'}`}>
+            {intensityLabel(value)} hacia {side === 'left' ? leftLabel.split(' ')[0] : rightLabel.split(' ')[0]}
+          </span>
+        )}
       </div>
 
       {/* No negociable */}
@@ -784,10 +784,12 @@ export function TripWizardPage() {
         </div>
       )}
 
-      {isMulti && (
+      {(isScale || isMulti) && (
         <div className="mt-6">
           <button onClick={() => advance()} className="btn-primary w-full">
-            {selectedMulti.length === 0 ? 'Saltar' : `Continuar (${selectedMulti.length} elegidos)`}
+            {isMulti
+              ? (selectedMulti.length === 0 ? 'Saltar' : `Continuar (${selectedMulti.length} elegidos)`)
+              : 'Siguiente →'}
           </button>
         </div>
       )}
