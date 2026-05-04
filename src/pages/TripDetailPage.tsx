@@ -12,7 +12,7 @@ import { calcBudget, formatPrice, LEVEL_LABEL } from '@/lib/budget'
 import type { BudgetLevel } from '@/lib/budget'
 import {
   scoreDests, calcScaleMatch, getScaleCategory, calcScaleMatchDetail,
-  SCALE_KEYS, SCALE_LABELS, type TripAnswers,
+  getNNFailures, SCALE_KEYS, SCALE_LABELS, type TripAnswers,
 } from '@/lib/tripMatcher'
 
 type MainTab = 'opciones' | 'planificado' | 'tester'
@@ -611,7 +611,7 @@ function MatchDestCard({ dest, score, reasons }: { dest: Destination; score: num
   )
 }
 
-function WarningMatchCard({ dest, score }: { dest: Destination; score: number }) {
+function WarningMatchCard({ dest, score, antiReasons }: { dest: Destination; score: number; antiReasons: string[] }) {
   return (
     <Link to={`/destino/${dest.id}`}
       className="group relative rounded-xl overflow-hidden border border-warning-yellow/30
@@ -629,11 +629,29 @@ function WarningMatchCard({ dest, score }: { dest: Destination; score: number })
       <div className="p-2.5 bg-[#0a0a0a]">
         <p className="font-display font-bold text-warning-yellow text-xs truncate">{dest.name}</p>
         <p className="text-gray-500 text-[10px] truncate">{dest.country}</p>
+        {antiReasons.length > 0 && (
+          <p className="text-[10px] text-warning-yellow/60 mt-1 leading-snug line-clamp-2">
+            {antiReasons.slice(0, 2).join(' · ')}
+          </p>
+        )}
       </div>
       <div className="h-1.5"
         style={{ background: 'repeating-linear-gradient(90deg,#ffd700 0,#ffd700 10px,#111 10px,#111 20px)' }} />
     </Link>
   )
+}
+
+function buildAntiReasons(answers: TripAnswers, dest: Destination, score: number, pct: number): string[] {
+  const out: string[] = []
+  const nnFailed = getNNFailures(answers, dest)
+  for (const key of nnFailed) {
+    out.push(`⛔ No negociable: ${SCALE_LABELS[key]}`)
+  }
+  if (nnFailed.length === 0 && pct < 0.40) {
+    out.push(`Afinidad de perfil muy baja (${Math.round(pct * 100)}%)`)
+  }
+  if (score < 30) out.push('Puntuación global baja para tu perfil')
+  return out
 }
 
 function OpcionesTab({ quizAnswers }: { quizAnswers: TripAnswers | null }) {
@@ -646,12 +664,30 @@ function OpcionesTab({ quizAnswers }: { quizAnswers: TripAnswers | null }) {
   )
 
   const groups = useMemo(() => {
-    if (!quizAnswers) return { perfect: [], good: [], ok: [], warning: [] }
+    if (!quizAnswers) return {
+      perfect: [] as typeof scored, good: [] as typeof scored,
+      ok: [] as typeof scored,
+      warning: [] as { dest: Destination; score: number; reasons: string[]; antiReasons: string[] }[]
+    }
+
+    const isWarn = (s: typeof scored[0]) => {
+      const pct = calcScaleMatch(quizAnswers, s.dest)
+      return getScaleCategory(pct) === 'warning' || s.score < 30
+    }
+
+    const warningList = scored
+      .filter(s => isWarn(s))
+      .map(s => {
+        const pct = calcScaleMatch(quizAnswers, s.dest)
+        return { ...s, antiReasons: buildAntiReasons(quizAnswers, s.dest, s.score, pct) }
+      })
+
+    const nonWarn = scored.filter(s => !isWarn(s))
     return {
-      perfect: scored.filter(s => getScaleCategory(calcScaleMatch(quizAnswers, s.dest)) === 'perfect'),
-      good:    scored.filter(s => getScaleCategory(calcScaleMatch(quizAnswers, s.dest)) === 'good'),
-      ok:      scored.filter(s => getScaleCategory(calcScaleMatch(quizAnswers, s.dest)) === 'ok'),
-      warning: scored.filter(s => getScaleCategory(calcScaleMatch(quizAnswers, s.dest)) === 'warning'),
+      perfect: nonWarn.filter(s => getScaleCategory(calcScaleMatch(quizAnswers, s.dest)) === 'perfect'),
+      good:    nonWarn.filter(s => getScaleCategory(calcScaleMatch(quizAnswers, s.dest)) === 'good'),
+      ok:      nonWarn.filter(s => getScaleCategory(calcScaleMatch(quizAnswers, s.dest)) === 'ok'),
+      warning: warningList,
     }
   }, [scored, quizAnswers])
 
@@ -704,18 +740,18 @@ function OpcionesTab({ quizAnswers }: { quizAnswers: TripAnswers | null }) {
           className="mt-3 rounded-2xl p-4"
           style={{ background: 'repeating-linear-gradient(45deg,#0a0a0a 0,#0a0a0a 18px,#141414 18px,#141414 36px)' }}
         >
-          <p className="text-warning-yellow font-bold text-sm mb-1">⚠ Zona Warning</p>
+          <p className="text-warning-yellow font-bold text-sm mb-1">⚠ Zona Warning — por qué NO os calza</p>
           <p className="text-gray-500 text-xs mb-4 leading-relaxed">
-            Destinos que no encajan con tu perfil. Con información, se pueden gestionar — pero con los ojos bien abiertos.
+            Estos destinos no encajan con tu perfil por algún motivo concreto. Infórmate antes de decidir.
           </p>
-          {current.length === 0 ? (
+          {groups.warning.length === 0 ? (
             <p className="text-gray-600 text-sm text-center py-8 italic">
               Ningún destino en zona warning para tu perfil actual
             </p>
           ) : (
             <div className="grid grid-cols-2 gap-2.5">
-              {current.map(({ dest, score }) => (
-                <WarningMatchCard key={dest.id} dest={dest} score={score} />
+              {groups.warning.map(({ dest, score, antiReasons }) => (
+                <WarningMatchCard key={dest.id} dest={dest} score={score} antiReasons={antiReasons} />
               ))}
             </div>
           )}

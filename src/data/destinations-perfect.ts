@@ -87,7 +87,7 @@ export const DESTINATIONS_PERFECT: Destination[] = [
       actPD: 25,
       ar: 0.15,
     },
-    scales: { playa_ciudad: 8, relax_fiesta: 5, lowcost_fancy: 2, invierno_verano: 9, occidental_exotico: 5, streetfood_gourmet: 6, descanso_aventura: 5, solo_grupal: 4, naturaleza_metropolis: 4, moderno_historico: 6 },
+    scales: { playa_ciudad: 8, relax_fiesta: 5, lowcost_fancy: 2, invierno_verano: 9, occidental_exotico: 5, streetfood_gourmet: 6, descanso_aventura: 5, solo_grupal: 4, naturaleza_metropolis: 4, moderno_historico: 6, turistico_desconocido: 8 },
   },
 
   // ── #2 ──────────────────────────────────────────────────────
@@ -177,7 +177,7 @@ export const DESTINATIONS_PERFECT: Destination[] = [
       actPD: 50,
       ar: 0.20,
     },
-    scales: { playa_ciudad: 8, relax_fiesta: 3, lowcost_fancy: 5, invierno_verano: 9, occidental_exotico: 2, streetfood_gourmet: 6, descanso_aventura: 5, solo_grupal: 4, naturaleza_metropolis: 3, moderno_historico: 5 },
+    scales: { playa_ciudad: 8, relax_fiesta: 3, lowcost_fancy: 5, invierno_verano: 9, occidental_exotico: 2, streetfood_gourmet: 6, descanso_aventura: 5, solo_grupal: 4, naturaleza_metropolis: 3, moderno_historico: 5, turistico_desconocido: 7 },
   },
 
   // ── #3 ──────────────────────────────────────────────────────
@@ -266,7 +266,7 @@ export const DESTINATIONS_PERFECT: Destination[] = [
       actPD: 45,
       ar: 0.20,
     },
-    scales: { playa_ciudad: 6, relax_fiesta: 2, lowcost_fancy: 4, invierno_verano: 8, occidental_exotico: 2, streetfood_gourmet: 5, descanso_aventura: 7, solo_grupal: 3, naturaleza_metropolis: 2, moderno_historico: 6 },
+    scales: { playa_ciudad: 6, relax_fiesta: 2, lowcost_fancy: 4, invierno_verano: 8, occidental_exotico: 2, streetfood_gourmet: 5, descanso_aventura: 7, solo_grupal: 3, naturaleza_metropolis: 2, moderno_historico: 6, turistico_desconocido: 9 },
   },
 
   // ── #4 ──────────────────────────────────────────────────────
@@ -356,7 +356,7 @@ export const DESTINATIONS_PERFECT: Destination[] = [
       actPD: 55,
       ar: 0.20,
     },
-    scales: { playa_ciudad: 8, relax_fiesta: 5, lowcost_fancy: 4, invierno_verano: 9, occidental_exotico: 2, streetfood_gourmet: 5, descanso_aventura: 6, solo_grupal: 5, naturaleza_metropolis: 3, moderno_historico: 4 },
+    scales: { playa_ciudad: 8, relax_fiesta: 5, lowcost_fancy: 4, invierno_verano: 9, occidental_exotico: 2, streetfood_gourmet: 5, descanso_aventura: 6, solo_grupal: 5, naturaleza_metropolis: 3, moderno_historico: 4, turistico_desconocido: 6 },
   },
 
   // ── #5 ──────────────────────────────────────────────────────
@@ -447,7 +447,7 @@ export const DESTINATIONS_PERFECT: Destination[] = [
       actPD: 55,
       ar: 0.20,
     },
-    scales: { playa_ciudad: 7, relax_fiesta: 3, lowcost_fancy: 4, invierno_verano: 8, occidental_exotico: 2, streetfood_gourmet: 6, descanso_aventura: 5, solo_grupal: 3, naturaleza_metropolis: 3, moderno_historico: 5 },
+    scales: { playa_ciudad: 7, relax_fiesta: 3, lowcost_fancy: 4, invierno_verano: 8, occidental_exotico: 2, streetfood_gourmet: 6, descanso_aventura: 5, solo_grupal: 3, naturaleza_metropolis: 3, moderno_historico: 5, turistico_desconocido: 8 },
   },
   {
     id: 'kotor',
@@ -543,7 +543,7 @@ export const DESTINATIONS_PERFECT: Destination[] = [
       actPD: 30,
       ar: 0.20,
     },
-    scales: { playa_ciudad: 6, relax_fiesta: 4, lowcost_fancy: 3, invierno_verano: 7, occidental_exotico: 4, streetfood_gourmet: 6, descanso_aventura: 6, solo_grupal: 4, naturaleza_metropolis: 3, moderno_historico: 9 },
+    scales: { playa_ciudad: 6, relax_fiesta: 4, lowcost_fancy: 3, invierno_verano: 7, occidental_exotico: 4, streetfood_gourmet: 6, descanso_aventura: 6, solo_grupal: 4, naturaleza_metropolis: 3, moderno_historico: 9, turistico_desconocido: 5 },
   },
 
   // ── Azores ──────────────────────────────────────────────────
@@ -630,7 +630,7 @@ export const DESTINATIONS_PERFECT: Destination[] = [
       actPD: 60,
       ar: 0.25,
     },
-    scales: { playa_ciudad: 3, relax_fiesta: 3, lowcost_fancy: 4, invierno_verano: 5, occidental_exotico: 3, streetfood_gourmet: 5, descanso_aventura: 8, solo_grupal: 3, naturaleza_metropolis: 1, moderno_historico: 3 },
+    scales: { playa_ciudad: 3, relax_fiesta: 3, lowcost_fancy: 4, invierno_verano: 5, occidental_exotico: 3, streetfood_gourmet: 5, descanso_aventura: 8, solo_grupal: 3, naturaleza_metropolis: 1, moderno_historico: 3, turistico_desconocido: 6 },
   },
 
   // ── Madeira ──────────────────────────────────────────────────
@@ -721,7 +721,7 @@ export const DESTINATIONS_PERFECT: Destination[] = [
       actPD: 45,
       ar: 0.30,
     },
-    scales: { playa_ciudad: 2, relax_fiesta: 3, lowcost_fancy: 4, invierno_verano: 6, occidental_exotico: 2, streetfood_gourmet: 6, descanso_aventura: 7, solo_grupal: 4, naturaleza_metropolis: 2, moderno_historico: 4 },
+    scales: { playa_ciudad: 2, relax_fiesta: 3, lowcost_fancy: 4, invierno_verano: 6, occidental_exotico: 2, streetfood_gourmet: 6, descanso_aventura: 7, solo_grupal: 4, naturaleza_metropolis: 2, moderno_historico: 4, turistico_desconocido: 3 },
   },
 
   // ── Eslovenia ─────────────────────────────────────────────────
@@ -813,7 +813,7 @@ export const DESTINATIONS_PERFECT: Destination[] = [
       actPD: 40,
       ar: 0.30,
     },
-    scales: { playa_ciudad: 2, relax_fiesta: 3, lowcost_fancy: 4, invierno_verano: 7, occidental_exotico: 2, streetfood_gourmet: 4, descanso_aventura: 8, solo_grupal: 4, naturaleza_metropolis: 2, moderno_historico: 5 },
+    scales: { playa_ciudad: 2, relax_fiesta: 3, lowcost_fancy: 4, invierno_verano: 7, occidental_exotico: 2, streetfood_gourmet: 4, descanso_aventura: 8, solo_grupal: 4, naturaleza_metropolis: 2, moderno_historico: 5, turistico_desconocido: 5 },
   },
 
   // ── Highlands de Escocia ──────────────────────────────────────
@@ -911,6 +911,6 @@ export const DESTINATIONS_PERFECT: Destination[] = [
       actPD: 50,
       ar: 0.30,
     },
-    scales: { playa_ciudad: 2, relax_fiesta: 2, lowcost_fancy: 4, invierno_verano: 5, occidental_exotico: 2, streetfood_gourmet: 3, descanso_aventura: 9, solo_grupal: 3, naturaleza_metropolis: 1, moderno_historico: 7 },
+    scales: { playa_ciudad: 2, relax_fiesta: 2, lowcost_fancy: 4, invierno_verano: 5, occidental_exotico: 2, streetfood_gourmet: 3, descanso_aventura: 9, solo_grupal: 3, naturaleza_metropolis: 1, moderno_historico: 7, turistico_desconocido: 4 },
   },
 ]

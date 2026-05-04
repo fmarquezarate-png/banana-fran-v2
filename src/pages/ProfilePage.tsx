@@ -3,9 +3,15 @@ import toast from 'react-hot-toast'
 import { useAuth } from '@/hooks/useAuth'
 import { useProfile } from '@/hooks/useProfile'
 
-const APP_VERSION = '0.13.0'
+const APP_VERSION = '0.14.0'
 
 const CHANGELOG: { v: string; date: string; notes: string[] }[] = [
+  { v: '0.14.0', date: 'May 2026', notes: [
+    'Fix: no negociable ahora fuerza zona Warning aunque otras dimensiones compensen',
+    'Zona Warning también si puntuación total < 30 (antes solo por escala)',
+    'Zona Warning: muestra "por qué NO os calza" con motivos específicos',
+    'turistico_desconocido añadido a los 10 destinos del grupo perfect (10/41 completados)',
+  ]},
   { v: '0.13.0', date: 'Abr 2026', notes: [
     'Quiz reordenado: todas las preguntas primero, todos los sliders al final',
     'Días, viajeros y presupuesto: ahora son inputs numéricos libres (sin opciones pre-definidas)',

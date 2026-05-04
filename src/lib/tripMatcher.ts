@@ -99,25 +99,47 @@ export function calcScaleMatchDetail(answers: TripAnswers, dest: Destination): {
 export function calcScaleMatch(answers: TripAnswers, dest: Destination): number {
   const s = dest.scales ?? {}
   const nn = new Set(answers.noNegociable ?? [])
+
+  // Si cualquier dimensión no negociable falla → 0 automático (zona warning)
+  for (const key of SCALE_KEYS) {
+    if (!nn.has(key)) continue
+    const dVal = (s[key] ?? 5) as number
+    const uVal = answers[key as keyof TripAnswers] as number
+    if (Math.abs(uVal - dVal) > 1) return 0
+  }
+
   let total = 0
   let totalWeight = 0
 
   for (const key of SCALE_KEYS) {
     const dVal = (s[key] ?? 5) as number
     const uVal = answers[key as keyof TripAnswers] as number
-    const intensity = Math.abs(uVal - 5)       // 0=neutral, 4=extremo
-    if (intensity === 0) continue              // Sin preferencia → ignorar dimensión
+    const intensity = Math.abs(uVal - 5)
+    if (intensity === 0) continue
 
-    const weight = intensity / 4               // 0.25 → 1.0
+    const weight = intensity / 4
     const diff   = Math.abs(uVal - dVal)
     const dimScore = nn.has(key)
-      ? (diff <= 1 ? 1.0 : 0.0)               // No negociable: binario ±1
-      : 1 - diff / 10                          // Normal: gradual
+      ? (diff <= 1 ? 1.0 : 0.0)
+      : 1 - diff / 10
     total       += dimScore * weight
     totalWeight += weight
   }
 
-  return totalWeight > 0 ? total / totalWeight : 0.65  // sin preferencias → neutro
+  return totalWeight > 0 ? total / totalWeight : 0.65
+}
+
+export function getNNFailures(answers: TripAnswers, dest: Destination): string[] {
+  const s = dest.scales ?? {}
+  const nn = new Set(answers.noNegociable ?? [])
+  const failed: string[] = []
+  for (const key of SCALE_KEYS) {
+    if (!nn.has(key)) continue
+    const dVal = (s[key] ?? 5) as number
+    const uVal = answers[key as keyof TripAnswers] as number
+    if (Math.abs(uVal - dVal) > 1) failed.push(key)
+  }
+  return failed
 }
 
 export function getScaleCategory(pct: number): DestinationCategory {
