@@ -3,9 +3,16 @@ import toast from 'react-hot-toast'
 import { useAuth } from '@/hooks/useAuth'
 import { useProfile } from '@/hooks/useProfile'
 
-const APP_VERSION = '0.18.0'
+const APP_VERSION = '0.19.0'
 
 const CHANGELOG: { v: string; date: string; notes: string[] }[] = [
+  { v: '0.19.0', date: 'May 2026', notes: [
+    '5 nuevos destinos: Malta, Menorca, Oporto (👍 Muy bueno) y Chipre, Atenas (👌 Está bien)',
+    'Fix crítico: merge de rama main había revertido el quiz y el scoring al formato antiguo',
+    'Fix: turistico_desconocido restaurado en todos los destinos tras corrupción del merge',
+    'Mapa de países: Malta (🇲🇹) y Chipre (🇨🇾) ahora se pintan correctamente',
+    'Total destinos: 35 (30 con scorecard completo + 5 nuevos)',
+  ]},
   { v: '0.18.0', date: 'May 2026', notes: [
     'Mapa "Lugares" rediseñado: mapa mundial SVG con países pintados (verde=visitado, amarillo=planificado)',
     'Fix mobile: quiz answers ahora se leen correctamente en cada visita a la página de opciones',
