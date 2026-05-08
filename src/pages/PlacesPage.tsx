@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react'
-import { ComposableMap, Geographies, Geography } from 'react-simple-maps'
+import { ComposableMap, Geographies, Geography, ZoomableGroup } from 'react-simple-maps'
 import worldAtlas from 'world-atlas/countries-110m.json'
 import { Link } from 'react-router-dom'
 import { useAuth } from '@/hooks/useAuth'
@@ -13,25 +13,54 @@ function isPastTrip(trip: Trip): boolean {
   return false
 }
 
-// ISO 3166-1 numeric codes for the countries in our destination list
+// ISO 3166-1 numeric codes — handles both destination country strings and pais_* slugs
 function getIsoCodes(country: string): number[] {
   const c = country.toLowerCase()
   const codes: number[] = []
   if (c.includes('albania')) codes.push(8)
+  if (c.includes('alemania')) codes.push(276)
+  if (c.includes('austria')) codes.push(40)
+  if (c.includes('belgica') || c.includes('bélgica')) codes.push(56)
+  if (c.includes('chipre')) codes.push(196)
   if (c.includes('croacia')) codes.push(191)
+  if (c.includes('dinamarca')) codes.push(208)
   if (c.includes('eslovenia') || c.includes('slovenia')) codes.push(705)
   if (c.includes('españa')) codes.push(724)
+  if (c.includes('finlandia')) codes.push(246)
+  if (c.includes('francia')) codes.push(250)
   if (c.includes('grecia')) codes.push(300)
   if (c.includes('hungría') || c.includes('hungria')) codes.push(348)
+  if (c.includes('irlanda')) codes.push(372)
+  if (c.includes('islandia')) codes.push(352)
   if (c.includes('italia')) codes.push(380)
+  if (c.includes('malta')) codes.push(470)
   if (c.includes('marruecos')) codes.push(504)
   if (c.includes('montenegro')) codes.push(499)
+  if (c.includes('noruega')) codes.push(578)
+  if (c.includes('países bajos') || c.includes('holanda')) codes.push(528)
+  if (c.includes('polonia')) codes.push(616)
   if (c.includes('portugal')) codes.push(620)
-  if (c.includes('reino unido') || c.includes('escocia')) codes.push(826)
-  if (c.includes('república checa') || c.includes('chequia') || c.includes('praga')) codes.push(203)
+  if (c.includes('reino unido') || c.includes('escocia') || c.includes('irlanda del norte')) codes.push(826)
+  if (c.includes('república checa') || c.includes('chequia')) codes.push(203)
+  if (c.includes('rumanía') || c.includes('rumania')) codes.push(642)
+  if (c.includes('suecia')) codes.push(752)
+  if (c.includes('suiza')) codes.push(756)
   if (c.includes('turquía') || c.includes('turquia')) codes.push(792)
-  if (c.includes('malta')) codes.push(470)
-  if (c.includes('chipre')) codes.push(196)
+  // Americas
+  if (c.includes('argentina')) codes.push(32)
+  if (c.includes('brasil')) codes.push(76)
+  if (c.includes('colombia')) codes.push(170)
+  if (c.includes('cuba')) codes.push(192)
+  if (c.includes('estados unidos') || c.includes('usa')) codes.push(840)
+  if (c.includes('méxico') || c.includes('mexico')) codes.push(484)
+  if (c.includes('perú') || c.includes('peru')) codes.push(604)
+  // Asia / Africa
+  if (c.includes('egipto')) codes.push(818)
+  if (c.includes('india')) codes.push(356)
+  if (c.includes('japón') || c.includes('japon')) codes.push(392)
+  if (c.includes('jordania')) codes.push(400)
+  if (c.includes('tailandia')) codes.push(764)
+  if (c.includes('vietnam')) codes.push(704)
   return codes
 }
 
@@ -46,6 +75,8 @@ export function PlacesPage() {
   const { user } = useAuth()
   const { trips, loading } = useTrips(user?.id)
   const [tooltip, setTooltip] = useState<string | null>(null)
+  const [zoom, setZoom] = useState(1)
+  const [center, setCenter] = useState<[number, number]>([15, 20])
 
   // Map ISO numeric → status (visited > planned)
   const countryStatus = useMemo(() => {
@@ -56,17 +87,26 @@ export function PlacesPage() {
       if (!t.destination_slug) continue
       const slugs = t.destination_slug.split('+')
       for (const slug of slugs) {
-        const dest = DESTINATIONS.find(d => d.id === slug)
-        if (!dest) continue
+        // Handle pais_* slugs (free-text country tracking)
+        const countryStr = slug.startsWith('pais_') ? slug.slice(5) : (() => {
+          const dest = DESTINATIONS.find(d => d.id === slug)
+          return dest?.country ?? null
+        })()
+        if (!countryStr) continue
+
         const past = isPastTrip(t)
-        const codes = getIsoCodes(dest.country)
+        const codes = getIsoCodes(countryStr)
+        const labelName = slug.startsWith('pais_')
+          ? countryStr.charAt(0).toUpperCase() + countryStr.slice(1)
+          : (DESTINATIONS.find(d => d.id === slug)?.shortName ?? countryStr)
+
         for (const code of codes) {
           const prev = status.get(code)
           if (prev !== 'visited') {
             status.set(code, past ? 'visited' : 'planned')
           }
           const arr = trips_by_country.get(code) ?? []
-          arr.push({ destName: dest.shortName, tripName: t.name, tripId: t.id, past })
+          arr.push({ destName: labelName, tripName: t.name, tripId: t.id, past })
           trips_by_country.set(code, arr)
         }
       }
@@ -83,16 +123,26 @@ export function PlacesPage() {
     for (const t of trips) {
       if (!t.destination_slug || seenTrips.has(t.id)) continue
       seenTrips.add(t.id)
-      const slugs = t.destination_slug.split('+')
-      const primarySlug = slugs[0]
-      const dest = DESTINATIONS.find(d => d.id === primarySlug)
-      if (!dest) continue
-      const item = { destName: dest.name, tripName: t.name, tripId: t.id }
+      const primarySlug = t.destination_slug.split('+')[0]
+      let destName: string
+      if (primarySlug.startsWith('pais_')) {
+        const cn = primarySlug.slice(5)
+        destName = cn.charAt(0).toUpperCase() + cn.slice(1)
+      } else {
+        const dest = DESTINATIONS.find(d => d.id === primarySlug)
+        if (!dest) continue
+        destName = dest.name
+      }
+      const item = { destName, tripName: t.name, tripId: t.id }
       if (isPastTrip(t)) visited.push(item)
       else planned.push(item)
     }
     return { visited, planned }
   }, [trips])
+
+  const handleZoomIn  = () => setZoom(z => Math.min(z * 2, 8))
+  const handleZoomOut = () => setZoom(z => Math.max(z / 2, 1))
+  const handleReset   = () => { setZoom(1); setCenter([15, 20]) }
 
   return (
     <main className="max-w-5xl mx-auto px-4 py-6 pb-24 sm:pb-8">
@@ -127,47 +177,73 @@ export function PlacesPage() {
                 {tooltip}
               </div>
             )}
+
+            {/* Zoom controls */}
+            <div className="absolute top-3 left-3 z-10 flex flex-col gap-1">
+              <button
+                onClick={handleZoomIn}
+                className="w-7 h-7 bg-white/90 backdrop-blur-sm rounded-lg shadow-sm text-gray-700 font-bold text-base flex items-center justify-center hover:bg-white transition-colors"
+              >+</button>
+              <button
+                onClick={handleZoomOut}
+                className="w-7 h-7 bg-white/90 backdrop-blur-sm rounded-lg shadow-sm text-gray-700 font-bold text-base flex items-center justify-center hover:bg-white transition-colors"
+              >−</button>
+              {zoom > 1 && (
+                <button
+                  onClick={handleReset}
+                  className="w-7 h-7 bg-white/90 backdrop-blur-sm rounded-lg shadow-sm text-gray-500 text-xs flex items-center justify-center hover:bg-white transition-colors"
+                >↺</button>
+              )}
+            </div>
+
             <ComposableMap
               width={800}
               height={380}
               projectionConfig={{ scale: 130, center: [15, 20] }}
               style={{ width: '100%', height: 'auto' }}
             >
-              <Geographies geography={worldAtlas}>
-                {({ geographies }) =>
-                  geographies.map(geo => {
-                    const id = Number(geo.id)
-                    const st = countryStatus.status.get(id)
-                    const fill = st === 'visited'
-                      ? '#4ade80'
-                      : st === 'planned'
-                        ? '#fde047'
-                        : '#e2e8f0'
-                    const hoverFill = st === 'visited' ? '#22c55e' : st === 'planned' ? '#facc15' : '#cbd5e1'
-                    return (
-                      <Geography
-                        key={geo.rsmKey}
-                        geography={geo}
-                        fill={fill}
-                        stroke="#ffffff"
-                        strokeWidth={0.5}
-                        style={{
-                          default: { outline: 'none' },
-                          hover: { outline: 'none', fill: hoverFill, cursor: st ? 'pointer' : 'default' },
-                          pressed: { outline: 'none' },
-                        }}
-                        onMouseEnter={() => {
-                          if (!st) return
-                          const list = countryStatus.trips_by_country.get(id)
-                          const names = [...new Set(list?.map(x => x.destName) ?? [])]
-                          setTooltip(names.join(' · '))
-                        }}
-                        onMouseLeave={() => setTooltip(null)}
-                      />
-                    )
-                  })
-                }
-              </Geographies>
+              <ZoomableGroup
+                zoom={zoom}
+                center={center}
+                onMoveEnd={({ coordinates, zoom: z }) => { setCenter(coordinates); setZoom(z) }}
+                maxZoom={8}
+              >
+                <Geographies geography={worldAtlas}>
+                  {({ geographies }) =>
+                    geographies.map(geo => {
+                      const id = Number(geo.id)
+                      const st = countryStatus.status.get(id)
+                      const fill = st === 'visited'
+                        ? '#4ade80'
+                        : st === 'planned'
+                          ? '#fde047'
+                          : '#e2e8f0'
+                      const hoverFill = st === 'visited' ? '#22c55e' : st === 'planned' ? '#facc15' : '#cbd5e1'
+                      return (
+                        <Geography
+                          key={geo.rsmKey}
+                          geography={geo}
+                          fill={fill}
+                          stroke="#ffffff"
+                          strokeWidth={0.5}
+                          style={{
+                            default: { outline: 'none' },
+                            hover: { outline: 'none', fill: hoverFill, cursor: st ? 'pointer' : 'default' },
+                            pressed: { outline: 'none' },
+                          }}
+                          onMouseEnter={() => {
+                            if (!st) return
+                            const list = countryStatus.trips_by_country.get(id)
+                            const names = [...new Set(list?.map(x => x.destName) ?? [])]
+                            setTooltip(names.join(' · '))
+                          }}
+                          onMouseLeave={() => setTooltip(null)}
+                        />
+                      )
+                    })
+                  }
+                </Geographies>
+              </ZoomableGroup>
             </ComposableMap>
 
             {/* Legend */}
@@ -183,7 +259,7 @@ export function PlacesPage() {
             </div>
           </div>
 
-          {/* Empty state for no trips */}
+          {/* Empty state */}
           {visited.length === 0 && planned.length === 0 && (
             <div className="mt-8 py-10 text-center">
               <span className="text-5xl block mb-4">🌍</span>
