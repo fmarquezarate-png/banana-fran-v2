@@ -380,7 +380,7 @@ export const DESTINATIONS_GOOD: Destination[] = [
       actPD: 45,
       ar: 0.20,
     },
-    scales: { playa_ciudad: 7, relax_fiesta: 3, lowcost_fancy: 4, invierno_verano: 8, occidental_exotico: 2, streetfood_gourmet: 6, descanso_aventura: 4, solo_grupal: 3, naturaleza_metropolis: 3, moderno_historico: 4, turistico_desconocido: 7 }
+    scales: { playa_ciudad: 7, relax_fiesta: 3, lowcost_fancy: 4, invierno_verano: 8, occidental_exotico: 2, streetfood_gourmet: 6, descanso_aventura: 4, solo_grupal: 3, naturaleza_metropolis: 3, moderno_historico: 4, turistico_desconocido: 7 },
   },
   {
     id: 'cefalonia',
@@ -475,7 +475,7 @@ export const DESTINATIONS_GOOD: Destination[] = [
       actPD: 40,
       ar: 0.20,
     },
-    scales: { playa_ciudad: 7, relax_fiesta: 4, lowcost_fancy: 5, invierno_verano: 9, occidental_exotico: 2, streetfood_gourmet: 6, descanso_aventura: 6, solo_grupal: 4, naturaleza_metropolis: 3, moderno_historico: 5, turistico_desconocido: 5 }
+    scales: { playa_ciudad: 7, relax_fiesta: 4, lowcost_fancy: 5, invierno_verano: 9, occidental_exotico: 2, streetfood_gourmet: 6, descanso_aventura: 6, solo_grupal: 4, naturaleza_metropolis: 3, moderno_historico: 5, turistico_desconocido: 5 },
   },
   {
     id: 'itaca',
@@ -570,8 +570,7 @@ export const DESTINATIONS_GOOD: Destination[] = [
       actPD: 25,
       ar: 0.20,
     },
-    scales: { playa_ciudad: 5, relax_fiesta: 2, lowcost_fancy: 4, invierno_verano: 8, occidental_exotico: 3, streetfood_gourmet: 5, descanso_aventura: 4, solo_grupal: 2, naturaleza_metropolis: 2, moderno_historico: 7, turistico_desconocido: 8 }
-  },
+    scales: { playa_ciudad: 5, relax_fiesta: 2, lowcost_fancy: 4, invierno_verano: 8, occidental_exotico: 3, streetfood_gourmet: 5, descanso_aventura: 4, solo_grupal: 2, naturaleza_metropolis: 2, moderno_historico: 7, turistico_desconocido: 8 },
   },
   {
     id: 'istria',
@@ -582,7 +581,7 @@ export const DESTINATIONS_GOOD: Destination[] = [
     matchLabel: 'Muy bueno',
     tagline: 'La Toscana del Adriático: trufas, vino y pueblos medievales',
     category: 'good',
-    scales: { playa_ciudad: 5, relax_fiesta: 3, lowcost_fancy: 4, invierno_verano: 8, occidental_exotico: 2, streetfood_gourmet: 8, descanso_aventura: 5, solo_grupal: 3, naturaleza_metropolis: 3, moderno_historico: 7, turistico_desconocido: 6 }
+    scales: { playa_ciudad: 5, relax_fiesta: 3, lowcost_fancy: 4, invierno_verano: 8, occidental_exotico: 2, streetfood_gourmet: 8, descanso_aventura: 5, solo_grupal: 3, naturaleza_metropolis: 3, moderno_historico: 7, turistico_desconocido: 6 },
     coords: [45.2292, 13.9528],
     images: [
       'https://images.unsplash.com/photo-1555993539-1732b0258235?w=800',
@@ -770,7 +769,7 @@ export const DESTINATIONS_GOOD: Destination[] = [
     country: 'Grecia — Islas Jónicas',
     match: '👍',
     matchLabel: 'Muy bueno',
-    scales: { playa_ciudad: 3, relax_fiesta: 3, lowcost_fancy: 4, invierno_verano: 9, occidental_exotico: 2, streetfood_gourmet: 5, descanso_aventura: 4, solo_grupal: 3, naturaleza_metropolis: 2, moderno_historico: 5, turistico_desconocido: 7 }
+    scales: { playa_ciudad: 3, relax_fiesta: 3, lowcost_fancy: 4, invierno_verano: 9, occidental_exotico: 2, streetfood_gourmet: 5, descanso_aventura: 4, solo_grupal: 3, naturaleza_metropolis: 2, moderno_historico: 5, turistico_desconocido: 7 },
     tagline: 'La parte verde y tranquila de Corfú, lejos del turismo de masas',
     category: 'good',
     coords: [39.8027, 19.7595],
@@ -869,7 +868,7 @@ export const DESTINATIONS_GOOD: Destination[] = [
     matchLabel: 'Muy bueno',
     tagline: 'La ciudad más de moda de Europa que aún no se ha vendido del todo.',
     category: 'good',
-    scales: { playa_ciudad: 8, relax_fiesta: 5, lowcost_fancy: 4, invierno_verano: 6, occidental_exotico: 2, streetfood_gourmet: 5, descanso_aventura: 4, solo_grupal: 5, naturaleza_metropolis: 8, moderno_historico: 7, turistico_desconocido: 2 }
+    scales: { playa_ciudad: 8, relax_fiesta: 5, lowcost_fancy: 4, invierno_verano: 6, occidental_exotico: 2, streetfood_gourmet: 5, descanso_aventura: 4, solo_grupal: 5, naturaleza_metropolis: 8, moderno_historico: 7, turistico_desconocido: 2 },
     coords: [38.7223, -9.1393],
     images: [
       'https://images.unsplash.com/photo-1555881400-74d7acaacd8b?auto=format&fit=crop&w=1600&q=75',
@@ -959,7 +958,7 @@ export const DESTINATIONS_GOOD: Destination[] = [
     matchLabel: 'Muy bueno',
     tagline: 'Palacios barrocos, baños termales y vida nocturna en ruinas reconvertidas.',
     category: 'good',
-    scales: { playa_ciudad: 9, relax_fiesta: 6, lowcost_fancy: 3, invierno_verano: 5, occidental_exotico: 2, streetfood_gourmet: 7, descanso_aventura: 4, solo_grupal: 5, naturaleza_metropolis: 9, moderno_historico: 8, turistico_desconocido: 2 }
+    scales: { playa_ciudad: 9, relax_fiesta: 6, lowcost_fancy: 3, invierno_verano: 5, occidental_exotico: 2, streetfood_gourmet: 7, descanso_aventura: 4, solo_grupal: 5, naturaleza_metropolis: 9, moderno_historico: 8, turistico_desconocido: 2 },
     coords: [47.4979, 19.0402],
     images: [
       'https://images.unsplash.com/photo-1592496431122-2349e0fbc666?auto=format&fit=crop&w=1600&q=75',
@@ -1134,7 +1133,7 @@ export const DESTINATIONS_GOOD: Destination[] = [
       actPD: 35,
       ar: 0.30,
     },
-    scales: { playa_ciudad: 4, relax_fiesta: 4, lowcost_fancy: 5, invierno_verano: 8, occidental_exotico: 2, streetfood_gourmet: 9, descanso_aventura: 4, solo_grupal: 5, naturaleza_metropolis: 4, moderno_historico: 8, turistico_desconocido: 5 }
+    scales: { playa_ciudad: 4, relax_fiesta: 4, lowcost_fancy: 5, invierno_verano: 8, occidental_exotico: 2, streetfood_gourmet: 9, descanso_aventura: 4, solo_grupal: 5, naturaleza_metropolis: 4, moderno_historico: 8, turistico_desconocido: 5 },
   },
 
   // ── Estambul ──────────────────────────────────────────────────
@@ -1297,7 +1296,7 @@ export const DESTINATIONS_GOOD: Destination[] = [
       ['Día 4', 'Gozo en profundidad', 'Acantilados de Wied il-Mielaħ, playa de Xlendi, templo de Ġgantija (3.600 aC).'],
       ['Día 5', 'Mdina y Rabat', 'La Ciudad del Silencio a primera hora. Catacumbas de San Pablo en Rabat.'],
       ['Día 6', 'Sur prehistórico', 'Templos de Ħagar Qim y Mnajdra con el mar de fondo. Playa de Gnejna o Għajn Tuffieħa.'],
-      ['Día 7', 'St. Julian's y vuelo', 'Barrio de Spinola Bay, mercado local. Vuelo a Barcelona.'],
+      ['Día 7', "St. Julian's y vuelo", 'Barrio de Spinola Bay, mercado local. Vuelo a Barcelona.'],
     ],
     plans10: [
       ['Días 1-2', 'Valletta y Las Tres Ciudades', 'Capital barroca, Gran Puerto, Birgu, bastiones.'],
@@ -1312,7 +1311,7 @@ export const DESTINATIONS_GOOD: Destination[] = [
       ['Días 7-9', 'Malta medieval y prehistórica', 'Mdina, Rabat, Ħagar Qim, Mnajdra.'],
       ['Días 10-11', 'Costa norte', 'Mellieħa, Golden Bay, Armier. Excursión en kayak.'],
       ['Días 12-13', 'Sicilia en ferri (opcional)', 'Ferri nocturno a Catania o Siracusa (6h). Día completo.'],
-      ['Día 14', 'St. Julian's y vuelo', 'Último paseo por Spinola Bay, vuelo a Barcelona.'],
+      ['Día 14', "St. Julian's y vuelo", 'Último paseo por Spinola Bay, vuelo a Barcelona.'],
     ],
     budget: {
       flightPP: 100,
@@ -1385,7 +1384,7 @@ export const DESTINATIONS_GOOD: Destination[] = [
       ['Día 2', 'Ciudadella', 'Catedral, palacios, calles góticas. Atardecer en el puerto con barcos locales.'],
       ['Día 3', 'Calas del sur (1)', 'Cala Macarella y Macarelleta. Cala Turqueta. Almuerzo en Ferreries.'],
       ['Día 4', 'Calas del sur (2)', 'Cala Mitjana, Cala Galdana (snorkel), atardecer en Cala Escorxada.'],
-      ['Día 5', 'Costa norte', 'Cala Pregonda (arenas rojas), Binimel·là, Torre d'en Galmés (talayot).'],
+      ['Día 5', 'Costa norte', 'Cala Pregonda (arenas rojas), Binimel·là, Torre d\'en Galmés (talayot).'],
       ['Día 6', 'Monte Toro y interior', 'Cumbre más alta de Menorca. Fornells: caldereta de langosta. Kayak al atardecer.'],
       ['Día 7', 'Binibeca y vuelo', 'Pueblo blanco de Binibeca Vell. Mercado de artesanía. Vuelo a Barcelona.'],
     ],

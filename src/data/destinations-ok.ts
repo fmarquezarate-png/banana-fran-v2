@@ -710,7 +710,7 @@ export const DESTINATIONS_OK: Destination[] = [
       'Día 1: Paphos — mosaicos, castillo, costa oeste',
       'Día 2: Troodos — Kykkos, cumbres, Omodos',
       'Día 3: Nicosia — ciudad dividida, museos, gastronomía',
-      'Día 4: Limassol — castle, Old Town, playa Lady's Mile',
+      "Día 4: Limassol — castle, Old Town, playa Lady's Mile",
       'Día 5: Roca de Afrodita, Coral Bay y vuelo',
     ],
     plans7: [
