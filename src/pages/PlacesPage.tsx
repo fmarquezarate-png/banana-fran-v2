@@ -30,6 +30,8 @@ function getIsoCodes(country: string): number[] {
   if (c.includes('reino unido') || c.includes('escocia')) codes.push(826)
   if (c.includes('república checa') || c.includes('chequia') || c.includes('praga')) codes.push(203)
   if (c.includes('turquía') || c.includes('turquia')) codes.push(792)
+  if (c.includes('malta')) codes.push(470)
+  if (c.includes('chipre')) codes.push(196)
   return codes
 }
 
