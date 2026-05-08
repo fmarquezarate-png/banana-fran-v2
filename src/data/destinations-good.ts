@@ -1297,7 +1297,7 @@ export const DESTINATIONS_GOOD: Destination[] = [
       ['Día 4', 'Gozo en profundidad', 'Acantilados de Wied il-Mielaħ, playa de Xlendi, templo de Ġgantija (3.600 aC).'],
       ['Día 5', 'Mdina y Rabat', 'La Ciudad del Silencio a primera hora. Catacumbas de San Pablo en Rabat.'],
       ['Día 6', 'Sur prehistórico', 'Templos de Ħagar Qim y Mnajdra con el mar de fondo. Playa de Gnejna o Għajn Tuffieħa.'],
-      ['Día 7', 'St. Julian's y vuelo', 'Barrio de Spinola Bay, mercado local. Vuelo a Barcelona.'],
+      ['Día 7', "St. Julian's y vuelo", 'Barrio de Spinola Bay, mercado local. Vuelo a Barcelona.'],
     ],
     plans10: [
       ['Días 1-2', 'Valletta y Las Tres Ciudades', 'Capital barroca, Gran Puerto, Birgu, bastiones.'],
@@ -1312,7 +1312,7 @@ export const DESTINATIONS_GOOD: Destination[] = [
       ['Días 7-9', 'Malta medieval y prehistórica', 'Mdina, Rabat, Ħagar Qim, Mnajdra.'],
       ['Días 10-11', 'Costa norte', 'Mellieħa, Golden Bay, Armier. Excursión en kayak.'],
       ['Días 12-13', 'Sicilia en ferri (opcional)', 'Ferri nocturno a Catania o Siracusa (6h). Día completo.'],
-      ['Día 14', 'St. Julian's y vuelo', 'Último paseo por Spinola Bay, vuelo a Barcelona.'],
+      ['Día 14', "St. Julian's y vuelo", 'Último paseo por Spinola Bay, vuelo a Barcelona.'],
     ],
     budget: {
       flightPP: 100,
