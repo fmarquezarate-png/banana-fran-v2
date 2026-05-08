@@ -3,9 +3,15 @@ import toast from 'react-hot-toast'
 import { useAuth } from '@/hooks/useAuth'
 import { useProfile } from '@/hooks/useProfile'
 
-const APP_VERSION = '0.14.0'
+const APP_VERSION = '0.15.0'
 
 const CHANGELOG: { v: string; date: string; notes: string[] }[] = [
+  { v: '0.15.0', date: 'May 2026', notes: [
+    'Fix NaN: turistico_desconocido ya no rompe el scoring en localStorage antiguo',
+    'Nueva pestaña "Lugares" con mapa mundi — viajes planificados (amarillo) y completados (verde)',
+    'Marcadores interactivos con popup: imagen, nombre, estado y enlace al viaje',
+    'Lista resumen debajo del mapa agrupada por estado',
+  ]},
   { v: '0.14.0', date: 'May 2026', notes: [
     'Fix: no negociable ahora fuerza zona Warning aunque otras dimensiones compensen',
     'Zona Warning también si puntuación total < 30 (antes solo por escala)',

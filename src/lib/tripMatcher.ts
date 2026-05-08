@@ -72,7 +72,7 @@ export function calcScaleMatchDetail(answers: TripAnswers, dest: Destination): {
 
   for (const key of SCALE_KEYS) {
     const dVal = (s[key] ?? 5) as number
-    const uVal = answers[key as keyof TripAnswers] as number
+    const uVal = ((answers[key as keyof TripAnswers] as number | undefined) ?? 5)
     const intensity = Math.abs(uVal - 5)
     const weight = intensity / 4
     const diff = Math.abs(uVal - dVal)
@@ -104,7 +104,7 @@ export function calcScaleMatch(answers: TripAnswers, dest: Destination): number 
   for (const key of SCALE_KEYS) {
     if (!nn.has(key)) continue
     const dVal = (s[key] ?? 5) as number
-    const uVal = answers[key as keyof TripAnswers] as number
+    const uVal = ((answers[key as keyof TripAnswers] as number | undefined) ?? 5)
     if (Math.abs(uVal - dVal) > 1) return 0
   }
 
@@ -113,7 +113,7 @@ export function calcScaleMatch(answers: TripAnswers, dest: Destination): number 
 
   for (const key of SCALE_KEYS) {
     const dVal = (s[key] ?? 5) as number
-    const uVal = answers[key as keyof TripAnswers] as number
+    const uVal = ((answers[key as keyof TripAnswers] as number | undefined) ?? 5)
     const intensity = Math.abs(uVal - 5)
     if (intensity === 0) continue
 
@@ -136,7 +136,7 @@ export function getNNFailures(answers: TripAnswers, dest: Destination): string[]
   for (const key of SCALE_KEYS) {
     if (!nn.has(key)) continue
     const dVal = (s[key] ?? 5) as number
-    const uVal = answers[key as keyof TripAnswers] as number
+    const uVal = ((answers[key as keyof TripAnswers] as number | undefined) ?? 5)
     if (Math.abs(uVal - dVal) > 1) failed.push(key)
   }
   return failed
