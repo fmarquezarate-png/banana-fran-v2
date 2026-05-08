@@ -360,6 +360,97 @@ const DEFAULT_ANSWERS: TripAnswers = {
   solo_grupal: 5, naturaleza_metropolis: 5, moderno_historico: 5, turistico_desconocido: 5,
 }
 
+// Countries + destinations for the "direct" path
+const DIRECT_COUNTRIES = [
+  'Albania', 'Alemania', 'Austria', 'Bélgica', 'Chipre', 'Croacia', 'Dinamarca',
+  'Eslovenia', 'España', 'Francia', 'Grecia', 'Hungría', 'Irlanda', 'Islandia',
+  'Italia', 'Malta', 'Marruecos', 'Montenegro', 'Noruega', 'Países Bajos',
+  'Polonia', 'Portugal', 'Reino Unido', 'República Checa', 'Rumanía', 'Suecia',
+  'Suiza', 'Turquía',
+  'Argentina', 'Brasil', 'Colombia', 'Cuba', 'Estados Unidos', 'México', 'Perú',
+  'Egipto', 'India', 'Japón', 'Jordania', 'Tailandia', 'Vietnam',
+]
+
+function DirectPicker({ onSelect }: {
+  onSelect: (destId: string | null, countrySlug: string | null, name: string) => void
+}) {
+  const [country, setCountry] = useState('')
+  const [destId, setDestId]   = useState('')
+  const [city, setCity]       = useState('')
+
+  const countryDests = country
+    ? DESTINATIONS.filter(d => {
+        const dc = d.country.toLowerCase()
+        const cc = country.toLowerCase()
+        return dc.includes(cc) || cc.includes(dc.split(/[—·\/]/)[0].trim().toLowerCase())
+      })
+    : []
+
+  function buildSlugAndName() {
+    if (destId) {
+      const dest = DESTINATIONS.find(d => d.id === destId)!
+      const yr = new Date().getFullYear() + (new Date().getMonth() >= 8 ? 1 : 0)
+      return { destId, countrySlug: null, name: `${dest.shortName} ${yr}` }
+    }
+    if (country) {
+      const label = (city.trim() || country).trim()
+      const yr = new Date().getFullYear() + (new Date().getMonth() >= 8 ? 1 : 0)
+      const slug = `pais_${country.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/\s+/g, '_')}`
+      return { destId: null, countrySlug: slug, name: `${label} ${yr}` }
+    }
+    return null
+  }
+
+  const resolved = buildSlugAndName()
+  const inputCls = 'w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-egeo/50'
+
+  return (
+    <div className="space-y-4">
+      <div>
+        <label className="block text-sm font-medium text-gray-700 mb-1">País de destino</label>
+        <select value={country} onChange={e => { setCountry(e.target.value); setDestId(''); setCity('') }} className={inputCls}>
+          <option value="">— Selecciona un país —</option>
+          {DIRECT_COUNTRIES.map(c => <option key={c} value={c}>{c}</option>)}
+        </select>
+      </div>
+
+      {country && countryDests.length > 0 && (
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">Destino concreto <span className="text-gray-400 font-normal">(opcional)</span></label>
+          <select value={destId} onChange={e => setDestId(e.target.value)} className={inputCls}>
+            <option value="">— {country} en general —</option>
+            {countryDests.map(d => <option key={d.id} value={d.id}>{d.name}</option>)}
+          </select>
+        </div>
+      )}
+
+      {country && countryDests.length === 0 && (
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">Ciudad / zona <span className="text-gray-400 font-normal">(opcional)</span></label>
+          <input type="text" value={city} onChange={e => setCity(e.target.value)}
+            placeholder="ej: Tokio, Kioto…" className={inputCls} />
+          <p className="text-xs text-gray-400 mt-1">{country} se marcará en tu mapa de lugares.</p>
+        </div>
+      )}
+
+      {resolved && (
+        <p className="text-xs text-gray-400">Nombre del viaje: <strong>{resolved.name}</strong></p>
+      )}
+
+      <button
+        disabled={!country}
+        onClick={() => {
+          if (!resolved) return
+          onSelect(resolved.destId, resolved.countrySlug, resolved.name)
+        }}
+        className="btn-primary w-full disabled:opacity-40"
+      >
+        Continuar →
+      </button>
+    </div>
+  )
+}
+
 export function TripWizardPage() {
   const navigate = useNavigate()
   const [searchParams] = useSearchParams()
@@ -368,7 +459,7 @@ export function TripWizardPage() {
 
   const [step, setStep]       = useState(0)
   const [answers, setAnswers] = useState<TripAnswers>(DEFAULT_ANSWERS)
-  const [phase, setPhase]     = useState<'quiz' | 'results' | 'create'>('quiz')
+  const [phase, setPhase]     = useState<'choice' | 'direct' | 'quiz' | 'results' | 'create'>('choice')
   const [results, setResults] = useState<ScoredDestination[]>([])
   const [selectedId, setSelectedId]   = useState<string | null>(null)
   const [secondaryId, setSecondaryId] = useState<string | null>(null)
@@ -385,10 +476,11 @@ export function TripWizardPage() {
     setPhase('create')
   }, [])
 
-  const [tripName,   setTripName]   = useState('')
-  const [startDate,  setStartDate]  = useState('')
-  const [endDate,    setEndDate]    = useState('')
-  const [saving,     setSaving]     = useState(false)
+  const [tripName,     setTripName]     = useState('')
+  const [startDate,    setStartDate]    = useState('')
+  const [endDate,      setEndDate]      = useState('')
+  const [saving,       setSaving]       = useState(false)
+  const [directSlug,   setDirectSlug]   = useState<string | null>(null) // pais_* or null
 
   const current      = STEPS[step]
   const progress     = (step / STEPS.length) * 100
@@ -456,14 +548,18 @@ export function TripWizardPage() {
   const [ignoreMismatch, setIgnoreMismatch] = useState(false)
 
   async function handleCreate() {
-    if (!selectedDest) { toast.error('Selecciona un destino'); return }
+    if (!selectedDest && !directSlug) { toast.error('Selecciona un destino'); return }
     if (!tripName.trim()) { toast.error('Ponle un nombre al viaje'); return }
     setSaving(true)
     try {
-      const slug = secondaryDest ? `${selectedDest.id}+${secondaryDest.id}` : selectedDest.id
-      const tripDesc = secondaryDest
-        ? `Viaje combinado: ${selectedDest.name} + ${secondaryDest.name} — planificado con el asistente`
-        : `Viaje a ${selectedDest.name} — planificado con el asistente`
+      const slug = directSlug
+        ? directSlug
+        : secondaryDest ? `${selectedDest!.id}+${secondaryDest.id}` : selectedDest!.id
+      const tripDesc = directSlug
+        ? `Viaje creado directamente — ${tripName}`
+        : secondaryDest
+          ? `Viaje combinado: ${selectedDest!.name} + ${secondaryDest.name} — planificado con el asistente`
+          : `Viaje a ${selectedDest!.name} — planificado con el asistente`
       const trip = await createTrip({
         name: tripName.trim(),
         description: tripDesc,
@@ -483,6 +579,74 @@ export function TripWizardPage() {
     }
   }
 
+  // ── Phase: Choice ────────────────────────────────────────────
+  if (phase === 'choice') {
+    return (
+      <main className="max-w-lg mx-auto px-4 py-6 pb-24 sm:pb-8">
+        <button onClick={() => navigate('/viajes')} className="text-sm text-gray-400 hover:text-egeo mb-5 block">
+          ← Mis viajes
+        </button>
+        <h1 className="font-display text-2xl font-bold text-gray-900 mb-2">Nuevo viaje</h1>
+        <p className="text-sm text-gray-500 mb-6">¿Cómo quieres empezar?</p>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          {/* Quiz path */}
+          <button
+            onClick={() => setPhase('quiz')}
+            className="card p-5 text-left hover:shadow-md transition-shadow group"
+          >
+            <span className="text-3xl block mb-3">🧭</span>
+            <p className="font-display font-bold text-gray-900 mb-1">Descubrir destino</p>
+            <p className="text-sm text-gray-500 leading-snug">
+              Responde 17 preguntas y el asistente te propone los mejores destinos para vosotros.
+              Puedes combinar 2 destinos en una misma ruta.
+            </p>
+            <span className="mt-3 inline-block text-xs font-semibold text-egeo">Hacer el test →</span>
+          </button>
+
+          {/* Direct path */}
+          <button
+            onClick={() => setPhase('direct')}
+            className="card p-5 text-left hover:shadow-md transition-shadow group"
+          >
+            <span className="text-3xl block mb-3">📍</span>
+            <p className="font-display font-bold text-gray-900 mb-1">Ya sé a dónde voy</p>
+            <p className="text-sm text-gray-500 leading-snug">
+              Elige el país y el destino directamente. Se registrará en tu mapa de lugares.
+            </p>
+            <span className="mt-3 inline-block text-xs font-semibold text-egeo">Elegir destino →</span>
+          </button>
+        </div>
+      </main>
+    )
+  }
+
+  // ── Phase: Direct ─────────────────────────────────────────────
+  if (phase === 'direct') {
+    return (
+      <main className="max-w-lg mx-auto px-4 py-6 pb-24 sm:pb-8">
+        <button onClick={() => setPhase('choice')} className="text-sm text-gray-400 hover:text-egeo mb-5 block">
+          ← Volver
+        </button>
+        <h1 className="font-display text-xl font-bold text-gray-900 mb-5">¿A dónde vais?</h1>
+        <div className="card p-5">
+          <DirectPicker
+            onSelect={(destId, countrySlug, name) => {
+              setDirectSlug(countrySlug)
+              setTripName(name)
+              if (destId) {
+                const dest = DESTINATIONS.find(d => d.id === destId)!
+                setResults([{ dest, score: 100, reasons: ['Destino seleccionado directamente'] }])
+                setSelectedId(destId)
+              }
+              setPhase('create')
+            }}
+          />
+        </div>
+      </main>
+    )
+  }
+
   // ── Phase: Results ───────────────────────────────────────────
   if (phase === 'results') {
     return (
@@ -490,9 +654,13 @@ export function TripWizardPage() {
         <div className="mb-5">
           <p className="text-xs text-gray-400 mb-1">Basado en tus respuestas</p>
           <h1 className="font-display text-2xl font-bold text-gray-900">Vuestros mejores destinos</h1>
-          <p className="text-sm text-gray-500 mt-1">
-            Toca una tarjeta para elegir destino. Puedes añadir una <strong>2ª etapa</strong> tocando otra.
-          </p>
+          {/* Combined trips hint */}
+          <div className="mt-2 bg-egeo/8 rounded-xl px-3 py-2 flex items-start gap-2">
+            <span className="text-base flex-shrink-0">✈️</span>
+            <p className="text-xs text-egeo font-medium leading-snug">
+              <strong>Viaje combinado:</strong> toca una tarjeta para elegir tu destino principal, luego toca otra para añadir una 2ª etapa.
+            </p>
+          </div>
         </div>
 
         <div className="grid grid-cols-2 gap-3 mb-6">
@@ -536,6 +704,46 @@ export function TripWizardPage() {
               : selectedDest
                 ? `Continuar con ${selectedDest.shortName} →`
                 : 'Elige un destino para continuar'}
+          </button>
+        </div>
+      </main>
+    )
+  }
+
+  // ── Phase: Create (country-only direct, no known destination) ──
+  if (phase === 'create' && !selectedDest && directSlug) {
+    return (
+      <main className="max-w-lg mx-auto px-4 py-6 pb-24 sm:pb-8">
+        <button onClick={() => setPhase('direct')} className="text-sm text-gray-400 hover:text-egeo mb-5 block">
+          ← Cambiar destino
+        </button>
+        <div className="card p-5 space-y-4">
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Nombre del viaje *</label>
+            <input type="text" value={tripName} onChange={e => setTripName(e.target.value)} autoFocus
+              className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-egeo/50" />
+          </div>
+          <div className="grid grid-cols-2 gap-3">
+            <div>
+              <p className="text-xs text-gray-400 mb-1">Salida</p>
+              <input type="date" value={startDate} onChange={e => setStartDate(e.target.value)}
+                className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-egeo/50" />
+            </div>
+            <div>
+              <p className="text-xs text-gray-400 mb-1">Vuelta</p>
+              <input type="date" value={endDate} min={startDate} onChange={e => setEndDate(e.target.value)}
+                className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-egeo/50" />
+            </div>
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Viajeros</label>
+            <input type="number" min={1} max={20} value={answers.travelers || 2}
+              onChange={e => setAnswers(prev => ({ ...prev, travelers: Number(e.target.value) }))}
+              className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-egeo/50" />
+          </div>
+          <button onClick={handleCreate} disabled={saving || !tripName.trim()}
+            className="btn-primary w-full disabled:opacity-50">
+            {saving ? 'Creando…' : '🎉 Crear viaje'}
           </button>
         </div>
       </main>

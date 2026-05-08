@@ -42,7 +42,17 @@ declare module 'react-simple-maps' {
   }
   export const Geography: ComponentType<GeographyProps>
 
-  export const ZoomableGroup: ComponentType<Record<string, unknown>>
+  export interface ZoomableGroupProps {
+    zoom?: number
+    center?: [number, number]
+    onMoveEnd?: (args: { coordinates: [number, number]; zoom: number }) => void
+    maxZoom?: number
+    minZoom?: number
+    children?: ReactNode
+    translateExtent?: [[number, number], [number, number]]
+    filterZoomEvent?: (evt: Event) => boolean
+  }
+  export const ZoomableGroup: ComponentType<ZoomableGroupProps>
   export const Marker: ComponentType<Record<string, unknown>>
   export const Graticule: ComponentType<Record<string, unknown>>
   export const Sphere: ComponentType<Record<string, unknown>>
