@@ -3,80 +3,9 @@ import toast from 'react-hot-toast'
 import { useAuth } from '@/hooks/useAuth'
 import { useProfile } from '@/hooks/useProfile'
 
-const APP_VERSION = '0.17.0'
+const APP_VERSION = '0.9.1'
 
 const CHANGELOG: { v: string; date: string; notes: string[] }[] = [
-  { v: '0.17.0', date: 'May 2026', notes: [
-    'Viajes combinados: selecciona 2 destinos en el wizard para crear una ruta de 2 etapas',
-    'Wizard: 1ª etapa (azul) y 2ª etapa (verde) — toca dos tarjetas para combinar',
-    'Detalle de viaje combinado: cabecera con ambas imágenes y etiquetas de etapa',
-    'Mapa "Lugares": los viajes combinados muestran marcadores en ambas ubicaciones',
-    'Costa del Sol: escala de 11 dimensiones completada (último destino pendiente)',
-    'Fix: DEFAULT_ANSWERS incluye turistico_desconocido=5 (evita undefined en quiz nuevo)',
-  ]},
-  { v: '0.16.0', date: 'May 2026', notes: [
-    'Comentarios de categoría en matchmaking: explica en lenguaje natural por qué un destino es Perfect/Bien/Ok/Warning',
-    'buildAntiReasons mejorado: menciona dimensión concreta y valores usuario vs destino',
-    'turistico_desconocido completado en todos los 41 destinos (batches 2 y 3)',
-    '44 destinos perfilados en las 11 dimensiones (incluyendo Cinque Terre, Capri, Mallorca)',
-  ]},
-  { v: '0.15.0', date: 'May 2026', notes: [
-    'Fix NaN: turistico_desconocido ya no rompe el scoring en localStorage antiguo',
-    'Nueva pestaña "Lugares" con mapa mundi — viajes planificados (amarillo) y completados (verde)',
-    'Marcadores interactivos con popup: imagen, nombre, estado y enlace al viaje',
-    'Lista resumen debajo del mapa agrupada por estado',
-  ]},
-  { v: '0.14.0', date: 'May 2026', notes: [
-    'Fix: no negociable ahora fuerza zona Warning aunque otras dimensiones compensen',
-    'Zona Warning también si puntuación total < 30 (antes solo por escala)',
-    'Zona Warning: muestra "por qué NO os calza" con motivos específicos',
-    'turistico_desconocido añadido a los 10 destinos del grupo perfect (10/41 completados)',
-  ]},
-  { v: '0.13.0', date: 'Abr 2026', notes: [
-    'Quiz reordenado: todas las preguntas primero, todos los sliders al final',
-    'Días, viajeros y presupuesto: ahora son inputs numéricos libres (sin opciones pre-definidas)',
-    'Eliminadas preguntas de alojamiento y novedad (novedad pasa a ser slider turistico_desconocido)',
-    'Sin respuestas pre-seleccionadas — el usuario parte de cero sin condicionamiento',
-    'Nueva dimensión de escala: Turístico ↔ Desconocido (11 dimensiones totales)',
-    'Texto de intensidad del slider movido debajo — sin layout shift',
-    'Botón Siguiente visible en sliders y campos numéricos',
-  ]},
-  { v: '0.12.0', date: 'Abr 2026', notes: [
-    'Fix crítico: slider ya no colapsa la app — eliminado auto-advance en escalas',
-    'Tester: valores mostrados como magnitud bidireccional (0-10 desde neutro)',
-    'Scales: Hvar, Ibiza, Costa Amalfitana — 38 de 41 destinos perfilados',
-  ]},
-  { v: '0.11.1', date: 'Abr 2026', notes: [
-    'Scales: Lipari, Eslovenia, Santorini, Mykonos, Dubrovnik',
-    '35 de 41 destinos perfilados en las 10 dimensiones',
-  ]},
-  { v: '0.11.0', date: 'Abr 2026', notes: [
-    'Slider bidireccional: fill centro→extremo, sin números visibles, indica dirección e intensidad',
-    'Tester: mini-barras bidireccionales para visualizar posición usuario vs destino',
-    'Scales: Creta Oeste, Rodas Sur, Kaş — 30 de 41 destinos perfilados',
-  ]},
-  { v: '0.10.2', date: 'Abr 2026', notes: [
-    'Scales añadidas: Corfú Norte, Praga, Marrakech',
-    '27 de 41 destinos perfilados en las 10 dimensiones',
-  ]},
-  { v: '0.10.1', date: 'Abr 2026', notes: [
-    'Scales añadidas: Lisboa, Budapest, Istria',
-    '24 de 41 destinos perfilados en las 10 dimensiones',
-  ]},
-  { v: '0.10.0', date: 'Abr 2026', notes: [
-    'Home rediseñado: solo CTA "Nuevo viaje" + galería nostálgica de viajes realizados',
-    'TripDetail: 3 tabs — Opciones (match), Planificado, Tester',
-    'Tab Opciones: destinos clasificados por % de afinidad del quiz en tiempo real',
-    'Tab Tester: desglose por dimensión (tú vs destino, peso, score)',
-    'Botón "Marcar como realizado" en cada viaje planificado',
-  ]},
-  { v: '0.9.2', date: 'Abr 2026', notes: [
-    'Fix: changelog ahora abre por defecto en el perfil',
-    'Fix: planes se adaptan cuando los días reales > plantilla (añade "Día libre")',
-    'Fix: zona Warning activa — scoring ponderado por intensidad, ignora dimensiones neutras',
-    'Feature: "No Negociable" en sliders — puntuación binaria estricta',
-    'Scales añadidas: Paxos, Cefalonia, Ítaca',
-  ]},
   { v: '0.9.1', date: 'Abr 2026', notes: [
     'Scales añadidas: Vis, Azores, Naxos, Folégandros, Koufonisia',
     '17 de 41 destinos perfilados en las 10 dimensiones',

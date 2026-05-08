@@ -95,7 +95,7 @@ export const DESTINATIONS_GOOD: Destination[] = [
       actPD: 40,
       ar: 0.20,
     },
-    scales: { playa_ciudad: 7, relax_fiesta: 4, lowcost_fancy: 5, invierno_verano: 9, occidental_exotico: 2, streetfood_gourmet: 7, descanso_aventura: 5, solo_grupal: 5, naturaleza_metropolis: 4, moderno_historico: 7, turistico_desconocido: 6 }
+    scales: { playa_ciudad: 7, relax_fiesta: 4, lowcost_fancy: 5, invierno_verano: 9, occidental_exotico: 2, streetfood_gourmet: 7, descanso_aventura: 5, solo_grupal: 5, naturaleza_metropolis: 4, moderno_historico: 7 },
   },
   {
     id: 'folegandros',
@@ -190,7 +190,7 @@ export const DESTINATIONS_GOOD: Destination[] = [
       actPD: 35,
       ar: 0.20,
     },
-    scales: { playa_ciudad: 5, relax_fiesta: 2, lowcost_fancy: 4, invierno_verano: 9, occidental_exotico: 2, streetfood_gourmet: 5, descanso_aventura: 4, solo_grupal: 2, naturaleza_metropolis: 3, moderno_historico: 5, turistico_desconocido: 8 }
+    scales: { playa_ciudad: 5, relax_fiesta: 2, lowcost_fancy: 4, invierno_verano: 9, occidental_exotico: 2, streetfood_gourmet: 5, descanso_aventura: 4, solo_grupal: 2, naturaleza_metropolis: 3, moderno_historico: 5 },
   },
   {
     id: 'koufonisia',
@@ -285,7 +285,7 @@ export const DESTINATIONS_GOOD: Destination[] = [
       actPD: 45,
       ar: 0.20,
     },
-    scales: { playa_ciudad: 8, relax_fiesta: 5, lowcost_fancy: 3, invierno_verano: 9, occidental_exotico: 2, streetfood_gourmet: 4, descanso_aventura: 4, solo_grupal: 6, naturaleza_metropolis: 4, moderno_historico: 3, turistico_desconocido: 9 }
+    scales: { playa_ciudad: 8, relax_fiesta: 5, lowcost_fancy: 3, invierno_verano: 9, occidental_exotico: 2, streetfood_gourmet: 4, descanso_aventura: 4, solo_grupal: 6, naturaleza_metropolis: 4, moderno_historico: 3 },
   },
   {
     id: 'paxos',
@@ -855,7 +855,7 @@ export const DESTINATIONS_GOOD: Destination[] = [
       actPD: 20,
       ar: 0.20,
     },
-    scales: { playa_ciudad: 9, relax_fiesta: 6, lowcost_fancy: 2, invierno_verano: 9, occidental_exotico: 5, streetfood_gourmet: 5, descanso_aventura: 3, solo_grupal: 4, naturaleza_metropolis: 5, moderno_historico: 4, turistico_desconocido: 8 }
+    scales: { playa_ciudad: 9, relax_fiesta: 6, lowcost_fancy: 2, invierno_verano: 9, occidental_exotico: 5, streetfood_gourmet: 5, descanso_aventura: 3, solo_grupal: 4, naturaleza_metropolis: 5, moderno_historico: 4 },
   },
   {
     id: 'corfu-norte',
@@ -1327,6 +1327,6 @@ export const DESTINATIONS_GOOD: Destination[] = [
       actPD: 30,
       ar: 0.30,
     },
-    scales: { playa_ciudad: 9, relax_fiesta: 6, lowcost_fancy: 5, invierno_verano: 6, occidental_exotico: 8, streetfood_gourmet: 8, descanso_aventura: 4, solo_grupal: 6, naturaleza_metropolis: 9, moderno_historico: 9, turistico_desconocido: 1 }
+    scales: { playa_ciudad: 9, relax_fiesta: 6, lowcost_fancy: 5, invierno_verano: 6, occidental_exotico: 8, streetfood_gourmet: 8, descanso_aventura: 4, solo_grupal: 6, naturaleza_metropolis: 9, moderno_historico: 9 },
   },
 ]
