@@ -2,27 +2,27 @@ import type { Destination, DestinationCategory, DestinationScales } from '@/data
 import { calcBudget } from '@/lib/budget'
 
 export interface TripAnswers {
-  days:            '3-5' | '5-7' | '7-10' | '10-14'
-  travelers:       '1' | '2' | '3' | '4+'
-  month:           'spring' | 'summer' | 'autumn' | 'winter' | 'any'
-  crowds:          'hate' | 'ok' | 'dontcare'
-  budget:          'low' | 'mid' | 'high' | 'nolimit'
-  novelty:         'popular' | 'hidden' | 'any'
+  days:            number    // días totales de viaje (ej: 7)
+  travelers:       number    // número de viajeros (ej: 2)
+  month:           'spring' | 'summer' | 'autumn' | 'winter' | 'any' | null
+  crowds:          'hate' | 'ok' | 'dontcare' | null
+  budget:          number    // presupuesto máx por persona en € (ej: 800)
   musts:           string[]
-  car:             'yes' | 'maybe' | 'no'
-  region:          'europe' | 'americas' | 'asia' | 'africa' | 'oceania' | 'any'
-  accommodation:   'hotel' | 'boutique' | 'apartment' | 'any'
-  // Escalas 1-10 (10 dimensiones)
-  playa_ciudad:          number
-  relax_fiesta:          number
-  lowcost_fancy:         number
-  invierno_verano:       number
-  occidental_exotico:    number
-  streetfood_gourmet:    number
-  descanso_aventura:     number
-  solo_grupal:           number
-  naturaleza_metropolis: number
-  moderno_historico:     number
+  car:             'yes' | 'maybe' | 'no' | null
+  region:          'europe' | 'americas' | 'asia' | 'africa' | 'oceania' | 'any' | null
+  noNegociable:    string[]
+  // Escalas 1-10 (11 dimensiones)
+  playa_ciudad:           number
+  relax_fiesta:           number
+  lowcost_fancy:          number
+  invierno_verano:        number
+  occidental_exotico:     number
+  streetfood_gourmet:     number
+  descanso_aventura:      number
+  solo_grupal:            number
+  naturaleza_metropolis:  number
+  moderno_historico:      number
+  turistico_desconocido:  number
 }
 
 export const SCALE_KEYS: (keyof DestinationScales)[] = [
@@ -251,15 +251,6 @@ export function scoreDests(
       score -= 10
     }
 
-    // 6. Novedad / popularidad (±10)
-    if (answers.novelty === 'hidden') {
-      if (dest.category === 'warning') { score -= 10 }
-      if (dest.category === 'ok')      { score += 10; reasons.push('Destino menos turístico') }
-      if (dest.category === 'perfect') { score += 5;  reasons.push('Destino curado y auténtico') }
-    } else if (answers.novelty === 'popular') {
-      if (dest.category === 'warning') { score += 5; reasons.push('Destino icónico') }
-    }
-
     // 9. Actividades imprescindibles (0-15)
     let actScore = 0
     for (const must of answers.musts) {
@@ -277,7 +268,7 @@ export function scoreDests(
 
     // 8. Temporada — cruza mes real con preferencia estacional del destino (±8)
     const destSeason = dest.scales?.invierno_verano ?? 5
-    if (answers.month !== 'any') {
+    if (answers.month && answers.month !== 'any') {
       if (answers.month === 'summer'  && destSeason >= 7) { score += 6; reasons.push('Destino ideal en verano') }
       if (answers.month === 'summer'  && destSeason <= 3) { score -= 8 }
       if (answers.month === 'winter'  && destSeason <= 4) { score += 5; reasons.push('Funciona bien en invierno') }

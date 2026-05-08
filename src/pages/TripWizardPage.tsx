@@ -129,17 +129,14 @@ type ScaleKey = 'playa_ciudad' | 'relax_fiesta' | 'lowcost_fancy' | 'invierno_ve
   'solo_grupal' | 'naturaleza_metropolis' | 'moderno_historico' | 'turistico_desconocido'
 
 type Step =
-  | { key: 'days';          q: string; type: 'single'; opts: { v: TripAnswers['days'];          l: string; e: string }[] }
-  | { key: 'travelers';     q: string; type: 'single'; opts: { v: TripAnswers['travelers'];     l: string; e: string }[] }
-  | { key: 'region';        q: string; type: 'single'; opts: { v: TripAnswers['region'];        l: string; e: string }[] }
-  | { key: 'crowds';        q: string; type: 'single'; opts: { v: TripAnswers['crowds'];        l: string; e: string }[] }
-  | { key: 'month';         q: string; type: 'single'; opts: { v: TripAnswers['month'];         l: string; e: string }[] }
-  | { key: 'budget';        q: string; type: 'single'; opts: { v: TripAnswers['budget'];        l: string; e: string }[] }
-  | { key: 'accommodation'; q: string; type: 'single'; opts: { v: TripAnswers['accommodation']; l: string; e: string }[] }
-  | { key: 'novelty';       q: string; type: 'single'; opts: { v: TripAnswers['novelty'];       l: string; e: string }[] }
-  | { key: 'musts';         q: string; type: 'multi';  opts: { v: string; l: string; e: string }[] }
-  | { key: 'car';           q: string; type: 'single'; opts: { v: TripAnswers['car'];           l: string; e: string }[] }
-  | { key: ScaleKey;        q: string; type: 'scale';
+  | { key: 'days' | 'travelers' | 'budget'; q: string; type: 'number';
+      placeholder: string; min: number; max: number; unit: string; hint?: string }
+  | { key: 'region';  q: string; type: 'single'; opts: { v: NonNullable<TripAnswers['region']>;  l: string; e: string }[] }
+  | { key: 'crowds';  q: string; type: 'single'; opts: { v: NonNullable<TripAnswers['crowds']>;  l: string; e: string }[] }
+  | { key: 'month';   q: string; type: 'single'; opts: { v: NonNullable<TripAnswers['month']>;   l: string; e: string }[] }
+  | { key: 'car';     q: string; type: 'single'; opts: { v: NonNullable<TripAnswers['car']>;     l: string; e: string }[] }
+  | { key: 'musts';   q: string; type: 'multi';  opts: { v: string; l: string; e: string }[] }
+  | { key: ScaleKey;  q: string; type: 'scale';
       leftEmoji: string; leftLabel: string; rightEmoji: string; rightLabel: string }
 
 // ── Preguntas (número libre) ─────────────────────────────────
@@ -355,9 +352,9 @@ function ResultCard({
 // Wizard principal
 // ─────────────────────────────────────────────────────────────
 const DEFAULT_ANSWERS: TripAnswers = {
-  days: '7-10', travelers: '2', crowds: 'ok', month: 'any',
-  budget: 'mid', novelty: 'any', musts: [], car: 'maybe',
-  region: 'any', accommodation: 'any',
+  days: 0, travelers: 0, budget: 0,
+  crowds: null, month: null, car: null, region: null,
+  musts: [], noNegociable: [],
   playa_ciudad: 5, relax_fiesta: 5, lowcost_fancy: 5, invierno_verano: 5,
   occidental_exotico: 5, streetfood_gourmet: 5, descanso_aventura: 5,
   solo_grupal: 5, naturaleza_metropolis: 5, moderno_historico: 5, turistico_desconocido: 5,
