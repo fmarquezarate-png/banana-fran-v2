@@ -3,9 +3,47 @@ import toast from 'react-hot-toast'
 import { useAuth } from '@/hooks/useAuth'
 import { useProfile } from '@/hooks/useProfile'
 
-const APP_VERSION = '0.9.1'
+const APP_VERSION = '0.18.0'
 
 const CHANGELOG: { v: string; date: string; notes: string[] }[] = [
+  { v: '0.18.0', date: 'May 2026', notes: [
+    'Mapa "Lugares" rediseñado: mapa mundial SVG con países pintados (verde=visitado, amarillo=planificado)',
+    'Fix mobile: quiz answers ahora se leen correctamente en cada visita a la página de opciones',
+    'Nuevo tab "📊 Ranking": tabla con todos los destinos, % de afinidad y comentario inteligente',
+    'Viajes pasados: botón "🕰 Pasado" en mis viajes para registrar aventuras anteriores',
+  ]},
+  { v: '0.17.0', date: 'May 2026', notes: [
+    'Viajes combinados: selecciona 2 destinos en el wizard para crear una ruta de 2 etapas',
+    'Wizard: 1ª etapa (azul) y 2ª etapa (verde) — toca dos tarjetas para combinar',
+    'Detalle de viaje combinado: cabecera con ambas imágenes y etiquetas de etapa',
+    'Costa del Sol: escala de 11 dimensiones completada (todos 44 destinos completos)',
+  ]},
+  { v: '0.16.0', date: 'May 2026', notes: [
+    'Comentarios de categoría en matchmaking: explica en lenguaje natural por qué un destino es Perfect/Bien/Ok/Warning',
+    'turistico_desconocido completado en todos los 44 destinos',
+  ]},
+  { v: '0.15.0', date: 'May 2026', notes: [
+    'Fix NaN: turistico_desconocido ya no rompe el scoring en localStorage antiguo',
+    'Nueva pestaña "Lugares" con mapa mundi — viajes planificados (amarillo) y completados (verde)',
+  ]},
+  { v: '0.14.0', date: 'May 2026', notes: [
+    'Fix: no negociable ahora fuerza zona Warning aunque otras dimensiones compensen',
+    'Zona Warning también si puntuación total < 30 (antes solo por escala)',
+    'Zona Warning: muestra "por qué NO os calza" con motivos específicos',
+  ]},
+  { v: '0.13.0', date: 'Abr 2026', notes: [
+    'Quiz reordenado: todas las preguntas primero, todos los sliders al final',
+    'Días, viajeros y presupuesto: ahora son inputs numéricos libres (sin opciones pre-definidas)',
+    'Nueva dimensión de escala: Turístico ↔ Desconocido (11 dimensiones totales)',
+  ]},
+  { v: '0.12.0', date: 'Abr 2026', notes: [
+    'Fix crítico: slider ya no colapsa la app — eliminado auto-advance en escalas',
+    'Tester: valores mostrados como magnitud bidireccional (0-10 desde neutro)',
+  ]},
+  { v: '0.9.2', date: 'Abr 2026', notes: [
+    'Fix: zona Warning activa — scoring ponderado por intensidad, ignora dimensiones neutras',
+    'Feature: "No Negociable" en sliders — puntuación binaria estricta',
+  ]},
   { v: '0.9.1', date: 'Abr 2026', notes: [
     'Scales añadidas: Vis, Azores, Naxos, Folégandros, Koufonisia',
     '17 de 41 destinos perfilados en las 10 dimensiones',

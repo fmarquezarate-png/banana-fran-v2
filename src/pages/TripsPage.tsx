@@ -1,6 +1,9 @@
 import { Link, useNavigate } from 'react-router-dom'
+import { useState } from 'react'
+import toast from 'react-hot-toast'
 import { useAuth } from '@/hooks/useAuth'
 import { useTrips } from '@/hooks/useTrips'
+import { DESTINATIONS } from '@/data/destinations'
 import type { Trip } from '@/types/database'
 
 function getTripStatus(trip: Trip): { label: string; color: string } {
@@ -55,21 +58,123 @@ function TripCard({ trip }: { trip: Trip }) {
   )
 }
 
+function PastTripModal({ onClose, onCreate }: {
+  onClose: () => void
+  onCreate: (values: { name: string; slug: string | null; year: number; travelers: number }) => Promise<void>
+}) {
+  const [destSlug, setDestSlug] = useState('')
+  const [year, setYear] = useState(new Date().getFullYear() - 1)
+  const [travelers, setTravelers] = useState(2)
+  const [saving, setSaving] = useState(false)
+
+  const dest = DESTINATIONS.find(d => d.id === destSlug) ?? null
+  const tripName = dest ? `${dest.shortName} ${year}` : `Viaje ${year}`
+
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault()
+    setSaving(true)
+    try { await onCreate({ name: tripName, slug: destSlug || null, year, travelers }) }
+    finally { setSaving(false) }
+  }
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center px-4 pb-4 sm:pb-0">
+      <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" onClick={onClose} />
+      <div className="relative bg-white rounded-2xl p-5 w-full max-w-sm shadow-xl">
+        <h2 className="font-display font-bold text-lg text-gray-900 mb-4">Registrar viaje pasado</h2>
+        <form onSubmit={handleSubmit} className="space-y-3">
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Destino</label>
+            <select
+              value={destSlug}
+              onChange={e => setDestSlug(e.target.value)}
+              className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-egeo/50"
+            >
+              <option value="">— Sin destino concreto —</option>
+              {DESTINATIONS.map(d => (
+                <option key={d.id} value={d.id}>{d.name} ({d.country})</option>
+              ))}
+            </select>
+          </div>
+          <div className="grid grid-cols-2 gap-3">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Año</label>
+              <input
+                type="number" min={1980} max={new Date().getFullYear()}
+                value={year}
+                onChange={e => setYear(Number(e.target.value))}
+                className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-egeo/50"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Viajeros</label>
+              <input
+                type="number" min={1} max={20}
+                value={travelers}
+                onChange={e => setTravelers(Number(e.target.value))}
+                className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-egeo/50"
+              />
+            </div>
+          </div>
+          <p className="text-xs text-gray-400">Nombre: <strong>{tripName}</strong></p>
+          <div className="flex gap-2 pt-1">
+            <button type="button" onClick={onClose} className="btn-secondary flex-1 text-sm">Cancelar</button>
+            <button type="submit" disabled={saving} className="btn-primary flex-1 text-sm disabled:opacity-50">
+              {saving ? 'Guardando…' : '✓ Registrar'}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  )
+}
+
 export function TripsPage() {
   const navigate = useNavigate()
   const { user } = useAuth()
-  const { trips, loading } = useTrips(user?.id)
+  const { trips, loading, createTrip, updateTrip } = useTrips(user?.id)
+  const [showPastModal, setShowPastModal] = useState(false)
+
+  async function handleCreatePast({ name, slug, year, travelers }: {
+    name: string; slug: string | null; year: number; travelers: number
+  }) {
+    const today = new Date()
+    const dec31 = new Date(year, 11, 31)
+    const endDate = dec31 < today ? `${year}-12-31` : today.toISOString().slice(0, 10)
+    const trip = await createTrip({
+      name,
+      description: 'Viaje registrado manualmente como pasado',
+      start_date: `${year}-01-01`,
+      end_date: endDate,
+      destination_slug: slug,
+      travelers,
+    })
+    if (trip) await updateTrip(trip.id, { status_override: 'completed' })
+    toast.success('¡Viaje registrado!')
+    setShowPastModal(false)
+  }
 
   const active = trips.filter((t) => !['Completado', 'Cancelado'].includes(getTripStatus(t).label))
   const past = trips.filter((t) => getTripStatus(t).label === 'Completado' || t.status_override === 'completed')
 
   return (
     <main className="max-w-lg mx-auto px-4 py-6 pb-24 sm:pb-8">
+      {showPastModal && (
+        <PastTripModal
+          onClose={() => setShowPastModal(false)}
+          onCreate={handleCreatePast}
+        />
+      )}
       <div className="flex items-center justify-between mb-6">
         <h1 className="font-display text-3xl font-bold text-gray-900">Mis viajes</h1>
-        <button onClick={() => navigate('/viajes/nuevo')} className="btn-primary text-sm py-2 px-4">
-          + Nuevo
-        </button>
+        <div className="flex gap-2">
+          <button onClick={() => setShowPastModal(true)} className="btn-secondary text-sm py-2 px-3">
+            🕰 Pasado
+          </button>
+          <button onClick={() => navigate('/viajes/nuevo')} className="btn-primary text-sm py-2 px-4">
+            + Nuevo
+          </button>
+        </div>
       </div>
 
       {loading ? (
