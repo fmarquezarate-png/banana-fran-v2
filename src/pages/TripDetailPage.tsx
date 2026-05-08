@@ -1073,9 +1073,10 @@ export function TripDetailPage() {
 
   const days = tripDays(trip)
   const travelers = trip.travelers ?? 2
-  const destData = trip.destination_slug
-    ? DESTINATIONS.find(d => d.id === trip.destination_slug) ?? null
-    : null
+  const slugParts = trip.destination_slug?.split('+') ?? []
+  const destData = slugParts[0] ? (DESTINATIONS.find(d => d.id === slugParts[0]) ?? null) : null
+  const destData2 = slugParts[1] ? (DESTINATIONS.find(d => d.id === slugParts[1]) ?? null) : null
+  const isCombined = destData !== null && destData2 !== null
   const isCompleted = trip.status_override === 'completed'
 
   return (
@@ -1087,7 +1088,7 @@ export function TripDetailPage() {
           <Link to="/viajes" className="text-sm text-gray-400 hover:text-egeo transition-colors">
             ← Mis viajes
           </Link>
-          {destData && (
+          {destData && !isCombined && (
             <div className="relative h-32 rounded-2xl overflow-hidden mt-3 mb-3">
               <img src={destData.images[0]} alt={destData.name} className="w-full h-full object-cover" />
               <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
@@ -1099,6 +1100,30 @@ export function TripDetailPage() {
                 <span className="absolute top-2.5 right-2.5 bg-white/20 backdrop-blur-sm text-white text-xs
                                  font-semibold px-2 py-0.5 rounded-full">✓ Realizado</span>
               )}
+            </div>
+          )}
+          {isCombined && destData2 && (
+            <div className="flex gap-2 mt-3 mb-3 h-32">
+              <div className="relative flex-1 rounded-2xl overflow-hidden">
+                <img src={destData.images[0]} alt={destData.name} className="w-full h-full object-cover" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
+                <div className="absolute bottom-2 left-3">
+                  <p className="text-white/70 text-[10px]">1ª etapa</p>
+                  <p className="text-white font-bold text-sm leading-tight">{destData.shortName}</p>
+                </div>
+              </div>
+              <div className="relative flex-1 rounded-2xl overflow-hidden">
+                <img src={destData2.images[0]} alt={destData2.name} className="w-full h-full object-cover" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
+                <div className="absolute bottom-2 left-3">
+                  <p className="text-white/70 text-[10px]">2ª etapa</p>
+                  <p className="text-white font-bold text-sm leading-tight">{destData2.shortName}</p>
+                </div>
+                {isCompleted && (
+                  <span className="absolute top-2 right-2 bg-white/20 backdrop-blur-sm text-white text-xs
+                                   font-semibold px-2 py-0.5 rounded-full">✓ Realizado</span>
+                )}
+              </div>
             </div>
           )}
           <h1 className="font-display text-2xl font-bold text-gray-900 leading-tight">{trip.name}</h1>

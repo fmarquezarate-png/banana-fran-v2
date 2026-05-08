@@ -3,9 +3,17 @@ import toast from 'react-hot-toast'
 import { useAuth } from '@/hooks/useAuth'
 import { useProfile } from '@/hooks/useProfile'
 
-const APP_VERSION = '0.16.0'
+const APP_VERSION = '0.17.0'
 
 const CHANGELOG: { v: string; date: string; notes: string[] }[] = [
+  { v: '0.17.0', date: 'May 2026', notes: [
+    'Viajes combinados: selecciona 2 destinos en el wizard para crear una ruta de 2 etapas',
+    'Wizard: 1ª etapa (azul) y 2ª etapa (verde) — toca dos tarjetas para combinar',
+    'Detalle de viaje combinado: cabecera con ambas imágenes y etiquetas de etapa',
+    'Mapa "Lugares": los viajes combinados muestran marcadores en ambas ubicaciones',
+    'Costa del Sol: escala de 11 dimensiones completada (último destino pendiente)',
+    'Fix: DEFAULT_ANSWERS incluye turistico_desconocido=5 (evita undefined en quiz nuevo)',
+  ]},
   { v: '0.16.0', date: 'May 2026', notes: [
     'Comentarios de categoría en matchmaking: explica en lenguaje natural por qué un destino es Perfect/Bien/Ok/Warning',
     'buildAntiReasons mejorado: menciona dimensión concreta y valores usuario vs destino',

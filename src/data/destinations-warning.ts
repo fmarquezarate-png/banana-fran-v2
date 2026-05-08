@@ -949,6 +949,7 @@ export const DESTINATIONS_WARNING: Destination[] = [
       ['semana 2', 'Córdoba y Sevilla', '4 días: Mezquita, Alcázar, Giralda.'],
       ['semana 2', 'Vuelta', 'Vuelo desde Sevilla o Málaga.'],
     ],
+    scales: { playa_ciudad: 5, relax_fiesta: 6, lowcost_fancy: 6, invierno_verano: 8, occidental_exotico: 2, streetfood_gourmet: 3, descanso_aventura: 4, solo_grupal: 7, naturaleza_metropolis: 5, moderno_historico: 6, turistico_desconocido: 2 },
     budget: {
       flightPP: 100,
       fr: 0.20,

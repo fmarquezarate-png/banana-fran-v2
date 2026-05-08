@@ -28,12 +28,14 @@ export function PlacesPage() {
   const { trips, loading } = useTrips(user?.id)
 
   const pins = useMemo<PlacePin[]>(() => {
-    return trips
-      .filter(t => t.destination_slug)
-      .map(t => {
-        const dest = DESTINATIONS.find(d => d.id === t.destination_slug)
-        if (!dest) return null
-        return {
+    const result: PlacePin[] = []
+    for (const t of trips) {
+      if (!t.destination_slug) continue
+      const slugs = t.destination_slug.split('+')
+      for (const slug of slugs) {
+        const dest = DESTINATIONS.find(d => d.id === slug)
+        if (!dest) continue
+        result.push({
           tripId:   t.id,
           tripName: t.name,
           destName: dest.name,
@@ -42,9 +44,10 @@ export function PlacesPage() {
           lng:      dest.coords[1],
           past:     isPastTrip(t),
           image:    dest.images[0],
-        }
-      })
-      .filter(Boolean) as PlacePin[]
+        })
+      }
+    }
+    return result
   }, [trips])
 
   const planned   = pins.filter(p => !p.past)

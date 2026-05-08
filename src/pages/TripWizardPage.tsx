@@ -285,12 +285,12 @@ function getPlan(dest: Destination, days: number) {
 // ResultCard — seleccionable
 // ─────────────────────────────────────────────────────────────
 function ResultCard({
-  sd, rank, travelers, selected, onSelect,
+  sd, rank, travelers, role, onSelect,
 }: {
   sd: ScoredDestination
   rank: number
   travelers: number
-  selected: boolean
+  role: 'primary' | 'secondary' | null
   onSelect: () => void
 }) {
   const budget = calcBudget(sd.dest, 7, 'medio', true)
@@ -301,17 +301,23 @@ function ResultCard({
     <div
       onClick={onSelect}
       className={`card overflow-hidden cursor-pointer transition-all duration-200 ${
-        selected
+        role === 'primary'
           ? 'ring-2 ring-egeo shadow-md -translate-y-0.5'
-          : 'hover:shadow-md hover:-translate-y-0.5'
+          : role === 'secondary'
+            ? 'ring-2 ring-green-500 shadow-md -translate-y-0.5'
+            : 'hover:shadow-md hover:-translate-y-0.5'
       }`}
     >
       <div className="relative h-32 bg-gray-200">
         <img src={sd.dest.images[0]} alt={sd.dest.name} className="w-full h-full object-cover" loading="lazy" />
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-        {selected ? (
+        {role === 'primary' ? (
           <span className="absolute top-2 left-2 bg-egeo text-white text-xs font-bold px-2 py-1 rounded-full flex items-center gap-1">
-            ✓ Elegido
+            ✓ 1ª etapa
+          </span>
+        ) : role === 'secondary' ? (
+          <span className="absolute top-2 left-2 bg-green-600 text-white text-xs font-bold px-2 py-1 rounded-full flex items-center gap-1">
+            ✓ 2ª etapa
           </span>
         ) : (
           <span className="absolute top-2 left-2 bg-black/50 text-white text-xs font-bold px-2 py-1 rounded-full">
@@ -351,7 +357,7 @@ const DEFAULT_ANSWERS: TripAnswers = {
   musts: [], noNegociable: [],
   playa_ciudad: 5, relax_fiesta: 5, lowcost_fancy: 5, invierno_verano: 5,
   occidental_exotico: 5, streetfood_gourmet: 5, descanso_aventura: 5,
-  solo_grupal: 5, naturaleza_metropolis: 5, moderno_historico: 5,
+  solo_grupal: 5, naturaleza_metropolis: 5, moderno_historico: 5, turistico_desconocido: 5,
 }
 
 export function TripWizardPage() {
@@ -364,7 +370,8 @@ export function TripWizardPage() {
   const [answers, setAnswers] = useState<TripAnswers>(DEFAULT_ANSWERS)
   const [phase, setPhase]     = useState<'quiz' | 'results' | 'create'>('quiz')
   const [results, setResults] = useState<ScoredDestination[]>([])
-  const [selectedId, setSelectedId] = useState<string | null>(null)
+  const [selectedId, setSelectedId]   = useState<string | null>(null)
+  const [secondaryId, setSecondaryId] = useState<string | null>(null)
 
   // Si viene ?dest=<id>, ir directo a create con ese destino
   useEffect(() => {
@@ -386,7 +393,8 @@ export function TripWizardPage() {
   const current      = STEPS[step]
   const progress     = (step / STEPS.length) * 100
   const travelersNum = answers.travelers || 1
-  const selectedDest = results.find(r => r.dest.id === selectedId)?.dest ?? null
+  const selectedDest  = results.find(r => r.dest.id === selectedId)?.dest ?? null
+  const secondaryDest = secondaryId ? (DESTINATIONS.find(d => d.id === secondaryId) ?? null) : null
 
   // ── Handlers ────────────────────────────────────────────────
   function selectSingle(key: string, value: string) {
@@ -432,7 +440,10 @@ export function TripWizardPage() {
       toast.error('Elige al menos un destino para continuar')
       return
     }
-    setTripName(`${selectedDest.shortName} ${new Date().getFullYear() + (new Date().getMonth() >= 8 ? 1 : 0)}`)
+    const yr = new Date().getFullYear() + (new Date().getMonth() >= 8 ? 1 : 0)
+    setTripName(secondaryDest
+      ? `${selectedDest.shortName} + ${secondaryDest.shortName} ${yr}`
+      : `${selectedDest.shortName} ${yr}`)
     setPhase('create')
   }
 
@@ -449,12 +460,16 @@ export function TripWizardPage() {
     if (!tripName.trim()) { toast.error('Ponle un nombre al viaje'); return }
     setSaving(true)
     try {
+      const slug = secondaryDest ? `${selectedDest.id}+${secondaryDest.id}` : selectedDest.id
+      const tripDesc = secondaryDest
+        ? `Viaje combinado: ${selectedDest.name} + ${secondaryDest.name} — planificado con el asistente`
+        : `Viaje a ${selectedDest.name} — planificado con el asistente`
       const trip = await createTrip({
         name: tripName.trim(),
-        description: `Viaje a ${selectedDest.name} — planificado con el asistente`,
+        description: tripDesc,
         start_date: startDate || null,
         end_date:   endDate   || null,
-        destination_slug: selectedDest.id,
+        destination_slug: slug,
         travelers: travelersNum,
       })
       toast.success('¡Viaje creado!')
@@ -476,7 +491,7 @@ export function TripWizardPage() {
           <p className="text-xs text-gray-400 mb-1">Basado en tus respuestas</p>
           <h1 className="font-display text-2xl font-bold text-gray-900">Vuestros mejores destinos</h1>
           <p className="text-sm text-gray-500 mt-1">
-            Toca <strong>una tarjeta</strong> para elegir el destino y continuar.
+            Toca una tarjeta para elegir destino. Puedes añadir una <strong>2ª etapa</strong> tocando otra.
           </p>
         </div>
 
@@ -487,8 +502,18 @@ export function TripWizardPage() {
               sd={sd}
               rank={i + 1}
               travelers={travelersNum}
-              selected={sd.dest.id === selectedId}
-              onSelect={() => setSelectedId(sd.dest.id)}
+              role={sd.dest.id === selectedId ? 'primary' : sd.dest.id === secondaryId ? 'secondary' : null}
+              onSelect={() => {
+                if (sd.dest.id === selectedId) {
+                  setSelectedId(null); setSecondaryId(null)
+                } else if (sd.dest.id === secondaryId) {
+                  setSecondaryId(null)
+                } else if (!selectedId) {
+                  setSelectedId(sd.dest.id)
+                } else {
+                  setSecondaryId(sd.dest.id)
+                }
+              }}
             />
           ))}
         </div>
@@ -496,7 +521,7 @@ export function TripWizardPage() {
         {/* CTA bar */}
         <div className="sticky bottom-4 sm:static flex gap-3 bg-crema/90 backdrop-blur pt-2 pb-1">
           <button
-            onClick={() => { setPhase('quiz'); setStep(0) }}
+            onClick={() => { setPhase('quiz'); setStep(0); setSelectedId(null); setSecondaryId(null) }}
             className="btn-secondary flex-shrink-0 px-4 text-sm"
           >
             ← Repetir
@@ -506,9 +531,11 @@ export function TripWizardPage() {
             disabled={!selectedId}
             className="btn-primary flex-1 text-sm disabled:opacity-40"
           >
-            {selectedDest
-              ? `Continuar con ${selectedDest.shortName} →`
-              : 'Elige un destino para continuar'}
+            {selectedId && secondaryDest
+              ? `Viaje combinado: ${selectedDest!.shortName} + ${secondaryDest.shortName} →`
+              : selectedDest
+                ? `Continuar con ${selectedDest.shortName} →`
+                : 'Elige un destino para continuar'}
           </button>
         </div>
       </main>
@@ -517,7 +544,11 @@ export function TripWizardPage() {
 
   // ── Phase: Create ────────────────────────────────────────────
   if (phase === 'create' && selectedDest) {
-    const { n: planDays, plan, isShort } = getPlan(selectedDest, answers.days)
+    const totalDays = answers.days || 7
+    const primaryDays = secondaryDest ? Math.max(2, Math.ceil(totalDays * 0.55)) : totalDays
+    const secondaryDays = secondaryDest ? Math.max(2, totalDays - primaryDays) : 0
+    const { n: planDays, plan, isShort } = getPlan(selectedDest, primaryDays)
+    const secPlan = secondaryDest ? getPlan(secondaryDest, secondaryDays) : null
 
     function handleStartDate(val: string) {
       setStartDate(val)
@@ -536,19 +567,35 @@ export function TripWizardPage() {
           ← Cambiar destino
         </button>
 
-        {/* Destino elegido */}
-        <div className="flex items-center gap-3 mb-6">
-          <img
-            src={selectedDest.images[0]}
-            alt={selectedDest.name}
-            className="w-14 h-14 rounded-xl object-cover flex-shrink-0"
-          />
-          <div>
-            <p className="text-xs text-gray-400">Destino elegido</p>
-            <h1 className="font-display text-xl font-bold text-gray-900 leading-tight">{selectedDest.name}</h1>
-            <p className="text-xs text-gray-500">{selectedDest.country} · {travelersNum} {travelersNum === 1 ? 'viajero' : 'viajeros'}</p>
+        {/* Destino(s) elegido(s) */}
+        {secondaryDest ? (
+          <div className="flex items-center gap-3 mb-6">
+            <div className="flex -space-x-3">
+              <img src={selectedDest.images[0]} alt={selectedDest.name} className="w-14 h-14 rounded-xl object-cover border-2 border-white z-10" />
+              <img src={secondaryDest.images[0]} alt={secondaryDest.name} className="w-14 h-14 rounded-xl object-cover border-2 border-white" />
+            </div>
+            <div>
+              <p className="text-xs text-egeo font-semibold">Viaje combinado</p>
+              <h1 className="font-display text-lg font-bold text-gray-900 leading-tight">
+                {selectedDest.shortName} + {secondaryDest.shortName}
+              </h1>
+              <p className="text-xs text-gray-500">{travelersNum} {travelersNum === 1 ? 'viajero' : 'viajeros'}</p>
+            </div>
           </div>
-        </div>
+        ) : (
+          <div className="flex items-center gap-3 mb-6">
+            <img
+              src={selectedDest.images[0]}
+              alt={selectedDest.name}
+              className="w-14 h-14 rounded-xl object-cover flex-shrink-0"
+            />
+            <div>
+              <p className="text-xs text-gray-400">Destino elegido</p>
+              <h1 className="font-display text-xl font-bold text-gray-900 leading-tight">{selectedDest.name}</h1>
+              <p className="text-xs text-gray-500">{selectedDest.country} · {travelersNum} {travelersNum === 1 ? 'viajero' : 'viajeros'}</p>
+            </div>
+          </div>
+        )}
 
         {/* Formulario */}
         <div className="card p-5 space-y-4 mb-5">
@@ -645,28 +692,86 @@ export function TripWizardPage() {
 
         {/* Itinerario sugerido */}
         <div className="card p-5">
-          <p className="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-3">
-            Programa sugerido · {planDays} días
-          </p>
-          {isShort ? (
-            <ul className="space-y-2">
-              {(plan as string[]).map((item, i) => (
-                <li key={i} className="flex items-start gap-2 text-sm text-gray-600">
-                  <span className="text-egeo font-bold flex-shrink-0">D{i + 1}</span>
-                  {item}
-                </li>
-              ))}
-            </ul>
+          {secondaryDest ? (
+            <>
+              <p className="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-3">
+                Programa sugerido · {primaryDays + secondaryDays} días combinados
+              </p>
+              {/* 1ª etapa */}
+              <p className="text-xs font-bold text-egeo mb-2">1ª etapa — {selectedDest.shortName} · {planDays} días</p>
+              {isShort ? (
+                <ul className="space-y-2 mb-4">
+                  {(plan as string[]).map((item, i) => (
+                    <li key={i} className="flex items-start gap-2 text-sm text-gray-600">
+                      <span className="text-egeo font-bold flex-shrink-0">D{i + 1}</span>
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <ul className="space-y-3 mb-4">
+                  {(plan as [string, string, string][]).map(([label, title, text], i) => (
+                    <li key={i} className="border-l-2 border-egeo/20 pl-3">
+                      <p className="text-xs font-bold text-egeo">{label}</p>
+                      <p className="text-sm font-semibold text-gray-800">{title}</p>
+                      <p className="text-xs text-gray-500 mt-0.5 line-clamp-2">{text}</p>
+                    </li>
+                  ))}
+                </ul>
+              )}
+              {/* 2ª etapa */}
+              {secPlan && (
+                <>
+                  <p className="text-xs font-bold text-green-600 mb-2">2ª etapa — {secondaryDest.shortName} · {secPlan.n} días</p>
+                  {secPlan.isShort ? (
+                    <ul className="space-y-2">
+                      {(secPlan.plan as string[]).map((item, i) => (
+                        <li key={i} className="flex items-start gap-2 text-sm text-gray-600">
+                          <span className="text-green-600 font-bold flex-shrink-0">D{planDays + i + 1}</span>
+                          {item}
+                        </li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <ul className="space-y-3">
+                      {(secPlan.plan as [string, string, string][]).map(([label, title, text], i) => (
+                        <li key={i} className="border-l-2 border-green-200 pl-3">
+                          <p className="text-xs font-bold text-green-600">{label}</p>
+                          <p className="text-sm font-semibold text-gray-800">{title}</p>
+                          <p className="text-xs text-gray-500 mt-0.5 line-clamp-2">{text}</p>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </>
+              )}
+            </>
           ) : (
-            <ul className="space-y-3">
-              {(plan as [string, string, string][]).map(([label, title, text], i) => (
-                <li key={i} className="border-l-2 border-egeo/20 pl-3">
-                  <p className="text-xs font-bold text-egeo">{label}</p>
-                  <p className="text-sm font-semibold text-gray-800">{title}</p>
-                  <p className="text-xs text-gray-500 mt-0.5 line-clamp-2">{text}</p>
-                </li>
-              ))}
-            </ul>
+            <>
+              <p className="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-3">
+                Programa sugerido · {planDays} días
+              </p>
+              {isShort ? (
+                <ul className="space-y-2">
+                  {(plan as string[]).map((item, i) => (
+                    <li key={i} className="flex items-start gap-2 text-sm text-gray-600">
+                      <span className="text-egeo font-bold flex-shrink-0">D{i + 1}</span>
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <ul className="space-y-3">
+                  {(plan as [string, string, string][]).map(([label, title, text], i) => (
+                    <li key={i} className="border-l-2 border-egeo/20 pl-3">
+                      <p className="text-xs font-bold text-egeo">{label}</p>
+                      <p className="text-sm font-semibold text-gray-800">{title}</p>
+                      <p className="text-xs text-gray-500 mt-0.5 line-clamp-2">{text}</p>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </>
           )}
         </div>
       </main>
