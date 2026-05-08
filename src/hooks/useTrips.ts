@@ -45,11 +45,19 @@ export function useTrips(userId: string | undefined) {
     return data
   }
 
+  async function updateTrip(id: string, patch: Partial<Trip>) {
+    const { data, error } = await supabase
+      .from('trips').update(patch).eq('id', id).select().single()
+    if (error) throw error
+    setTrips(prev => prev.map(t => t.id === id ? data : t))
+    return data
+  }
+
   async function deleteTrip(id: string) {
     const { error } = await supabase.from('trips').delete().eq('id', id)
     if (error) throw error
     setTrips(prev => prev.filter(t => t.id !== id))
   }
 
-  return { trips, loading, createTrip, deleteTrip, refetch: fetchTrips }
+  return { trips, loading, createTrip, updateTrip, deleteTrip, refetch: fetchTrips }
 }

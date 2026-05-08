@@ -61,7 +61,7 @@ export function TripsPage() {
   const { trips, loading } = useTrips(user?.id)
 
   const active = trips.filter((t) => !['Completado', 'Cancelado'].includes(getTripStatus(t).label))
-  const past = trips.filter((t) => getTripStatus(t).label === 'Completado')
+  const past = trips.filter((t) => getTripStatus(t).label === 'Completado' || t.status_override === 'completed')
 
   return (
     <main className="max-w-lg mx-auto px-4 py-6 pb-24 sm:pb-8">
@@ -90,7 +90,7 @@ export function TripsPage() {
           {active.length > 0 && (
             <section>
               <h2 className="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-3">
-                Próximos y en planificación
+                En planificación y próximos
               </h2>
               <div className="space-y-3">
                 {active.map((t) => <TripCard key={t.id} trip={t} />)}
@@ -100,7 +100,7 @@ export function TripsPage() {
           {past.length > 0 && (
             <section>
               <h2 className="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-3">
-                Viajes pasados
+                Completados — también visibles en el inicio
               </h2>
               <div className="space-y-3">
                 {past.map((t) => <TripCard key={t.id} trip={t} />)}

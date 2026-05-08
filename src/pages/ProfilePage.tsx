@@ -103,7 +103,7 @@ export function ProfilePage() {
   const [editing, setEditing] = useState(false)
   const [saving, setSaving] = useState(false)
 
-  const [changelogOpen, setChangelogOpen] = useState(false)
+  const [changelogOpen, setChangelogOpen] = useState(true)
   const [changingPwd, setChangingPwd] = useState(false)
   const [newPwd, setNewPwd] = useState('')
   const [confirmPwd, setConfirmPwd] = useState('')

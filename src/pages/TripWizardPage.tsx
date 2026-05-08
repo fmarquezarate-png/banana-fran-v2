@@ -9,53 +9,114 @@ import { scoreDests, type TripAnswers, type ScoredDestination } from '@/lib/trip
 import { calcBudget, formatPrice } from '@/lib/budget'
 
 // ─────────────────────────────────────────────────────────────
-// ScaleSelector — componente visual 1-10
+// ScaleSelector — slider bidireccional centrado en "neutral"
 // ─────────────────────────────────────────────────────────────
 function ScaleSelector({
   value, onChange, leftEmoji, leftLabel, rightEmoji, rightLabel,
+  isNegociable, onToggleNegociable,
 }: {
   value: number; onChange: (n: number) => void
   leftEmoji: string; leftLabel: string; rightEmoji: string; rightLabel: string
+  isNegociable: boolean; onToggleNegociable: () => void
 }) {
+  const neutral = value === 5
+  const side = value < 5 ? 'left' : value > 5 ? 'right' : 'neutral'
+  // position% in the 1-10 range
+  const pct    = ((value - 1) / 9) * 100
+  const center = ((5 - 1) / 9) * 100   // 44.44% — posición real del neutro (v=5)
+
+  const col  = isNegociable ? '#ef4444' : '#1e6fb5'
+  const gray = '#e5e7eb'
+
+  const trackBg = neutral
+    ? gray
+    : side === 'left'
+      ? `linear-gradient(to right,${gray} 0%,${gray} ${pct}%,${col} ${pct}%,${col} ${center}%,${gray} ${center}%,${gray} 100%)`
+      : `linear-gradient(to right,${gray} 0%,${gray} ${center}%,${col} ${center}%,${col} ${pct}%,${gray} ${pct}%,${gray} 100%)`
+
+  const intensityLabel = (v: number) => {
+    const d = Math.abs(v - 5)
+    if (d >= 4) return 'Muy'
+    if (d >= 3) return 'Bastante'
+    if (d >= 2) return 'Algo'
+    return 'Ligeramente'
+  }
+
   return (
     <div className="space-y-5">
-      <div className="grid grid-cols-10 gap-1.5">
-        {Array.from({ length: 10 }, (_, i) => i + 1).map(n => (
-          <button
-            key={n}
-            onClick={() => onChange(n)}
-            className={`aspect-square rounded-xl font-bold text-sm transition-all duration-150 ${
-              n === value
-                ? 'bg-egeo text-white shadow-lg scale-110 ring-2 ring-egeo/30'
-                : n < value
-                ? 'bg-egeo/20 text-egeo font-semibold'
-                : 'bg-gray-100 text-gray-400 hover:bg-gray-200'
-            }`}
-          >
-            {n}
-          </button>
-        ))}
+
+      {/* Etiquetas izquierda / derecha */}
+      <div className="flex items-center justify-between gap-3">
+        <div className={`flex flex-col items-center gap-0.5 min-w-[72px] transition-all duration-200 ${
+          side === 'left' ? 'opacity-100 scale-105' : 'opacity-35 scale-100'
+        }`}>
+          <span className="text-3xl">{leftEmoji}</span>
+          <span className="text-xs font-semibold text-gray-700 text-center leading-tight">{leftLabel}</span>
+        </div>
+
+        <div className={`flex flex-col items-center gap-0.5 min-w-[72px] transition-all duration-200 ${
+          side === 'right' ? 'opacity-100 scale-105' : 'opacity-35 scale-100'
+        }`}>
+          <span className="text-3xl">{rightEmoji}</span>
+          <span className="text-xs font-semibold text-gray-700 text-center leading-tight">{rightLabel}</span>
+        </div>
       </div>
-      <div className="h-2 bg-gray-100 rounded-full overflow-hidden">
+
+      {/* Slider con marca central */}
+      <div className="relative px-1">
+        <input
+          type="range" min={1} max={10} step={1}
+          value={value}
+          onChange={e => onChange(Number(e.target.value))}
+          className="scale-slider w-full"
+          style={{
+            background: trackBg,
+            ['--thumb-color' as string]: col,
+          }}
+        />
+        {/* Marca central en la posición de v=5 */}
         <div
-          className="h-full bg-gradient-to-r from-egeo/50 to-egeo rounded-full transition-all duration-300"
-          style={{ width: `${(value / 10) * 100}%` }}
+          className="absolute top-1/2 -translate-y-1/2 w-0.5 h-5 rounded-full pointer-events-none"
+          style={{
+            left: `calc(${center}% + 4px)`,
+            background: neutral ? col : '#9ca3af',
+            opacity: neutral ? 0.6 : 0.35,
+          }}
         />
       </div>
-      <div className="flex items-start justify-between">
-        <div className={`text-center transition-opacity ${value <= 3 ? 'opacity-100' : 'opacity-35'}`}>
-          <span className="text-3xl block">{leftEmoji}</span>
-          <span className="text-xs text-gray-500 mt-1 block max-w-[90px] leading-tight">{leftLabel}</span>
-        </div>
-        <div className="text-center">
-          <span className="font-display text-5xl font-bold text-egeo leading-none">{value}</span>
-          <span className="text-sm text-gray-400 block mt-0.5">/ 10</span>
-        </div>
-        <div className={`text-center transition-opacity ${value >= 8 ? 'opacity-100' : 'opacity-35'}`}>
-          <span className="text-3xl block">{rightEmoji}</span>
-          <span className="text-xs text-gray-500 mt-1 block max-w-[90px] leading-tight text-right">{rightLabel}</span>
-        </div>
+
+      {/* Indicador de dirección — altura fija para evitar layout shift */}
+      <div className="h-5 flex items-center justify-center">
+        {neutral ? (
+          <span className="text-xs text-gray-400 italic">Sin preferencia — punto neutro</span>
+        ) : (
+          <span className={`text-xs font-semibold ${isNegociable ? 'text-red-500' : 'text-egeo'}`}>
+            {intensityLabel(value)} hacia {side === 'left' ? leftLabel.split(' ')[0] : rightLabel.split(' ')[0]}
+          </span>
+        )}
       </div>
+
+      {/* No negociable */}
+      <label className={`flex items-center gap-2.5 cursor-pointer rounded-xl px-4 py-2.5 transition-colors ${
+        isNegociable ? 'bg-red-50 border border-red-200' : 'bg-gray-50 border border-transparent'
+      }`}>
+        <input
+          type="checkbox"
+          checked={isNegociable}
+          onChange={onToggleNegociable}
+          className="w-4 h-4 accent-red-500 flex-shrink-0"
+        />
+        <div>
+          <span className={`text-xs font-semibold block ${isNegociable ? 'text-red-500' : 'text-gray-500'}`}>
+            🔴 No negociable
+          </span>
+          <span className="text-xs text-gray-400 leading-tight">
+            {isNegociable
+              ? 'Desacuerdo de más de 1 punto → Zona Warning automática'
+              : 'Activa si este criterio es innegociable para vosotros'}
+          </span>
+        </div>
+      </label>
     </div>
   )
 }
@@ -65,7 +126,7 @@ function ScaleSelector({
 // ─────────────────────────────────────────────────────────────
 type ScaleKey = 'playa_ciudad' | 'relax_fiesta' | 'lowcost_fancy' | 'invierno_verano' |
   'occidental_exotico' | 'streetfood_gourmet' | 'descanso_aventura' |
-  'solo_grupal' | 'naturaleza_metropolis' | 'moderno_historico'
+  'solo_grupal' | 'naturaleza_metropolis' | 'moderno_historico' | 'turistico_desconocido'
 
 type Step =
   | { key: 'days';          q: string; type: 'single'; opts: { v: TripAnswers['days'];          l: string; e: string }[] }
@@ -81,25 +142,23 @@ type Step =
   | { key: ScaleKey;        q: string; type: 'scale';
       leftEmoji: string; leftLabel: string; rightEmoji: string; rightLabel: string }
 
+// ── Preguntas (número libre) ─────────────────────────────────
 const STEPS: Step[] = [
   {
-    key: 'days', q: '¿Cuántos días tenéis para el viaje?', type: 'single',
-    opts: [
-      { v: '3-5',   l: 'Escapada corta (3–5 días)',  e: '📅' },
-      { v: '5-7',   l: 'Una semana (5–7 días)',       e: '🗓️' },
-      { v: '7-10',  l: 'Diez días (7–10 días)',       e: '✈️' },
-      { v: '10-14', l: 'Dos semanas (10–14 días)',    e: '🌍' },
-    ],
+    key: 'days', q: '¿Cuántos días tenéis para el viaje?', type: 'number',
+    placeholder: 'ej: 7', min: 1, max: 90, unit: 'días',
+    hint: 'Cuenta desde la salida hasta la vuelta',
   },
   {
-    key: 'travelers', q: '¿Cuántas personas viajan?', type: 'single',
-    opts: [
-      { v: '1',  l: 'Solo/a',        e: '🧍' },
-      { v: '2',  l: 'Dos personas',  e: '👫' },
-      { v: '3',  l: 'Tres personas', e: '👨‍👩‍👧' },
-      { v: '4+', l: 'Cuatro o más',  e: '👨‍👩‍👧‍👦' },
-    ],
+    key: 'travelers', q: '¿Cuántas personas viajan?', type: 'number',
+    placeholder: 'ej: 2', min: 1, max: 20, unit: 'personas',
   },
+  {
+    key: 'budget', q: '¿Cuánto presupuesto por persona? (todo incluido)', type: 'number',
+    placeholder: 'ej: 800', min: 0, max: 99999, unit: '€ por persona',
+    hint: 'Vuelos + alojamiento + comida + actividades',
+  },
+  // ── Preguntas de opción única ────────────────────────────────
   {
     key: 'region', q: '¿Tenéis alguna zona del mundo en mente?', type: 'single',
     opts: [
@@ -122,62 +181,44 @@ const STEPS: Step[] = [
   {
     key: 'month', q: '¿En qué época del año iréis?', type: 'single',
     opts: [
-      { v: 'spring', l: 'Primavera (Mar–May)',    e: '🌸' },
-      { v: 'summer', l: 'Verano (Jun–Ago)',       e: '☀️' },
-      { v: 'autumn', l: 'Otoño (Sep–Nov)',        e: '🍂' },
-      { v: 'winter', l: 'Invierno (Dic–Feb)',     e: '❄️' },
-      { v: 'any',    l: 'Sin fecha definida',     e: '📆' },
-    ],
-  },
-  {
-    key: 'budget', q: '¿Cuánto presupuesto por persona (todo incluido)?', type: 'single',
-    opts: [
-      { v: 'low',     l: 'Hasta 600 €',     e: '💶' },
-      { v: 'mid',     l: '600 – 1.100 €',   e: '💳' },
-      { v: 'high',    l: '1.100 – 1.600 €', e: '💰' },
-      { v: 'nolimit', l: 'Sin límite',       e: '💎' },
-    ],
-  },
-  {
-    key: 'accommodation', q: '¿Cómo preferís alojaros?', type: 'single',
-    opts: [
-      { v: 'hotel',     l: 'Hotel ≥4★ — comodidad y servicios', e: '🏨' },
-      { v: 'boutique',  l: 'Boutique / diseño — experiencia única', e: '🛎️' },
-      { v: 'apartment', l: 'Apartamento / Airbnb — más local', e: '🏠' },
-      { v: 'any',       l: 'Sin preferencia',                   e: '🤷' },
-    ],
-  },
-  {
-    key: 'novelty', q: '¿Preferís destino conocido o algo diferente?', type: 'single',
-    opts: [
-      { v: 'popular', l: 'Icónico y probado — lo clásico funciona', e: '🌟' },
-      { v: 'hidden',  l: 'Menos turístico y más auténtico',         e: '🗺️' },
-      { v: 'any',     l: 'Sin preferencia',                         e: '🎲' },
+      { v: 'spring', l: 'Primavera (Mar–May)', e: '🌸' },
+      { v: 'summer', l: 'Verano (Jun–Ago)',    e: '☀️' },
+      { v: 'autumn', l: 'Otoño (Sep–Nov)',     e: '🍂' },
+      { v: 'winter', l: 'Invierno (Dic–Feb)',  e: '❄️' },
+      { v: 'any',    l: 'Sin fecha definida',  e: '📆' },
     ],
   },
   {
     key: 'musts', q: '¿Qué no puede faltar? (elige todo lo que queráis)', type: 'multi',
     opts: [
-      { v: 'beaches',    l: 'Playas espectaculares',      e: '🏝️' },
-      { v: 'snorkel',    l: 'Snorkel / Buceo',            e: '🤿' },
-      { v: 'watersports',l: 'Deportes acuáticos',         e: '🏄' },
-      { v: 'hiking',     l: 'Senderismo y rutas',         e: '🥾' },
-      { v: 'skiing',     l: 'Esquí / Deportes de nieve',  e: '⛷️' },
-      { v: 'history',    l: 'Historia y arquitectura',    e: '🏛️' },
-      { v: 'art',        l: 'Arte y museos',              e: '🎨' },
-      { v: 'gastronomy', l: 'Gastronomía y vino',        e: '🍷' },
-      { v: 'winetour',   l: 'Enoturismo y bodegas',      e: '🍾' },
-      { v: 'shopping',   l: 'Mercados y compras',         e: '🛍️' },
-      { v: 'nightlife',  l: 'Vida nocturna',              e: '🎉' },
-      { v: 'photography',l: 'Fotografía y paisajes',     e: '📸' },
-      { v: 'wellness',   l: 'Wellness / Termas / Spa',    e: '♨️' },
-      { v: 'wildlife',   l: 'Fauna y naturaleza salvaje', e: '🦁' },
-      { v: 'family',     l: 'Apto para niños / familia',  e: '👨‍👩‍👧' },
-      { v: 'romantic',   l: 'Escapada romántica',         e: '💑' },
-      { v: 'peace',      l: 'Tranquilidad total',         e: '🧘' },
+      { v: 'beaches',     l: 'Playas espectaculares',      e: '🏝️' },
+      { v: 'snorkel',     l: 'Snorkel / Buceo',            e: '🤿' },
+      { v: 'watersports', l: 'Deportes acuáticos',         e: '🏄' },
+      { v: 'hiking',      l: 'Senderismo y rutas',         e: '🥾' },
+      { v: 'skiing',      l: 'Esquí / Deportes de nieve',  e: '⛷️' },
+      { v: 'history',     l: 'Historia y arquitectura',    e: '🏛️' },
+      { v: 'art',         l: 'Arte y museos',              e: '🎨' },
+      { v: 'gastronomy',  l: 'Gastronomía y vino',         e: '🍷' },
+      { v: 'winetour',    l: 'Enoturismo y bodegas',       e: '🍾' },
+      { v: 'shopping',    l: 'Mercados y compras',         e: '🛍️' },
+      { v: 'nightlife',   l: 'Vida nocturna',              e: '🎉' },
+      { v: 'photography', l: 'Fotografía y paisajes',      e: '📸' },
+      { v: 'wellness',    l: 'Wellness / Termas / Spa',    e: '♨️' },
+      { v: 'wildlife',    l: 'Fauna y naturaleza salvaje', e: '🦁' },
+      { v: 'family',      l: 'Apto para niños / familia',  e: '👨‍👩‍👧' },
+      { v: 'romantic',    l: 'Escapada romántica',         e: '💑' },
+      { v: 'peace',       l: 'Tranquilidad total',         e: '🧘' },
     ],
   },
-  // ── Escalas 1-10 — 10 dimensiones ───────────────────────────
+  {
+    key: 'car', q: '¿Alquiláis coche en el destino?', type: 'single',
+    opts: [
+      { v: 'yes',   l: 'Sí, siempre',      e: '🚗' },
+      { v: 'maybe', l: 'Depende del sitio', e: '🤔' },
+      { v: 'no',    l: 'No, preferimos no', e: '🚶' },
+    ],
+  },
+  // ── Escalas 1-10 — 11 dimensiones ───────────────────────────
   {
     key: 'playa_ciudad', q: '¿Playa o ciudad?', type: 'scale',
     leftEmoji: '🏖️', leftLabel: 'Playa pura — sol, agua y arena',
@@ -229,47 +270,30 @@ const STEPS: Step[] = [
     rightEmoji: '🏛️', rightLabel: 'Historia, patrimonio y antigüedad',
   },
   {
-    key: 'car', q: '¿Alquiláis coche en el destino?', type: 'single',
-    opts: [
-      { v: 'yes',   l: 'Sí, siempre',       e: '🚗' },
-      { v: 'maybe', l: 'Depende del sitio',  e: '🤔' },
-      { v: 'no',    l: 'No, preferimos no',  e: '🚶' },
-    ],
+    key: 'turistico_desconocido', q: '¿Destino conocido o fuera del radar?', type: 'scale',
+    leftEmoji: '🌟', leftLabel: 'Icónico — lo clásico funciona',
+    rightEmoji: '🗺️', rightLabel: 'Desconocido — auténtico y diferente',
   },
 ]
 
-const TRAVELERS_NUM: Record<TripAnswers['travelers'], number> = {
-  '1': 1, '2': 2, '3': 3, '4+': 4,
-}
-
-// Days range from quiz answer → [min, max]
-const DAYS_RANGE: Record<TripAnswers['days'], [number, number]> = {
-  '3-5':   [3, 5],
-  '5-7':   [5, 7],
-  '7-10':  [7, 10],
-  '10-14': [10, 14],
-}
-
-// Which plan to show based on quiz days answer
-function getPlan(dest: Destination, daysAnswer: TripAnswers['days']) {
-  switch (daysAnswer) {
-    case '3-5':   return { n: 3,  plan: dest.plans3,  isShort: true  }
-    case '5-7':   return { n: 5,  plan: dest.plans5,  isShort: true  }
-    case '7-10':  return { n: 7,  plan: dest.plans7,  isShort: false }
-    case '10-14': return { n: 10, plan: dest.plans10, isShort: false }
-  }
+// Elige el plan más cercano según los días introducidos
+function getPlan(dest: Destination, days: number) {
+  if (days <= 4)  return { n: 3,  plan: dest.plans3,  isShort: true  }
+  if (days <= 6)  return { n: 5,  plan: dest.plans5,  isShort: true  }
+  if (days <= 9)  return { n: 7,  plan: dest.plans7,  isShort: false }
+  return           { n: 10, plan: dest.plans10, isShort: false }
 }
 
 // ─────────────────────────────────────────────────────────────
 // ResultCard — seleccionable
 // ─────────────────────────────────────────────────────────────
 function ResultCard({
-  sd, rank, travelers, selected, onSelect,
+  sd, rank, travelers, role, onSelect,
 }: {
   sd: ScoredDestination
   rank: number
   travelers: number
-  selected: boolean
+  role: 'primary' | 'secondary' | null
   onSelect: () => void
 }) {
   const budget = calcBudget(sd.dest, 7, 'medio', true)
@@ -280,17 +304,23 @@ function ResultCard({
     <div
       onClick={onSelect}
       className={`card overflow-hidden cursor-pointer transition-all duration-200 ${
-        selected
+        role === 'primary'
           ? 'ring-2 ring-egeo shadow-md -translate-y-0.5'
-          : 'hover:shadow-md hover:-translate-y-0.5'
+          : role === 'secondary'
+            ? 'ring-2 ring-green-500 shadow-md -translate-y-0.5'
+            : 'hover:shadow-md hover:-translate-y-0.5'
       }`}
     >
       <div className="relative h-32 bg-gray-200">
         <img src={sd.dest.images[0]} alt={sd.dest.name} className="w-full h-full object-cover" loading="lazy" />
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-        {selected ? (
+        {role === 'primary' ? (
           <span className="absolute top-2 left-2 bg-egeo text-white text-xs font-bold px-2 py-1 rounded-full flex items-center gap-1">
-            ✓ Elegido
+            ✓ 1ª etapa
+          </span>
+        ) : role === 'secondary' ? (
+          <span className="absolute top-2 left-2 bg-green-600 text-white text-xs font-bold px-2 py-1 rounded-full flex items-center gap-1">
+            ✓ 2ª etapa
           </span>
         ) : (
           <span className="absolute top-2 left-2 bg-black/50 text-white text-xs font-bold px-2 py-1 rounded-full">
@@ -330,7 +360,7 @@ const DEFAULT_ANSWERS: TripAnswers = {
   region: 'any', accommodation: 'any',
   playa_ciudad: 5, relax_fiesta: 5, lowcost_fancy: 5, invierno_verano: 5,
   occidental_exotico: 5, streetfood_gourmet: 5, descanso_aventura: 5,
-  solo_grupal: 5, naturaleza_metropolis: 5, moderno_historico: 5,
+  solo_grupal: 5, naturaleza_metropolis: 5, moderno_historico: 5, turistico_desconocido: 5,
 }
 
 export function TripWizardPage() {
@@ -343,7 +373,8 @@ export function TripWizardPage() {
   const [answers, setAnswers] = useState<TripAnswers>(DEFAULT_ANSWERS)
   const [phase, setPhase]     = useState<'quiz' | 'results' | 'create'>('quiz')
   const [results, setResults] = useState<ScoredDestination[]>([])
-  const [selectedId, setSelectedId] = useState<string | null>(null)
+  const [selectedId, setSelectedId]   = useState<string | null>(null)
+  const [secondaryId, setSecondaryId] = useState<string | null>(null)
 
   // Si viene ?dest=<id>, ir directo a create con ese destino
   useEffect(() => {
@@ -364,8 +395,9 @@ export function TripWizardPage() {
 
   const current      = STEPS[step]
   const progress     = (step / STEPS.length) * 100
-  const travelersNum = TRAVELERS_NUM[answers.travelers]
-  const selectedDest = results.find(r => r.dest.id === selectedId)?.dest ?? null
+  const travelersNum = answers.travelers || 1
+  const selectedDest  = results.find(r => r.dest.id === selectedId)?.dest ?? null
+  const secondaryDest = secondaryId ? (DESTINATIONS.find(d => d.id === secondaryId) ?? null) : null
 
   // ── Handlers ────────────────────────────────────────────────
   function selectSingle(key: string, value: string) {
@@ -375,9 +407,8 @@ export function TripWizardPage() {
   }
 
   function selectScale(key: ScaleKey, value: number) {
-    const updated = { ...answers, [key]: value }
-    setAnswers(updated)
-    setTimeout(() => advance(updated), 500)
+    setAnswers(prev => ({ ...prev, [key]: value }))
+    // No auto-advance: el usuario confirma con el botón "Siguiente"
   }
 
   function toggleMulti(value: string) {
@@ -412,7 +443,10 @@ export function TripWizardPage() {
       toast.error('Elige al menos un destino para continuar')
       return
     }
-    setTripName(`${selectedDest.shortName} ${new Date().getFullYear() + (new Date().getMonth() >= 8 ? 1 : 0)}`)
+    const yr = new Date().getFullYear() + (new Date().getMonth() >= 8 ? 1 : 0)
+    setTripName(secondaryDest
+      ? `${selectedDest.shortName} + ${secondaryDest.shortName} ${yr}`
+      : `${selectedDest.shortName} ${yr}`)
     setPhase('create')
   }
 
@@ -420,8 +454,8 @@ export function TripWizardPage() {
   const actualDays = startDate && endDate
     ? Math.round((new Date(endDate).getTime() - new Date(startDate).getTime()) / 86_400_000)
     : null
-  const [daysMin, daysMax] = DAYS_RANGE[answers.days]
-  const dateMismatch = actualDays !== null && (actualDays < daysMin || actualDays > daysMax)
+  const plannedDays = answers.days || 7
+  const dateMismatch = actualDays !== null && Math.abs(actualDays - plannedDays) > 2
   const [ignoreMismatch, setIgnoreMismatch] = useState(false)
 
   async function handleCreate() {
@@ -429,12 +463,16 @@ export function TripWizardPage() {
     if (!tripName.trim()) { toast.error('Ponle un nombre al viaje'); return }
     setSaving(true)
     try {
+      const slug = secondaryDest ? `${selectedDest.id}+${secondaryDest.id}` : selectedDest.id
+      const tripDesc = secondaryDest
+        ? `Viaje combinado: ${selectedDest.name} + ${secondaryDest.name} — planificado con el asistente`
+        : `Viaje a ${selectedDest.name} — planificado con el asistente`
       const trip = await createTrip({
         name: tripName.trim(),
-        description: `Viaje a ${selectedDest.name} — planificado con el asistente`,
+        description: tripDesc,
         start_date: startDate || null,
         end_date:   endDate   || null,
-        destination_slug: selectedDest.id,
+        destination_slug: slug,
         travelers: travelersNum,
       })
       toast.success('¡Viaje creado!')
@@ -456,7 +494,7 @@ export function TripWizardPage() {
           <p className="text-xs text-gray-400 mb-1">Basado en tus respuestas</p>
           <h1 className="font-display text-2xl font-bold text-gray-900">Vuestros mejores destinos</h1>
           <p className="text-sm text-gray-500 mt-1">
-            Toca <strong>una tarjeta</strong> para elegir el destino y continuar.
+            Toca una tarjeta para elegir destino. Puedes añadir una <strong>2ª etapa</strong> tocando otra.
           </p>
         </div>
 
@@ -467,8 +505,18 @@ export function TripWizardPage() {
               sd={sd}
               rank={i + 1}
               travelers={travelersNum}
-              selected={sd.dest.id === selectedId}
-              onSelect={() => setSelectedId(sd.dest.id)}
+              role={sd.dest.id === selectedId ? 'primary' : sd.dest.id === secondaryId ? 'secondary' : null}
+              onSelect={() => {
+                if (sd.dest.id === selectedId) {
+                  setSelectedId(null); setSecondaryId(null)
+                } else if (sd.dest.id === secondaryId) {
+                  setSecondaryId(null)
+                } else if (!selectedId) {
+                  setSelectedId(sd.dest.id)
+                } else {
+                  setSecondaryId(sd.dest.id)
+                }
+              }}
             />
           ))}
         </div>
@@ -476,7 +524,7 @@ export function TripWizardPage() {
         {/* CTA bar */}
         <div className="sticky bottom-4 sm:static flex gap-3 bg-crema/90 backdrop-blur pt-2 pb-1">
           <button
-            onClick={() => { setPhase('quiz'); setStep(0) }}
+            onClick={() => { setPhase('quiz'); setStep(0); setSelectedId(null); setSecondaryId(null) }}
             className="btn-secondary flex-shrink-0 px-4 text-sm"
           >
             ← Repetir
@@ -486,9 +534,11 @@ export function TripWizardPage() {
             disabled={!selectedId}
             className="btn-primary flex-1 text-sm disabled:opacity-40"
           >
-            {selectedDest
-              ? `Continuar con ${selectedDest.shortName} →`
-              : 'Elige un destino para continuar'}
+            {selectedId && secondaryDest
+              ? `Viaje combinado: ${selectedDest!.shortName} + ${secondaryDest.shortName} →`
+              : selectedDest
+                ? `Continuar con ${selectedDest.shortName} →`
+                : 'Elige un destino para continuar'}
           </button>
         </div>
       </main>
@@ -497,7 +547,11 @@ export function TripWizardPage() {
 
   // ── Phase: Create ────────────────────────────────────────────
   if (phase === 'create' && selectedDest) {
-    const { n: planDays, plan, isShort } = getPlan(selectedDest, answers.days)
+    const totalDays = answers.days || 7
+    const primaryDays = secondaryDest ? Math.max(2, Math.ceil(totalDays * 0.55)) : totalDays
+    const secondaryDays = secondaryDest ? Math.max(2, totalDays - primaryDays) : 0
+    const { n: planDays, plan, isShort } = getPlan(selectedDest, primaryDays)
+    const secPlan = secondaryDest ? getPlan(secondaryDest, secondaryDays) : null
 
     function handleStartDate(val: string) {
       setStartDate(val)
@@ -516,19 +570,35 @@ export function TripWizardPage() {
           ← Cambiar destino
         </button>
 
-        {/* Destino elegido */}
-        <div className="flex items-center gap-3 mb-6">
-          <img
-            src={selectedDest.images[0]}
-            alt={selectedDest.name}
-            className="w-14 h-14 rounded-xl object-cover flex-shrink-0"
-          />
-          <div>
-            <p className="text-xs text-gray-400">Destino elegido</p>
-            <h1 className="font-display text-xl font-bold text-gray-900 leading-tight">{selectedDest.name}</h1>
-            <p className="text-xs text-gray-500">{selectedDest.country} · {travelersNum} {travelersNum === 1 ? 'viajero' : 'viajeros'}</p>
+        {/* Destino(s) elegido(s) */}
+        {secondaryDest ? (
+          <div className="flex items-center gap-3 mb-6">
+            <div className="flex -space-x-3">
+              <img src={selectedDest.images[0]} alt={selectedDest.name} className="w-14 h-14 rounded-xl object-cover border-2 border-white z-10" />
+              <img src={secondaryDest.images[0]} alt={secondaryDest.name} className="w-14 h-14 rounded-xl object-cover border-2 border-white" />
+            </div>
+            <div>
+              <p className="text-xs text-egeo font-semibold">Viaje combinado</p>
+              <h1 className="font-display text-lg font-bold text-gray-900 leading-tight">
+                {selectedDest.shortName} + {secondaryDest.shortName}
+              </h1>
+              <p className="text-xs text-gray-500">{travelersNum} {travelersNum === 1 ? 'viajero' : 'viajeros'}</p>
+            </div>
           </div>
-        </div>
+        ) : (
+          <div className="flex items-center gap-3 mb-6">
+            <img
+              src={selectedDest.images[0]}
+              alt={selectedDest.name}
+              className="w-14 h-14 rounded-xl object-cover flex-shrink-0"
+            />
+            <div>
+              <p className="text-xs text-gray-400">Destino elegido</p>
+              <h1 className="font-display text-xl font-bold text-gray-900 leading-tight">{selectedDest.name}</h1>
+              <p className="text-xs text-gray-500">{selectedDest.country} · {travelersNum} {travelersNum === 1 ? 'viajero' : 'viajeros'}</p>
+            </div>
+          </div>
+        )}
 
         {/* Formulario */}
         <div className="card p-5 space-y-4 mb-5">
@@ -603,17 +673,15 @@ export function TripWizardPage() {
 
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Viajeros</label>
-            <select
-              value={answers.travelers}
-              onChange={e => setAnswers(prev => ({ ...prev, travelers: e.target.value as TripAnswers['travelers'] }))}
+            <input
+              type="number"
+              min={1} max={20}
+              value={answers.travelers || ''}
+              onChange={e => setAnswers(prev => ({ ...prev, travelers: Number(e.target.value) || 1 }))}
+              placeholder="ej: 2"
               className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm
-                         focus:outline-none focus:ring-2 focus:ring-egeo/50 bg-white"
-            >
-              <option value="1">1 persona</option>
-              <option value="2">2 personas</option>
-              <option value="3">3 personas</option>
-              <option value="4+">4 o más personas</option>
-            </select>
+                         focus:outline-none focus:ring-2 focus:ring-egeo/50"
+            />
           </div>
 
           <button
@@ -627,28 +695,86 @@ export function TripWizardPage() {
 
         {/* Itinerario sugerido */}
         <div className="card p-5">
-          <p className="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-3">
-            Programa sugerido · {planDays} días
-          </p>
-          {isShort ? (
-            <ul className="space-y-2">
-              {(plan as string[]).map((item, i) => (
-                <li key={i} className="flex items-start gap-2 text-sm text-gray-600">
-                  <span className="text-egeo font-bold flex-shrink-0">D{i + 1}</span>
-                  {item}
-                </li>
-              ))}
-            </ul>
+          {secondaryDest ? (
+            <>
+              <p className="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-3">
+                Programa sugerido · {primaryDays + secondaryDays} días combinados
+              </p>
+              {/* 1ª etapa */}
+              <p className="text-xs font-bold text-egeo mb-2">1ª etapa — {selectedDest.shortName} · {planDays} días</p>
+              {isShort ? (
+                <ul className="space-y-2 mb-4">
+                  {(plan as string[]).map((item, i) => (
+                    <li key={i} className="flex items-start gap-2 text-sm text-gray-600">
+                      <span className="text-egeo font-bold flex-shrink-0">D{i + 1}</span>
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <ul className="space-y-3 mb-4">
+                  {(plan as [string, string, string][]).map(([label, title, text], i) => (
+                    <li key={i} className="border-l-2 border-egeo/20 pl-3">
+                      <p className="text-xs font-bold text-egeo">{label}</p>
+                      <p className="text-sm font-semibold text-gray-800">{title}</p>
+                      <p className="text-xs text-gray-500 mt-0.5 line-clamp-2">{text}</p>
+                    </li>
+                  ))}
+                </ul>
+              )}
+              {/* 2ª etapa */}
+              {secPlan && (
+                <>
+                  <p className="text-xs font-bold text-green-600 mb-2">2ª etapa — {secondaryDest.shortName} · {secPlan.n} días</p>
+                  {secPlan.isShort ? (
+                    <ul className="space-y-2">
+                      {(secPlan.plan as string[]).map((item, i) => (
+                        <li key={i} className="flex items-start gap-2 text-sm text-gray-600">
+                          <span className="text-green-600 font-bold flex-shrink-0">D{planDays + i + 1}</span>
+                          {item}
+                        </li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <ul className="space-y-3">
+                      {(secPlan.plan as [string, string, string][]).map(([label, title, text], i) => (
+                        <li key={i} className="border-l-2 border-green-200 pl-3">
+                          <p className="text-xs font-bold text-green-600">{label}</p>
+                          <p className="text-sm font-semibold text-gray-800">{title}</p>
+                          <p className="text-xs text-gray-500 mt-0.5 line-clamp-2">{text}</p>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </>
+              )}
+            </>
           ) : (
-            <ul className="space-y-3">
-              {(plan as [string, string, string][]).map(([label, title, text], i) => (
-                <li key={i} className="border-l-2 border-egeo/20 pl-3">
-                  <p className="text-xs font-bold text-egeo">{label}</p>
-                  <p className="text-sm font-semibold text-gray-800">{title}</p>
-                  <p className="text-xs text-gray-500 mt-0.5 line-clamp-2">{text}</p>
-                </li>
-              ))}
-            </ul>
+            <>
+              <p className="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-3">
+                Programa sugerido · {planDays} días
+              </p>
+              {isShort ? (
+                <ul className="space-y-2">
+                  {(plan as string[]).map((item, i) => (
+                    <li key={i} className="flex items-start gap-2 text-sm text-gray-600">
+                      <span className="text-egeo font-bold flex-shrink-0">D{i + 1}</span>
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <ul className="space-y-3">
+                  {(plan as [string, string, string][]).map(([label, title, text], i) => (
+                    <li key={i} className="border-l-2 border-egeo/20 pl-3">
+                      <p className="text-xs font-bold text-egeo">{label}</p>
+                      <p className="text-sm font-semibold text-gray-800">{title}</p>
+                      <p className="text-xs text-gray-500 mt-0.5 line-clamp-2">{text}</p>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </>
           )}
         </div>
       </main>
@@ -656,9 +782,13 @@ export function TripWizardPage() {
   }
 
   // ── Phase: Quiz ──────────────────────────────────────────────
-  const isScale = current.type === 'scale'
-  const isMulti = current.type === 'multi'
+  const isScale  = current.type === 'scale'
+  const isMulti  = current.type === 'multi'
+  const isNumber = current.type === 'number'
   const selectedMulti = answers.musts
+
+  // Para inputs numéricos: valor actual del campo
+  const numVal = isNumber ? (answers[current.key as 'days' | 'travelers' | 'budget'] as number) : 0
 
   return (
     <main className="max-w-lg mx-auto px-4 py-6 pb-24 sm:pb-8">
@@ -678,7 +808,7 @@ export function TripWizardPage() {
       <h2 className="font-display text-2xl font-bold text-gray-900 mb-6 leading-snug">{current.q}</h2>
 
       {isScale ? (
-        // Escala 1-10
+        // Escala bidireccional
         <ScaleSelector
           value={answers[current.key as ScaleKey] as number}
           onChange={n => selectScale(current.key as ScaleKey, n)}
@@ -686,8 +816,44 @@ export function TripWizardPage() {
           leftLabel={(current as Extract<Step, { type: 'scale' }>).leftLabel}
           rightEmoji={(current as Extract<Step, { type: 'scale' }>).rightEmoji}
           rightLabel={(current as Extract<Step, { type: 'scale' }>).rightLabel}
+          isNegociable={answers.noNegociable.includes(current.key)}
+          onToggleNegociable={() => {
+            const k = current.key
+            setAnswers(prev => ({
+              ...prev,
+              noNegociable: prev.noNegociable.includes(k)
+                ? prev.noNegociable.filter(x => x !== k)
+                : [...prev.noNegociable, k],
+            }))
+          }}
         />
+      ) : isNumber ? (
+        // Input numérico libre
+        (() => {
+          const numStep = current as Extract<Step, { type: 'number' }>
+          return (
+            <div className="space-y-4">
+              <div className="flex items-center gap-3">
+                <input
+                  type="number"
+                  min={numStep.min} max={numStep.max}
+                  value={numVal || ''}
+                  placeholder={numStep.placeholder}
+                  autoFocus
+                  onChange={e => setAnswers(prev => ({ ...prev, [current.key]: Number(e.target.value) || 0 }))}
+                  className="flex-1 border-2 border-gray-200 rounded-2xl px-5 py-4 text-2xl font-bold text-gray-900
+                             focus:outline-none focus:border-egeo text-center"
+                />
+                <span className="text-sm text-gray-500 font-medium whitespace-nowrap">{numStep.unit}</span>
+              </div>
+              {numStep.hint && (
+                <p className="text-xs text-gray-400 text-center">{numStep.hint}</p>
+              )}
+            </div>
+          )
+        })()
       ) : (
+        // Opciones (single / multi)
         <div className="space-y-3">
           {(current as Extract<Step, { type: 'single' | 'multi' }>).opts.map(opt => {
             const isSelected = isMulti
@@ -714,10 +880,16 @@ export function TripWizardPage() {
         </div>
       )}
 
-      {isMulti && (
+      {(isScale || isMulti || isNumber) && (
         <div className="mt-6">
-          <button onClick={() => advance()} className="btn-primary w-full">
-            {selectedMulti.length === 0 ? 'Saltar' : `Continuar (${selectedMulti.length} elegidos)`}
+          <button
+            onClick={() => advance()}
+            disabled={isNumber && numVal <= 0}
+            className="btn-primary w-full disabled:opacity-40"
+          >
+            {isMulti
+              ? (selectedMulti.length === 0 ? 'Saltar' : `Continuar (${selectedMulti.length} elegidos)`)
+              : 'Siguiente →'}
           </button>
         </div>
       )}

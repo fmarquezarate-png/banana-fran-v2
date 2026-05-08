@@ -25,21 +25,121 @@ export interface TripAnswers {
   moderno_historico:     number
 }
 
-const SCALE_KEYS: (keyof DestinationScales)[] = [
+export const SCALE_KEYS: (keyof DestinationScales)[] = [
   'playa_ciudad', 'relax_fiesta', 'lowcost_fancy', 'invierno_verano',
   'occidental_exotico', 'streetfood_gourmet', 'descanso_aventura',
   'solo_grupal', 'naturaleza_metropolis', 'moderno_historico',
+  'turistico_desconocido',
 ]
+
+export const SCALE_LABELS: Record<string, string> = {
+  playa_ciudad:           'Playa ↔ Ciudad',
+  relax_fiesta:           'Relax ↔ Fiesta',
+  lowcost_fancy:          'Lowcost ↔ Lujo',
+  invierno_verano:        'Invierno ↔ Verano',
+  occidental_exotico:     'Occidental ↔ Exótico',
+  streetfood_gourmet:     'Street food ↔ Gourmet',
+  descanso_aventura:      'Descanso ↔ Aventura',
+  solo_grupal:            'Solo ↔ Grupal',
+  naturaleza_metropolis:  'Naturaleza ↔ Metrópolis',
+  moderno_historico:      'Moderno ↔ Histórico',
+  turistico_desconocido:  'Turístico ↔ Desconocido',
+}
+
+export interface ScaleDimDetail {
+  key: string
+  label: string
+  userVal: number
+  destVal: number
+  intensity: number
+  weight: number
+  diff: number
+  dimScore: number
+  contribution: number
+  isNN: boolean
+  skipped: boolean
+}
+
+export function calcScaleMatchDetail(answers: TripAnswers, dest: Destination): {
+  pct: number
+  dims: ScaleDimDetail[]
+} {
+  const s = dest.scales ?? {}
+  const nn = new Set(answers.noNegociable ?? [])
+  let total = 0
+  let totalWeight = 0
+  const dims: ScaleDimDetail[] = []
+
+  for (const key of SCALE_KEYS) {
+    const dVal = (s[key] ?? 5) as number
+    const uVal = ((answers[key as keyof TripAnswers] as number | undefined) ?? 5)
+    const intensity = Math.abs(uVal - 5)
+    const weight = intensity / 4
+    const diff = Math.abs(uVal - dVal)
+    const skipped = intensity === 0
+    const isNN = nn.has(key)
+    const dimScore = skipped ? 0 : isNN
+      ? (diff <= 1 ? 1.0 : 0.0)
+      : 1 - diff / 10
+    const contribution = skipped ? 0 : dimScore * weight
+
+    dims.push({ key, label: SCALE_LABELS[key], userVal: uVal, destVal: dVal,
+      intensity, weight, diff, dimScore, contribution, isNN, skipped })
+
+    if (!skipped) {
+      total += contribution
+      totalWeight += weight
+    }
+  }
+
+  const pct = totalWeight > 0 ? total / totalWeight : 0.65
+  return { pct, dims }
+}
 
 export function calcScaleMatch(answers: TripAnswers, dest: Destination): number {
   const s = dest.scales ?? {}
+  const nn = new Set(answers.noNegociable ?? [])
+
+  // Si cualquier dimensión no negociable falla → 0 automático (zona warning)
+  for (const key of SCALE_KEYS) {
+    if (!nn.has(key)) continue
+    const dVal = (s[key] ?? 5) as number
+    const uVal = ((answers[key as keyof TripAnswers] as number | undefined) ?? 5)
+    if (Math.abs(uVal - dVal) > 1) return 0
+  }
+
   let total = 0
+  let totalWeight = 0
+
   for (const key of SCALE_KEYS) {
     const dVal = (s[key] ?? 5) as number
-    const uVal = answers[key as keyof TripAnswers] as number
-    total += 1 - Math.abs(uVal - dVal) / 10
+    const uVal = ((answers[key as keyof TripAnswers] as number | undefined) ?? 5)
+    const intensity = Math.abs(uVal - 5)
+    if (intensity === 0) continue
+
+    const weight = intensity / 4
+    const diff   = Math.abs(uVal - dVal)
+    const dimScore = nn.has(key)
+      ? (diff <= 1 ? 1.0 : 0.0)
+      : 1 - diff / 10
+    total       += dimScore * weight
+    totalWeight += weight
   }
-  return total / SCALE_KEYS.length
+
+  return totalWeight > 0 ? total / totalWeight : 0.65
+}
+
+export function getNNFailures(answers: TripAnswers, dest: Destination): string[] {
+  const s = dest.scales ?? {}
+  const nn = new Set(answers.noNegociable ?? [])
+  const failed: string[] = []
+  for (const key of SCALE_KEYS) {
+    if (!nn.has(key)) continue
+    const dVal = (s[key] ?? 5) as number
+    const uVal = ((answers[key as keyof TripAnswers] as number | undefined) ?? 5)
+    if (Math.abs(uVal - dVal) > 1) failed.push(key)
+  }
+  return failed
 }
 
 export function getScaleCategory(pct: number): DestinationCategory {
@@ -49,16 +149,6 @@ export function getScaleCategory(pct: number): DestinationCategory {
   return 'warning'
 }
 
-const DAYS_MAP: Record<TripAnswers['days'], number> = {
-  '3-5': 4, '5-7': 6, '7-10': 8, '10-14': 12,
-}
-
-const BUDGET_RANGE: Record<TripAnswers['budget'], [number, number]> = {
-  low:     [0,    600],
-  mid:     [600,  1100],
-  high:    [1100, 1600],
-  nolimit: [1600, 9999],
-}
 
 const REGION_COUNTRIES: Record<string, string[]> = {
   europe:   ['italia', 'grecia', 'portugal', 'croacia', 'montenegro', 'hungría', 'malta',
@@ -112,8 +202,8 @@ export function scoreDests(
   destinations: Destination[],
   answers: TripAnswers
 ): ScoredDestination[] {
-  const days = DAYS_MAP[answers.days]
-  const [budgetMin, budgetMax] = BUDGET_RANGE[answers.budget]
+  const days = answers.days || 7
+  const budgetMax = answers.budget || 9999
 
   return destinations.map(dest => {
     let score = 0
@@ -127,7 +217,7 @@ export function scoreDests(
     else if (scalePct < 0.40) score -= 10
 
     // 2. Región geográfica (±25) — filtro fuerte
-    if (answers.region !== 'any') {
+    if (answers.region && answers.region !== 'any') {
       const countryLower = dest.country.toLowerCase()
       const inRegion = (REGION_COUNTRIES[answers.region] ?? []).some(c => countryLower.includes(c))
       if (inRegion) {
@@ -149,14 +239,14 @@ export function scoreDests(
       if (dest.category === 'warning') score -= 6
     }
 
-    // 5. Presupuesto (±15)
+    // 5. Presupuesto (±15) — compara precio estimado contra máximo del usuario
     const budgetResult = calcBudget(dest, days, 'medio', true)
     const ppTotal = budgetResult.totalMid
-    if (ppTotal >= budgetMin && ppTotal <= budgetMax) {
+    if (ppTotal <= budgetMax) {
       score += 15
       reasons.push(`Encaja en presupuesto (~€${Math.round(ppTotal)}pp)`)
-    } else if (ppTotal < budgetMin) {
-      score += 6
+    } else if (ppTotal <= budgetMax * 1.25) {
+      score += 4  // ligeramente por encima — no penalizar fuerte
     } else {
       score -= 10
     }

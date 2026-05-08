@@ -10,6 +10,7 @@ export const DESTINATIONS_WARNING: Destination[] = [
     matchLabel: 'Con cautela',
     tagline: 'El más fotogénico del Egeo, pero también el más masificado',
     category: 'warning',
+    scales: { playa_ciudad: 6, relax_fiesta: 5, lowcost_fancy: 8, invierno_verano: 9, occidental_exotico: 3, streetfood_gourmet: 7, descanso_aventura: 3, solo_grupal: 5, naturaleza_metropolis: 5, moderno_historico: 6, turistico_desconocido: 1 },
     coords: [36.3932, 25.4615],
     images: [
       'https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff?w=800',
@@ -105,6 +106,7 @@ export const DESTINATIONS_WARNING: Destination[] = [
     matchLabel: 'Con cautela',
     tagline: 'La isla del party — espectacular si te va ese rollo, ruinosa si no',
     category: 'warning',
+    scales: { playa_ciudad: 5, relax_fiesta: 9, lowcost_fancy: 9, invierno_verano: 9, occidental_exotico: 2, streetfood_gourmet: 7, descanso_aventura: 3, solo_grupal: 9, naturaleza_metropolis: 5, moderno_historico: 4, turistico_desconocido: 1 },
     coords: [37.4415, 25.3285],
     images: [
       'https://images.unsplash.com/photo-1601581875309-fafbf2d3ed3a?w=800',
@@ -200,6 +202,7 @@ export const DESTINATIONS_WARNING: Destination[] = [
     matchLabel: 'Con cautela',
     tagline: 'La perla del Adriático — con demasiados cruceristas encima',
     category: 'warning',
+    scales: { playa_ciudad: 7, relax_fiesta: 4, lowcost_fancy: 7, invierno_verano: 8, occidental_exotico: 2, streetfood_gourmet: 6, descanso_aventura: 4, solo_grupal: 5, naturaleza_metropolis: 5, moderno_historico: 9, turistico_desconocido: 1 },
     coords: [42.6507, 18.0944],
     images: [
       'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800',
@@ -294,6 +297,7 @@ export const DESTINATIONS_WARNING: Destination[] = [
     match: '⚠️',
     matchLabel: 'Con cautela',
     tagline: 'La isla más glamurosa de Croacia — bonita pero cara y de fiesta',
+    scales: { playa_ciudad: 4, relax_fiesta: 8, lowcost_fancy: 8, invierno_verano: 9, occidental_exotico: 2, streetfood_gourmet: 6, descanso_aventura: 4, solo_grupal: 8, naturaleza_metropolis: 4, moderno_historico: 6, turistico_desconocido: 2 },
     category: 'warning',
     coords: [43.1729, 16.4412],
     images: [
@@ -389,6 +393,7 @@ export const DESTINATIONS_WARNING: Destination[] = [
     match: '⚠️',
     matchLabel: 'Con cautela',
     tagline: 'La isla de la fiesta también tiene un norte secreto y tranquilo',
+    scales: { playa_ciudad: 4, relax_fiesta: 10, lowcost_fancy: 8, invierno_verano: 9, occidental_exotico: 1, streetfood_gourmet: 5, descanso_aventura: 4, solo_grupal: 10, naturaleza_metropolis: 5, moderno_historico: 4, turistico_desconocido: 1 },
     category: 'warning',
     coords: [38.9067, 1.4206],
     images: [
@@ -484,6 +489,7 @@ export const DESTINATIONS_WARNING: Destination[] = [
     match: '⚠️',
     matchLabel: 'Con cautela',
     tagline: 'La carretera más bonita de Europa, atascada de turistas en verano',
+    scales: { playa_ciudad: 5, relax_fiesta: 3, lowcost_fancy: 8, invierno_verano: 8, occidental_exotico: 2, streetfood_gourmet: 8, descanso_aventura: 4, solo_grupal: 4, naturaleza_metropolis: 4, moderno_historico: 8, turistico_desconocido: 1 },
     category: 'warning',
     coords: [40.6340, 14.6027],
     images: [
@@ -580,6 +586,7 @@ export const DESTINATIONS_WARNING: Destination[] = [
     matchLabel: 'Con cautela',
     tagline: 'Cinco pueblos de postal — con demasiada gente encima en verano',
     category: 'warning',
+    scales: { playa_ciudad: 3, relax_fiesta: 2, lowcost_fancy: 6, invierno_verano: 7, occidental_exotico: 1, streetfood_gourmet: 5, descanso_aventura: 4, solo_grupal: 5, naturaleza_metropolis: 3, moderno_historico: 8, turistico_desconocido: 1 },
     coords: [44.1460, 9.6615],
     images: [
       'https://images.unsplash.com/photo-1527631746610-bca00a040d60?w=800',
@@ -675,6 +682,7 @@ export const DESTINATIONS_WARNING: Destination[] = [
     matchLabel: 'Con cautela',
     tagline: 'La isla más glamurosa del Mediterráneo — y la más cara',
     category: 'warning',
+    scales: { playa_ciudad: 3, relax_fiesta: 4, lowcost_fancy: 8, invierno_verano: 8, occidental_exotico: 1, streetfood_gourmet: 7, descanso_aventura: 3, solo_grupal: 4, naturaleza_metropolis: 3, moderno_historico: 6, turistico_desconocido: 1 },
     coords: [40.5530, 14.2418],
     images: [
       'https://images.unsplash.com/photo-1527631746610-bca00a040d60?w=800',
@@ -770,6 +778,7 @@ export const DESTINATIONS_WARNING: Destination[] = [
     matchLabel: 'Con cautela',
     tagline: 'La Tramuntana es preciosa; el sur es Magaluf — saber qué buscar',
     category: 'warning',
+    scales: { playa_ciudad: 3, relax_fiesta: 5, lowcost_fancy: 5, invierno_verano: 8, occidental_exotico: 1, streetfood_gourmet: 4, descanso_aventura: 5, solo_grupal: 6, naturaleza_metropolis: 4, moderno_historico: 5, turistico_desconocido: 2 },
     coords: [39.6953, 3.0176],
     images: [
       'https://images.unsplash.com/photo-1555993539-1732b0258235?w=800',
@@ -940,6 +949,7 @@ export const DESTINATIONS_WARNING: Destination[] = [
       ['semana 2', 'Córdoba y Sevilla', '4 días: Mezquita, Alcázar, Giralda.'],
       ['semana 2', 'Vuelta', 'Vuelo desde Sevilla o Málaga.'],
     ],
+    scales: { playa_ciudad: 5, relax_fiesta: 6, lowcost_fancy: 6, invierno_verano: 8, occidental_exotico: 2, streetfood_gourmet: 3, descanso_aventura: 4, solo_grupal: 7, naturaleza_metropolis: 5, moderno_historico: 6, turistico_desconocido: 2 },
     budget: {
       flightPP: 100,
       fr: 0.20,
