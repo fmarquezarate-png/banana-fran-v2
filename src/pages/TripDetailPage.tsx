@@ -23,12 +23,13 @@ const MAIN_TABS: { id: MainTab; label: string }[] = [
   { id: 'tester',      label: '🔬 Tester' },
 ]
 
-type MatchSubTab = 'perfect' | 'good' | 'ok' | 'warning'
+type MatchSubTab = 'perfect' | 'good' | 'ok' | 'warning' | 'tabla'
 const MATCH_TABS: { id: MatchSubTab; label: string; emoji: string }[] = [
   { id: 'perfect', label: 'Perfecto',    emoji: '🔥' },
   { id: 'good',    label: 'Muy bueno',   emoji: '👍' },
   { id: 'ok',      label: 'Está bien',   emoji: '👌' },
-  { id: 'warning', label: 'Zona Warning', emoji: '⚠️' },
+  { id: 'warning', label: 'Warning',     emoji: '⚠️' },
+  { id: 'tabla',   label: 'Ranking',     emoji: '📊' },
 ]
 
 // ─────────────────────────────────────────────────────────────
@@ -777,7 +778,8 @@ function OpcionesTab({ quizAnswers }: { quizAnswers: TripAnswers | null }) {
     )
   }
 
-  const current = groups[subTab]
+  type GroupKey = Exclude<MatchSubTab, 'tabla'>
+  const current = subTab !== 'tabla' ? groups[subTab as GroupKey] : []
 
   return (
     <div>
@@ -786,29 +788,71 @@ function OpcionesTab({ quizAnswers }: { quizAnswers: TripAnswers | null }) {
         isWarning ? 'bg-gray-950' : 'bg-gray-50'
       }`}>
         <div className="flex gap-1.5 overflow-x-auto scrollbar-hide">
-          {MATCH_TABS.map(tab => (
-            <button
-              key={tab.id}
-              onClick={() => setSubTab(tab.id)}
-              className={`flex-shrink-0 px-3 py-1.5 rounded-full text-xs font-semibold transition-all ${
-                subTab === tab.id
-                  ? tab.id === 'warning'
-                    ? 'bg-warning-yellow text-black'
-                    : 'bg-egeo text-white'
-                  : tab.id === 'warning'
-                    ? 'bg-gray-800 text-warning-yellow/70 hover:text-warning-yellow'
-                    : 'bg-white text-gray-500 hover:bg-gray-100 border border-gray-200'
-              }`}
-            >
-              {tab.emoji} {tab.label}
-              <span className="ml-1 opacity-60">({groups[tab.id].length})</span>
-            </button>
-          ))}
+          {MATCH_TABS.map(tab => {
+            const count = tab.id === 'tabla' ? scored.length : groups[tab.id as GroupKey].length
+            return (
+              <button
+                key={tab.id}
+                onClick={() => setSubTab(tab.id)}
+                className={`flex-shrink-0 px-3 py-1.5 rounded-full text-xs font-semibold transition-all ${
+                  subTab === tab.id
+                    ? tab.id === 'warning'
+                      ? 'bg-warning-yellow text-black'
+                      : 'bg-egeo text-white'
+                    : tab.id === 'warning'
+                      ? 'bg-gray-800 text-warning-yellow/70 hover:text-warning-yellow'
+                      : 'bg-white text-gray-500 hover:bg-gray-100 border border-gray-200'
+                }`}
+              >
+                {tab.emoji} {tab.label}
+                <span className="ml-1 opacity-60">({count})</span>
+              </button>
+            )
+          })}
         </div>
       </div>
 
       {/* Content */}
-      {isWarning ? (
+      {subTab === 'tabla' ? (
+        <div className="mt-3 space-y-1.5">
+          <p className="text-xs text-gray-400 mb-3">
+            Todos los destinos ordenados por afinidad total. La columna % refleja compatibilidad de escala.
+          </p>
+          {scored.map((s, i) => {
+            const pct = calcScaleMatch(quizAnswers!, s.dest)
+            const cat = getScaleCategory(pct)
+            const isWarn = cat === 'warning' || s.score < 30
+            const catColor = isWarn
+              ? 'bg-amber-100 text-amber-700'
+              : cat === 'perfect' ? 'bg-green-100 text-green-700'
+              : cat === 'good' ? 'bg-blue-100 text-blue-700'
+              : 'bg-gray-100 text-gray-600'
+            const comment = buildMatchComment(quizAnswers!, s.dest, pct)
+            return (
+              <Link
+                key={s.dest.id}
+                to={`/destino/${s.dest.id}`}
+                className="flex items-center gap-3 bg-white rounded-xl px-3 py-2.5 border border-gray-100 hover:shadow-sm transition-shadow"
+              >
+                <span className="text-xs text-gray-300 font-bold w-5 flex-shrink-0 text-right">{i + 1}</span>
+                <div className="w-8 h-8 rounded-lg overflow-hidden flex-shrink-0">
+                  <img src={s.dest.images[0]} alt={s.dest.name} className="w-full h-full object-cover" />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-semibold text-gray-900 leading-tight truncate">{s.dest.shortName}</p>
+                  {comment && <p className="text-xs text-gray-400 truncate mt-0.5">{comment}</p>}
+                </div>
+                <div className="flex-shrink-0 text-right space-y-0.5">
+                  <p className="text-sm font-bold text-gray-900">{Math.round(pct * 100)}%</p>
+                  <span className={`text-[10px] font-semibold px-1.5 py-0.5 rounded-full ${catColor}`}>
+                    {isWarn ? '⚠️' : cat === 'perfect' ? '🔥' : cat === 'good' ? '👍' : '👌'}
+                  </span>
+                </div>
+              </Link>
+            )
+          })}
+        </div>
+      ) : isWarning ? (
         <div
           className="mt-3 rounded-2xl p-4"
           style={{ background: 'repeating-linear-gradient(45deg,#0a0a0a 0,#0a0a0a 18px,#141414 18px,#141414 36px)' }}
@@ -1012,10 +1056,11 @@ export function TripDetailPage() {
   const [mainTab, setMainTab] = useState<MainTab>('opciones')
   const [completing, setCompleting] = useState(false)
 
-  const quizAnswers = useMemo<TripAnswers | null>(() => {
+  // useState (not useMemo) so it re-reads on every mount — fixes cross-device issue
+  const [quizAnswers] = useState<TripAnswers | null>(() => {
     try { return JSON.parse(localStorage.getItem('quizAnswers') ?? '') as TripAnswers }
     catch { return null }
-  }, [])
+  })
 
   useEffect(() => {
     if (!id) return
