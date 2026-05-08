@@ -9,7 +9,7 @@ export const DESTINATIONS_OK: Destination[] = [
     match: '👌',
     matchLabel: 'Está bien',
     tagline: 'La parte salvaje de Creta: gorge, mar de Libia y sin masas',
-    scales: { playa_ciudad: 3, relax_fiesta: 3, lowcost_fancy: 4, invierno_verano: 8, occidental_exotico: 3, streetfood_gourmet: 6, descanso_aventura: 6, solo_grupal: 3, naturaleza_metropolis: 2, moderno_historico: 6 },
+    scales: { playa_ciudad: 3, relax_fiesta: 3, lowcost_fancy: 4, invierno_verano: 8, occidental_exotico: 3, streetfood_gourmet: 6, descanso_aventura: 6, solo_grupal: 3, naturaleza_metropolis: 2, moderno_historico: 6, turistico_desconocido: 5 },
     category: 'ok',
     coords: [35.5138, 24.0180],
     images: [
@@ -102,7 +102,7 @@ export const DESTINATIONS_OK: Destination[] = [
     match: '👌',
     matchLabel: 'Está bien',
     tagline: 'La ciudad medieval y las playas tranquilas, lejos del caos del norte',
-    scales: { playa_ciudad: 4, relax_fiesta: 3, lowcost_fancy: 4, invierno_verano: 8, occidental_exotico: 4, streetfood_gourmet: 5, descanso_aventura: 5, solo_grupal: 3, naturaleza_metropolis: 3, moderno_historico: 8 },
+    scales: { playa_ciudad: 4, relax_fiesta: 3, lowcost_fancy: 4, invierno_verano: 8, occidental_exotico: 4, streetfood_gourmet: 5, descanso_aventura: 5, solo_grupal: 3, naturaleza_metropolis: 3, moderno_historico: 8, turistico_desconocido: 6 },
     category: 'ok',
     coords: [36.0107, 27.9924],
     images: [
@@ -198,7 +198,7 @@ export const DESTINATIONS_OK: Destination[] = [
     match: '👌',
     matchLabel: 'Está bien',
     tagline: 'Pueblo turco con encanto, buceo espectacular y ruinas licias',
-    scales: { playa_ciudad: 3, relax_fiesta: 3, lowcost_fancy: 4, invierno_verano: 8, occidental_exotico: 7, streetfood_gourmet: 6, descanso_aventura: 6, solo_grupal: 2, naturaleza_metropolis: 2, moderno_historico: 7 },
+    scales: { playa_ciudad: 3, relax_fiesta: 3, lowcost_fancy: 4, invierno_verano: 8, occidental_exotico: 7, streetfood_gourmet: 6, descanso_aventura: 6, solo_grupal: 2, naturaleza_metropolis: 2, moderno_historico: 7, turistico_desconocido: 8 },
     category: 'ok',
     coords: [36.2010, 29.6393],
     images: [
@@ -295,7 +295,7 @@ export const DESTINATIONS_OK: Destination[] = [
     matchLabel: 'Está bien',
     tagline: 'El archipiélago volcánico siciliano: Stromboli, obsidiana y mar negro',
     category: 'ok',
-    scales: { playa_ciudad: 2, relax_fiesta: 2, lowcost_fancy: 4, invierno_verano: 9, occidental_exotico: 3, streetfood_gourmet: 7, descanso_aventura: 6, solo_grupal: 2, naturaleza_metropolis: 1, moderno_historico: 5 },
+    scales: { playa_ciudad: 2, relax_fiesta: 2, lowcost_fancy: 4, invierno_verano: 9, occidental_exotico: 3, streetfood_gourmet: 7, descanso_aventura: 6, solo_grupal: 2, naturaleza_metropolis: 1, moderno_historico: 5, turistico_desconocido: 7 },
     coords: [38.4667, 14.9536],
     images: [
       'https://images.unsplash.com/photo-1533104816931-20fa691ff6ca?w=800',
@@ -392,7 +392,7 @@ export const DESTINATIONS_OK: Destination[] = [
     match: '👌',
     matchLabel: 'Está bien',
     tagline: 'La ciudad más bonita de Europa central… que ya saben todos.',
-    scales: { playa_ciudad: 10, relax_fiesta: 5, lowcost_fancy: 3, invierno_verano: 5, occidental_exotico: 2, streetfood_gourmet: 5, descanso_aventura: 3, solo_grupal: 5, naturaleza_metropolis: 9, moderno_historico: 9 },
+    scales: { playa_ciudad: 10, relax_fiesta: 5, lowcost_fancy: 3, invierno_verano: 5, occidental_exotico: 2, streetfood_gourmet: 5, descanso_aventura: 3, solo_grupal: 5, naturaleza_metropolis: 9, moderno_historico: 9, turistico_desconocido: 2 },
     category: 'ok',
     coords: [50.0755, 14.4378],
     images: [
@@ -480,7 +480,7 @@ export const DESTINATIONS_OK: Destination[] = [
     match: '👌',
     matchLabel: 'Está bien',
     tagline: 'El caos de los souks, el silencio de los riads y el desierto a pocas horas.',
-    scales: { playa_ciudad: 8, relax_fiesta: 4, lowcost_fancy: 4, invierno_verano: 3, occidental_exotico: 9, streetfood_gourmet: 7, descanso_aventura: 6, solo_grupal: 5, naturaleza_metropolis: 7, moderno_historico: 9 },
+    scales: { playa_ciudad: 8, relax_fiesta: 4, lowcost_fancy: 4, invierno_verano: 3, occidental_exotico: 9, streetfood_gourmet: 7, descanso_aventura: 6, solo_grupal: 5, naturaleza_metropolis: 7, moderno_historico: 9, turistico_desconocido: 2 },
     category: 'ok',
     coords: [31.6295, -7.9811],
     images: [
@@ -656,6 +656,6 @@ export const DESTINATIONS_OK: Destination[] = [
       actPD: 40,
       ar: 0.30,
     },
-    scales: { playa_ciudad: 5, relax_fiesta: 4, lowcost_fancy: 5, invierno_verano: 7, occidental_exotico: 3, streetfood_gourmet: 8, descanso_aventura: 5, solo_grupal: 5, naturaleza_metropolis: 5, moderno_historico: 9 },
+    scales: { playa_ciudad: 5, relax_fiesta: 4, lowcost_fancy: 5, invierno_verano: 7, occidental_exotico: 3, streetfood_gourmet: 8, descanso_aventura: 5, solo_grupal: 5, naturaleza_metropolis: 5, moderno_historico: 9, turistico_desconocido: 3 },
   },
 ]

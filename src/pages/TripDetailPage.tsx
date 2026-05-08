@@ -590,7 +590,62 @@ function TripBudget({ dest, days, travelers }: { dest: Destination; days: number
 // ─────────────────────────────────────────────────────────────
 // Opciones tab
 // ─────────────────────────────────────────────────────────────
-function MatchDestCard({ dest, score, reasons }: { dest: Destination; score: number; reasons: string[] }) {
+// Etiquetas por dirección para cada dimensión
+const SCALE_DIR: Record<string, { left: string; right: string }> = {
+  playa_ciudad:          { left: 'playa',              right: 'ciudad' },
+  relax_fiesta:          { left: 'relax',              right: 'vida nocturna' },
+  lowcost_fancy:         { left: 'viaje económico',    right: 'lujo' },
+  invierno_verano:       { left: 'invierno',           right: 'verano' },
+  occidental_exotico:    { left: 'Europa / cercano',   right: 'lo exótico' },
+  streetfood_gourmet:    { left: 'comida local',       right: 'gastronomía' },
+  descanso_aventura:     { left: 'descanso',           right: 'aventura' },
+  solo_grupal:           { left: 'viaje íntimo',       right: 'experiencia social' },
+  naturaleza_metropolis: { left: 'naturaleza',         right: 'gran ciudad' },
+  moderno_historico:     { left: 'moderno/vanguardista', right: 'histórico/patrimonio' },
+  turistico_desconocido: { left: 'destino icónico',   right: 'destino desconocido' },
+}
+function dimLabel(key: string, val: number): string {
+  const d = SCALE_DIR[key]
+  if (!d) return key
+  return val <= 4 ? d.left : val >= 6 ? d.right : 'neutro'
+}
+
+function buildMatchComment(answers: TripAnswers, dest: Destination, pct: number): string {
+  const detail = calcScaleMatchDetail(answers, dest)
+  const active = detail.dims.filter(d => !d.skipped)
+  if (active.length === 0) return ''
+
+  const byContrib = [...active].sort((a, b) => b.contribution - a.contribution)
+  const top    = byContrib[0]
+  const bottom = byContrib[byContrib.length - 1]
+
+  const uLabel  = (d: typeof top) => dimLabel(d.key, d.userVal)
+  const dLabel  = (d: typeof top) => dimLabel(d.key, d.destVal)
+
+  if (pct >= 0.80) {
+    const top2 = byContrib[1]
+    return top2
+      ? `Coincide en ${uLabel(top)} y ${uLabel(top2)} — perfil muy alineado`
+      : `Tu preferencia de ${uLabel(top)} encaja perfectamente`
+  }
+  if (pct >= 0.60) {
+    return bottom.dimScore < 0.45
+      ? `Buena afinidad en ${uLabel(top)}, algo de diferencia en ${uLabel(bottom)}`
+      : `Buena coincidencia en ${uLabel(top)}`
+  }
+  // ok
+  return bottom.dimScore < 0.35
+    ? `Tu preferencia de ${uLabel(bottom)} no coincide del todo — aquí es más ${dLabel(bottom)}`
+    : `Encaja en lo general con algunas diferencias de perfil`
+}
+
+function MatchDestCard({
+  dest, score, reasons, quizAnswers, pct,
+}: {
+  dest: Destination; score: number; reasons: string[]
+  quizAnswers: TripAnswers | null; pct: number
+}) {
+  const comment = quizAnswers ? buildMatchComment(quizAnswers, dest, pct) : ''
   return (
     <Link to={`/destino/${dest.id}`} className="card p-3 flex gap-3 hover:shadow-md transition-shadow">
       <img src={dest.images[0]} alt={dest.name}
@@ -601,8 +656,11 @@ function MatchDestCard({ dest, score, reasons }: { dest: Destination; score: num
           <span className="text-xs font-bold text-egeo flex-shrink-0">{score}pts</span>
         </div>
         <p className="text-xs text-gray-400 truncate">{dest.country}</p>
+        {comment && (
+          <p className="text-xs text-egeo mt-1 leading-snug italic">{comment}</p>
+        )}
         {reasons.length > 0 && (
-          <p className="text-xs text-gray-500 mt-1 leading-snug">
+          <p className="text-xs text-gray-400 mt-0.5 leading-snug">
             {reasons.slice(0, 2).join(' · ')}
           </p>
         )}
@@ -643,12 +701,27 @@ function WarningMatchCard({ dest, score, antiReasons }: { dest: Destination; sco
 
 function buildAntiReasons(answers: TripAnswers, dest: Destination, score: number, pct: number): string[] {
   const out: string[] = []
+  const s = dest.scales ?? {}
   const nnFailed = getNNFailures(answers, dest)
+
   for (const key of nnFailed) {
-    out.push(`⛔ No negociable: ${SCALE_LABELS[key]}`)
+    const uLabel = dimLabel(key, (answers[key as keyof TripAnswers] as number | undefined) ?? 5)
+    const dLabel = dimLabel(key, (s[key as keyof typeof s] as number | undefined) ?? 5)
+    out.push(`⛔ Tu no negociable de ${uLabel} no se cumple — aquí es ${dLabel}`)
   }
+
   if (nnFailed.length === 0 && pct < 0.40) {
-    out.push(`Afinidad de perfil muy baja (${Math.round(pct * 100)}%)`)
+    const detail = calcScaleMatchDetail(answers, dest)
+    const worst = detail.dims
+      .filter(d => !d.skipped)
+      .sort((a, b) => a.dimScore - b.dimScore)[0]
+    if (worst) {
+      const uLabel = dimLabel(worst.key, worst.userVal)
+      const dLabel = dimLabel(worst.key, worst.destVal)
+      out.push(`Perfil muy distante: buscas ${uLabel}, aquí predomina ${dLabel}`)
+    } else {
+      out.push(`Afinidad de perfil baja (${Math.round(pct * 100)}%)`)
+    }
   }
   if (score < 30) out.push('Puntuación global baja para tu perfil')
   return out
@@ -764,7 +837,11 @@ function OpcionesTab({ quizAnswers }: { quizAnswers: TripAnswers | null }) {
             </div>
           ) : (
             current.map(({ dest, score, reasons }) => (
-              <MatchDestCard key={dest.id} dest={dest} score={score} reasons={reasons} />
+              <MatchDestCard
+                key={dest.id} dest={dest} score={score} reasons={reasons}
+                quizAnswers={quizAnswers}
+                pct={calcScaleMatch(quizAnswers!, dest)}
+              />
             ))
           )}
         </div>

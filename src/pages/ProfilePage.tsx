@@ -3,9 +3,15 @@ import toast from 'react-hot-toast'
 import { useAuth } from '@/hooks/useAuth'
 import { useProfile } from '@/hooks/useProfile'
 
-const APP_VERSION = '0.15.0'
+const APP_VERSION = '0.16.0'
 
 const CHANGELOG: { v: string; date: string; notes: string[] }[] = [
+  { v: '0.16.0', date: 'May 2026', notes: [
+    'Comentarios de categoría en matchmaking: explica en lenguaje natural por qué un destino es Perfect/Bien/Ok/Warning',
+    'buildAntiReasons mejorado: menciona dimensión concreta y valores usuario vs destino',
+    'turistico_desconocido completado en todos los 41 destinos (batches 2 y 3)',
+    '44 destinos perfilados en las 11 dimensiones (incluyendo Cinque Terre, Capri, Mallorca)',
+  ]},
   { v: '0.15.0', date: 'May 2026', notes: [
     'Fix NaN: turistico_desconocido ya no rompe el scoring en localStorage antiguo',
     'Nueva pestaña "Lugares" con mapa mundi — viajes planificados (amarillo) y completados (verde)',
