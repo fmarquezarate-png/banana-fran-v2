@@ -3,9 +3,19 @@ import toast from 'react-hot-toast'
 import { useAuth } from '@/hooks/useAuth'
 import { useProfile } from '@/hooks/useProfile'
 
-const APP_VERSION = '0.19.0'
+const APP_VERSION = '0.21.0'
 
 const CHANGELOG: { v: string; date: string; notes: string[] }[] = [
+  { v: '0.21.0', date: 'May 2026', notes: [
+    'Fix crítico: países sin destino específico ahora se pintan en el mapa (bug de normalización de acentos en slug pais_*)',
+    'Nuevos países: Chile, China, Túnez en selector de viajes pasados y en el mapa',
+  ]},
+  { v: '0.20.0', date: 'May 2026', notes: [
+    'Zoom y pan en el mapa de Mis Lugares (+/− y arrastre)',
+    'Nuevo flujo de alta de viaje: eliges entre "Test de afinidad" o registro directo por país',
+    'Modal de viaje pasado mejorado: selector de país → destinos conocidos del país',
+    'Viajes combinados: se explica mejor la combinación de 2 destinos en el wizard',
+  ]},
   { v: '0.19.0', date: 'May 2026', notes: [
     '5 nuevos destinos: Malta, Menorca, Oporto (👍 Muy bueno) y Chipre, Atenas (👌 Está bien)',
     'Fix crítico: merge de rama main había revertido el quiz y el scoring al formato antiguo',
