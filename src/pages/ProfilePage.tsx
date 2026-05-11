@@ -3,9 +3,13 @@ import toast from 'react-hot-toast'
 import { useAuth } from '@/hooks/useAuth'
 import { useProfile } from '@/hooks/useProfile'
 
-const APP_VERSION = '0.25.0'
+const APP_VERSION = '0.26.0'
 
 const CHANGELOG: { v: string; date: string; notes: string[] }[] = [
+  { v: '0.26.0', date: 'May 2026', notes: [
+    'Batch B1: 9 nuevos destinos Europa Occidental — Francia (París, Provenza, Costa Azul), Austria (Viena, Tirol, Salzburgo), Países Bajos (Ámsterdam, Zelanda, Utrecht)',
+    'Nuevo fichero destinations-europe-west.ts — sin categorías predefinidas, score dinámico por quiz',
+  ]},
   { v: '0.25.0', date: 'May 2026', notes: [
     'Batch B12: 9 nuevos destinos — Túnez (Túnez capital, Djerba, Sur y Sahara), Sudáfrica (Ciudad del Cabo, Kruger, Garden Route), Kenia/Tanzania (Masái Mara, Zanzíbar, Nairobi y Amboseli)',
     'Nuevo fichero destinations-africa.ts. ISO codes Sudáfrica (710), Kenia (404) y Tanzania (834) en el mapa',
