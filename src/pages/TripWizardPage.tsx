@@ -368,7 +368,7 @@ const DIRECT_COUNTRIES = [
   'Polonia', 'Portugal', 'Reino Unido', 'República Checa', 'Rumanía', 'Suecia',
   'Suiza', 'Turquía',
   'Argentina', 'Brasil', 'Chile', 'Colombia', 'Cuba', 'Estados Unidos', 'México', 'Perú',
-  'China', 'Egipto', 'India', 'Japón', 'Jordania', 'Tailandia', 'Túnez', 'Vietnam',
+  'China', 'Egipto', 'India', 'Japón', 'Jordania', 'Kenia', 'Sudáfrica', 'Tailandia', 'Tanzania', 'Túnez', 'Vietnam',
 ]
 
 function DirectPicker({ onSelect }: {

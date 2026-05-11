@@ -67,7 +67,7 @@ const COUNTRIES_FOR_MAP = [
   'Polonia', 'Portugal', 'Reino Unido', 'República Checa', 'Rumanía',
   'Serbia', 'Suecia', 'Suiza', 'Turquía',
   'Argentina', 'Brasil', 'Chile', 'Colombia', 'Cuba', 'Estados Unidos', 'México', 'Perú',
-  'China', 'Egipto', 'India', 'Japón', 'Jordania', 'Tailandia', 'Túnez', 'Vietnam',
+  'China', 'Egipto', 'India', 'Japón', 'Jordania', 'Kenia', 'Sudáfrica', 'Tailandia', 'Tanzania', 'Túnez', 'Vietnam',
 ]
 
 function PastTripModal({ onClose, onCreate }: {

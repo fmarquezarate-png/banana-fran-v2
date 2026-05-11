@@ -63,6 +63,9 @@ function getIsoCodes(country: string): number[] {
   if (c.includes('jordania')) codes.push(400)
   if (c.includes('tailandia')) codes.push(764)
   if (c.includes('túnez') || c.includes('tunez') || c.includes('tunisia')) codes.push(788)
+  if (c.includes('sudáfrica') || c.includes('sudafrica') || c.includes('south africa')) codes.push(710)
+  if (c.includes('kenia') || c.includes('kenya')) codes.push(404)
+  if (c.includes('tanzania')) codes.push(834)
   if (c.includes('vietnam')) codes.push(704)
   return codes
 }
