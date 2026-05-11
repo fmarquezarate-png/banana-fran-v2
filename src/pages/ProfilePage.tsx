@@ -3,9 +3,15 @@ import toast from 'react-hot-toast'
 import { useAuth } from '@/hooks/useAuth'
 import { useProfile } from '@/hooks/useProfile'
 
-const APP_VERSION = '0.21.0'
+const APP_VERSION = '0.22.0'
 
 const CHANGELOG: { v: string; date: string; notes: string[] }[] = [
+  { v: '0.22.0', date: 'May 2026', notes: [
+    'Viajes pasados: oculta tabs de matching (Opciones/Tester) — solo muestra "Planificado"',
+    'Modal de viaje pasado: campo opcional de días de duración',
+    'Mis Lugares: todos los viajes aparecen aunque no tengan destino concreto asignado',
+    'Fix: nombres de países con guión bajo (pais_estados_unidos) se muestran correctamente en las listas',
+  ]},
   { v: '0.21.0', date: 'May 2026', notes: [
     'Fix crítico: países sin destino específico ahora se pintan en el mapa (bug de normalización de acentos en slug pais_*)',
     'Nuevos países: Chile, China, Túnez en selector de viajes pasados y en el mapa',

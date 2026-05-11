@@ -72,13 +72,14 @@ const COUNTRIES_FOR_MAP = [
 
 function PastTripModal({ onClose, onCreate }: {
   onClose: () => void
-  onCreate: (values: { name: string; slug: string | null; year: number; travelers: number }) => Promise<void>
+  onCreate: (values: { name: string; slug: string | null; year: number; travelers: number; days: number | null }) => Promise<void>
 }) {
   const [country, setCountry]   = useState('')
   const [destSlug, setDestSlug] = useState('')
   const [freeCity, setFreeCity] = useState('')
   const [year, setYear]         = useState(new Date().getFullYear() - 1)
   const [travelers, setTravelers] = useState(2)
+  const [days, setDays]         = useState<string>('')
   const [saving, setSaving]     = useState(false)
 
   // Destinations for the selected country
@@ -109,7 +110,7 @@ function PastTripModal({ onClose, onCreate }: {
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
     setSaving(true)
-    try { await onCreate({ name: tripName, slug: resolveSlug(), year, travelers }) }
+    try { await onCreate({ name: tripName, slug: resolveSlug(), year, travelers, days: days ? Number(days) : null }) }
     finally { setSaving(false) }
   }
 
@@ -169,7 +170,7 @@ function PastTripModal({ onClose, onCreate }: {
             </div>
           )}
 
-          {/* Year + travelers */}
+          {/* Year + travelers + days */}
           <div className="grid grid-cols-2 gap-3">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">Año</label>
@@ -181,6 +182,13 @@ function PastTripModal({ onClose, onCreate }: {
               <input type="number" min={1} max={20} value={travelers}
                 onChange={e => setTravelers(Number(e.target.value))} className={inputCls} />
             </div>
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Duración <span className="text-gray-400 font-normal">(días, opcional)</span>
+            </label>
+            <input type="number" min={1} max={365} value={days} placeholder="ej: 10"
+              onChange={e => setDays(e.target.value)} className={inputCls} />
           </div>
 
           <p className="text-xs text-gray-400">Nombre del viaje: <strong>{tripName}</strong></p>
@@ -203,16 +211,32 @@ export function TripsPage() {
   const { trips, loading, createTrip, updateTrip } = useTrips(user?.id)
   const [showPastModal, setShowPastModal] = useState(false)
 
-  async function handleCreatePast({ name, slug, year, travelers }: {
-    name: string; slug: string | null; year: number; travelers: number
+  async function handleCreatePast({ name, slug, year, travelers, days }: {
+    name: string; slug: string | null; year: number; travelers: number; days: number | null
   }) {
     const today = new Date()
-    const dec31 = new Date(year, 11, 31)
-    const endDate = dec31 < today ? `${year}-12-31` : today.toISOString().slice(0, 10)
+    let startDate = `${year}-01-01`
+    let endDate: string
+    if (days) {
+      const end = new Date(year, 11, 31)
+      if (end > today) {
+        const start = new Date(today)
+        start.setDate(start.getDate() - days)
+        startDate = start.toISOString().slice(0, 10)
+        endDate = today.toISOString().slice(0, 10)
+      } else {
+        endDate = `${year}-12-31`
+        const start = new Date(year, 11, 31 - days)
+        startDate = start.toISOString().slice(0, 10)
+      }
+    } else {
+      const dec31 = new Date(year, 11, 31)
+      endDate = dec31 < today ? `${year}-12-31` : today.toISOString().slice(0, 10)
+    }
     const trip = await createTrip({
       name,
       description: 'Viaje registrado manualmente como pasado',
-      start_date: `${year}-01-01`,
+      start_date: startDate,
       end_date: endDate,
       destination_slug: slug,
       travelers,

@@ -124,17 +124,20 @@ export function PlacesPage() {
     const seenTrips = new Set<string>()
 
     for (const t of trips) {
-      if (!t.destination_slug || seenTrips.has(t.id)) continue
+      if (seenTrips.has(t.id)) continue
       seenTrips.add(t.id)
-      const primarySlug = t.destination_slug.split('+')[0]
       let destName: string
-      if (primarySlug.startsWith('pais_')) {
-        const cn = primarySlug.slice(5)
-        destName = cn.charAt(0).toUpperCase() + cn.slice(1)
+      if (!t.destination_slug) {
+        destName = t.name
       } else {
-        const dest = DESTINATIONS.find(d => d.id === primarySlug)
-        if (!dest) continue
-        destName = dest.name
+        const primarySlug = t.destination_slug.split('+')[0]
+        if (primarySlug.startsWith('pais_')) {
+          const cn = primarySlug.slice(5).replace(/_/g, ' ')
+          destName = cn.charAt(0).toUpperCase() + cn.slice(1)
+        } else {
+          const dest = DESTINATIONS.find(d => d.id === primarySlug)
+          destName = dest ? dest.name : t.name
+        }
       }
       const item = { destName, tripName: t.name, tripId: t.id }
       if (isPastTrip(t)) visited.push(item)
