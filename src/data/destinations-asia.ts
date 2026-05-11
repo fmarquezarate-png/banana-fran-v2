@@ -327,7 +327,7 @@ export const DESTINATIONS_ASIA: Destination[] = [
       crowd: 'Alta en el Bund y Yuyuan, moderada en el barrio francés',
       idioma: 'Chino mandarín/shanghainés — inglés más extendido que en Pekín',
       moneda: 'Yuan (CNY/RMB)',
-      bestArea: 'Barrio francés (Xuhui) o Jing'An para alojarse',
+      bestArea: "Barrio francés (Xuhui) o Jing'An para alojarse",
     },
     musts: [
       'El Bund al atardecer y el skyline de Pudong',
@@ -347,7 +347,7 @@ export const DESTINATIONS_ASIA: Destination[] = [
       'Día 2: Torre de Shanghái, Pudong, skyline',
       'Día 3: Yuyuan, barrio francés, Tianzifang',
       'Día 4: Hangzhou (día trip) — lago del Oeste y jardines',
-      'Día 5: Jing'An Temple, mercado de antigüedades, vuelo',
+      "Día 5: Jing'An Temple, mercado de antigüedades, vuelo",
     ],
     plans7: [
       ['Día 1', 'Llegada al Bund', 'Paseo por el Bund. Crucero nocturno por el río Huangpu.'],
