@@ -367,8 +367,8 @@ const DIRECT_COUNTRIES = [
   'Italia', 'Malta', 'Marruecos', 'Montenegro', 'Noruega', 'Países Bajos',
   'Polonia', 'Portugal', 'Reino Unido', 'República Checa', 'Rumanía', 'Suecia',
   'Suiza', 'Turquía',
-  'Argentina', 'Brasil', 'Colombia', 'Cuba', 'Estados Unidos', 'México', 'Perú',
-  'Egipto', 'India', 'Japón', 'Jordania', 'Tailandia', 'Vietnam',
+  'Argentina', 'Brasil', 'Chile', 'Colombia', 'Cuba', 'Estados Unidos', 'México', 'Perú',
+  'China', 'Egipto', 'India', 'Japón', 'Jordania', 'Tailandia', 'Túnez', 'Vietnam',
 ]
 
 function DirectPicker({ onSelect }: {

@@ -49,17 +49,20 @@ function getIsoCodes(country: string): number[] {
   // Americas
   if (c.includes('argentina')) codes.push(32)
   if (c.includes('brasil')) codes.push(76)
+  if (c.includes('chile')) codes.push(152)
   if (c.includes('colombia')) codes.push(170)
   if (c.includes('cuba')) codes.push(192)
   if (c.includes('estados unidos') || c.includes('usa')) codes.push(840)
   if (c.includes('méxico') || c.includes('mexico')) codes.push(484)
   if (c.includes('perú') || c.includes('peru')) codes.push(604)
   // Asia / Africa
+  if (c.includes('china')) codes.push(156)
   if (c.includes('egipto')) codes.push(818)
   if (c.includes('india')) codes.push(356)
   if (c.includes('japón') || c.includes('japon')) codes.push(392)
   if (c.includes('jordania')) codes.push(400)
   if (c.includes('tailandia')) codes.push(764)
+  if (c.includes('túnez') || c.includes('tunez') || c.includes('tunisia')) codes.push(788)
   if (c.includes('vietnam')) codes.push(704)
   return codes
 }
