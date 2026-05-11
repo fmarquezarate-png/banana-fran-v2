@@ -3,9 +3,12 @@ import toast from 'react-hot-toast'
 import { useAuth } from '@/hooks/useAuth'
 import { useProfile } from '@/hooks/useProfile'
 
-const APP_VERSION = '0.27.0'
+const APP_VERSION = '0.27.1'
 
 const CHANGELOG: { v: string; date: string; notes: string[] }[] = [
+  { v: '0.27.1', date: 'May 2026', notes: [
+    'Hotfix: forced push para confirmar pipeline de despliegue',
+  ]},
   { v: '0.27.0', date: 'May 2026', notes: [
     'Batch B2: 9 nuevos destinos Europa Occidental — Alemania (Munich/Baviera, Berlín, Renania), Suiza (Zermatt, Interlaken, Ginebra), Bélgica (Brujas, Gante, Ardenas)',
     'Total: 18 destinos Europa Occidental en destinations-europe-west.ts',
