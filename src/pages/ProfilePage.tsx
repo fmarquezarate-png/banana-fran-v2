@@ -3,9 +3,13 @@ import toast from 'react-hot-toast'
 import { useAuth } from '@/hooks/useAuth'
 import { useProfile } from '@/hooks/useProfile'
 
-const APP_VERSION = '0.22.0'
+const APP_VERSION = '0.23.0'
 
 const CHANGELOG: { v: string; date: string; notes: string[] }[] = [
+  { v: '0.23.0', date: 'May 2026', notes: [
+    'Batch B6: 9 nuevos destinos — Colombia (Cartagena, Medellín, Bogotá), Argentina (Buenos Aires, Patagonia, Mendoza), Chile (Santiago, Atacama, Torres del Paine)',
+    'Nuevo fichero destinations-americas.ts — sin categorías predefinidas, score dinámico por quiz',
+  ]},
   { v: '0.22.0', date: 'May 2026', notes: [
     'Viajes pasados: oculta tabs de matching (Opciones/Tester) — solo muestra "Planificado"',
     'Modal de viaje pasado: campo opcional de días de duración',
