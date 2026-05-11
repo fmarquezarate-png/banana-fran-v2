@@ -395,7 +395,7 @@ function DirectPicker({ onSelect }: {
     if (country) {
       const label = (city.trim() || country).trim()
       const yr = new Date().getFullYear() + (new Date().getMonth() >= 8 ? 1 : 0)
-      const slug = `pais_${country.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/\s+/g, '_')}`
+      const slug = `pais_${country.toLowerCase().replace(/\s+/g, '_')}`
       return { destId: null, countrySlug: slug, name: `${label} ${yr}` }
     }
     return null

@@ -15,7 +15,7 @@ function isPastTrip(trip: Trip): boolean {
 
 // ISO 3166-1 numeric codes — handles both destination country strings and pais_* slugs
 function getIsoCodes(country: string): number[] {
-  const c = country.toLowerCase()
+  const c = country.toLowerCase().replace(/_/g, ' ')
   const codes: number[] = []
   if (c.includes('albania')) codes.push(8)
   if (c.includes('alemania')) codes.push(276)

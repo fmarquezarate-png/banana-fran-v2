@@ -97,7 +97,7 @@ function PastTripModal({ onClose, onCreate }: {
   // - free city + country → "pais_grecia" (for map coloring)
   function resolveSlug(): string | null {
     if (destSlug) return destSlug
-    if (country) return `pais_${country.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/\s+/g, '_')}`
+    if (country) return `pais_${country.toLowerCase().replace(/\s+/g, '_')}`
     return null
   }
 
