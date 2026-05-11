@@ -3,9 +3,13 @@ import toast from 'react-hot-toast'
 import { useAuth } from '@/hooks/useAuth'
 import { useProfile } from '@/hooks/useProfile'
 
-const APP_VERSION = '0.23.0'
+const APP_VERSION = '0.24.0'
 
 const CHANGELOG: { v: string; date: string; notes: string[] }[] = [
+  { v: '0.24.0', date: 'May 2026', notes: [
+    'Batch B10: 6 nuevos destinos — India (Rajastán, Kerala, Goa) y China (Pekín, Shanghái, Yunnan)',
+    'Nuevo fichero destinations-asia.ts',
+  ]},
   { v: '0.23.0', date: 'May 2026', notes: [
     'Batch B6: 9 nuevos destinos — Colombia (Cartagena, Medellín, Bogotá), Argentina (Buenos Aires, Patagonia, Mendoza), Chile (Santiago, Atacama, Torres del Paine)',
     'Nuevo fichero destinations-americas.ts — sin categorías predefinidas, score dinámico por quiz',

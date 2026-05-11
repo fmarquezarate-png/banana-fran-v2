@@ -74,6 +74,7 @@ import { DESTINATIONS_GOOD } from './destinations-good'
 import { DESTINATIONS_OK } from './destinations-ok'
 import { DESTINATIONS_WARNING } from './destinations-warning'
 import { DESTINATIONS_AMERICAS } from './destinations-americas'
+import { DESTINATIONS_ASIA } from './destinations-asia'
 
 export const DESTINATIONS: Destination[] = [
   ...DESTINATIONS_PERFECT,
@@ -81,6 +82,7 @@ export const DESTINATIONS: Destination[] = [
   ...DESTINATIONS_OK,
   ...DESTINATIONS_WARNING,
   ...DESTINATIONS_AMERICAS,
+  ...DESTINATIONS_ASIA,
 ]
 
 // Helpers de acceso rápido
