@@ -15,7 +15,7 @@ function isPastTrip(trip: Trip): boolean {
 
 // ISO 3166-1 numeric codes — handles both destination country strings and pais_* slugs
 function getIsoCodes(country: string): number[] {
-  const c = country.toLowerCase()
+  const c = country.toLowerCase().replace(/_/g, ' ')
   const codes: number[] = []
   if (c.includes('albania')) codes.push(8)
   if (c.includes('alemania')) codes.push(276)
@@ -49,17 +49,23 @@ function getIsoCodes(country: string): number[] {
   // Americas
   if (c.includes('argentina')) codes.push(32)
   if (c.includes('brasil')) codes.push(76)
+  if (c.includes('chile')) codes.push(152)
   if (c.includes('colombia')) codes.push(170)
   if (c.includes('cuba')) codes.push(192)
   if (c.includes('estados unidos') || c.includes('usa')) codes.push(840)
   if (c.includes('méxico') || c.includes('mexico')) codes.push(484)
   if (c.includes('perú') || c.includes('peru')) codes.push(604)
   // Asia / Africa
+  if (c.includes('china')) codes.push(156)
   if (c.includes('egipto')) codes.push(818)
   if (c.includes('india')) codes.push(356)
   if (c.includes('japón') || c.includes('japon')) codes.push(392)
   if (c.includes('jordania')) codes.push(400)
   if (c.includes('tailandia')) codes.push(764)
+  if (c.includes('túnez') || c.includes('tunez') || c.includes('tunisia')) codes.push(788)
+  if (c.includes('sudáfrica') || c.includes('sudafrica') || c.includes('south africa')) codes.push(710)
+  if (c.includes('kenia') || c.includes('kenya')) codes.push(404)
+  if (c.includes('tanzania')) codes.push(834)
   if (c.includes('vietnam')) codes.push(704)
   return codes
 }
@@ -121,17 +127,20 @@ export function PlacesPage() {
     const seenTrips = new Set<string>()
 
     for (const t of trips) {
-      if (!t.destination_slug || seenTrips.has(t.id)) continue
+      if (seenTrips.has(t.id)) continue
       seenTrips.add(t.id)
-      const primarySlug = t.destination_slug.split('+')[0]
       let destName: string
-      if (primarySlug.startsWith('pais_')) {
-        const cn = primarySlug.slice(5)
-        destName = cn.charAt(0).toUpperCase() + cn.slice(1)
+      if (!t.destination_slug) {
+        destName = t.name
       } else {
-        const dest = DESTINATIONS.find(d => d.id === primarySlug)
-        if (!dest) continue
-        destName = dest.name
+        const primarySlug = t.destination_slug.split('+')[0]
+        if (primarySlug.startsWith('pais_')) {
+          const cn = primarySlug.slice(5).replace(/_/g, ' ')
+          destName = cn.charAt(0).toUpperCase() + cn.slice(1)
+        } else {
+          const dest = DESTINATIONS.find(d => d.id === primarySlug)
+          destName = dest ? dest.name : t.name
+        }
       }
       const item = { destName, tripName: t.name, tripId: t.id }
       if (isPastTrip(t)) visited.push(item)

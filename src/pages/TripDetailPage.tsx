@@ -1065,11 +1065,19 @@ export function TripDetailPage() {
   useEffect(() => {
     if (!id) return
     const cached = trips.find((t) => t.id === id)
-    if (cached) { setTrip(cached); setLoading(false); return }
+    if (cached) {
+      setTrip(cached)
+      setLoading(false)
+      if (cached.status_override === 'completed') setMainTab('planificado')
+      return
+    }
     supabase.from('trips').select('*').eq('id', id).single()
       .then(({ data, error }) => {
         if (error) toast.error('Error cargando el viaje')
-        else setTrip(data)
+        else {
+          setTrip(data)
+          if (data?.status_override === 'completed') setMainTab('planificado')
+        }
         setLoading(false)
       })
   }, [id, trips])
@@ -1175,9 +1183,9 @@ export function TripDetailPage() {
           {trip.description && <p className="text-gray-500 text-sm mt-1">{trip.description}</p>}
         </div>
 
-        {/* Tab bar */}
+        {/* Tab bar — completed trips only show the 'planificado' tab */}
         <div className="flex gap-1 mb-5 bg-gray-100 rounded-2xl p-1">
-          {MAIN_TABS.map(tab => (
+          {MAIN_TABS.filter(tab => !isCompleted || tab.id === 'planificado').map(tab => (
             <button
               key={tab.id}
               onClick={() => setMainTab(tab.id)}

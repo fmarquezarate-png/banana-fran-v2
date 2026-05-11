@@ -3,9 +3,49 @@ import toast from 'react-hot-toast'
 import { useAuth } from '@/hooks/useAuth'
 import { useProfile } from '@/hooks/useProfile'
 
-const APP_VERSION = '0.19.0'
+const APP_VERSION = '0.27.1'
 
 const CHANGELOG: { v: string; date: string; notes: string[] }[] = [
+  { v: '0.27.1', date: 'May 2026', notes: [
+    'Hotfix: forced push para confirmar pipeline de despliegue',
+  ]},
+  { v: '0.27.0', date: 'May 2026', notes: [
+    'Batch B2: 9 nuevos destinos Europa Occidental — Alemania (Munich/Baviera, Berlín, Renania), Suiza (Zermatt, Interlaken, Ginebra), Bélgica (Brujas, Gante, Ardenas)',
+    'Total: 18 destinos Europa Occidental en destinations-europe-west.ts',
+  ]},
+  { v: '0.26.0', date: 'May 2026', notes: [
+    'Batch B1: 9 nuevos destinos Europa Occidental — Francia (París, Provenza, Costa Azul), Austria (Viena, Tirol, Salzburgo), Países Bajos (Ámsterdam, Zelanda, Utrecht)',
+    'Nuevo fichero destinations-europe-west.ts — sin categorías predefinidas, score dinámico por quiz',
+  ]},
+  { v: '0.25.0', date: 'May 2026', notes: [
+    'Batch B12: 9 nuevos destinos — Túnez (Túnez capital, Djerba, Sur y Sahara), Sudáfrica (Ciudad del Cabo, Kruger, Garden Route), Kenia/Tanzania (Masái Mara, Zanzíbar, Nairobi y Amboseli)',
+    'Nuevo fichero destinations-africa.ts. ISO codes Sudáfrica (710), Kenia (404) y Tanzania (834) en el mapa',
+    'Kenia, Sudáfrica y Tanzania añadidos a los selectores de países',
+  ]},
+  { v: '0.24.0', date: 'May 2026', notes: [
+    'Batch B10: 6 nuevos destinos — India (Rajastán, Kerala, Goa) y China (Pekín, Shanghái, Yunnan)',
+    'Nuevo fichero destinations-asia.ts',
+  ]},
+  { v: '0.23.0', date: 'May 2026', notes: [
+    'Batch B6: 9 nuevos destinos — Colombia (Cartagena, Medellín, Bogotá), Argentina (Buenos Aires, Patagonia, Mendoza), Chile (Santiago, Atacama, Torres del Paine)',
+    'Nuevo fichero destinations-americas.ts — sin categorías predefinidas, score dinámico por quiz',
+  ]},
+  { v: '0.22.0', date: 'May 2026', notes: [
+    'Viajes pasados: oculta tabs de matching (Opciones/Tester) — solo muestra "Planificado"',
+    'Modal de viaje pasado: campo opcional de días de duración',
+    'Mis Lugares: todos los viajes aparecen aunque no tengan destino concreto asignado',
+    'Fix: nombres de países con guión bajo (pais_estados_unidos) se muestran correctamente en las listas',
+  ]},
+  { v: '0.21.0', date: 'May 2026', notes: [
+    'Fix crítico: países sin destino específico ahora se pintan en el mapa (bug de normalización de acentos en slug pais_*)',
+    'Nuevos países: Chile, China, Túnez en selector de viajes pasados y en el mapa',
+  ]},
+  { v: '0.20.0', date: 'May 2026', notes: [
+    'Zoom y pan en el mapa de Mis Lugares (+/− y arrastre)',
+    'Nuevo flujo de alta de viaje: eliges entre "Test de afinidad" o registro directo por país',
+    'Modal de viaje pasado mejorado: selector de país → destinos conocidos del país',
+    'Viajes combinados: se explica mejor la combinación de 2 destinos en el wizard',
+  ]},
   { v: '0.19.0', date: 'May 2026', notes: [
     '5 nuevos destinos: Malta, Menorca, Oporto (👍 Muy bueno) y Chipre, Atenas (👌 Está bien)',
     'Fix crítico: merge de rama main había revertido el quiz y el scoring al formato antiguo',
