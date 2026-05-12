@@ -3,9 +3,14 @@ import toast from 'react-hot-toast'
 import { useAuth } from '@/hooks/useAuth'
 import { useProfile } from '@/hooks/useProfile'
 
-const APP_VERSION = '0.27.2'
+const APP_VERSION = '0.28.0'
 
 const CHANGELOG: { v: string; date: string; notes: string[] }[] = [
+  { v: '0.28.0', date: 'May 2026', notes: [
+    'Batch B5: 7 nuevos destinos — EEUU (Nueva York, Miami, California, Gran Cañón) y México (CDMX, Cancún/Riviera Maya, Oaxaca)',
+    'Profile: changelog colapsado por defecto (click para abrir)',
+    'Profile: botón ↻ actualizar para forzar recarga a la última versión',
+  ]},
   { v: '0.27.2', date: 'May 2026', notes: [
     'Fix build: apóstrofes curvos en destinations-asia.ts (Shanghái) rompían el bundle de producción',
   ]},
@@ -188,7 +193,7 @@ export function ProfilePage() {
   const [editing, setEditing] = useState(false)
   const [saving, setSaving] = useState(false)
 
-  const [changelogOpen, setChangelogOpen] = useState(true)
+  const [changelogOpen, setChangelogOpen] = useState(false)
   const [changingPwd, setChangingPwd] = useState(false)
   const [newPwd, setNewPwd] = useState('')
   const [confirmPwd, setConfirmPwd] = useState('')
@@ -421,6 +426,13 @@ export function ProfilePage() {
             >
               <h2 className="font-semibold text-gray-800">The Vacation Planner</h2>
               <div className="flex items-center gap-2">
+                <button
+                  onClick={e => { e.stopPropagation(); window.location.reload() }}
+                  className="text-xs bg-gray-100 hover:bg-egeo/10 text-gray-500 hover:text-egeo px-2 py-0.5 rounded-full transition-colors"
+                  title="Recargar para obtener la última versión"
+                >
+                  ↻ actualizar
+                </button>
                 <span className="text-xs bg-egeo/10 text-egeo font-semibold px-2 py-0.5 rounded-full">
                   v{APP_VERSION}
                 </span>
