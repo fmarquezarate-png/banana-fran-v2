@@ -597,7 +597,7 @@ export function TripWizardPage() {
 
   // ── Loader "pensando" — aparece al terminar el quiz ──────────
   if (thinking) {
-    return <TravelLoader onDone={finishThinking} />
+    return <TravelLoader onDone={finishThinking} duration={Math.random() * 3000 + 3000} quizMode />
   }
 
   // ── Phase: Choice ────────────────────────────────────────────

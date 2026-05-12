@@ -50,7 +50,7 @@ function NavigationLoader() {
   }, [location.pathname])
 
   if (!show) return null
-  return <TravelLoader onDone={() => setShow(false)} />
+  return <TravelLoader onDone={() => setShow(false)} duration={Math.random() * 2000} />
 }
 
 function AuthenticatedApp() {
