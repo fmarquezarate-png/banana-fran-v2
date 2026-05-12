@@ -1,7 +1,8 @@
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom'
 import { Toaster } from 'react-hot-toast'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useAuth } from '@/hooks/useAuth'
+import { TravelLoader } from '@/components/ui/TravelLoader'
 import { FavoritesProvider } from '@/contexts/FavoritesContext'
 import { RatingsProvider } from '@/contexts/RatingsContext'
 import { TopBar } from '@/components/layout/TopBar'
@@ -37,10 +38,26 @@ function LoadingScreen() {
   )
 }
 
+function NavigationLoader() {
+  const location = useLocation()
+  const [show, setShow] = useState(false)
+  const prevPath = useRef(location.pathname)
+
+  useEffect(() => {
+    if (prevPath.current === location.pathname) return
+    prevPath.current = location.pathname
+    setShow(true)
+  }, [location.pathname])
+
+  if (!show) return null
+  return <TravelLoader onDone={() => setShow(false)} />
+}
+
 function AuthenticatedApp() {
   return (
     <RatingsProvider>
     <FavoritesProvider>
+      <NavigationLoader />
       <TopBar />
       <Routes>
         <Route path="/" element={<HomePage />} />
