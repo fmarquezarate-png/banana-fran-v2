@@ -2,8 +2,9 @@ import { Link, useLocation } from 'react-router-dom'
 import clsx from 'clsx'
 
 const NAV_ITEMS = [
-  { to: '/', label: 'Destinos', icon: '🗺️' },
+  { to: '/', label: 'Inicio', icon: '🏠' },
   { to: '/viajes', label: 'Viajes', icon: '✈️' },
+  { to: '/analisis', label: 'Análisis', icon: '📊' },
   { to: '/places', label: 'Lugares', icon: '📍' },
   { to: '/perfil', label: 'Perfil', icon: '👤' },
 ]

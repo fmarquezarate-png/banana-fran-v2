@@ -574,6 +574,9 @@ export function TripWizardPage() {
         travelers: travelersNum,
       })
       toast.success('¡Viaje creado!')
+      if (trip && !directSlug) {
+        localStorage.setItem(`quizAnswers_${trip.id}`, JSON.stringify(answers))
+      }
       navigate(trip ? `/viajes/${trip.id}` : '/viajes')
     } catch (err) {
       console.error('Wizard createTrip error:', err)

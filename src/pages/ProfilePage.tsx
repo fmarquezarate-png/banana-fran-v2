@@ -3,9 +3,15 @@ import toast from 'react-hot-toast'
 import { useAuth } from '@/hooks/useAuth'
 import { useProfile } from '@/hooks/useProfile'
 
-const APP_VERSION = '0.29.0'
+const APP_VERSION = '0.30.0'
 
 const CHANGELOG: { v: string; date: string; notes: string[] }[] = [
+  { v: '0.30.0', date: 'May 2026', notes: [
+    'Nueva pestaña Análisis (📊): tabla de todos los destinos con score%, categoría dinámica y razones — filtrable por categoría',
+    'Quiz answers guardadas por viaje (quizAnswers_<tripId>) — cada viaje tiene su propio análisis',
+    'Todos los destinos neutralizados: match/matchLabel/category sin valor predefinido (score dinámico por quiz)',
+    'Nav: renombrada pestaña "Destinos" → "Inicio", añadida "Análisis"',
+  ]},
   { v: '0.29.0', date: 'May 2026', notes: [
     'Home rediseñado: 3 opciones de entrada (Cuestionario / Ya sé dónde voy / Ver mapa) + próximos viajes',
     'Nueva página /explorar: mapa mundial de destinos con toggle a vista lista + buscador, sin categorías',
