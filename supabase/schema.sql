@@ -72,6 +72,7 @@ CREATE TABLE trips (
   travelers        INTEGER DEFAULT 2 NOT NULL,
   cover_photo_url  TEXT,
   is_past          BOOLEAN DEFAULT FALSE,
+  quiz_answers     JSONB DEFAULT NULL,
   created_at       TIMESTAMPTZ DEFAULT NOW() NOT NULL,
   updated_at       TIMESTAMPTZ DEFAULT NOW() NOT NULL
 );
