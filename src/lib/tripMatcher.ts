@@ -80,7 +80,7 @@ export function calcScaleMatchDetail(answers: TripAnswers, dest: Destination): {
     const isNN = nn.has(key)
     const dimScore = skipped ? 0 : isNN
       ? (diff <= 1 ? 1.0 : 0.0)
-      : 1 - diff / 10
+      : Math.max(0, 1 - Math.pow(diff / 7, 1.5))
     const contribution = skipped ? 0 : dimScore * weight
 
     dims.push({ key, label: SCALE_LABELS[key], userVal: uVal, destVal: dVal,
@@ -121,7 +121,7 @@ export function calcScaleMatch(answers: TripAnswers, dest: Destination): number 
     const diff   = Math.abs(uVal - dVal)
     const dimScore = nn.has(key)
       ? (diff <= 1 ? 1.0 : 0.0)
-      : 1 - diff / 10
+      : Math.max(0, 1 - Math.pow(diff / 7, 1.5))
     total       += dimScore * weight
     totalWeight += weight
   }

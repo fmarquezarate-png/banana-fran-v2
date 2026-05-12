@@ -38,8 +38,14 @@ function ScoreRow({ s }: { s: ScoredDestination & { pct: number } }) {
           <p className="text-xs text-gray-400 truncate">{s.dest.country}</p>
         </div>
 
-        {/* Barra de score */}
-        <div className="w-24 flex-shrink-0">
+        {/* Score en puntos */}
+        <div className="flex-shrink-0 text-right w-10">
+          <p className="font-bold text-gray-900 text-sm leading-none">{s.score}</p>
+          <p className="text-[10px] text-gray-400 leading-none mt-0.5">pts</p>
+        </div>
+
+        {/* Barra de afinidad de escalas */}
+        <div className="w-20 flex-shrink-0">
           <div className="h-1.5 bg-gray-100 rounded-full overflow-hidden">
             <div
               className="h-full rounded-full transition-all"
@@ -49,7 +55,7 @@ function ScoreRow({ s }: { s: ScoredDestination & { pct: number } }) {
               }}
             />
           </div>
-          <p className="text-xs text-gray-500 text-right mt-0.5">{pctDisplay}%</p>
+          <p className="text-[10px] text-gray-500 text-right mt-0.5">{pctDisplay}% afinidad</p>
         </div>
 
         {/* Badge categoría */}
