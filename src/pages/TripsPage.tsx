@@ -297,7 +297,7 @@ export function TripsPage() {
           {past.length > 0 && (
             <section>
               <h2 className="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-3">
-                Completados — también visibles en el inicio
+                Aventuras pasadas
               </h2>
               <div className="space-y-3">
                 {past.map((t) => <TripCard key={t.id} trip={t} />)}

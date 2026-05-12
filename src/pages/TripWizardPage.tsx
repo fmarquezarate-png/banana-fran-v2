@@ -459,7 +459,12 @@ export function TripWizardPage() {
 
   const [step, setStep]       = useState(0)
   const [answers, setAnswers] = useState<TripAnswers>(DEFAULT_ANSWERS)
-  const [phase, setPhase]     = useState<'choice' | 'direct' | 'quiz' | 'results' | 'create'>('choice')
+  const [phase, setPhase]     = useState<'choice' | 'direct' | 'quiz' | 'results' | 'create'>(() => {
+    const m = searchParams.get('mode')
+    if (m === 'direct') return 'direct'
+    if (m === 'quiz') return 'quiz'
+    return 'choice'
+  })
   const [results, setResults] = useState<ScoredDestination[]>([])
   const [selectedId, setSelectedId]   = useState<string | null>(null)
   const [secondaryId, setSecondaryId] = useState<string | null>(null)

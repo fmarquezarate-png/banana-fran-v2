@@ -3,9 +3,15 @@ import toast from 'react-hot-toast'
 import { useAuth } from '@/hooks/useAuth'
 import { useProfile } from '@/hooks/useProfile'
 
-const APP_VERSION = '0.28.0'
+const APP_VERSION = '0.29.0'
 
 const CHANGELOG: { v: string; date: string; notes: string[] }[] = [
+  { v: '0.29.0', date: 'May 2026', notes: [
+    'Home rediseñado: 3 opciones de entrada (Cuestionario / Ya sé dónde voy / Ver mapa) + próximos viajes',
+    'Nueva página /explorar: mapa mundial de destinos con toggle a vista lista + buscador, sin categorías',
+    'Viajes pasados movidos a la pestaña Viajes (fuera del Home)',
+    'Wizard: ?mode=quiz y ?mode=direct saltan directamente al modo sin pasar por la pantalla de elección',
+  ]},
   { v: '0.28.0', date: 'May 2026', notes: [
     'Batch B5: 7 nuevos destinos — EEUU (Nueva York, Miami, California, Gran Cañón) y México (CDMX, Cancún/Riviera Maya, Oaxaca)',
     'Profile: changelog colapsado por defecto (click para abrir)',

@@ -11,16 +11,17 @@ const COLORS: Record<DestinationCategory, string> = {
 
 interface Props {
   destinations: Destination[]
+  neutralColors?: boolean
 }
 
-export function AllDestinationsMap({ destinations }: Props) {
+export function AllDestinationsMap({ destinations, neutralColors = false }: Props) {
   const navigate = useNavigate()
 
   return (
-    <div className="rounded-2xl overflow-hidden border border-gray-100 shadow-sm h-[300px] sm:h-[380px]">
+    <div className="rounded-2xl overflow-hidden border border-gray-100 shadow-sm h-[300px] sm:h-[420px]">
       <MapContainer
-        center={[39, 18]}
-        zoom={4}
+        center={[20, 15]}
+        zoom={2}
         scrollWheelZoom
         className="h-full w-full"
       >
@@ -30,17 +31,17 @@ export function AllDestinationsMap({ destinations }: Props) {
         />
         {destinations.map((dest) => {
           const [lat, lng] = dest.coords
-          const color = COLORS[dest.category]
+          const color = neutralColors ? '#1e6fb5' : COLORS[dest.category]
           return (
             <CircleMarker
               key={dest.id}
               center={[lat, lng]}
-              radius={8}
-              pathOptions={{ color, fillColor: color, fillOpacity: 0.85, weight: 2 }}
+              radius={7}
+              pathOptions={{ color, fillColor: color, fillOpacity: 0.8, weight: 2 }}
             >
               <Popup>
                 <div className="text-center min-w-[120px]">
-                  <p className="font-bold text-sm">{dest.match} {dest.name}</p>
+                  <p className="font-bold text-sm">{dest.name}</p>
                   <p className="text-xs text-gray-500 mb-2">{dest.country}</p>
                   <button
                     onClick={() => navigate(`/destino/${dest.id}`)}
