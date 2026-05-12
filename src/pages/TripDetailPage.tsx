@@ -351,13 +351,11 @@ function UploadModal({
       await onUpload(file, name.trim(), docType)
       onClose()
     } catch (err: unknown) {
-      const msg = (err as Error).message ?? ''
-      if (msg.includes('bucket') || msg.includes('not found')) {
-        toast.error('El bucket "documents" no existe en Supabase. Ejecuta la migración SQL primero.')
-      } else {
-        toast.error('Error subiendo el archivo')
-      }
-      console.error(err)
+      const msg = (err as { message?: string; error?: string; statusCode?: string } & Error).message
+        ?? (err as { error?: string }).error
+        ?? String(err)
+      console.error('Upload error full:', err)
+      toast.error(`Error: ${msg}`, { duration: 8000 })
     } finally {
       setSaving(false)
     }
