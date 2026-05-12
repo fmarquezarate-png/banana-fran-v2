@@ -455,7 +455,7 @@ export function TripWizardPage() {
   const navigate = useNavigate()
   const [searchParams] = useSearchParams()
   const { user } = useAuth()
-  const { createTrip } = useTrips(user?.id)
+  const { createTrip, updateTrip } = useTrips(user?.id)
 
   const [step, setStep]       = useState(0)
   const [answers, setAnswers] = useState<TripAnswers>(DEFAULT_ANSWERS)
@@ -575,7 +575,7 @@ export function TripWizardPage() {
       })
       toast.success('¡Viaje creado!')
       if (trip && !directSlug) {
-        localStorage.setItem(`quizAnswers_${trip.id}`, JSON.stringify(answers))
+        await updateTrip(trip.id, { quiz_answers: answers as unknown as Record<string, unknown> })
       }
       navigate(trip ? `/viajes/${trip.id}` : '/viajes')
     } catch (err) {

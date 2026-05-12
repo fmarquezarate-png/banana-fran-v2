@@ -76,6 +76,7 @@ export interface Trip {
   status_override: TripStatus | null
   cover_photo_url: string | null
   is_past: boolean
+  quiz_answers: Record<string, unknown> | null
   created_at: string
   updated_at: string
 }

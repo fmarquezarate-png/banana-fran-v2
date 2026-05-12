@@ -1056,14 +1056,13 @@ export function TripDetailPage() {
   const [mainTab, setMainTab] = useState<MainTab>('opciones')
   const [completing, setCompleting] = useState(false)
 
-  // useState (not useMemo) so it re-reads on every mount — fixes cross-device issue
-  const [quizAnswers] = useState<TripAnswers | null>(() => {
-    try {
-      const perTrip = localStorage.getItem(`quizAnswers_${tripId}`)
-      if (perTrip) return JSON.parse(perTrip) as TripAnswers
-      return JSON.parse(localStorage.getItem('quizAnswers') ?? '') as TripAnswers
-    } catch { return null }
-  })
+  const quizAnswers = useMemo<TripAnswers | null>(() => {
+    if (!trip) return null
+    if (trip.quiz_answers) return trip.quiz_answers as unknown as TripAnswers
+    // fallback: legacy localStorage (migración suave)
+    try { return JSON.parse(localStorage.getItem('quizAnswers') ?? '') as TripAnswers }
+    catch { return null }
+  }, [trip])
 
   useEffect(() => {
     if (!id) return

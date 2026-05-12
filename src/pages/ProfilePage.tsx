@@ -3,9 +3,14 @@ import toast from 'react-hot-toast'
 import { useAuth } from '@/hooks/useAuth'
 import { useProfile } from '@/hooks/useProfile'
 
-const APP_VERSION = '0.30.0'
+const APP_VERSION = '0.31.0'
 
 const CHANGELOG: { v: string; date: string; notes: string[] }[] = [
+  { v: '0.31.0', date: 'May 2026', notes: [
+    'Quiz answers migradas de localStorage a Supabase (columna quiz_answers jsonb en trips)',
+    'Migración SQL 006: ALTER TABLE trips ADD COLUMN quiz_answers jsonb',
+    'Fallback suave a localStorage para viajes ya existentes',
+  ]},
   { v: '0.30.0', date: 'May 2026', notes: [
     'Nueva pestaña Análisis (📊): tabla de todos los destinos con score%, categoría dinámica y razones — filtrable por categoría',
     'Quiz answers guardadas por viaje (quizAnswers_<tripId>) — cada viaje tiene su propio análisis',

@@ -8,12 +8,9 @@ import {
 } from '@/lib/tripMatcher'
 import type { Trip } from '@/types/database'
 
-function loadAnswers(tripId: string): TripAnswers | null {
-  try {
-    const perTrip = localStorage.getItem(`quizAnswers_${tripId}`)
-    if (perTrip) return JSON.parse(perTrip) as TripAnswers
-    return null
-  } catch { return null }
+function getAnswers(trip: Trip): TripAnswers | null {
+  if (trip.quiz_answers) return trip.quiz_answers as unknown as TripAnswers
+  return null
 }
 
 function categoryLabel(pct: number): { label: string; color: string; emoji: string } {
@@ -84,13 +81,14 @@ export function AnalysisPage() {
   const [filter, setFilter] = useState<'all' | 'perfect' | 'good' | 'ok' | 'warning'>('all')
 
   const tripsWithQuiz = useMemo<Trip[]>(() => {
-    return trips.filter(t => !!loadAnswers(t.id))
+    return trips.filter(t => !!getAnswers(t))
   }, [trips])
 
   const answers = useMemo<TripAnswers | null>(() => {
     if (!selectedTripId) return null
-    return loadAnswers(selectedTripId)
-  }, [selectedTripId])
+    const trip = trips.find(t => t.id === selectedTripId)
+    return trip ? getAnswers(trip) : null
+  }, [selectedTripId, trips])
 
   const scored = useMemo<(ScoredDestination & { pct: number })[]>(() => {
     if (!answers) return []
