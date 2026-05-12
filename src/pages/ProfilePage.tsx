@@ -3,9 +3,21 @@ import toast from 'react-hot-toast'
 import { useAuth } from '@/hooks/useAuth'
 import { useProfile } from '@/hooks/useProfile'
 
-const APP_VERSION = '0.31.0'
+const APP_VERSION = '0.33.1'
 
 const CHANGELOG: { v: string; date: string; notes: string[] }[] = [
+  { v: '0.33.1', date: 'May 2026', notes: [
+    'TravelLoader: tiempos ajustados — navegación 0-2s, quiz 3-6s',
+    'Quiz thinking: 20 mensajes de investigación que rotan cada 1.4s ("Analizando el clima…", "Revisando restaurantes…", etc.)',
+  ]},
+  { v: '0.33.0', date: 'May 2026', notes: [
+    'TravelLoader: overlay animado con emojis travel rotando al cambiar de pestaña y al calcular quiz',
+    'Wizard "Nuevo viaje": añadida 3ª opción "Ver mapa de destinos" → /explorar, layout en lista vertical',
+  ]},
+  { v: '0.32.0', date: 'May 2026', notes: [
+    'Análisis: muestra score en puntos (0-100) + barra de afinidad de escalas (%) por separado',
+    'tripMatcher: curva de penalización no-lineal — dimScore = 1 - (diff/7)^1.5 (más diferenciación entre destinos)',
+  ]},
   { v: '0.31.0', date: 'May 2026', notes: [
     'Quiz answers migradas de localStorage a Supabase (columna quiz_answers jsonb en trips)',
     'Migración SQL 006: ALTER TABLE trips ADD COLUMN quiz_answers jsonb',
