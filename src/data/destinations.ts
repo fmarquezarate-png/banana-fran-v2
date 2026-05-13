@@ -77,6 +77,7 @@ import { DESTINATIONS_AMERICAS } from './destinations-americas'
 import { DESTINATIONS_ASIA } from './destinations-asia'
 import { DESTINATIONS_AFRICA } from './destinations-africa'
 import { DESTINATIONS_EUROPE_WEST } from './destinations-europe-west'
+import { DESTINATIONS_SCANDINAVIA } from './destinations-scandinavia'
 
 export const DESTINATIONS: Destination[] = [
   ...DESTINATIONS_PERFECT,
@@ -87,6 +88,7 @@ export const DESTINATIONS: Destination[] = [
   ...DESTINATIONS_ASIA,
   ...DESTINATIONS_AFRICA,
   ...DESTINATIONS_EUROPE_WEST,
+  ...DESTINATIONS_SCANDINAVIA,
 ]
 
 // Helpers de acceso rápido
