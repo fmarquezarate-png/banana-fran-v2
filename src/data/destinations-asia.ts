@@ -587,4 +587,50 @@ export const DESTINATIONS_ASIA: Destination[] = [
     budget: { flightPP: 580, fr: 0.25, hotelPD: 60, hr: 0.35, foodPD: 30, fdr: 0.20, actPD: 35, ar: 0.25 },
   },
 
+  // ─── VIETNAM ────────────────────────────────────────────────
+  {
+    id: 'vietnam',
+    name: 'Vietnam',
+    shortName: 'Hanói · Ha Long · Hội An',
+    country: 'Vietnam',
+    match: '👌', matchLabel: '---', category: 'ok',
+    tagline: 'Bahías de caliza entre la niebla, ciudades antiguas doradas y el street food más glorioso de Asia.',
+    scales: { playa_ciudad: 5, relax_fiesta: 4, lowcost_fancy: 2, invierno_verano: 6, occidental_exotico: 8, streetfood_gourmet: 9, descanso_aventura: 6, solo_grupal: 5, naturaleza_metropolis: 5, moderno_historico: 7, turistico_desconocido: 5 },
+    coords: [16.0544, 108.2022],
+    images: [
+      'https://images.unsplash.com/photo-1528360983277-13d401cdc186?auto=format&fit=crop&w=1600&q=75',
+      'https://images.unsplash.com/photo-1573870111882-b3b8df2dbf4d?auto=format&fit=crop&w=1600&q=75',
+      'https://images.unsplash.com/photo-1559592413-7cec4d0cae2b?auto=format&fit=crop&w=1600&q=75',
+    ],
+    story: [
+      'Vietnam se visita de norte a sur (o al revés) como un largo viaje en el tiempo. Hanói, la capital del norte, tiene el casco antiguo más intacto de Asia: 36 calles medievales organizadas por gremios, donde la calle de los herreros, los tejedores de seda y los fabricantes de papel todavía existen. El lago Hoan Kiem tiene una tortuga gigante que los vietnamitas consideran sagrada.',
+      'La Bahía de Ha Long —2000 islotes de caliza emergiendo del mar entre la niebla matutina— es Patrimonio UNESCO y una de las imágenes más reconocibles de Asia. Se visita en crucero de 2-3 días entre juncos de madera, kayak por cuevas y cenas de marisco fresquísimo. Hội An, más al sur, es la ciudad mejor conservada del comercio marítimo del siglo XV: linternas rojas, sastres de 24 horas y la mejor comida de Vietnam.',
+      'El precio es imbatible: un pho de ternera en un taburete de plástico a las 7 AM cuesta 1,50 euros y es la mejor sopa del mundo.',
+    ],
+    fit: 'Street food legendario, paisajes de película y presupuesto casi gratuito. Ideal norte-sur en 10-14 días. El destino asiático más completo por euro gastado.',
+    facts: {
+      vuelo: 'BCN → HAN o SGN (~14 h con escala, desde 500 €)',
+      temp: 'Nov-abr ideal en el sur. Mar-may ideal en el norte. Evitar monzón jun-oct en el sur.',
+      crowds: 'Alta en Hội An y Ha Long — madrugar marca la diferencia',
+      lang: 'Vietnamita — inglés básico suficiente en zonas turísticas',
+      currency: 'Dong vietnamita (VND) — 1 EUR ≈ 26.000 VND. Extremadamente barato',
+    },
+    musts: [
+      'Crucero 2 noches en la Bahía de Ha Long',
+      'Hội An de noche con linternas encendidas',
+      'Pho bo en Hanói a las 7 AM',
+      'Moto scooter por los arrozales de Sapa',
+      'Banh Mi y Cao Lau en Hội An',
+    ],
+    dishes: ['Pho bo (sopa de ternera)', 'Banh Mi (bocadillo vietnamita)', 'Bun Cha (cerdo a la brasa con fideos)', 'Cao Lau (Hội An)', 'Che (postre de legumbres dulces)'],
+    plans7: [
+      ['Día 1-2', 'Hanói', 'Casco antiguo 36 calles, lago Hoan Kiem, barrio francés. Pho de mañana.'],
+      ['Día 3-4', 'Ha Long Bay', 'Crucero 2 noches: kayak, cuevas, marisco, amanecer entre islotes.'],
+      ['Día 5', 'Vuelo a Da Nang', 'Llegada. Tarde en Hội An: linternas, sastre.'],
+      ['Día 6', 'Hội An', 'Mercado central, My Son (ruinas Cham), playa An Bang.'],
+      ['Día 7', 'Vuelta', 'Da Nang → escala → BCN.'],
+    ],
+    budget: { flightPP: 520, fr: 0.25, hotelPD: 45, hr: 0.30, foodPD: 20, fdr: 0.20, actPD: 30, ar: 0.25 },
+  },
+
 ]
