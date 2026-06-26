@@ -2,79 +2,10 @@ import { Link } from 'react-router-dom'
 import { useAuth } from '@/hooks/useAuth'
 import { useProfile } from '@/hooks/useProfile'
 import { useTrips } from '@/hooks/useTrips'
-import type { Trip } from '@/types/database'
-import { DESTINATIONS } from '@/data/destinations'
 
 function formatDate(iso: string | null) {
   if (!iso) return '—'
   return new Date(iso).toLocaleDateString('es-ES', { month: 'long', year: 'numeric' })
-}
-
-function isPastTrip(trip: Trip): boolean {
-  if (trip.status_override === 'completed') return true
-  if (!trip.end_date) return false
-  return new Date(trip.end_date) < new Date()
-}
-
-function PastTripCard({ trip }: { trip: Trip }) {
-  const dest = trip.destination_slug
-    ? DESTINATIONS.find(d => d.id === trip.destination_slug)
-    : null
-
-  return (
-    <Link
-      to={`/viajes/${trip.id}`}
-      className="group relative rounded-2xl overflow-hidden block"
-      style={{ minHeight: '160px' }}
-    >
-      {/* Imagen de fondo */}
-      {dest ? (
-        <img
-          src={dest.images[0]}
-          alt={dest.name}
-          className="absolute inset-0 w-full h-full object-cover transition-transform duration-700
-                     group-hover:scale-105"
-        />
-      ) : (
-        <div className="absolute inset-0 bg-gradient-to-br from-gray-700 to-gray-900" />
-      )}
-
-      {/* Overlay melancólico */}
-      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/10" />
-      <div className="absolute inset-0 bg-black/20 mix-blend-multiply" />
-
-      {/* Filtro sepia suave */}
-      <div className="absolute inset-0 opacity-30"
-        style={{ background: 'linear-gradient(135deg, rgba(120,80,40,0.4) 0%, transparent 60%)' }} />
-
-      {/* Contenido */}
-      <div className="relative p-4 h-full flex flex-col justify-end" style={{ minHeight: '160px' }}>
-        <div>
-          {dest && (
-            <p className="text-white/50 text-xs mb-0.5 font-medium tracking-wide">{dest.country}</p>
-          )}
-          <p className="text-white font-display font-bold text-lg leading-tight">{trip.name}</p>
-          <div className="flex items-center gap-3 mt-1.5">
-            {trip.start_date && (
-              <span className="text-white/50 text-xs">{formatDate(trip.start_date)}</span>
-            )}
-            <span className="text-white/30 text-xs">·</span>
-            <span className="text-white/40 text-xs italic">
-              {dest?.tagline ?? 'Un recuerdo guardado'}
-            </span>
-          </div>
-        </div>
-      </div>
-
-      {/* Badge "Completado" */}
-      <div className="absolute top-3 right-3">
-        <span className="bg-white/15 backdrop-blur-sm text-white/70 text-[10px] font-semibold
-                         px-2 py-0.5 rounded-full tracking-wide">
-          ✓ Realizado
-        </span>
-      </div>
-    </Link>
-  )
 }
 
 export function HomePage() {
@@ -83,7 +14,12 @@ export function HomePage() {
   const { trips, loading } = useTrips(user?.id)
 
   const userName = profile?.full_name ?? null
-  const pastTrips = trips.filter(isPastTrip)
+
+  const upcoming = trips.filter(t => {
+    if (t.status_override === 'completed' || t.status_override === 'cancelled') return false
+    if (t.end_date && new Date(t.end_date) < new Date()) return false
+    return true
+  })
 
   return (
     <main className="max-w-lg mx-auto px-4 py-6 pb-24 sm:pb-8">
@@ -96,51 +32,89 @@ export function HomePage() {
           <span className="text-egeo">¿A dónde vamos?</span>
         </h1>
         <p className="text-gray-400 text-sm mt-2">
-          Planifica tu próxima aventura o revive las anteriores.
+          Planifica tu próxima aventura o explora destinos.
         </p>
       </div>
 
-      {/* CTA principal */}
-      <Link
-        to="/viajes/nuevo"
-        className="flex items-center gap-4 bg-egeo text-white rounded-2xl p-5 shadow-lg
-                   hover:bg-egeo/90 active:scale-[0.98] transition-all duration-200 mb-8"
-      >
-        <span className="text-4xl flex-shrink-0">🧭</span>
-        <div className="min-w-0">
-          <p className="font-display font-bold text-lg leading-tight">Planificar nuevo viaje</p>
-          <p className="text-sm text-white/70 mt-0.5">
-            Encuentra tu destino ideal y organiza cada detalle
-          </p>
-        </div>
-        <span className="ml-auto text-white/60 text-2xl flex-shrink-0">→</span>
-      </Link>
+      {/* 3 opciones */}
+      <div className="space-y-3 mb-8">
+        <Link
+          to="/viajes/nuevo?mode=quiz"
+          className="flex items-center gap-4 bg-egeo text-white rounded-2xl p-5 shadow-lg
+                     hover:bg-egeo/90 active:scale-[0.98] transition-all duration-200"
+        >
+          <span className="text-3xl flex-shrink-0">🎯</span>
+          <div className="min-w-0">
+            <p className="font-display font-bold text-lg leading-tight">Responder cuestionario</p>
+            <p className="text-sm text-white/70 mt-0.5">
+              Encuentra tu destino ideal según tus preferencias
+            </p>
+          </div>
+          <span className="ml-auto text-white/60 text-2xl flex-shrink-0">→</span>
+        </Link>
 
-      {/* Viajes pasados */}
+        <Link
+          to="/viajes/nuevo?mode=direct"
+          className="flex items-center gap-4 bg-white border border-gray-200 rounded-2xl p-5 shadow-sm
+                     hover:shadow-md active:scale-[0.98] transition-all duration-200"
+        >
+          <span className="text-3xl flex-shrink-0">📍</span>
+          <div className="min-w-0">
+            <p className="font-display font-bold text-lg text-gray-900 leading-tight">Ya sé dónde voy</p>
+            <p className="text-sm text-gray-400 mt-0.5">
+              Elige directamente el destino o el país
+            </p>
+          </div>
+          <span className="ml-auto text-gray-300 text-2xl flex-shrink-0">→</span>
+        </Link>
+
+        <Link
+          to="/explorar"
+          className="flex items-center gap-4 bg-white border border-gray-200 rounded-2xl p-5 shadow-sm
+                     hover:shadow-md active:scale-[0.98] transition-all duration-200"
+        >
+          <span className="text-3xl flex-shrink-0">🗺</span>
+          <div className="min-w-0">
+            <p className="font-display font-bold text-lg text-gray-900 leading-tight">Ver mapa de destinos</p>
+            <p className="text-sm text-gray-400 mt-0.5">
+              Explora todos los destinos disponibles
+            </p>
+          </div>
+          <span className="ml-auto text-gray-300 text-2xl flex-shrink-0">→</span>
+        </Link>
+      </div>
+
+      {/* Próximos viajes */}
       {loading ? (
-        <div className="flex justify-center py-12">
+        <div className="flex justify-center py-8">
           <span className="text-3xl animate-pulse">🍌</span>
         </div>
-      ) : pastTrips.length > 0 ? (
+      ) : upcoming.length > 0 && (
         <section>
-          <div className="flex items-baseline gap-2 mb-4">
-            <h2 className="font-display font-bold text-gray-900 text-xl">Tus aventuras</h2>
-            <span className="text-gray-400 text-sm">{pastTrips.length} viaje{pastTrips.length !== 1 ? 's' : ''}</span>
-          </div>
-          <p className="text-gray-400 text-xs mb-4 leading-relaxed italic">
-            Cada viaje es un capítulo escrito a mano. Toca uno para revivir los recuerdos.
-          </p>
+          <h2 className="font-display font-bold text-gray-900 text-xl mb-3">
+            Próximos viajes
+          </h2>
           <div className="space-y-3">
-            {pastTrips.map(t => <PastTripCard key={t.id} trip={t} />)}
+            {upcoming.map(t => (
+              <Link
+                key={t.id}
+                to={`/viajes/${t.id}`}
+                className="card p-4 block hover:shadow-md transition-shadow"
+              >
+                <div className="flex items-center justify-between gap-3">
+                  <div className="min-w-0">
+                    <p className="font-display font-bold text-gray-900 truncate">{t.name}</p>
+                    {t.start_date && (
+                      <p className="text-xs text-gray-400 mt-0.5">
+                        📅 {formatDate(t.start_date)}
+                      </p>
+                    )}
+                  </div>
+                  <span className="text-gray-300 text-xl flex-shrink-0">→</span>
+                </div>
+              </Link>
+            ))}
           </div>
-        </section>
-      ) : (
-        <section className="text-center py-10">
-          <span className="text-6xl block mb-4">🌍</span>
-          <p className="font-display font-bold text-gray-700 text-xl mb-2">Tu historia empieza aquí</p>
-          <p className="text-gray-400 text-sm leading-relaxed max-w-xs mx-auto">
-            Cuando completes tu primer viaje, aparecerá aquí como un recuerdo guardado para siempre.
-          </p>
         </section>
       )}
 

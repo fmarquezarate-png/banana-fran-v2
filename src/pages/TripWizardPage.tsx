@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Link, useNavigate, useSearchParams } from 'react-router-dom'
+import { TravelLoader } from '@/components/ui/TravelLoader'
 import toast from 'react-hot-toast'
 import { DESTINATIONS } from '@/data/destinations'
 import type { Destination } from '@/data/destinations'
@@ -455,11 +456,16 @@ export function TripWizardPage() {
   const navigate = useNavigate()
   const [searchParams] = useSearchParams()
   const { user } = useAuth()
-  const { createTrip } = useTrips(user?.id)
+  const { createTrip, updateTrip } = useTrips(user?.id)
 
   const [step, setStep]       = useState(0)
   const [answers, setAnswers] = useState<TripAnswers>(DEFAULT_ANSWERS)
-  const [phase, setPhase]     = useState<'choice' | 'direct' | 'quiz' | 'results' | 'create'>('choice')
+  const [phase, setPhase]     = useState<'choice' | 'direct' | 'quiz' | 'results' | 'create'>(() => {
+    const m = searchParams.get('mode')
+    if (m === 'direct') return 'direct'
+    if (m === 'quiz') return 'quiz'
+    return 'choice'
+  })
   const [results, setResults] = useState<ScoredDestination[]>([])
   const [selectedId, setSelectedId]   = useState<string | null>(null)
   const [secondaryId, setSecondaryId] = useState<string | null>(null)
@@ -480,7 +486,8 @@ export function TripWizardPage() {
   const [startDate,    setStartDate]    = useState('')
   const [endDate,      setEndDate]      = useState('')
   const [saving,       setSaving]       = useState(false)
-  const [directSlug,   setDirectSlug]   = useState<string | null>(null) // pais_* or null
+  const [directSlug,   setDirectSlug]   = useState<string | null>(null)
+  const [thinking,     setThinking]     = useState(false)
 
   const current      = STEPS[step]
   const progress     = (step / STEPS.length) * 100
@@ -513,13 +520,19 @@ export function TripWizardPage() {
     if (step < STEPS.length - 1) {
       setStep(s => s + 1)
     } else {
-      const scored = scoreDests(DESTINATIONS, ans)
-      const top = scored.slice(0, 6)
-      setResults(top)
-      setSelectedId(null)           // user must explicitly choose
-      localStorage.setItem('quizAnswers', JSON.stringify(ans))
-      setPhase('results')
+      // Mostrar loader "pensando" antes de revelar resultados
+      setThinking(true)
     }
+  }
+
+  function finishThinking(ans = answers) {
+    const scored = scoreDests(DESTINATIONS, ans)
+    const top = scored.slice(0, 6)
+    setResults(top)
+    setSelectedId(null)
+    localStorage.setItem('quizAnswers', JSON.stringify(ans))
+    setThinking(false)
+    setPhase('results')
   }
 
   function back() {
@@ -569,6 +582,9 @@ export function TripWizardPage() {
         travelers: travelersNum,
       })
       toast.success('¡Viaje creado!')
+      if (trip && !directSlug) {
+        await updateTrip(trip.id, { quiz_answers: answers as unknown as Record<string, unknown> })
+      }
       navigate(trip ? `/viajes/${trip.id}` : '/viajes')
     } catch (err) {
       console.error('Wizard createTrip error:', err)
@@ -577,6 +593,11 @@ export function TripWizardPage() {
     } finally {
       setSaving(false)
     }
+  }
+
+  // ── Loader "pensando" — aparece al terminar el quiz ──────────
+  if (thinking) {
+    return <TravelLoader onDone={finishThinking} duration={Math.random() * 3000 + 3000} quizMode />
   }
 
   // ── Phase: Choice ────────────────────────────────────────────
@@ -589,33 +610,51 @@ export function TripWizardPage() {
         <h1 className="font-display text-2xl font-bold text-gray-900 mb-2">Nuevo viaje</h1>
         <p className="text-sm text-gray-500 mb-6">¿Cómo quieres empezar?</p>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div className="flex flex-col gap-4">
           {/* Quiz path */}
           <button
             onClick={() => setPhase('quiz')}
-            className="card p-5 text-left hover:shadow-md transition-shadow group"
+            className="card p-5 text-left hover:shadow-md transition-shadow flex items-start gap-4"
           >
-            <span className="text-3xl block mb-3">🧭</span>
-            <p className="font-display font-bold text-gray-900 mb-1">Descubrir destino</p>
-            <p className="text-sm text-gray-500 leading-snug">
-              Responde 17 preguntas y el asistente te propone los mejores destinos para vosotros.
-              Puedes combinar 2 destinos en una misma ruta.
-            </p>
-            <span className="mt-3 inline-block text-xs font-semibold text-egeo">Hacer el test →</span>
+            <span className="text-3xl flex-shrink-0 mt-0.5">🎯</span>
+            <div>
+              <p className="font-display font-bold text-gray-900 mb-1">Descubrir destino</p>
+              <p className="text-sm text-gray-500 leading-snug">
+                Responde el cuestionario y el asistente te propone los mejores destinos para vosotros.
+              </p>
+              <span className="mt-2 inline-block text-xs font-semibold text-egeo">Hacer el test →</span>
+            </div>
           </button>
 
           {/* Direct path */}
           <button
             onClick={() => setPhase('direct')}
-            className="card p-5 text-left hover:shadow-md transition-shadow group"
+            className="card p-5 text-left hover:shadow-md transition-shadow flex items-start gap-4"
           >
-            <span className="text-3xl block mb-3">📍</span>
-            <p className="font-display font-bold text-gray-900 mb-1">Ya sé a dónde voy</p>
-            <p className="text-sm text-gray-500 leading-snug">
-              Elige el país y el destino directamente. Se registrará en tu mapa de lugares.
-            </p>
-            <span className="mt-3 inline-block text-xs font-semibold text-egeo">Elegir destino →</span>
+            <span className="text-3xl flex-shrink-0 mt-0.5">📍</span>
+            <div>
+              <p className="font-display font-bold text-gray-900 mb-1">Ya sé a dónde voy</p>
+              <p className="text-sm text-gray-500 leading-snug">
+                Elige el país y el destino directamente. Se registrará en tu mapa de lugares.
+              </p>
+              <span className="mt-2 inline-block text-xs font-semibold text-egeo">Elegir destino →</span>
+            </div>
           </button>
+
+          {/* Explore map */}
+          <Link
+            to="/explorar"
+            className="card p-5 text-left hover:shadow-md transition-shadow flex items-start gap-4"
+          >
+            <span className="text-3xl flex-shrink-0 mt-0.5">🗺️</span>
+            <div>
+              <p className="font-display font-bold text-gray-900 mb-1">Ver mapa de destinos</p>
+              <p className="text-sm text-gray-500 leading-snug">
+                Explora todos los destinos en el mapa o en lista antes de decidir.
+              </p>
+              <span className="mt-2 inline-block text-xs font-semibold text-egeo">Explorar →</span>
+            </div>
+          </Link>
         </div>
       </main>
     )

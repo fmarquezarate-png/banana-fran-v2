@@ -351,13 +351,11 @@ function UploadModal({
       await onUpload(file, name.trim(), docType)
       onClose()
     } catch (err: unknown) {
-      const msg = (err as Error).message ?? ''
-      if (msg.includes('bucket') || msg.includes('not found')) {
-        toast.error('El bucket "documents" no existe en Supabase. Ejecuta la migración SQL primero.')
-      } else {
-        toast.error('Error subiendo el archivo')
-      }
-      console.error(err)
+      const msg = (err as { message?: string; error?: string; statusCode?: string } & Error).message
+        ?? (err as { error?: string }).error
+        ?? String(err)
+      console.error('Upload error full:', err)
+      toast.error(`Error: ${msg}`, { duration: 8000 })
     } finally {
       setSaving(false)
     }
@@ -1056,11 +1054,13 @@ export function TripDetailPage() {
   const [mainTab, setMainTab] = useState<MainTab>('opciones')
   const [completing, setCompleting] = useState(false)
 
-  // useState (not useMemo) so it re-reads on every mount — fixes cross-device issue
-  const [quizAnswers] = useState<TripAnswers | null>(() => {
+  const quizAnswers = useMemo<TripAnswers | null>(() => {
+    if (!trip) return null
+    if (trip.quiz_answers) return trip.quiz_answers as unknown as TripAnswers
+    // fallback: legacy localStorage (migración suave)
     try { return JSON.parse(localStorage.getItem('quizAnswers') ?? '') as TripAnswers }
     catch { return null }
-  })
+  }, [trip])
 
   useEffect(() => {
     if (!id) return

@@ -1,7 +1,8 @@
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom'
 import { Toaster } from 'react-hot-toast'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useAuth } from '@/hooks/useAuth'
+import { TravelLoader } from '@/components/ui/TravelLoader'
 import { FavoritesProvider } from '@/contexts/FavoritesContext'
 import { RatingsProvider } from '@/contexts/RatingsContext'
 import { TopBar } from '@/components/layout/TopBar'
@@ -16,6 +17,8 @@ import { TripJournalPage } from '@/pages/TripJournalPage'
 import { TripWizardPage } from '@/pages/TripWizardPage'
 import { ProfilePage } from '@/pages/ProfilePage'
 import { PlacesPage } from '@/pages/PlacesPage'
+import { ExplorePage } from '@/pages/ExplorePage'
+import { AnalysisPage } from '@/pages/AnalysisPage'
 
 const LOADING_EMOJIS = ['✈️', '🛳️', '🏖️', '⛰️', '🧳', '🌍', '🗺️', '🍌']
 
@@ -35,10 +38,26 @@ function LoadingScreen() {
   )
 }
 
+function NavigationLoader() {
+  const location = useLocation()
+  const [show, setShow] = useState(false)
+  const prevPath = useRef(location.pathname)
+
+  useEffect(() => {
+    if (prevPath.current === location.pathname) return
+    prevPath.current = location.pathname
+    setShow(true)
+  }, [location.pathname])
+
+  if (!show) return null
+  return <TravelLoader onDone={() => setShow(false)} duration={Math.random() * 2000} />
+}
+
 function AuthenticatedApp() {
   return (
     <RatingsProvider>
     <FavoritesProvider>
+      <NavigationLoader />
       <TopBar />
       <Routes>
         <Route path="/" element={<HomePage />} />
@@ -48,6 +67,8 @@ function AuthenticatedApp() {
         <Route path="/viajes/:id" element={<TripDetailPage />} />
         <Route path="/viajes/:id/fotos" element={<TripPhotosPage />} />
         <Route path="/viajes/:id/diario" element={<TripJournalPage />} />
+        <Route path="/explorar" element={<ExplorePage />} />
+        <Route path="/analisis" element={<AnalysisPage />} />
         <Route path="/places" element={<PlacesPage />} />
         <Route path="/perfil" element={<ProfilePage />} />
         <Route path="*" element={<Navigate to="/" replace />} />

@@ -3,11 +3,45 @@ import toast from 'react-hot-toast'
 import { useAuth } from '@/hooks/useAuth'
 import { useProfile } from '@/hooks/useProfile'
 
-const APP_VERSION = '0.27.1'
+const APP_VERSION = '0.33.1'
 
 const CHANGELOG: { v: string; date: string; notes: string[] }[] = [
-  { v: '0.27.1', date: 'May 2026', notes: [
-    'Hotfix: forced push para confirmar pipeline de despliegue',
+  { v: '0.33.1', date: 'May 2026', notes: [
+    'TravelLoader: tiempos ajustados — navegación 0-2s, quiz 3-6s',
+    'Quiz thinking: 20 mensajes de investigación que rotan cada 1.4s ("Analizando el clima…", "Revisando restaurantes…", etc.)',
+  ]},
+  { v: '0.33.0', date: 'May 2026', notes: [
+    'TravelLoader: overlay animado con emojis travel rotando al cambiar de pestaña y al calcular quiz',
+    'Wizard "Nuevo viaje": añadida 3ª opción "Ver mapa de destinos" → /explorar, layout en lista vertical',
+  ]},
+  { v: '0.32.0', date: 'May 2026', notes: [
+    'Análisis: muestra score en puntos (0-100) + barra de afinidad de escalas (%) por separado',
+    'tripMatcher: curva de penalización no-lineal — dimScore = 1 - (diff/7)^1.5 (más diferenciación entre destinos)',
+  ]},
+  { v: '0.31.0', date: 'May 2026', notes: [
+    'Quiz answers migradas de localStorage a Supabase (columna quiz_answers jsonb en trips)',
+    'Migración SQL 006: ALTER TABLE trips ADD COLUMN quiz_answers jsonb',
+    'Fallback suave a localStorage para viajes ya existentes',
+  ]},
+  { v: '0.30.0', date: 'May 2026', notes: [
+    'Nueva pestaña Análisis (📊): tabla de todos los destinos con score%, categoría dinámica y razones — filtrable por categoría',
+    'Quiz answers guardadas por viaje (quizAnswers_<tripId>) — cada viaje tiene su propio análisis',
+    'Todos los destinos neutralizados: match/matchLabel/category sin valor predefinido (score dinámico por quiz)',
+    'Nav: renombrada pestaña "Destinos" → "Inicio", añadida "Análisis"',
+  ]},
+  { v: '0.29.0', date: 'May 2026', notes: [
+    'Home rediseñado: 3 opciones de entrada (Cuestionario / Ya sé dónde voy / Ver mapa) + próximos viajes',
+    'Nueva página /explorar: mapa mundial de destinos con toggle a vista lista + buscador, sin categorías',
+    'Viajes pasados movidos a la pestaña Viajes (fuera del Home)',
+    'Wizard: ?mode=quiz y ?mode=direct saltan directamente al modo sin pasar por la pantalla de elección',
+  ]},
+  { v: '0.28.0', date: 'May 2026', notes: [
+    'Batch B5: 7 nuevos destinos — EEUU (Nueva York, Miami, California, Gran Cañón) y México (CDMX, Cancún/Riviera Maya, Oaxaca)',
+    'Profile: changelog colapsado por defecto (click para abrir)',
+    'Profile: botón ↻ actualizar para forzar recarga a la última versión',
+  ]},
+  { v: '0.27.2', date: 'May 2026', notes: [
+    'Fix build: apóstrofes curvos en destinations-asia.ts (Shanghái) rompían el bundle de producción',
   ]},
   { v: '0.27.0', date: 'May 2026', notes: [
     'Batch B2: 9 nuevos destinos Europa Occidental — Alemania (Munich/Baviera, Berlín, Renania), Suiza (Zermatt, Interlaken, Ginebra), Bélgica (Brujas, Gante, Ardenas)',
@@ -188,7 +222,7 @@ export function ProfilePage() {
   const [editing, setEditing] = useState(false)
   const [saving, setSaving] = useState(false)
 
-  const [changelogOpen, setChangelogOpen] = useState(true)
+  const [changelogOpen, setChangelogOpen] = useState(false)
   const [changingPwd, setChangingPwd] = useState(false)
   const [newPwd, setNewPwd] = useState('')
   const [confirmPwd, setConfirmPwd] = useState('')
@@ -421,6 +455,13 @@ export function ProfilePage() {
             >
               <h2 className="font-semibold text-gray-800">The Vacation Planner</h2>
               <div className="flex items-center gap-2">
+                <button
+                  onClick={e => { e.stopPropagation(); window.location.reload() }}
+                  className="text-xs bg-gray-100 hover:bg-egeo/10 text-gray-500 hover:text-egeo px-2 py-0.5 rounded-full transition-colors"
+                  title="Recargar para obtener la última versión"
+                >
+                  ↻ actualizar
+                </button>
                 <span className="text-xs bg-egeo/10 text-egeo font-semibold px-2 py-0.5 rounded-full">
                   v{APP_VERSION}
                 </span>
