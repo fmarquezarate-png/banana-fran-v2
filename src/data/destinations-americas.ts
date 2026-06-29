@@ -12,7 +12,7 @@ export const DESTINATIONS_AMERICAS: Destination[] = [
     matchLabel: '---',
     category: 'ok',
     tagline: 'Ciudad amurallada de colores, playas caribeñas y una energía que atrapa desde el primer atardecer.',
-    scales: { playa_ciudad: 4, relax_fiesta: 5, lowcost_fancy: 3, invierno_verano: 6, occidental_exotico: 7, streetfood_gourmet: 5, descanso_aventura: 4, solo_grupal: 5, naturaleza_metropolis: 4, moderno_historico: 7, turistico_desconocido: 3 },
+    scales: { playa_ciudad: 3, relax_fiesta: 7, lowcost_fancy: 2, invierno_verano: 6, occidental_exotico: 7, streetfood_gourmet: 2, descanso_aventura: 3, solo_grupal: 6, naturaleza_metropolis: 4, moderno_historico: 9, turistico_desconocido: 2 },
     coords: [10.3910, -75.4794],
     images: [
       'https://images.unsplash.com/photo-1566853291538-a67b2ff3a45e?auto=format&fit=crop&w=1600&q=75',
@@ -85,7 +85,7 @@ export const DESTINATIONS_AMERICAS: Destination[] = [
     matchLabel: '---',
     category: 'ok',
     tagline: 'La ciudad que se reinventó: primavera eterna, innovación urbana y los mejores cafés del mundo a las puertas.',
-    scales: { playa_ciudad: 8, relax_fiesta: 6, lowcost_fancy: 3, invierno_verano: 5, occidental_exotico: 6, streetfood_gourmet: 5, descanso_aventura: 6, solo_grupal: 5, naturaleza_metropolis: 7, moderno_historico: 4, turistico_desconocido: 6 },
+    scales: { playa_ciudad: 9, relax_fiesta: 7, lowcost_fancy: 2, invierno_verano: 5, occidental_exotico: 6, streetfood_gourmet: 2, descanso_aventura: 7, solo_grupal: 6, naturaleza_metropolis: 7, moderno_historico: 2, turistico_desconocido: 7 },
     coords: [6.2442, -75.5812],
     images: [
       'https://images.unsplash.com/photo-1598979072741-b6219c70c59e?auto=format&fit=crop&w=1600&q=75',
@@ -157,7 +157,7 @@ export const DESTINATIONS_AMERICAS: Destination[] = [
     matchLabel: '---',
     category: 'ok',
     tagline: 'A 2.600 metros de altura, la capital más cultural de Sudamérica: el Museo del Oro, gastronomía de autor y una energía inesperada.',
-    scales: { playa_ciudad: 10, relax_fiesta: 5, lowcost_fancy: 4, invierno_verano: 3, occidental_exotico: 5, streetfood_gourmet: 6, descanso_aventura: 4, solo_grupal: 5, naturaleza_metropolis: 9, moderno_historico: 7, turistico_desconocido: 5 },
+    scales: { playa_ciudad: 10, relax_fiesta: 4, lowcost_fancy: 2, invierno_verano: 3, occidental_exotico: 5, streetfood_gourmet: 7, descanso_aventura: 3, solo_grupal: 5, naturaleza_metropolis: 10, moderno_historico: 9, turistico_desconocido: 5 },
     coords: [4.7110, -74.0721],
     images: [
       'https://images.unsplash.com/photo-1553532434-5ab5b6b84993?auto=format&fit=crop&w=1600&q=75',
@@ -231,7 +231,7 @@ export const DESTINATIONS_AMERICAS: Destination[] = [
     matchLabel: '---',
     category: 'ok',
     tagline: 'La París de Sudamérica: arquitectura europea, asados legendarios, tango en la calle y una energía cultural inagotable.',
-    scales: { playa_ciudad: 9, relax_fiesta: 7, lowcost_fancy: 4, invierno_verano: 7, occidental_exotico: 2, streetfood_gourmet: 7, descanso_aventura: 3, solo_grupal: 7, naturaleza_metropolis: 9, moderno_historico: 6, turistico_desconocido: 4 },
+    scales: { playa_ciudad: 10, relax_fiesta: 8, lowcost_fancy: 2, invierno_verano: 7, occidental_exotico: 1, streetfood_gourmet: 9, descanso_aventura: 2, solo_grupal: 8, naturaleza_metropolis: 10, moderno_historico: 6, turistico_desconocido: 3 },
     coords: [-34.6037, -58.3816],
     images: [
       'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=1600&q=75',
@@ -302,7 +302,7 @@ export const DESTINATIONS_AMERICAS: Destination[] = [
     matchLabel: '---',
     category: 'ok',
     tagline: 'El fin del mundo: glaciares azules, pumas, el Perito Moreno y trekking en los parajes más salvajes del planeta.',
-    scales: { playa_ciudad: 1, relax_fiesta: 2, lowcost_fancy: 7, invierno_verano: 9, occidental_exotico: 4, streetfood_gourmet: 2, descanso_aventura: 9, solo_grupal: 3, naturaleza_metropolis: 1, moderno_historico: 2, turistico_desconocido: 5 },
+    scales: { playa_ciudad: 1, relax_fiesta: 1, lowcost_fancy: 8, invierno_verano: 10, occidental_exotico: 3, streetfood_gourmet: 1, descanso_aventura: 10, solo_grupal: 2, naturaleza_metropolis: 1, moderno_historico: 2, turistico_desconocido: 6 },
     coords: [-50.3502, -72.2648],
     images: [
       'https://images.unsplash.com/photo-1548620741-0df9e0b4e6a0?auto=format&fit=crop&w=1600&q=75',
