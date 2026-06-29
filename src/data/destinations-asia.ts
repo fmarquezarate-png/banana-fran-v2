@@ -12,7 +12,7 @@ export const DESTINATIONS_ASIA: Destination[] = [
     matchLabel: '---',
     category: 'ok',
     tagline: 'Palacios de marajás, desierto de Thar y la India más cinematográfica: Jaipur, Jodhpur, Udaipur y Jaisalmer.',
-    scales: { playa_ciudad: 6, relax_fiesta: 3, lowcost_fancy: 4, invierno_verano: 2, occidental_exotico: 10, streetfood_gourmet: 6, descanso_aventura: 5, solo_grupal: 4, naturaleza_metropolis: 6, moderno_historico: 10, turistico_desconocido: 3 },
+    scales: { playa_ciudad: 6, relax_fiesta: 3, lowcost_fancy: 2, invierno_verano: 1, occidental_exotico: 10, streetfood_gourmet: 2, descanso_aventura: 7, solo_grupal: 4, naturaleza_metropolis: 6, moderno_historico: 10, turistico_desconocido: 3 },
     coords: [26.9124, 75.7873],
     images: [
       'https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&w=1600&q=75',
@@ -86,7 +86,7 @@ export const DESTINATIONS_ASIA: Destination[] = [
     matchLabel: '---',
     category: 'ok',
     tagline: 'La India verde y tranquila: houseboats por los canales, playas del Índico, ayurveda auténtico y especias que perfuman el aire.',
-    scales: { playa_ciudad: 3, relax_fiesta: 2, lowcost_fancy: 4, invierno_verano: 2, occidental_exotico: 8, streetfood_gourmet: 7, descanso_aventura: 4, solo_grupal: 2, naturaleza_metropolis: 2, moderno_historico: 6, turistico_desconocido: 5 },
+    scales: { playa_ciudad: 3, relax_fiesta: 1, lowcost_fancy: 2, invierno_verano: 1, occidental_exotico: 9, streetfood_gourmet: 7, descanso_aventura: 3, solo_grupal: 2, naturaleza_metropolis: 1, moderno_historico: 6, turistico_desconocido: 5 },
     coords: [9.9312, 76.2673],
     images: [
       'https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?auto=format&fit=crop&w=1600&q=75',
@@ -161,7 +161,7 @@ export const DESTINATIONS_ASIA: Destination[] = [
     matchLabel: '---',
     category: 'ok',
     tagline: 'Las mejores playas de India con sabor portugués: iglesias barrocas, chiringuitos de pescado, fiestas y atardeceres perfectos.',
-    scales: { playa_ciudad: 2, relax_fiesta: 6, lowcost_fancy: 3, invierno_verano: 2, occidental_exotico: 7, streetfood_gourmet: 6, descanso_aventura: 4, solo_grupal: 6, naturaleza_metropolis: 3, moderno_historico: 6, turistico_desconocido: 4 },
+    scales: { playa_ciudad: 1, relax_fiesta: 6, lowcost_fancy: 2, invierno_verano: 1, occidental_exotico: 8, streetfood_gourmet: 6, descanso_aventura: 4, solo_grupal: 7, naturaleza_metropolis: 2, moderno_historico: 7, turistico_desconocido: 3 },
     coords: [15.2993, 74.1240],
     images: [
       'https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?auto=format&fit=crop&w=1600&q=75',
