@@ -234,7 +234,7 @@ export const DESTINATIONS_ASIA: Destination[] = [
     matchLabel: '---',
     category: 'ok',
     tagline: 'La capital milenaria de China: la Ciudad Prohibida, la Gran Muralla y hutongs que sobreviven entre rascacielos.',
-    scales: { playa_ciudad: 9, relax_fiesta: 4, lowcost_fancy: 5, invierno_verano: 6, occidental_exotico: 8, streetfood_gourmet: 7, descanso_aventura: 4, solo_grupal: 4, naturaleza_metropolis: 8, moderno_historico: 10, turistico_desconocido: 3 },
+    scales: { playa_ciudad: 10, relax_fiesta: 4, lowcost_fancy: 5, invierno_verano: 6, occidental_exotico: 9, streetfood_gourmet: 8, descanso_aventura: 5, solo_grupal: 4, naturaleza_metropolis: 9, moderno_historico: 10, turistico_desconocido: 2 },
     coords: [39.9042, 116.4074],
     images: [
       'https://images.unsplash.com/photo-1508804185872-d7badad00f7d?auto=format&fit=crop&w=1600&q=75',
@@ -307,7 +307,7 @@ export const DESTINATIONS_ASIA: Destination[] = [
     matchLabel: '---',
     category: 'ok',
     tagline: 'El futuro ya llegó: el skyline más impresionante del mundo, dim sum a la vuelta de la esquina y la elegancia del barrio francés.',
-    scales: { playa_ciudad: 10, relax_fiesta: 6, lowcost_fancy: 6, invierno_verano: 6, occidental_exotico: 7, streetfood_gourmet: 8, descanso_aventura: 3, solo_grupal: 5, naturaleza_metropolis: 10, moderno_historico: 6, turistico_desconocido: 4 },
+    scales: { playa_ciudad: 10, relax_fiesta: 6, lowcost_fancy: 8, invierno_verano: 6, occidental_exotico: 8, streetfood_gourmet: 9, descanso_aventura: 2, solo_grupal: 5, naturaleza_metropolis: 10, moderno_historico: 2, turistico_desconocido: 4 },
     coords: [31.2304, 121.4737],
     images: [
       'https://images.unsplash.com/photo-1474181487882-5abf3f0ba6c2?auto=format&fit=crop&w=1600&q=75',
@@ -380,7 +380,7 @@ export const DESTINATIONS_ASIA: Destination[] = [
     matchLabel: '---',
     category: 'ok',
     tagline: 'La China más étnica y desconocida: ciudades antiguas de madera, el Himalaya en el horizonte y 26 minorías étnicas.',
-    scales: { playa_ciudad: 3, relax_fiesta: 3, lowcost_fancy: 3, invierno_verano: 5, occidental_exotico: 9, streetfood_gourmet: 6, descanso_aventura: 7, solo_grupal: 3, naturaleza_metropolis: 3, moderno_historico: 8, turistico_desconocido: 7 },
+    scales: { playa_ciudad: 2, relax_fiesta: 3, lowcost_fancy: 1, invierno_verano: 5, occidental_exotico: 10, streetfood_gourmet: 5, descanso_aventura: 9, solo_grupal: 2, naturaleza_metropolis: 1, moderno_historico: 9, turistico_desconocido: 9 },
     coords: [26.8721, 100.2299],
     images: [
       'https://images.unsplash.com/photo-1547032175-7fc8c7bd15b3?auto=format&fit=crop&w=1600&q=75',
@@ -453,7 +453,7 @@ export const DESTINATIONS_ASIA: Destination[] = [
     country: 'Japón',
     match: '👌', matchLabel: '---', category: 'ok',
     tagline: 'El futuro y el pasado coexistiendo en el mismo metro cuadrado. El país más único del planeta.',
-    scales: { playa_ciudad: 7, relax_fiesta: 5, lowcost_fancy: 6, invierno_verano: 5, occidental_exotico: 9, streetfood_gourmet: 9, descanso_aventura: 5, solo_grupal: 5, naturaleza_metropolis: 6, moderno_historico: 9, turistico_desconocido: 4 },
+    scales: { playa_ciudad: 8, relax_fiesta: 5, lowcost_fancy: 7, invierno_verano: 5, occidental_exotico: 10, streetfood_gourmet: 10, descanso_aventura: 5, solo_grupal: 4, naturaleza_metropolis: 7, moderno_historico: 10, turistico_desconocido: 2 },
     coords: [35.6762, 139.6503],
     images: [
       'https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?auto=format&fit=crop&w=1600&q=75',
@@ -500,7 +500,7 @@ export const DESTINATIONS_ASIA: Destination[] = [
     country: 'Tailandia',
     match: '👌', matchLabel: '---', category: 'ok',
     tagline: 'Templos dorados, playas de revista, street food de otro nivel y sonrisas que no cuestan nada.',
-    scales: { playa_ciudad: 6, relax_fiesta: 6, lowcost_fancy: 3, invierno_verano: 8, occidental_exotico: 7, streetfood_gourmet: 8, descanso_aventura: 6, solo_grupal: 5, naturaleza_metropolis: 5, moderno_historico: 6, turistico_desconocido: 4 },
+    scales: { playa_ciudad: 5, relax_fiesta: 6, lowcost_fancy: 1, invierno_verano: 9, occidental_exotico: 8, streetfood_gourmet: 2, descanso_aventura: 6, solo_grupal: 6, naturaleza_metropolis: 5, moderno_historico: 7, turistico_desconocido: 2 },
     coords: [13.7563, 100.5018],
     images: [
       'https://images.unsplash.com/photo-1506665531195-3566af2b4dfa?auto=format&fit=crop&w=1600&q=75',
@@ -547,7 +547,7 @@ export const DESTINATIONS_ASIA: Destination[] = [
     country: 'Indonesia',
     match: '👌', matchLabel: '---', category: 'ok',
     tagline: 'La isla de los dioses: arrozales en terrazas, templos en acantilados y olas perfectas.',
-    scales: { playa_ciudad: 6, relax_fiesta: 5, lowcost_fancy: 4, invierno_verano: 7, occidental_exotico: 7, streetfood_gourmet: 6, descanso_aventura: 7, solo_grupal: 5, naturaleza_metropolis: 3, moderno_historico: 6, turistico_desconocido: 4 },
+    scales: { playa_ciudad: 3, relax_fiesta: 4, lowcost_fancy: 2, invierno_verano: 8, occidental_exotico: 9, streetfood_gourmet: 5, descanso_aventura: 8, solo_grupal: 6, naturaleza_metropolis: 1, moderno_historico: 6, turistico_desconocido: 2 },
     coords: [-8.3405, 115.0920],
     images: [
       'https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=1600&q=75',
@@ -595,7 +595,7 @@ export const DESTINATIONS_ASIA: Destination[] = [
     country: 'Vietnam',
     match: '👌', matchLabel: '---', category: 'ok',
     tagline: 'Bahías de caliza entre la niebla, ciudades antiguas doradas y el street food más glorioso de Asia.',
-    scales: { playa_ciudad: 5, relax_fiesta: 4, lowcost_fancy: 2, invierno_verano: 6, occidental_exotico: 8, streetfood_gourmet: 9, descanso_aventura: 6, solo_grupal: 5, naturaleza_metropolis: 5, moderno_historico: 7, turistico_desconocido: 5 },
+    scales: { playa_ciudad: 5, relax_fiesta: 4, lowcost_fancy: 1, invierno_verano: 6, occidental_exotico: 9, streetfood_gourmet: 10, descanso_aventura: 7, solo_grupal: 4, naturaleza_metropolis: 4, moderno_historico: 8, turistico_desconocido: 2 },
     coords: [16.0544, 108.2022],
     images: [
       'https://images.unsplash.com/photo-1528360983277-13d401cdc186?auto=format&fit=crop&w=1600&q=75',

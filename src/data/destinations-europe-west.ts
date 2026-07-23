@@ -12,7 +12,7 @@ export const DESTINATIONS_EUROPE_WEST: Destination[] = [
     matchLabel: '---',
     category: 'ok',
     tagline: 'La Ciudad de la Luz: el Louvre, los bistrós, el Sena al atardecer y la certeza de que ninguna ciudad es tan ciudad como esta.',
-    scales: { playa_ciudad: 10, relax_fiesta: 6, lowcost_fancy: 7, invierno_verano: 5, occidental_exotico: 1, streetfood_gourmet: 8, descanso_aventura: 3, solo_grupal: 5, naturaleza_metropolis: 10, moderno_historico: 7, turistico_desconocido: 1 },
+    scales: { playa_ciudad: 10, relax_fiesta: 6, lowcost_fancy: 7, invierno_verano: 5, occidental_exotico: 1, streetfood_gourmet: 9, descanso_aventura: 2, solo_grupal: 5, naturaleza_metropolis: 10, moderno_historico: 9, turistico_desconocido: 1 },
     coords: [48.8566, 2.3522],
     images: [
       'https://images.unsplash.com/photo-1499856871958-5b9627545d1a?auto=format&fit=crop&w=1600&q=75',
@@ -84,7 +84,7 @@ export const DESTINATIONS_EUROPE_WEST: Destination[] = [
     matchLabel: '---',
     category: 'ok',
     tagline: 'Campos de lavanda, pueblos medievales colgados en roca, mercados de especias y la luz que volvió locos a Van Gogh y Cézanne.',
-    scales: { playa_ciudad: 3, relax_fiesta: 3, lowcost_fancy: 5, invierno_verano: 7, occidental_exotico: 2, streetfood_gourmet: 7, descanso_aventura: 4, solo_grupal: 3, naturaleza_metropolis: 3, moderno_historico: 7, turistico_desconocido: 5 },
+    scales: { playa_ciudad: 3, relax_fiesta: 2, lowcost_fancy: 5, invierno_verano: 8, occidental_exotico: 1, streetfood_gourmet: 7, descanso_aventura: 3, solo_grupal: 2, naturaleza_metropolis: 2, moderno_historico: 9, turistico_desconocido: 4 },
     coords: [43.9352, 5.0853],
     images: [
       'https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=1600&q=75',
@@ -158,7 +158,7 @@ export const DESTINATIONS_EUROPE_WEST: Destination[] = [
     matchLabel: '---',
     category: 'ok',
     tagline: 'El glamour mediterráneo por excelencia: la Promenade des Anglais, Mónaco, Cannes y una luz que hizo nacer el impresionismo.',
-    scales: { playa_ciudad: 4, relax_fiesta: 5, lowcost_fancy: 8, invierno_verano: 8, occidental_exotico: 2, streetfood_gourmet: 8, descanso_aventura: 4, solo_grupal: 5, naturaleza_metropolis: 5, moderno_historico: 6, turistico_desconocido: 2 },
+    scales: { playa_ciudad: 4, relax_fiesta: 5, lowcost_fancy: 9, invierno_verano: 9, occidental_exotico: 1, streetfood_gourmet: 9, descanso_aventura: 3, solo_grupal: 5, naturaleza_metropolis: 5, moderno_historico: 6, turistico_desconocido: 2 },
     coords: [43.7102, 7.2620],
     images: [
       'https://images.unsplash.com/photo-1491166617655-e21d48e56a5f?auto=format&fit=crop&w=1600&q=75',
@@ -304,7 +304,7 @@ export const DESTINATIONS_EUROPE_WEST: Destination[] = [
     matchLabel: '---',
     category: 'ok',
     tagline: 'Los Alpes austriacos: esquí de primera clase en invierno, trekking épico en verano e Innsbruck como perfecta ciudad alpina.',
-    scales: { playa_ciudad: 2, relax_fiesta: 3, lowcost_fancy: 5, invierno_verano: 5, occidental_exotico: 2, streetfood_gourmet: 5, descanso_aventura: 9, solo_grupal: 4, naturaleza_metropolis: 2, moderno_historico: 6, turistico_desconocido: 5 },
+    scales: { playa_ciudad: 1, relax_fiesta: 2, lowcost_fancy: 5, invierno_verano: 5, occidental_exotico: 1, streetfood_gourmet: 4, descanso_aventura: 10, solo_grupal: 3, naturaleza_metropolis: 1, moderno_historico: 6, turistico_desconocido: 5 },
     coords: [47.2692, 11.4041],
     images: [
       'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=1600&q=75',
@@ -376,7 +376,7 @@ export const DESTINATIONS_EUROPE_WEST: Destination[] = [
     matchLabel: '---',
     category: 'ok',
     tagline: 'La ciudad de Mozart: una joya barroca entre montañas, el lago Wolfgangsee y el festival de música más prestigioso del mundo.',
-    scales: { playa_ciudad: 6, relax_fiesta: 3, lowcost_fancy: 6, invierno_verano: 5, occidental_exotico: 1, streetfood_gourmet: 5, descanso_aventura: 5, solo_grupal: 4, naturaleza_metropolis: 6, moderno_historico: 9, turistico_desconocido: 3 },
+    scales: { playa_ciudad: 8, relax_fiesta: 2, lowcost_fancy: 6, invierno_verano: 5, occidental_exotico: 1, streetfood_gourmet: 5, descanso_aventura: 4, solo_grupal: 3, naturaleza_metropolis: 5, moderno_historico: 10, turistico_desconocido: 2 },
     coords: [47.8095, 13.0550],
     images: [
       'https://images.unsplash.com/photo-1555990793-da11153b2473?auto=format&fit=crop&w=1600&q=75',
@@ -450,7 +450,7 @@ export const DESTINATIONS_EUROPE_WEST: Destination[] = [
     matchLabel: '---',
     category: 'ok',
     tagline: 'La ciudad de los canales, las bicicletas y los museos: Rijksmuseum, Van Gogh, Anne Frank y una energía liberal inconfundible.',
-    scales: { playa_ciudad: 8, relax_fiesta: 7, lowcost_fancy: 6, invierno_verano: 6, occidental_exotico: 1, streetfood_gourmet: 5, descanso_aventura: 3, solo_grupal: 7, naturaleza_metropolis: 8, moderno_historico: 7, turistico_desconocido: 2 },
+    scales: { playa_ciudad: 9, relax_fiesta: 8, lowcost_fancy: 6, invierno_verano: 6, occidental_exotico: 1, streetfood_gourmet: 5, descanso_aventura: 3, solo_grupal: 8, naturaleza_metropolis: 9, moderno_historico: 7, turistico_desconocido: 1 },
     coords: [52.3676, 4.9041],
     images: [
       'https://images.unsplash.com/photo-1512470876302-972faa2aa9a4?auto=format&fit=crop&w=1600&q=75',
@@ -522,7 +522,7 @@ export const DESTINATIONS_EUROPE_WEST: Destination[] = [
     matchLabel: '---',
     category: 'ok',
     tagline: 'Los Países Bajos secretos: playas del Mar del Norte, islas con dunas, el Delta Works y pueblos medievales sin un turista.',
-    scales: { playa_ciudad: 2, relax_fiesta: 2, lowcost_fancy: 3, invierno_verano: 7, occidental_exotico: 2, streetfood_gourmet: 5, descanso_aventura: 5, solo_grupal: 2, naturaleza_metropolis: 2, moderno_historico: 5, turistico_desconocido: 8 },
+    scales: { playa_ciudad: 2, relax_fiesta: 1, lowcost_fancy: 2, invierno_verano: 8, occidental_exotico: 1, streetfood_gourmet: 5, descanso_aventura: 5, solo_grupal: 2, naturaleza_metropolis: 1, moderno_historico: 5, turistico_desconocido: 9 },
     coords: [51.4940, 3.8497],
     images: [
       'https://images.unsplash.com/photo-1580060839134-75a5edca2e99?auto=format&fit=crop&w=1600&q=75',
@@ -595,7 +595,7 @@ export const DESTINATIONS_EUROPE_WEST: Destination[] = [
     matchLabel: '---',
     category: 'ok',
     tagline: 'La Ámsterdam que no sabe que existe: canales medievales con terrazas al nivel del agua, sin las multitudes ni los precios.',
-    scales: { playa_ciudad: 8, relax_fiesta: 6, lowcost_fancy: 4, invierno_verano: 6, occidental_exotico: 1, streetfood_gourmet: 5, descanso_aventura: 3, solo_grupal: 5, naturaleza_metropolis: 7, moderno_historico: 8, turistico_desconocido: 7 },
+    scales: { playa_ciudad: 9, relax_fiesta: 5, lowcost_fancy: 3, invierno_verano: 5, occidental_exotico: 1, streetfood_gourmet: 4, descanso_aventura: 2, solo_grupal: 4, naturaleza_metropolis: 7, moderno_historico: 9, turistico_desconocido: 8 },
     coords: [52.0907, 5.1214],
     images: [
       'https://images.unsplash.com/photo-1573455494057-3cbc8e11c8b7?auto=format&fit=crop&w=1600&q=75',

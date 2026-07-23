@@ -10,7 +10,7 @@ export const DESTINATIONS_REST: Destination[] = [
     country: 'Jordania',
     match: '👌', matchLabel: '---', category: 'ok',
     tagline: 'La ciudad rosa esculpida en roca hace 2300 años. El desierto de Marte. La hospitalidad árabe.',
-    scales: { playa_ciudad: 3, relax_fiesta: 2, lowcost_fancy: 5, invierno_verano: 4, occidental_exotico: 8, streetfood_gourmet: 6, descanso_aventura: 7, solo_grupal: 5, naturaleza_metropolis: 3, moderno_historico: 10, turistico_desconocido: 5 },
+    scales: { playa_ciudad: 3, relax_fiesta: 1, lowcost_fancy: 5, invierno_verano: 5, occidental_exotico: 9, streetfood_gourmet: 3, descanso_aventura: 8, solo_grupal: 4, naturaleza_metropolis: 2, moderno_historico: 10, turistico_desconocido: 5 },
     coords: [30.3285, 35.4444],
     images: [
       'https://images.unsplash.com/photo-1562979314-bee7453e911c?auto=format&fit=crop&w=1600&q=75',
@@ -58,7 +58,7 @@ export const DESTINATIONS_REST: Destination[] = [
     country: 'Egipto',
     match: '👌', matchLabel: '---', category: 'ok',
     tagline: 'Las pirámides, el Nilo y 5000 años de civilización. La historia más antigua a tu alcance.',
-    scales: { playa_ciudad: 5, relax_fiesta: 3, lowcost_fancy: 4, invierno_verano: 4, occidental_exotico: 9, streetfood_gourmet: 6, descanso_aventura: 5, solo_grupal: 5, naturaleza_metropolis: 5, moderno_historico: 10, turistico_desconocido: 5 },
+    scales: { playa_ciudad: 5, relax_fiesta: 2, lowcost_fancy: 2, invierno_verano: 3, occidental_exotico: 9, streetfood_gourmet: 3, descanso_aventura: 6, solo_grupal: 5, naturaleza_metropolis: 4, moderno_historico: 10, turistico_desconocido: 2 },
     coords: [26.8206, 30.8025],
     images: [
       'https://images.unsplash.com/photo-1539650116574-75c0c6d73e6e?auto=format&fit=crop&w=1600&q=75',
@@ -105,7 +105,7 @@ export const DESTINATIONS_REST: Destination[] = [
     country: 'Nueva Zelanda',
     match: '👌', matchLabel: '---', category: 'ok',
     tagline: 'Los Alpes, los fiordos y las playas más dramáticos del mundo. El planeta cuando aún era joven.',
-    scales: { playa_ciudad: 4, relax_fiesta: 3, lowcost_fancy: 7, invierno_verano: 5, occidental_exotico: 4, streetfood_gourmet: 5, descanso_aventura: 9, solo_grupal: 4, naturaleza_metropolis: 2, moderno_historico: 4, turistico_desconocido: 5 },
+    scales: { playa_ciudad: 3, relax_fiesta: 1, lowcost_fancy: 7, invierno_verano: 5, occidental_exotico: 2, streetfood_gourmet: 5, descanso_aventura: 10, solo_grupal: 3, naturaleza_metropolis: 1, moderno_historico: 3, turistico_desconocido: 5 },
     coords: [-45.0312, 168.6626],
     images: [
       'https://images.unsplash.com/photo-1507699622108-4be3abd695ad?auto=format&fit=crop&w=1600&q=75',
@@ -153,7 +153,7 @@ export const DESTINATIONS_REST: Destination[] = [
     country: 'Reino Unido',
     match: '👌', matchLabel: '---', category: 'ok',
     tagline: 'La capital cultural del mundo. Museos gratis, teatros, pubs centenarios y una energía que no para.',
-    scales: { playa_ciudad: 10, relax_fiesta: 6, lowcost_fancy: 7, invierno_verano: 5, occidental_exotico: 1, streetfood_gourmet: 8, descanso_aventura: 3, solo_grupal: 5, naturaleza_metropolis: 10, moderno_historico: 8, turistico_desconocido: 2 },
+    scales: { playa_ciudad: 10, relax_fiesta: 5, lowcost_fancy: 8, invierno_verano: 5, occidental_exotico: 1, streetfood_gourmet: 9, descanso_aventura: 2, solo_grupal: 5, naturaleza_metropolis: 10, moderno_historico: 8, turistico_desconocido: 1 },
     coords: [51.5074, -0.1278],
     images: [
       'https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?auto=format&fit=crop&w=1600&q=75',
@@ -193,7 +193,7 @@ export const DESTINATIONS_REST: Destination[] = [
     country: 'Irlanda',
     match: '👌', matchLabel: '---', category: 'ok',
     tagline: 'Acantilados de 200 m, pubs con música en vivo y la costa más salvaje de Europa.',
-    scales: { playa_ciudad: 4, relax_fiesta: 5, lowcost_fancy: 6, invierno_verano: 5, occidental_exotico: 2, streetfood_gourmet: 5, descanso_aventura: 6, solo_grupal: 5, naturaleza_metropolis: 3, moderno_historico: 6, turistico_desconocido: 5 },
+    scales: { playa_ciudad: 3, relax_fiesta: 4, lowcost_fancy: 5, invierno_verano: 5, occidental_exotico: 1, streetfood_gourmet: 6, descanso_aventura: 5, solo_grupal: 5, naturaleza_metropolis: 2, moderno_historico: 7, turistico_desconocido: 5 },
     coords: [52.9541, -9.4300],
     images: [
       'https://images.unsplash.com/photo-1564959130747-897fb406b9af?auto=format&fit=crop&w=1600&q=75',
@@ -233,7 +233,7 @@ export const DESTINATIONS_REST: Destination[] = [
     country: 'Polonia',
     match: '👌', matchLabel: '---', category: 'ok',
     tagline: 'La ciudad más bonita de Europa del Este: medieval, barata, con una vida nocturna legendaria.',
-    scales: { playa_ciudad: 9, relax_fiesta: 6, lowcost_fancy: 2, invierno_verano: 5, occidental_exotico: 3, streetfood_gourmet: 5, descanso_aventura: 3, solo_grupal: 6, naturaleza_metropolis: 8, moderno_historico: 8, turistico_desconocido: 4 },
+    scales: { playa_ciudad: 10, relax_fiesta: 5, lowcost_fancy: 2, invierno_verano: 5, occidental_exotico: 2, streetfood_gourmet: 5, descanso_aventura: 3, solo_grupal: 5, naturaleza_metropolis: 9, moderno_historico: 10, turistico_desconocido: 4 },
     coords: [50.0647, 19.9450],
     images: [
       'https://images.unsplash.com/photo-1558642452-9d2a7deb7f62?auto=format&fit=crop&w=1600&q=75',
@@ -272,7 +272,7 @@ export const DESTINATIONS_REST: Destination[] = [
     country: 'Rumanía',
     match: '👌', matchLabel: '---', category: 'ok',
     tagline: 'Castillos de Drácula, pueblos sajones medievales y los Cárpatos — la Europa que no esperas.',
-    scales: { playa_ciudad: 3, relax_fiesta: 3, lowcost_fancy: 2, invierno_verano: 5, occidental_exotico: 4, streetfood_gourmet: 4, descanso_aventura: 6, solo_grupal: 4, naturaleza_metropolis: 3, moderno_historico: 8, turistico_desconocido: 7 },
+    scales: { playa_ciudad: 4, relax_fiesta: 1, lowcost_fancy: 1, invierno_verano: 5, occidental_exotico: 4, streetfood_gourmet: 3, descanso_aventura: 6, solo_grupal: 3, naturaleza_metropolis: 2, moderno_historico: 10, turistico_desconocido: 9 },
     coords: [45.6427, 25.5887],
     images: [
       'https://images.unsplash.com/photo-1585409677983-0f6c41128c1b?auto=format&fit=crop&w=1600&q=75',
@@ -312,7 +312,7 @@ export const DESTINATIONS_REST: Destination[] = [
     country: 'Georgia',
     match: '👌', matchLabel: '---', category: 'ok',
     tagline: 'El Cáucaso, la mejor gastronomía que no conoces y una historia de 3000 años entre Europa y Asia.',
-    scales: { playa_ciudad: 5, relax_fiesta: 4, lowcost_fancy: 2, invierno_verano: 5, occidental_exotico: 6, streetfood_gourmet: 8, descanso_aventura: 7, solo_grupal: 5, naturaleza_metropolis: 4, moderno_historico: 7, turistico_desconocido: 7 },
+    scales: { playa_ciudad: 5, relax_fiesta: 3, lowcost_fancy: 1, invierno_verano: 5, occidental_exotico: 7, streetfood_gourmet: 7, descanso_aventura: 6, solo_grupal: 5, naturaleza_metropolis: 3, moderno_historico: 9, turistico_desconocido: 8 },
     coords: [41.7151, 44.8271],
     images: [
       'https://images.unsplash.com/photo-1565008576549-57569a49371d?auto=format&fit=crop&w=1600&q=75',
@@ -352,7 +352,7 @@ export const DESTINATIONS_REST: Destination[] = [
     country: 'Emiratos Árabes Unidos',
     match: '👌', matchLabel: '---', category: 'ok',
     tagline: 'Rascacielos imposibles, centros comerciales con pistas de esquí y desierto a 20 minutos.',
-    scales: { playa_ciudad: 8, relax_fiesta: 5, lowcost_fancy: 9, invierno_verano: 4, occidental_exotico: 6, streetfood_gourmet: 6, descanso_aventura: 4, solo_grupal: 5, naturaleza_metropolis: 9, moderno_historico: 3, turistico_desconocido: 3 },
+    scales: { playa_ciudad: 8, relax_fiesta: 5, lowcost_fancy: 10, invierno_verano: 2, occidental_exotico: 7, streetfood_gourmet: 9, descanso_aventura: 3, solo_grupal: 5, naturaleza_metropolis: 10, moderno_historico: 1, turistico_desconocido: 1 },
     coords: [25.2048, 55.2708],
     images: [
       'https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=1600&q=75',
@@ -392,7 +392,7 @@ export const DESTINATIONS_REST: Destination[] = [
     country: 'Omán',
     match: '👌', matchLabel: '---', category: 'ok',
     tagline: 'El secreto mejor guardado de Arabia: wadis turquesas, desierto vacío y hospitalidad genuina.',
-    scales: { playa_ciudad: 5, relax_fiesta: 2, lowcost_fancy: 6, invierno_verano: 3, occidental_exotico: 8, streetfood_gourmet: 5, descanso_aventura: 7, solo_grupal: 4, naturaleza_metropolis: 3, moderno_historico: 6, turistico_desconocido: 8 },
+    scales: { playa_ciudad: 4, relax_fiesta: 1, lowcost_fancy: 6, invierno_verano: 2, occidental_exotico: 9, streetfood_gourmet: 4, descanso_aventura: 7, solo_grupal: 3, naturaleza_metropolis: 2, moderno_historico: 8, turistico_desconocido: 8 },
     coords: [23.5880, 58.3829],
     images: [
       'https://images.unsplash.com/photo-1569551805529-1faab7eca236?auto=format&fit=crop&w=1600&q=75',
@@ -432,7 +432,7 @@ export const DESTINATIONS_REST: Destination[] = [
     country: 'Camboya',
     match: '👌', matchLabel: '---', category: 'ok',
     tagline: 'El mayor complejo de templos del mundo, tragado por la selva durante 500 años.',
-    scales: { playa_ciudad: 3, relax_fiesta: 3, lowcost_fancy: 2, invierno_verano: 7, occidental_exotico: 9, streetfood_gourmet: 6, descanso_aventura: 5, solo_grupal: 5, naturaleza_metropolis: 3, moderno_historico: 10, turistico_desconocido: 5 },
+    scales: { playa_ciudad: 5, relax_fiesta: 2, lowcost_fancy: 1, invierno_verano: 3, occidental_exotico: 9, streetfood_gourmet: 2, descanso_aventura: 5, solo_grupal: 4, naturaleza_metropolis: 4, moderno_historico: 10, turistico_desconocido: 4 },
     coords: [13.4125, 103.8670],
     images: [
       'https://images.unsplash.com/photo-1558862107-d49ef2a04d72?auto=format&fit=crop&w=1600&q=75',
@@ -472,7 +472,7 @@ export const DESTINATIONS_REST: Destination[] = [
     country: 'Sri Lanka',
     match: '👌', matchLabel: '---', category: 'ok',
     tagline: 'Templos budistas, trenes entre campos de té, elefantes salvajes y playas de surf. Todo en una isla.',
-    scales: { playa_ciudad: 5, relax_fiesta: 4, lowcost_fancy: 3, invierno_verano: 6, occidental_exotico: 8, streetfood_gourmet: 7, descanso_aventura: 7, solo_grupal: 5, naturaleza_metropolis: 3, moderno_historico: 7, turistico_desconocido: 6 },
+    scales: { playa_ciudad: 3, relax_fiesta: 2, lowcost_fancy: 1, invierno_verano: 4, occidental_exotico: 8, streetfood_gourmet: 4, descanso_aventura: 7, solo_grupal: 4, naturaleza_metropolis: 2, moderno_historico: 9, turistico_desconocido: 6 },
     coords: [7.8731, 80.7718],
     images: [
       'https://images.unsplash.com/photo-1586523969946-176ef0008e2c?auto=format&fit=crop&w=1600&q=75',
@@ -512,7 +512,7 @@ export const DESTINATIONS_REST: Destination[] = [
     country: 'Nepal',
     match: '👌', matchLabel: '---', category: 'ok',
     tagline: 'El techo del mundo. Trekking entre picos de 8000 m, templos hindúes y la sonrisa nepalí.',
-    scales: { playa_ciudad: 2, relax_fiesta: 2, lowcost_fancy: 2, invierno_verano: 5, occidental_exotico: 9, streetfood_gourmet: 5, descanso_aventura: 10, solo_grupal: 5, naturaleza_metropolis: 2, moderno_historico: 7, turistico_desconocido: 5 },
+    scales: { playa_ciudad: 6, relax_fiesta: 1, lowcost_fancy: 1, invierno_verano: 4, occidental_exotico: 9, streetfood_gourmet: 2, descanso_aventura: 10, solo_grupal: 4, naturaleza_metropolis: 1, moderno_historico: 9, turistico_desconocido: 6 },
     coords: [28.3949, 84.1240],
     images: [
       'https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=1600&q=75',
@@ -550,7 +550,7 @@ export const DESTINATIONS_REST: Destination[] = [
     country: 'Singapur',
     match: '👌', matchLabel: '---', category: 'ok',
     tagline: 'La ciudad-estado más futurista del mundo: Gardens by the Bay, hawker centres y multiculturalismo perfecto.',
-    scales: { playa_ciudad: 9, relax_fiesta: 5, lowcost_fancy: 7, invierno_verano: 8, occidental_exotico: 7, streetfood_gourmet: 10, descanso_aventura: 3, solo_grupal: 5, naturaleza_metropolis: 9, moderno_historico: 5, turistico_desconocido: 3 },
+    scales: { playa_ciudad: 10, relax_fiesta: 4, lowcost_fancy: 9, invierno_verano: 7, occidental_exotico: 7, streetfood_gourmet: 10, descanso_aventura: 1, solo_grupal: 5, naturaleza_metropolis: 10, moderno_historico: 4, turistico_desconocido: 1 },
     coords: [1.3521, 103.8198],
     images: [
       'https://images.unsplash.com/photo-1525625293386-3f8f99389edd?auto=format&fit=crop&w=1600&q=75',
@@ -591,7 +591,7 @@ export const DESTINATIONS_REST: Destination[] = [
     country: 'Australia',
     match: '👌', matchLabel: '---', category: 'ok',
     tagline: 'La Ópera, Bondi Beach, la Gran Barrera de Coral y el outback infinito.',
-    scales: { playa_ciudad: 7, relax_fiesta: 5, lowcost_fancy: 7, invierno_verano: 7, occidental_exotico: 3, streetfood_gourmet: 6, descanso_aventura: 7, solo_grupal: 5, naturaleza_metropolis: 5, moderno_historico: 4, turistico_desconocido: 4 },
+    scales: { playa_ciudad: 6, relax_fiesta: 5, lowcost_fancy: 7, invierno_verano: 8, occidental_exotico: 2, streetfood_gourmet: 7, descanso_aventura: 5, solo_grupal: 6, naturaleza_metropolis: 8, moderno_historico: 3, turistico_desconocido: 1 },
     coords: [-33.8688, 151.2093],
     images: [
       'https://images.unsplash.com/photo-1506973035872-a4ec16b8e8d9?auto=format&fit=crop&w=1600&q=75',
@@ -631,7 +631,7 @@ export const DESTINATIONS_REST: Destination[] = [
     country: 'Maldivas',
     match: '👌', matchLabel: '---', category: 'ok',
     tagline: 'Agua turquesa infinita, bungalows sobre el mar y arrecifes con mantas raya. El paraíso literal.',
-    scales: { playa_ciudad: 10, relax_fiesta: 2, lowcost_fancy: 9, invierno_verano: 7, occidental_exotico: 7, streetfood_gourmet: 4, descanso_aventura: 4, solo_grupal: 3, naturaleza_metropolis: 1, moderno_historico: 2, turistico_desconocido: 4 },
+    scales: { playa_ciudad: 1, relax_fiesta: 1, lowcost_fancy: 10, invierno_verano: 8, occidental_exotico: 8, streetfood_gourmet: 9, descanso_aventura: 2, solo_grupal: 2, naturaleza_metropolis: 1, moderno_historico: 2, turistico_desconocido: 2 },
     coords: [3.2028, 73.2207],
     images: [
       'https://images.unsplash.com/photo-1514282401047-d79a71a590e8?auto=format&fit=crop&w=1600&q=75',
@@ -671,7 +671,7 @@ export const DESTINATIONS_REST: Destination[] = [
     country: 'Seychelles',
     match: '👌', matchLabel: '---', category: 'ok',
     tagline: 'Rocas de granito en playas imposibles. El Jardín del Edén existe y tiene dirección.',
-    scales: { playa_ciudad: 9, relax_fiesta: 2, lowcost_fancy: 8, invierno_verano: 7, occidental_exotico: 7, streetfood_gourmet: 4, descanso_aventura: 5, solo_grupal: 3, naturaleza_metropolis: 2, moderno_historico: 3, turistico_desconocido: 5 },
+    scales: { playa_ciudad: 1, relax_fiesta: 1, lowcost_fancy: 9, invierno_verano: 7, occidental_exotico: 8, streetfood_gourmet: 7, descanso_aventura: 3, solo_grupal: 2, naturaleza_metropolis: 1, moderno_historico: 3, turistico_desconocido: 5 },
     coords: [-4.6796, 55.4920],
     images: [
       'https://images.unsplash.com/photo-1589979481223-deb893043163?auto=format&fit=crop&w=1600&q=75',
@@ -708,7 +708,7 @@ export const DESTINATIONS_REST: Destination[] = [
     country: 'Mauricio',
     match: '👌', matchLabel: '---', category: 'ok',
     tagline: 'Laguna turquesa rodeada de arrecife, montañas verdes y la multiculturalidad más deliciosa del Índico.',
-    scales: { playa_ciudad: 8, relax_fiesta: 4, lowcost_fancy: 6, invierno_verano: 7, occidental_exotico: 6, streetfood_gourmet: 7, descanso_aventura: 5, solo_grupal: 4, naturaleza_metropolis: 3, moderno_historico: 4, turistico_desconocido: 5 },
+    scales: { playa_ciudad: 1, relax_fiesta: 2, lowcost_fancy: 7, invierno_verano: 7, occidental_exotico: 7, streetfood_gourmet: 7, descanso_aventura: 4, solo_grupal: 4, naturaleza_metropolis: 1, moderno_historico: 4, turistico_desconocido: 4 },
     coords: [-20.3484, 57.5522],
     images: [
       'https://images.unsplash.com/photo-1589979481223-deb893043163?auto=format&fit=crop&w=1600&q=75',
@@ -749,7 +749,7 @@ export const DESTINATIONS_REST: Destination[] = [
     country: 'Costa Rica',
     match: '👌', matchLabel: '---', category: 'ok',
     tagline: 'Volcanes, selva, playas de surf y una biodiversidad que cubre el 6% de las especies del planeta.',
-    scales: { playa_ciudad: 5, relax_fiesta: 4, lowcost_fancy: 5, invierno_verano: 6, occidental_exotico: 5, streetfood_gourmet: 4, descanso_aventura: 8, solo_grupal: 5, naturaleza_metropolis: 2, moderno_historico: 4, turistico_desconocido: 5 },
+    scales: { playa_ciudad: 3, relax_fiesta: 2, lowcost_fancy: 4, invierno_verano: 5, occidental_exotico: 5, streetfood_gourmet: 4, descanso_aventura: 9, solo_grupal: 4, naturaleza_metropolis: 1, moderno_historico: 3, turistico_desconocido: 4 },
     coords: [10.4631, -84.2284],
     images: [
       'https://images.unsplash.com/photo-1518259102261-b40117eabbc4?auto=format&fit=crop&w=1600&q=75',
@@ -789,7 +789,7 @@ export const DESTINATIONS_REST: Destination[] = [
     country: 'Guatemala',
     match: '👌', matchLabel: '---', category: 'ok',
     tagline: 'Templos mayas emergiendo de la selva, volcanes activos y la ciudad colonial más bonita de Centroamérica.',
-    scales: { playa_ciudad: 4, relax_fiesta: 3, lowcost_fancy: 2, invierno_verano: 5, occidental_exotico: 7, streetfood_gourmet: 5, descanso_aventura: 7, solo_grupal: 5, naturaleza_metropolis: 3, moderno_historico: 8, turistico_desconocido: 6 },
+    scales: { playa_ciudad: 5, relax_fiesta: 1, lowcost_fancy: 1, invierno_verano: 4, occidental_exotico: 7, streetfood_gourmet: 3, descanso_aventura: 7, solo_grupal: 4, naturaleza_metropolis: 3, moderno_historico: 10, turistico_desconocido: 7 },
     coords: [14.6349, -90.5069],
     images: [
       'https://images.unsplash.com/photo-1599398054066-846f7f76d820?auto=format&fit=crop&w=1600&q=75',
@@ -829,7 +829,7 @@ export const DESTINATIONS_REST: Destination[] = [
     country: 'Namibia',
     match: '👌', matchLabel: '---', category: 'ok',
     tagline: 'Las dunas más altas del mundo, cielos estrellados imposibles y vida salvaje en paisajes de otro planeta.',
-    scales: { playa_ciudad: 2, relax_fiesta: 2, lowcost_fancy: 6, invierno_verano: 5, occidental_exotico: 8, streetfood_gourmet: 3, descanso_aventura: 8, solo_grupal: 4, naturaleza_metropolis: 1, moderno_historico: 4, turistico_desconocido: 7 },
+    scales: { playa_ciudad: 2, relax_fiesta: 1, lowcost_fancy: 5, invierno_verano: 4, occidental_exotico: 9, streetfood_gourmet: 3, descanso_aventura: 9, solo_grupal: 3, naturaleza_metropolis: 1, moderno_historico: 4, turistico_desconocido: 8 },
     coords: [-24.7761, 15.7418],
     images: [
       'https://images.unsplash.com/photo-1518709766631-a6a7f45921c3?auto=format&fit=crop&w=1600&q=75',
@@ -870,7 +870,7 @@ export const DESTINATIONS_REST: Destination[] = [
     country: 'República Dominicana',
     match: '👌', matchLabel: '---', category: 'ok',
     tagline: 'Cocoteros, playas de arena blanca, merengue y el Caribe más accesible del mundo.',
-    scales: { playa_ciudad: 8, relax_fiesta: 6, lowcost_fancy: 4, invierno_verano: 8, occidental_exotico: 4, streetfood_gourmet: 5, descanso_aventura: 5, solo_grupal: 6, naturaleza_metropolis: 3, moderno_historico: 5, turistico_desconocido: 4 },
+    scales: { playa_ciudad: 1, relax_fiesta: 8, lowcost_fancy: 4, invierno_verano: 8, occidental_exotico: 5, streetfood_gourmet: 4, descanso_aventura: 3, solo_grupal: 7, naturaleza_metropolis: 2, moderno_historico: 4, turistico_desconocido: 2 },
     coords: [19.0138, -69.6370],
     images: [
       'https://images.unsplash.com/photo-1569700979093-0e1d7c89e228?auto=format&fit=crop&w=1600&q=75',
@@ -911,7 +911,7 @@ export const DESTINATIONS_REST: Destination[] = [
     country: 'Escocia',
     match: '👌', matchLabel: '---', category: 'ok',
     tagline: 'Castillos sobre roca volcánica, callejones medievales con fantasmas y la ciudad más atmosférica de las Islas Británicas.',
-    scales: { playa_ciudad: 9, relax_fiesta: 6, lowcost_fancy: 5, invierno_verano: 5, occidental_exotico: 2, streetfood_gourmet: 6, descanso_aventura: 4, solo_grupal: 5, naturaleza_metropolis: 8, moderno_historico: 9, turistico_desconocido: 3 },
+    scales: { playa_ciudad: 10, relax_fiesta: 4, lowcost_fancy: 6, invierno_verano: 5, occidental_exotico: 1, streetfood_gourmet: 8, descanso_aventura: 3, solo_grupal: 4, naturaleza_metropolis: 9, moderno_historico: 10, turistico_desconocido: 2 },
     coords: [55.9533, -3.1883],
     images: [
       'https://images.unsplash.com/photo-1506377585622-bedcbb027afc?auto=format&fit=crop&w=1600&q=75',
@@ -951,7 +951,7 @@ export const DESTINATIONS_REST: Destination[] = [
     country: 'Italia',
     match: '👌', matchLabel: '---', category: 'ok',
     tagline: 'La Ciudad Eterna: el Coliseo, el Vaticano, la pasta al dente y 2800 años de historia en cada esquina.',
-    scales: { playa_ciudad: 10, relax_fiesta: 5, lowcost_fancy: 5, invierno_verano: 6, occidental_exotico: 1, streetfood_gourmet: 9, descanso_aventura: 3, solo_grupal: 5, naturaleza_metropolis: 9, moderno_historico: 10, turistico_desconocido: 1 },
+    scales: { playa_ciudad: 10, relax_fiesta: 4, lowcost_fancy: 5, invierno_verano: 6, occidental_exotico: 1, streetfood_gourmet: 9, descanso_aventura: 2, solo_grupal: 5, naturaleza_metropolis: 10, moderno_historico: 10, turistico_desconocido: 1 },
     coords: [41.9028, 12.4964],
     images: [
       'https://images.unsplash.com/photo-1552832230-c0197dd311b5?auto=format&fit=crop&w=1600&q=75',
@@ -991,7 +991,7 @@ export const DESTINATIONS_REST: Destination[] = [
     country: 'Italia',
     match: '👌', matchLabel: '---', category: 'ok',
     tagline: 'La cuna del Renacimiento: el David de Miguel Ángel, los Uffizi, la cúpula de Brunelleschi y la mejor bistecca del mundo.',
-    scales: { playa_ciudad: 9, relax_fiesta: 4, lowcost_fancy: 6, invierno_verano: 6, occidental_exotico: 1, streetfood_gourmet: 8, descanso_aventura: 3, solo_grupal: 4, naturaleza_metropolis: 8, moderno_historico: 10, turistico_desconocido: 2 },
+    scales: { playa_ciudad: 10, relax_fiesta: 2, lowcost_fancy: 6, invierno_verano: 6, occidental_exotico: 1, streetfood_gourmet: 10, descanso_aventura: 1, solo_grupal: 4, naturaleza_metropolis: 9, moderno_historico: 10, turistico_desconocido: 1 },
     coords: [43.7696, 11.2558],
     images: [
       'https://images.unsplash.com/photo-1543429776-2782fc8e0c68?auto=format&fit=crop&w=1600&q=75',
@@ -1031,7 +1031,7 @@ export const DESTINATIONS_REST: Destination[] = [
     country: 'Eslovaquia',
     match: '👌', matchLabel: '---', category: 'ok',
     tagline: 'La pequeña capital del Danubio: castillo blanco, casco antiguo de cuento y el secreto mejor guardado de Centroeuropa.',
-    scales: { playa_ciudad: 8, relax_fiesta: 5, lowcost_fancy: 2, invierno_verano: 5, occidental_exotico: 3, streetfood_gourmet: 5, descanso_aventura: 3, solo_grupal: 5, naturaleza_metropolis: 7, moderno_historico: 7, turistico_desconocido: 6 },
+    scales: { playa_ciudad: 10, relax_fiesta: 5, lowcost_fancy: 2, invierno_verano: 5, occidental_exotico: 2, streetfood_gourmet: 4, descanso_aventura: 2, solo_grupal: 5, naturaleza_metropolis: 9, moderno_historico: 8, turistico_desconocido: 7 },
     coords: [48.1486, 17.1077],
     images: [
       'https://images.unsplash.com/photo-1558597839-4a11ef31d633?auto=format&fit=crop&w=1600&q=75',
@@ -1071,7 +1071,7 @@ export const DESTINATIONS_REST: Destination[] = [
     country: 'Letonia',
     match: '👌', matchLabel: '---', category: 'ok',
     tagline: 'Art nouveau, mercado central en zepelines y la capital báltica más vibrante entre el medievo y la modernidad.',
-    scales: { playa_ciudad: 8, relax_fiesta: 6, lowcost_fancy: 2, invierno_verano: 5, occidental_exotico: 3, streetfood_gourmet: 5, descanso_aventura: 3, solo_grupal: 5, naturaleza_metropolis: 7, moderno_historico: 8, turistico_desconocido: 6 },
+    scales: { playa_ciudad: 10, relax_fiesta: 5, lowcost_fancy: 2, invierno_verano: 5, occidental_exotico: 2, streetfood_gourmet: 5, descanso_aventura: 2, solo_grupal: 4, naturaleza_metropolis: 9, moderno_historico: 9, turistico_desconocido: 7 },
     coords: [56.9496, 24.1052],
     images: [
       'https://images.unsplash.com/photo-1513622470522-26c3c8a854bc?auto=format&fit=crop&w=1600&q=75',
@@ -1111,7 +1111,7 @@ export const DESTINATIONS_REST: Destination[] = [
     country: 'Finlandia',
     match: '👌', matchLabel: '---', category: 'ok',
     tagline: 'Diseño nórdico, saunas al mar, archipiélago de islas y la capital más limpia y funcional de Europa.',
-    scales: { playa_ciudad: 8, relax_fiesta: 4, lowcost_fancy: 7, invierno_verano: 6, occidental_exotico: 3, streetfood_gourmet: 6, descanso_aventura: 4, solo_grupal: 4, naturaleza_metropolis: 7, moderno_historico: 6, turistico_desconocido: 5 },
+    scales: { playa_ciudad: 10, relax_fiesta: 3, lowcost_fancy: 8, invierno_verano: 5, occidental_exotico: 1, streetfood_gourmet: 8, descanso_aventura: 2, solo_grupal: 3, naturaleza_metropolis: 9, moderno_historico: 4, turistico_desconocido: 5 },
     coords: [60.1699, 24.9384],
     images: [
       'https://images.unsplash.com/photo-1538332576228-eb5b4c4de6f5?auto=format&fit=crop&w=1600&q=75',
@@ -1151,7 +1151,7 @@ export const DESTINATIONS_REST: Destination[] = [
     country: 'Montenegro',
     match: '👌', matchLabel: '---', category: 'ok',
     tagline: 'El cañón más profundo de Europa, montañas salvajes de 2500 m y rafting en aguas esmeralda.',
-    scales: { playa_ciudad: 2, relax_fiesta: 2, lowcost_fancy: 2, invierno_verano: 6, occidental_exotico: 4, streetfood_gourmet: 4, descanso_aventura: 9, solo_grupal: 4, naturaleza_metropolis: 1, moderno_historico: 5, turistico_desconocido: 8 },
+    scales: { playa_ciudad: 3, relax_fiesta: 1, lowcost_fancy: 2, invierno_verano: 6, occidental_exotico: 3, streetfood_gourmet: 4, descanso_aventura: 7, solo_grupal: 3, naturaleza_metropolis: 1, moderno_historico: 8, turistico_desconocido: 9 },
     coords: [43.1506, 19.0000],
     images: [
       'https://images.unsplash.com/photo-1590523277543-a94d2e4eb00b?auto=format&fit=crop&w=1600&q=75',
@@ -1191,7 +1191,7 @@ export const DESTINATIONS_REST: Destination[] = [
     country: 'Italia',
     match: '👌', matchLabel: '---', category: 'ok',
     tagline: 'Calas de agua turquesa, nuraghi de 3500 años y una cultura propia que no es exactamente italiana.',
-    scales: { playa_ciudad: 8, relax_fiesta: 4, lowcost_fancy: 5, invierno_verano: 8, occidental_exotico: 2, streetfood_gourmet: 7, descanso_aventura: 6, solo_grupal: 4, naturaleza_metropolis: 3, moderno_historico: 7, turistico_desconocido: 5 },
+    scales: { playa_ciudad: 1, relax_fiesta: 2, lowcost_fancy: 5, invierno_verano: 9, occidental_exotico: 1, streetfood_gourmet: 7, descanso_aventura: 4, solo_grupal: 3, naturaleza_metropolis: 2, moderno_historico: 7, turistico_desconocido: 5 },
     coords: [40.1209, 9.0129],
     images: [
       'https://images.unsplash.com/photo-1586699253884-e199770f63b9?auto=format&fit=crop&w=1600&q=75',
@@ -1231,7 +1231,7 @@ export const DESTINATIONS_REST: Destination[] = [
     country: 'Italia',
     match: '👌', matchLabel: '---', category: 'ok',
     tagline: 'Torres de roca vertical, lagos de color imposible y los refugios de montaña más bonitos del mundo.',
-    scales: { playa_ciudad: 1, relax_fiesta: 2, lowcost_fancy: 6, invierno_verano: 7, occidental_exotico: 2, streetfood_gourmet: 6, descanso_aventura: 9, solo_grupal: 4, naturaleza_metropolis: 1, moderno_historico: 5, turistico_desconocido: 4 },
+    scales: { playa_ciudad: 1, relax_fiesta: 1, lowcost_fancy: 7, invierno_verano: 6, occidental_exotico: 1, streetfood_gourmet: 7, descanso_aventura: 9, solo_grupal: 3, naturaleza_metropolis: 1, moderno_historico: 4, turistico_desconocido: 4 },
     coords: [46.4102, 11.8440],
     images: [
       'https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=1600&q=75',
@@ -1271,7 +1271,7 @@ export const DESTINATIONS_REST: Destination[] = [
     country: 'Estonia',
     match: '👌', matchLabel: '---', category: 'ok',
     tagline: 'La ciudad medieval mejor conservada del norte de Europa, con alma digital y torres de cuento de hadas.',
-    scales: { playa_ciudad: 8, relax_fiesta: 5, lowcost_fancy: 3, invierno_verano: 5, occidental_exotico: 3, streetfood_gourmet: 5, descanso_aventura: 3, solo_grupal: 5, naturaleza_metropolis: 7, moderno_historico: 9, turistico_desconocido: 5 },
+    scales: { playa_ciudad: 10, relax_fiesta: 4, lowcost_fancy: 3, invierno_verano: 5, occidental_exotico: 2, streetfood_gourmet: 5, descanso_aventura: 2, solo_grupal: 4, naturaleza_metropolis: 9, moderno_historico: 10, turistico_desconocido: 6 },
     coords: [59.4370, 24.7536],
     images: [
       'https://images.unsplash.com/photo-1560732488-6b0df7224774?auto=format&fit=crop&w=1600&q=75',
@@ -1313,7 +1313,7 @@ export const DESTINATIONS_REST: Destination[] = [
     country: 'Filipinas',
     match: '👌', matchLabel: '---', category: 'ok',
     tagline: 'Lagunas escondidas entre acantilados de caliza, el agua más transparente del planeta y 7641 islas por explorar.',
-    scales: { playa_ciudad: 9, relax_fiesta: 4, lowcost_fancy: 3, invierno_verano: 7, occidental_exotico: 8, streetfood_gourmet: 5, descanso_aventura: 7, solo_grupal: 5, naturaleza_metropolis: 1, moderno_historico: 3, turistico_desconocido: 6 },
+    scales: { playa_ciudad: 1, relax_fiesta: 2, lowcost_fancy: 2, invierno_verano: 5, occidental_exotico: 8, streetfood_gourmet: 3, descanso_aventura: 8, solo_grupal: 4, naturaleza_metropolis: 1, moderno_historico: 3, turistico_desconocido: 7 },
     coords: [11.1784, 119.5126],
     images: [
       'https://images.unsplash.com/photo-1518509562904-e7ef99cdcc86?auto=format&fit=crop&w=1600&q=75',
@@ -1353,7 +1353,7 @@ export const DESTINATIONS_REST: Destination[] = [
     country: 'Laos',
     match: '👌', matchLabel: '---', category: 'ok',
     tagline: 'Monjes al amanecer, templos dorados sobre el Mekong y la calma más profunda del sudeste asiático.',
-    scales: { playa_ciudad: 3, relax_fiesta: 2, lowcost_fancy: 2, invierno_verano: 6, occidental_exotico: 9, streetfood_gourmet: 6, descanso_aventura: 5, solo_grupal: 4, naturaleza_metropolis: 3, moderno_historico: 8, turistico_desconocido: 7 },
+    scales: { playa_ciudad: 6, relax_fiesta: 1, lowcost_fancy: 1, invierno_verano: 4, occidental_exotico: 9, streetfood_gourmet: 2, descanso_aventura: 4, solo_grupal: 2, naturaleza_metropolis: 4, moderno_historico: 10, turistico_desconocido: 7 },
     coords: [19.8856, 102.1347],
     images: [
       'https://images.unsplash.com/photo-1583417319070-4a69db38a482?auto=format&fit=crop&w=1600&q=75',
@@ -1393,7 +1393,7 @@ export const DESTINATIONS_REST: Destination[] = [
     country: 'Myanmar',
     match: '👌', matchLabel: '---', category: 'ok',
     tagline: 'Cuatro mil templos en una llanura infinita, pescadores que reman con una pierna y pagodas doradas que quitan el aliento.',
-    scales: { playa_ciudad: 2, relax_fiesta: 1, lowcost_fancy: 2, invierno_verano: 5, occidental_exotico: 10, streetfood_gourmet: 5, descanso_aventura: 6, solo_grupal: 4, naturaleza_metropolis: 2, moderno_historico: 10, turistico_desconocido: 8 },
+    scales: { playa_ciudad: 6, relax_fiesta: 1, lowcost_fancy: 1, invierno_verano: 4, occidental_exotico: 10, streetfood_gourmet: 2, descanso_aventura: 5, solo_grupal: 3, naturaleza_metropolis: 3, moderno_historico: 10, turistico_desconocido: 8 },
     coords: [21.1717, 94.8585],
     images: [
       'https://images.unsplash.com/photo-1540611025311-01df3cef54b5?auto=format&fit=crop&w=1600&q=75',
@@ -1433,7 +1433,7 @@ export const DESTINATIONS_REST: Destination[] = [
     country: 'Uzbekistán',
     match: '👌', matchLabel: '---', category: 'ok',
     tagline: 'Cúpulas turquesas, madrasas de mosaico y caravansares: la Ruta de la Seda cobra vida en Asia Central.',
-    scales: { playa_ciudad: 5, relax_fiesta: 2, lowcost_fancy: 2, invierno_verano: 4, occidental_exotico: 9, streetfood_gourmet: 7, descanso_aventura: 4, solo_grupal: 4, naturaleza_metropolis: 5, moderno_historico: 10, turistico_desconocido: 8 },
+    scales: { playa_ciudad: 8, relax_fiesta: 1, lowcost_fancy: 1, invierno_verano: 5, occidental_exotico: 10, streetfood_gourmet: 3, descanso_aventura: 3, solo_grupal: 3, naturaleza_metropolis: 7, moderno_historico: 10, turistico_desconocido: 8 },
     coords: [39.6542, 66.9597],
     images: [
       'https://images.unsplash.com/photo-1596484552834-6a58f850e0a1?auto=format&fit=crop&w=1600&q=75',
@@ -1473,7 +1473,7 @@ export const DESTINATIONS_REST: Destination[] = [
     country: 'Mongolia',
     match: '👌', matchLabel: '---', category: 'ok',
     tagline: 'El último país nómada: estepas infinitas, gers bajo las estrellas y la libertad más absoluta del planeta.',
-    scales: { playa_ciudad: 1, relax_fiesta: 1, lowcost_fancy: 3, invierno_verano: 3, occidental_exotico: 10, streetfood_gourmet: 3, descanso_aventura: 10, solo_grupal: 5, naturaleza_metropolis: 1, moderno_historico: 6, turistico_desconocido: 9 },
+    scales: { playa_ciudad: 1, relax_fiesta: 1, lowcost_fancy: 1, invierno_verano: 5, occidental_exotico: 10, streetfood_gourmet: 2, descanso_aventura: 10, solo_grupal: 3, naturaleza_metropolis: 1, moderno_historico: 5, turistico_desconocido: 10 },
     coords: [47.9212, 106.9057],
     images: [
       'https://images.unsplash.com/photo-1551632811-561732d1e306?auto=format&fit=crop&w=1600&q=75',
@@ -1515,7 +1515,7 @@ export const DESTINATIONS_REST: Destination[] = [
     country: 'Madagascar',
     match: '👌', matchLabel: '---', category: 'ok',
     tagline: 'La isla donde el 90% de la vida no existe en ningún otro lugar de la Tierra: lémures, baobabs y selvas primigenias.',
-    scales: { playa_ciudad: 4, relax_fiesta: 2, lowcost_fancy: 3, invierno_verano: 5, occidental_exotico: 10, streetfood_gourmet: 4, descanso_aventura: 8, solo_grupal: 4, naturaleza_metropolis: 1, moderno_historico: 4, turistico_desconocido: 9 },
+    scales: { playa_ciudad: 2, relax_fiesta: 1, lowcost_fancy: 1, invierno_verano: 5, occidental_exotico: 10, streetfood_gourmet: 2, descanso_aventura: 9, solo_grupal: 3, naturaleza_metropolis: 1, moderno_historico: 4, turistico_desconocido: 10 },
     coords: [-18.7669, 46.8691],
     images: [
       'https://images.unsplash.com/photo-1580060839134-75a5edca2e99?auto=format&fit=crop&w=1600&q=75',
@@ -1555,7 +1555,7 @@ export const DESTINATIONS_REST: Destination[] = [
     country: 'Etiopía',
     match: '👌', matchLabel: '---', category: 'ok',
     tagline: 'Iglesias excavadas en la roca hace 800 años, montañas de 4500 m y la cuna del café y de la humanidad.',
-    scales: { playa_ciudad: 2, relax_fiesta: 1, lowcost_fancy: 2, invierno_verano: 5, occidental_exotico: 10, streetfood_gourmet: 6, descanso_aventura: 7, solo_grupal: 4, naturaleza_metropolis: 2, moderno_historico: 10, turistico_desconocido: 8 },
+    scales: { playa_ciudad: 7, relax_fiesta: 1, lowcost_fancy: 1, invierno_verano: 5, occidental_exotico: 10, streetfood_gourmet: 3, descanso_aventura: 6, solo_grupal: 4, naturaleza_metropolis: 4, moderno_historico: 10, turistico_desconocido: 9 },
     coords: [12.0319, 39.0475],
     images: [
       'https://images.unsplash.com/photo-1523805009345-7448845a9e53?auto=format&fit=crop&w=1600&q=75',
@@ -1595,7 +1595,7 @@ export const DESTINATIONS_REST: Destination[] = [
     country: 'Tanzania',
     match: '👌', matchLabel: '---', category: 'ok',
     tagline: 'El cráter de Ngorongoro, la sabana infinita del Serengeti y el Kilimanjaro como telón de fondo: el safari supremo.',
-    scales: { playa_ciudad: 2, relax_fiesta: 2, lowcost_fancy: 7, invierno_verano: 5, occidental_exotico: 9, streetfood_gourmet: 3, descanso_aventura: 9, solo_grupal: 4, naturaleza_metropolis: 1, moderno_historico: 3, turistico_desconocido: 5 },
+    scales: { playa_ciudad: 1, relax_fiesta: 1, lowcost_fancy: 7, invierno_verano: 5, occidental_exotico: 10, streetfood_gourmet: 3, descanso_aventura: 9, solo_grupal: 4, naturaleza_metropolis: 1, moderno_historico: 4, turistico_desconocido: 4 },
     coords: [-2.3333, 34.8333],
     images: [
       'https://images.unsplash.com/photo-1516426122078-c23e76319801?auto=format&fit=crop&w=1600&q=75',
@@ -1637,7 +1637,7 @@ export const DESTINATIONS_REST: Destination[] = [
     country: 'Colombia',
     match: '👌', matchLabel: '---', category: 'ok',
     tagline: 'Palmas de cera de 60 metros, fincas cafeteras entre montañas verdes y pueblos de colores con el mejor café del mundo.',
-    scales: { playa_ciudad: 3, relax_fiesta: 3, lowcost_fancy: 3, invierno_verano: 5, occidental_exotico: 6, streetfood_gourmet: 6, descanso_aventura: 7, solo_grupal: 5, naturaleza_metropolis: 2, moderno_historico: 5, turistico_desconocido: 7 },
+    scales: { playa_ciudad: 3, relax_fiesta: 2, lowcost_fancy: 1, invierno_verano: 6, occidental_exotico: 5, streetfood_gourmet: 6, descanso_aventura: 6, solo_grupal: 5, naturaleza_metropolis: 2, moderno_historico: 6, turistico_desconocido: 8 },
     coords: [4.6371, -75.6308],
     images: [
       'https://images.unsplash.com/photo-1596895111956-bf1cf0599ce5?auto=format&fit=crop&w=1600&q=75',
@@ -1677,7 +1677,7 @@ export const DESTINATIONS_REST: Destination[] = [
     country: 'Ecuador',
     match: '👌', matchLabel: '---', category: 'ok',
     tagline: 'Las islas donde Darwin entendió la evolución: iguanas marinas, tortugas gigantes y leones marinos que no te tienen miedo.',
-    scales: { playa_ciudad: 5, relax_fiesta: 1, lowcost_fancy: 7, invierno_verano: 6, occidental_exotico: 8, streetfood_gourmet: 4, descanso_aventura: 8, solo_grupal: 4, naturaleza_metropolis: 1, moderno_historico: 4, turistico_desconocido: 6 },
+    scales: { playa_ciudad: 2, relax_fiesta: 1, lowcost_fancy: 8, invierno_verano: 6, occidental_exotico: 7, streetfood_gourmet: 3, descanso_aventura: 9, solo_grupal: 3, naturaleza_metropolis: 1, moderno_historico: 3, turistico_desconocido: 5 },
     coords: [-0.9538, -90.9656],
     images: [
       'https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=1600&q=75',
@@ -1719,7 +1719,7 @@ export const DESTINATIONS_REST: Destination[] = [
     country: 'Fiji',
     match: '👌', matchLabel: '---', category: 'ok',
     tagline: 'Bula! Arrecifes de coral virgen, islas desiertas y la hospitalidad más genuina del Pacífico Sur.',
-    scales: { playa_ciudad: 9, relax_fiesta: 4, lowcost_fancy: 6, invierno_verano: 7, occidental_exotico: 7, streetfood_gourmet: 4, descanso_aventura: 6, solo_grupal: 4, naturaleza_metropolis: 1, moderno_historico: 3, turistico_desconocido: 7 },
+    scales: { playa_ciudad: 1, relax_fiesta: 2, lowcost_fancy: 6, invierno_verano: 8, occidental_exotico: 8, streetfood_gourmet: 4, descanso_aventura: 5, solo_grupal: 4, naturaleza_metropolis: 1, moderno_historico: 3, turistico_desconocido: 6 },
     coords: [-17.7134, 177.9399],
     images: [
       'https://images.unsplash.com/photo-1575319087280-08a38aa5a682?auto=format&fit=crop&w=1600&q=75',
@@ -1760,7 +1760,7 @@ export const DESTINATIONS_REST: Destination[] = [
     country: 'Marruecos',
     match: '👌', matchLabel: '---', category: 'ok',
     tagline: 'La medina medieval más grande del mundo: 9400 callejones, curtidurías milenarias y artesanía viva.',
-    scales: { playa_ciudad: 8, relax_fiesta: 3, lowcost_fancy: 3, invierno_verano: 5, occidental_exotico: 8, streetfood_gourmet: 8, descanso_aventura: 4, solo_grupal: 5, naturaleza_metropolis: 7, moderno_historico: 10, turistico_desconocido: 6 },
+    scales: { playa_ciudad: 10, relax_fiesta: 1, lowcost_fancy: 2, invierno_verano: 4, occidental_exotico: 8, streetfood_gourmet: 6, descanso_aventura: 3, solo_grupal: 4, naturaleza_metropolis: 9, moderno_historico: 10, turistico_desconocido: 5 },
     coords: [34.0331, -5.0003],
     images: [
       'https://images.unsplash.com/photo-1545041028-6aef4e823fd0?auto=format&fit=crop&w=1600&q=75',
@@ -1801,7 +1801,7 @@ export const DESTINATIONS_REST: Destination[] = [
     country: 'Taiwán',
     match: '👌', matchLabel: '---', category: 'ok',
     tagline: 'Mercados nocturnos infinitos, montañas de 3000 m, templos taoístas y la mejor street food de Asia.',
-    scales: { playa_ciudad: 7, relax_fiesta: 4, lowcost_fancy: 4, invierno_verano: 6, occidental_exotico: 7, streetfood_gourmet: 10, descanso_aventura: 6, solo_grupal: 5, naturaleza_metropolis: 6, moderno_historico: 7, turistico_desconocido: 6 },
+    scales: { playa_ciudad: 10, relax_fiesta: 5, lowcost_fancy: 3, invierno_verano: 5, occidental_exotico: 7, streetfood_gourmet: 10, descanso_aventura: 4, solo_grupal: 5, naturaleza_metropolis: 10, moderno_historico: 6, turistico_desconocido: 6 },
     coords: [25.0330, 121.5654],
     images: [
       'https://images.unsplash.com/photo-1508248467877-aec1c4221aba?auto=format&fit=crop&w=1600&q=75',
@@ -1841,7 +1841,7 @@ export const DESTINATIONS_REST: Destination[] = [
     country: 'Corea del Sur',
     match: '👌', matchLabel: '---', category: 'ok',
     tagline: 'K-pop, palacios de 600 años, barbacoa coreana y la ciudad más wired del planeta.',
-    scales: { playa_ciudad: 9, relax_fiesta: 7, lowcost_fancy: 5, invierno_verano: 5, occidental_exotico: 7, streetfood_gourmet: 9, descanso_aventura: 4, solo_grupal: 6, naturaleza_metropolis: 9, moderno_historico: 8, turistico_desconocido: 5 },
+    scales: { playa_ciudad: 10, relax_fiesta: 7, lowcost_fancy: 5, invierno_verano: 5, occidental_exotico: 7, streetfood_gourmet: 9, descanso_aventura: 3, solo_grupal: 6, naturaleza_metropolis: 10, moderno_historico: 5, turistico_desconocido: 3 },
     coords: [37.5665, 126.9780],
     images: [
       'https://images.unsplash.com/photo-1534274988757-a28bf1a57c17?auto=format&fit=crop&w=1600&q=75',
@@ -1882,7 +1882,7 @@ export const DESTINATIONS_REST: Destination[] = [
     country: 'Malasia',
     match: '👌', matchLabel: '---', category: 'ok',
     tagline: 'Orangutanes en libertad, selva de 130 millones de años, Monte Kinabalu y buceo de clase mundial.',
-    scales: { playa_ciudad: 4, relax_fiesta: 2, lowcost_fancy: 4, invierno_verano: 7, occidental_exotico: 9, streetfood_gourmet: 6, descanso_aventura: 9, solo_grupal: 4, naturaleza_metropolis: 2, moderno_historico: 4, turistico_desconocido: 7 },
+    scales: { playa_ciudad: 2, relax_fiesta: 1, lowcost_fancy: 3, invierno_verano: 6, occidental_exotico: 8, streetfood_gourmet: 3, descanso_aventura: 10, solo_grupal: 3, naturaleza_metropolis: 1, moderno_historico: 4, turistico_desconocido: 8 },
     coords: [5.9804, 116.0735],
     images: [
       'https://images.unsplash.com/photo-1592364395653-83e648b20cc2?auto=format&fit=crop&w=1600&q=75',
@@ -1923,7 +1923,7 @@ export const DESTINATIONS_REST: Destination[] = [
     country: 'Panamá',
     match: '👌', matchLabel: '---', category: 'ok',
     tagline: 'El canal que unió dos océanos, playas caribeñas vírgenes y la selva más accesible de Centroamérica.',
-    scales: { playa_ciudad: 6, relax_fiesta: 5, lowcost_fancy: 5, invierno_verano: 7, occidental_exotico: 5, streetfood_gourmet: 5, descanso_aventura: 7, solo_grupal: 5, naturaleza_metropolis: 5, moderno_historico: 6, turistico_desconocido: 6 },
+    scales: { playa_ciudad: 5, relax_fiesta: 4, lowcost_fancy: 4, invierno_verano: 7, occidental_exotico: 5, streetfood_gourmet: 5, descanso_aventura: 6, solo_grupal: 5, naturaleza_metropolis: 5, moderno_historico: 6, turistico_desconocido: 6 },
     coords: [8.9824, -79.5199],
     images: [
       'https://images.unsplash.com/photo-1566438480900-0609be27a4be?auto=format&fit=crop&w=1600&q=75',
@@ -1963,7 +1963,7 @@ export const DESTINATIONS_REST: Destination[] = [
     country: 'Jamaica',
     match: '👌', matchLabel: '---', category: 'ok',
     tagline: 'Reggae, playas de arena blanca, jerk chicken y la energía más contagiosa del Caribe.',
-    scales: { playa_ciudad: 7, relax_fiesta: 7, lowcost_fancy: 4, invierno_verano: 8, occidental_exotico: 5, streetfood_gourmet: 7, descanso_aventura: 6, solo_grupal: 6, naturaleza_metropolis: 4, moderno_historico: 5, turistico_desconocido: 5 },
+    scales: { playa_ciudad: 2, relax_fiesta: 9, lowcost_fancy: 4, invierno_verano: 8, occidental_exotico: 6, streetfood_gourmet: 5, descanso_aventura: 4, solo_grupal: 8, naturaleza_metropolis: 2, moderno_historico: 4, turistico_desconocido: 3 },
     coords: [18.1096, -77.2975],
     images: [
       'https://images.unsplash.com/photo-1580237072617-771c3ecc4a24?auto=format&fit=crop&w=1600&q=75',
@@ -2004,7 +2004,7 @@ export const DESTINATIONS_REST: Destination[] = [
     country: 'España',
     match: '👌', matchLabel: '---', category: 'ok',
     tagline: 'Volcanes lunares, playas subtropicales y eterna primavera a 3 horas de la península.',
-    scales: { playa_ciudad: 7, relax_fiesta: 5, lowcost_fancy: 4, invierno_verano: 8, occidental_exotico: 3, streetfood_gourmet: 5, descanso_aventura: 7, solo_grupal: 5, naturaleza_metropolis: 3, moderno_historico: 4, turistico_desconocido: 5 },
+    scales: { playa_ciudad: 2, relax_fiesta: 3, lowcost_fancy: 3, invierno_verano: 8, occidental_exotico: 1, streetfood_gourmet: 5, descanso_aventura: 5, solo_grupal: 5, naturaleza_metropolis: 2, moderno_historico: 4, turistico_desconocido: 2 },
     coords: [28.2916, -16.6291],
     images: [
       'https://images.unsplash.com/photo-1540202404-a2f29016b523?auto=format&fit=crop&w=1600&q=75',
@@ -2045,7 +2045,7 @@ export const DESTINATIONS_REST: Destination[] = [
     country: 'Grecia',
     match: '👌', matchLabel: '---', category: 'ok',
     tagline: 'La Creta que no sale en las postales: pueblos de montaña, queso graviera, raki y gargantas salvajes.',
-    scales: { playa_ciudad: 3, relax_fiesta: 3, lowcost_fancy: 3, invierno_verano: 5, occidental_exotico: 3, streetfood_gourmet: 8, descanso_aventura: 7, solo_grupal: 4, naturaleza_metropolis: 2, moderno_historico: 8, turistico_desconocido: 8 },
+    scales: { playa_ciudad: 3, relax_fiesta: 1, lowcost_fancy: 2, invierno_verano: 9, occidental_exotico: 2, streetfood_gourmet: 6, descanso_aventura: 6, solo_grupal: 3, naturaleza_metropolis: 2, moderno_historico: 10, turistico_desconocido: 8 },
     coords: [35.2401, 24.4700],
     images: [
       'https://images.unsplash.com/photo-1555993539-1732b0258235?auto=format&fit=crop&w=1600&q=75',
@@ -2086,7 +2086,7 @@ export const DESTINATIONS_REST: Destination[] = [
     country: 'Chile',
     match: '👌', matchLabel: '---', category: 'ok',
     tagline: 'Los moais milenarios en el lugar más remoto de la Tierra. Misterio puro en medio del Pacífico.',
-    scales: { playa_ciudad: 3, relax_fiesta: 2, lowcost_fancy: 6, invierno_verano: 6, occidental_exotico: 10, streetfood_gourmet: 4, descanso_aventura: 6, solo_grupal: 4, naturaleza_metropolis: 2, moderno_historico: 10, turistico_desconocido: 7 },
+    scales: { playa_ciudad: 2, relax_fiesta: 1, lowcost_fancy: 6, invierno_verano: 6, occidental_exotico: 9, streetfood_gourmet: 2, descanso_aventura: 7, solo_grupal: 2, naturaleza_metropolis: 1, moderno_historico: 10, turistico_desconocido: 9 },
     coords: [-27.1127, -109.3497],
     images: [
       'https://images.unsplash.com/photo-1558730439-0ea50e6b1f16?auto=format&fit=crop&w=1600&q=75',
@@ -2127,7 +2127,7 @@ export const DESTINATIONS_REST: Destination[] = [
     country: 'Estados Unidos',
     match: '👌', matchLabel: '---', category: 'ok',
     tagline: 'Volcanes activos, playas de arena negra, surf legendario y el aloha spirit en el medio del Pacífico.',
-    scales: { playa_ciudad: 8, relax_fiesta: 5, lowcost_fancy: 7, invierno_verano: 8, occidental_exotico: 5, streetfood_gourmet: 6, descanso_aventura: 8, solo_grupal: 5, naturaleza_metropolis: 3, moderno_historico: 5, turistico_desconocido: 4 },
+    scales: { playa_ciudad: 1, relax_fiesta: 3, lowcost_fancy: 8, invierno_verano: 8, occidental_exotico: 3, streetfood_gourmet: 6, descanso_aventura: 7, solo_grupal: 5, naturaleza_metropolis: 1, moderno_historico: 4, turistico_desconocido: 1 },
     coords: [20.7984, -156.3319],
     images: [
       'https://images.unsplash.com/photo-1483168527879-c66136b56105?auto=format&fit=crop&w=1600&q=75',
@@ -2169,7 +2169,7 @@ export const DESTINATIONS_REST: Destination[] = [
     country: 'Italia',
     match: '👌', matchLabel: '---', category: 'ok',
     tagline: 'Una ciudad imposible construida sobre 118 islas, 400 puentes y cero coches. La belleza más inverosímil de Europa.',
-    scales: { playa_ciudad: 10, relax_fiesta: 3, lowcost_fancy: 8, invierno_verano: 5, occidental_exotico: 2, streetfood_gourmet: 7, descanso_aventura: 2, solo_grupal: 4, naturaleza_metropolis: 9, moderno_historico: 10, turistico_desconocido: 1 },
+    scales: { playa_ciudad: 10, relax_fiesta: 2, lowcost_fancy: 8, invierno_verano: 6, occidental_exotico: 1, streetfood_gourmet: 9, descanso_aventura: 1, solo_grupal: 4, naturaleza_metropolis: 10, moderno_historico: 10, turistico_desconocido: 1 },
     coords: [45.4408, 12.3155],
     images: [
       'https://images.unsplash.com/photo-1523906834658-6e24ef2386f9?auto=format&fit=crop&w=1600&q=75',
@@ -2215,7 +2215,7 @@ export const DESTINATIONS_REST: Destination[] = [
     country: 'Italia',
     match: '👌', matchLabel: '---', category: 'ok',
     tagline: 'El lago alpino más elegante del mundo: villas del Renacimiento, pueblos de postal y los Alpes reflejados en agua azul cobalto.',
-    scales: { playa_ciudad: 4, relax_fiesta: 2, lowcost_fancy: 8, invierno_verano: 7, occidental_exotico: 1, streetfood_gourmet: 6, descanso_aventura: 4, solo_grupal: 3, naturaleza_metropolis: 3, moderno_historico: 7, turistico_desconocido: 4 },
+    scales: { playa_ciudad: 2, relax_fiesta: 1, lowcost_fancy: 10, invierno_verano: 7, occidental_exotico: 1, streetfood_gourmet: 9, descanso_aventura: 2, solo_grupal: 3, naturaleza_metropolis: 2, moderno_historico: 7, turistico_desconocido: 2 },
     coords: [45.9871, 9.2570],
     images: [
       'https://images.unsplash.com/photo-1536599018102-9f803c140fc1?auto=format&fit=crop&w=1600&q=75',
@@ -2263,7 +2263,7 @@ export const DESTINATIONS_REST: Destination[] = [
     country: 'España',
     match: '👌', matchLabel: '---', category: 'ok',
     tagline: 'Flamenco en un tablao, el Alcázar de Juego de Tronos, tapas a 2 € y la ciudad más alegre de Europa.',
-    scales: { playa_ciudad: 9, relax_fiesta: 7, lowcost_fancy: 3, invierno_verano: 6, occidental_exotico: 2, streetfood_gourmet: 8, descanso_aventura: 3, solo_grupal: 6, naturaleza_metropolis: 8, moderno_historico: 9, turistico_desconocido: 3 },
+    scales: { playa_ciudad: 10, relax_fiesta: 6, lowcost_fancy: 3, invierno_verano: 4, occidental_exotico: 1, streetfood_gourmet: 8, descanso_aventura: 2, solo_grupal: 6, naturaleza_metropolis: 9, moderno_historico: 10, turistico_desconocido: 1 },
     coords: [37.3891, -5.9845],
     images: [
       'https://images.unsplash.com/photo-1515443961218-a51367888e4b?auto=format&fit=crop&w=1600&q=75',
@@ -2311,7 +2311,7 @@ export const DESTINATIONS_REST: Destination[] = [
     country: 'Polonia',
     match: '👌', matchLabel: '---', category: 'ok',
     tagline: 'La ciudad del ámbar en el Báltico: casco hanseático reconstruido piedra a piedra, cerveza artesana y playas interminables.',
-    scales: { playa_ciudad: 7, relax_fiesta: 5, lowcost_fancy: 2, invierno_verano: 6, occidental_exotico: 3, streetfood_gourmet: 5, descanso_aventura: 3, solo_grupal: 5, naturaleza_metropolis: 7, moderno_historico: 9, turistico_desconocido: 6 },
+    scales: { playa_ciudad: 8, relax_fiesta: 3, lowcost_fancy: 2, invierno_verano: 6, occidental_exotico: 2, streetfood_gourmet: 5, descanso_aventura: 3, solo_grupal: 4, naturaleza_metropolis: 8, moderno_historico: 9, turistico_desconocido: 7 },
     coords: [54.3520, 18.6466],
     images: [
       'https://images.unsplash.com/photo-1587825140708-dfaf72ae4b04?auto=format&fit=crop&w=1600&q=75',
@@ -2357,7 +2357,7 @@ export const DESTINATIONS_REST: Destination[] = [
     country: 'Lituania',
     match: '👌', matchLabel: '---', category: 'ok',
     tagline: 'El casco barroco más grande de Europa del Este, la capital más desconocida del Báltico y un espíritu libre que sorprende.',
-    scales: { playa_ciudad: 8, relax_fiesta: 5, lowcost_fancy: 2, invierno_verano: 5, occidental_exotico: 3, streetfood_gourmet: 5, descanso_aventura: 3, solo_grupal: 5, naturaleza_metropolis: 7, moderno_historico: 8, turistico_desconocido: 8 },
+    scales: { playa_ciudad: 10, relax_fiesta: 4, lowcost_fancy: 1, invierno_verano: 5, occidental_exotico: 2, streetfood_gourmet: 5, descanso_aventura: 3, solo_grupal: 4, naturaleza_metropolis: 9, moderno_historico: 9, turistico_desconocido: 8 },
     coords: [54.6872, 25.2797],
     images: [
       'https://images.unsplash.com/photo-1577000748091-37d7c87b9040?auto=format&fit=crop&w=1600&q=75',
@@ -2405,7 +2405,7 @@ export const DESTINATIONS_REST: Destination[] = [
     country: 'Bosnia y Herzegovina',
     match: '👌', matchLabel: '---', category: 'ok',
     tagline: 'El puente otomano más bello del mundo, la mezcla perfecta de Oriente y Occidente y las cicatrices de una guerra reciente.',
-    scales: { playa_ciudad: 7, relax_fiesta: 3, lowcost_fancy: 2, invierno_verano: 6, occidental_exotico: 5, streetfood_gourmet: 6, descanso_aventura: 4, solo_grupal: 5, naturaleza_metropolis: 5, moderno_historico: 9, turistico_desconocido: 7 },
+    scales: { playa_ciudad: 6, relax_fiesta: 1, lowcost_fancy: 1, invierno_verano: 6, occidental_exotico: 4, streetfood_gourmet: 4, descanso_aventura: 4, solo_grupal: 3, naturaleza_metropolis: 4, moderno_historico: 10, turistico_desconocido: 7 },
     coords: [43.3438, 17.8078],
     images: [
       'https://images.unsplash.com/photo-1555990793-da11153b2473?auto=format&fit=crop&w=1600&q=75',
@@ -2453,7 +2453,7 @@ export const DESTINATIONS_REST: Destination[] = [
     country: 'Francia',
     match: '👌', matchLabel: '---', category: 'ok',
     tagline: 'Las playas del Día D, el Mont Saint-Michel flotando en la bruma, camembert en granjas y acantilados de tiza sobre el Canal.',
-    scales: { playa_ciudad: 4, relax_fiesta: 2, lowcost_fancy: 5, invierno_verano: 6, occidental_exotico: 1, streetfood_gourmet: 7, descanso_aventura: 4, solo_grupal: 4, naturaleza_metropolis: 3, moderno_historico: 10, turistico_desconocido: 5 },
+    scales: { playa_ciudad: 4, relax_fiesta: 1, lowcost_fancy: 5, invierno_verano: 6, occidental_exotico: 1, streetfood_gourmet: 8, descanso_aventura: 3, solo_grupal: 3, naturaleza_metropolis: 3, moderno_historico: 10, turistico_desconocido: 5 },
     coords: [48.8604, -1.0310],
     images: [
       'https://images.unsplash.com/photo-1565095400532-39e1e9aadc6d?auto=format&fit=crop&w=1600&q=75',
@@ -2501,7 +2501,7 @@ export const DESTINATIONS_REST: Destination[] = [
     country: 'Hong Kong',
     match: '👌', matchLabel: '---', category: 'ok',
     tagline: 'Rascacielos sobre montañas, dim sum a las 6 AM, el Peak al atardecer y la energía más intensa de Asia.',
-    scales: { playa_ciudad: 10, relax_fiesta: 6, lowcost_fancy: 7, invierno_verano: 7, occidental_exotico: 7, streetfood_gourmet: 10, descanso_aventura: 4, solo_grupal: 5, naturaleza_metropolis: 9, moderno_historico: 6, turistico_desconocido: 3 },
+    scales: { playa_ciudad: 10, relax_fiesta: 6, lowcost_fancy: 7, invierno_verano: 3, occidental_exotico: 7, streetfood_gourmet: 10, descanso_aventura: 2, solo_grupal: 6, naturaleza_metropolis: 10, moderno_historico: 5, turistico_desconocido: 1 },
     coords: [22.3193, 114.1694],
     images: [
       'https://images.unsplash.com/photo-1536599018102-9f803c140fc1?auto=format&fit=crop&w=1600&q=75',
@@ -2549,7 +2549,7 @@ export const DESTINATIONS_REST: Destination[] = [
     country: 'Malasia',
     match: '👌', matchLabel: '---', category: 'ok',
     tagline: 'La capital mundial del street food: Georgetown UNESCO, templos chinos, mezquitas indias y hawker stalls que merecen un vuelo de 12 horas.',
-    scales: { playa_ciudad: 7, relax_fiesta: 4, lowcost_fancy: 2, invierno_verano: 8, occidental_exotico: 8, streetfood_gourmet: 10, descanso_aventura: 4, solo_grupal: 5, naturaleza_metropolis: 6, moderno_historico: 7, turistico_desconocido: 7 },
+    scales: { playa_ciudad: 7, relax_fiesta: 3, lowcost_fancy: 1, invierno_verano: 7, occidental_exotico: 7, streetfood_gourmet: 10, descanso_aventura: 3, solo_grupal: 5, naturaleza_metropolis: 7, moderno_historico: 8, turistico_desconocido: 5 },
     coords: [5.4164, 100.3327],
     images: [
       'https://images.unsplash.com/photo-1596422846543-75c6fc197f07?auto=format&fit=crop&w=1600&q=75',
@@ -2597,7 +2597,7 @@ export const DESTINATIONS_REST: Destination[] = [
     country: 'Turquía',
     match: '👌', matchLabel: '---', category: 'ok',
     tagline: 'Cien globos aerostáticos al amanecer sobre chimeneas de hadas, ciudades subterráneas y hoteles en cuevas milenarias.',
-    scales: { playa_ciudad: 3, relax_fiesta: 2, lowcost_fancy: 5, invierno_verano: 5, occidental_exotico: 7, streetfood_gourmet: 6, descanso_aventura: 7, solo_grupal: 4, naturaleza_metropolis: 2, moderno_historico: 9, turistico_desconocido: 5 },
+    scales: { playa_ciudad: 3, relax_fiesta: 1, lowcost_fancy: 4, invierno_verano: 5, occidental_exotico: 8, streetfood_gourmet: 4, descanso_aventura: 7, solo_grupal: 4, naturaleza_metropolis: 2, moderno_historico: 10, turistico_desconocido: 3 },
     coords: [38.6431, 34.8289],
     images: [
       'https://images.unsplash.com/photo-1641128324972-af3212f0f6bd?auto=format&fit=crop&w=1600&q=75',
@@ -2644,7 +2644,7 @@ export const DESTINATIONS_REST: Destination[] = [
     country: 'Kirguistán',
     match: '👌', matchLabel: '---', category: 'ok',
     tagline: 'Montañas de 7000 m, lagos alpinos infinitos, yurtas nómadas y la hospitalidad más genuina de Asia Central.',
-    scales: { playa_ciudad: 1, relax_fiesta: 2, lowcost_fancy: 2, invierno_verano: 4, occidental_exotico: 10, streetfood_gourmet: 5, descanso_aventura: 9, solo_grupal: 5, naturaleza_metropolis: 1, moderno_historico: 5, turistico_desconocido: 9 },
+    scales: { playa_ciudad: 1, relax_fiesta: 1, lowcost_fancy: 1, invierno_verano: 5, occidental_exotico: 9, streetfood_gourmet: 2, descanso_aventura: 10, solo_grupal: 3, naturaleza_metropolis: 1, moderno_historico: 5, turistico_desconocido: 10 },
     coords: [41.2044, 74.7661],
     images: [
       'https://images.unsplash.com/photo-1596113199003-03babc2bdd2b?auto=format&fit=crop&w=1600&q=75',
@@ -2692,7 +2692,7 @@ export const DESTINATIONS_REST: Destination[] = [
     country: 'Cabo Verde',
     match: '👌', matchLabel: '---', category: 'ok',
     tagline: 'Islas atlánticas de volcanes, playas infinitas, mornas de Cesária Évora y la morabeza que lo envuelve todo.',
-    scales: { playa_ciudad: 6, relax_fiesta: 5, lowcost_fancy: 4, invierno_verano: 8, occidental_exotico: 7, streetfood_gourmet: 5, descanso_aventura: 7, solo_grupal: 5, naturaleza_metropolis: 2, moderno_historico: 5, turistico_desconocido: 6 },
+    scales: { playa_ciudad: 2, relax_fiesta: 3, lowcost_fancy: 2, invierno_verano: 8, occidental_exotico: 7, streetfood_gourmet: 4, descanso_aventura: 5, solo_grupal: 5, naturaleza_metropolis: 2, moderno_historico: 4, turistico_desconocido: 8 },
     coords: [16.5388, -23.0418],
     images: [
       'https://images.unsplash.com/photo-1590080875515-8a3a8dc5735e?auto=format&fit=crop&w=1600&q=75',
@@ -2739,7 +2739,7 @@ export const DESTINATIONS_REST: Destination[] = [
     country: 'Senegal',
     match: '👌', matchLabel: '---', category: 'ok',
     tagline: 'La teranga senegalesa, la isla de Gorée, el Sahel y el ritmo mbalax que hace temblar Dakar.',
-    scales: { playa_ciudad: 5, relax_fiesta: 5, lowcost_fancy: 3, invierno_verano: 6, occidental_exotico: 9, streetfood_gourmet: 7, descanso_aventura: 6, solo_grupal: 5, naturaleza_metropolis: 5, moderno_historico: 7, turistico_desconocido: 7 },
+    scales: { playa_ciudad: 4, relax_fiesta: 4, lowcost_fancy: 1, invierno_verano: 4, occidental_exotico: 10, streetfood_gourmet: 5, descanso_aventura: 5, solo_grupal: 6, naturaleza_metropolis: 4, moderno_historico: 6, turistico_desconocido: 8 },
     coords: [14.7167, -17.4677],
     images: [
       'https://images.unsplash.com/photo-1571115764595-644a1f56a55c?auto=format&fit=crop&w=1600&q=75',
@@ -2786,7 +2786,7 @@ export const DESTINATIONS_REST: Destination[] = [
     country: 'Ruanda',
     match: '👌', matchLabel: '---', category: 'ok',
     tagline: 'Gorilas de montaña en la niebla, mil colinas de verde imposible y la resurrección más inspiradora de África.',
-    scales: { playa_ciudad: 3, relax_fiesta: 2, lowcost_fancy: 7, invierno_verano: 6, occidental_exotico: 9, streetfood_gourmet: 4, descanso_aventura: 8, solo_grupal: 5, naturaleza_metropolis: 3, moderno_historico: 7, turistico_desconocido: 7 },
+    scales: { playa_ciudad: 8, relax_fiesta: 1, lowcost_fancy: 5, invierno_verano: 5, occidental_exotico: 10, streetfood_gourmet: 3, descanso_aventura: 8, solo_grupal: 4, naturaleza_metropolis: 3, moderno_historico: 5, turistico_desconocido: 8 },
     coords: [-1.9403, 29.8739],
     images: [
       'https://images.unsplash.com/photo-1580060839134-75a5edca2e99?auto=format&fit=crop&w=1600&q=75',
@@ -2833,7 +2833,7 @@ export const DESTINATIONS_REST: Destination[] = [
     country: 'Bolivia',
     match: '👌', matchLabel: '---', category: 'ok',
     tagline: 'El espejo más grande del mundo, minas coloniales y mercados aymaras a 4000 metros de altitud.',
-    scales: { playa_ciudad: 2, relax_fiesta: 3, lowcost_fancy: 2, invierno_verano: 4, occidental_exotico: 10, streetfood_gourmet: 5, descanso_aventura: 9, solo_grupal: 5, naturaleza_metropolis: 3, moderno_historico: 7, turistico_desconocido: 7 },
+    scales: { playa_ciudad: 1, relax_fiesta: 1, lowcost_fancy: 1, invierno_verano: 4, occidental_exotico: 7, streetfood_gourmet: 2, descanso_aventura: 9, solo_grupal: 3, naturaleza_metropolis: 1, moderno_historico: 5, turistico_desconocido: 8 },
     coords: [-20.4604, -66.9904],
     images: [
       'https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&w=1600&q=75',
@@ -2880,7 +2880,7 @@ export const DESTINATIONS_REST: Destination[] = [
     country: 'Uruguay',
     match: '👌', matchLabel: '---', category: 'ok',
     tagline: 'La rambla más larga del mundo, asados al paso, mate en cada esquina y la tranquilidad que Buenos Aires perdió.',
-    scales: { playa_ciudad: 7, relax_fiesta: 4, lowcost_fancy: 5, invierno_verano: 5, occidental_exotico: 3, streetfood_gourmet: 7, descanso_aventura: 3, solo_grupal: 4, naturaleza_metropolis: 7, moderno_historico: 6, turistico_desconocido: 7 },
+    scales: { playa_ciudad: 7, relax_fiesta: 3, lowcost_fancy: 3, invierno_verano: 6, occidental_exotico: 3, streetfood_gourmet: 7, descanso_aventura: 2, solo_grupal: 4, naturaleza_metropolis: 8, moderno_historico: 6, turistico_desconocido: 7 },
     coords: [-34.9011, -56.1645],
     images: [
       'https://images.unsplash.com/photo-1599413987323-39adf4024edc?auto=format&fit=crop&w=1600&q=75',
@@ -2927,7 +2927,7 @@ export const DESTINATIONS_REST: Destination[] = [
     country: 'Bahamas',
     match: '👌', matchLabel: '---', category: 'ok',
     tagline: 'Cerdos nadadores, agua más azul que el cielo, bancos de arena y 700 islas de paraíso puro.',
-    scales: { playa_ciudad: 9, relax_fiesta: 5, lowcost_fancy: 8, invierno_verano: 8, occidental_exotico: 4, streetfood_gourmet: 5, descanso_aventura: 5, solo_grupal: 4, naturaleza_metropolis: 2, moderno_historico: 4, turistico_desconocido: 5 },
+    scales: { playa_ciudad: 1, relax_fiesta: 4, lowcost_fancy: 9, invierno_verano: 8, occidental_exotico: 4, streetfood_gourmet: 6, descanso_aventura: 3, solo_grupal: 5, naturaleza_metropolis: 1, moderno_historico: 2, turistico_desconocido: 1 },
     coords: [24.3960, -76.0137],
     images: [
       'https://images.unsplash.com/photo-1548574505-5e239809ee19?auto=format&fit=crop&w=1600&q=75',
@@ -2974,7 +2974,7 @@ export const DESTINATIONS_REST: Destination[] = [
     country: 'Belice',
     match: '👌', matchLabel: '---', category: 'ok',
     tagline: 'El Gran Agujero Azul, la barrera de coral más grande del hemisferio y ruinas mayas tragadas por la selva.',
-    scales: { playa_ciudad: 6, relax_fiesta: 4, lowcost_fancy: 4, invierno_verano: 7, occidental_exotico: 6, streetfood_gourmet: 5, descanso_aventura: 8, solo_grupal: 5, naturaleza_metropolis: 2, moderno_historico: 7, turistico_desconocido: 7 },
+    scales: { playa_ciudad: 2, relax_fiesta: 2, lowcost_fancy: 2, invierno_verano: 5, occidental_exotico: 6, streetfood_gourmet: 3, descanso_aventura: 9, solo_grupal: 4, naturaleza_metropolis: 1, moderno_historico: 6, turistico_desconocido: 8 },
     coords: [17.1899, -88.4976],
     images: [
       'https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=1600&q=75',
@@ -3021,7 +3021,7 @@ export const DESTINATIONS_REST: Destination[] = [
     country: 'Francia (ultramar)',
     match: '👌', matchLabel: '---', category: 'ok',
     tagline: 'Bungalows sobre el agua, lagunas turquesas imposibles y el paraíso polinesio que inventó la palabra "exótico".',
-    scales: { playa_ciudad: 9, relax_fiesta: 2, lowcost_fancy: 10, invierno_verano: 8, occidental_exotico: 9, streetfood_gourmet: 5, descanso_aventura: 5, solo_grupal: 3, naturaleza_metropolis: 2, moderno_historico: 4, turistico_desconocido: 6 },
+    scales: { playa_ciudad: 1, relax_fiesta: 1, lowcost_fancy: 10, invierno_verano: 8, occidental_exotico: 9, streetfood_gourmet: 8, descanso_aventura: 3, solo_grupal: 2, naturaleza_metropolis: 1, moderno_historico: 4, turistico_desconocido: 5 },
     coords: [-16.5004, -151.7415],
     images: [
       'https://images.unsplash.com/photo-1589197331516-4d84b72ebde3?auto=format&fit=crop&w=1600&q=75',
@@ -3068,7 +3068,7 @@ export const DESTINATIONS_REST: Destination[] = [
     country: 'Serbia',
     match: '👌', matchLabel: '---', category: 'ok',
     tagline: 'La confluencia del Danubio y el Sava, fortaleza milenaria, splavovi flotantes y la mejor vida nocturna de Europa.',
-    scales: { playa_ciudad: 8, relax_fiesta: 8, lowcost_fancy: 2, invierno_verano: 5, occidental_exotico: 4, streetfood_gourmet: 6, descanso_aventura: 3, solo_grupal: 7, naturaleza_metropolis: 8, moderno_historico: 7, turistico_desconocido: 6 },
+    scales: { playa_ciudad: 10, relax_fiesta: 9, lowcost_fancy: 1, invierno_verano: 5, occidental_exotico: 3, streetfood_gourmet: 5, descanso_aventura: 2, solo_grupal: 7, naturaleza_metropolis: 10, moderno_historico: 7, turistico_desconocido: 8 },
     coords: [44.7866, 20.4489],
     images: [
       'https://images.unsplash.com/photo-1586437474934-e3e9b5889096?auto=format&fit=crop&w=1600&q=75',
@@ -3117,7 +3117,7 @@ export const DESTINATIONS_REST: Destination[] = [
     country: 'Croacia',
     match: '👌', matchLabel: '---', category: 'ok',
     tagline: 'Un palacio romano del siglo IV convertido en ciudad viva: cafés en las murallas, catedral en el mausoleo y el Adriático a 30 segundos.',
-    scales: { playa_ciudad: 8, relax_fiesta: 6, lowcost_fancy: 4, invierno_verano: 7, occidental_exotico: 3, streetfood_gourmet: 6, descanso_aventura: 4, solo_grupal: 6, naturaleza_metropolis: 7, moderno_historico: 9, turistico_desconocido: 4 },
+    scales: { playa_ciudad: 5, relax_fiesta: 4, lowcost_fancy: 4, invierno_verano: 9, occidental_exotico: 2, streetfood_gourmet: 5, descanso_aventura: 4, solo_grupal: 5, naturaleza_metropolis: 6, moderno_historico: 10, turistico_desconocido: 3 },
     coords: [43.5081, 16.4402],
     images: [
       'https://images.unsplash.com/photo-1555990793-da11153b2473?auto=format&fit=crop&w=1600&q=75',
@@ -3165,7 +3165,7 @@ export const DESTINATIONS_REST: Destination[] = [
     country: 'Francia',
     match: '👌', matchLabel: '---', category: 'ok',
     tagline: 'La isla más salvaje del Mediterráneo: montañas de 2700 m cayendo al mar turquesa, pueblos colgados y el GR20 más duro de Europa.',
-    scales: { playa_ciudad: 3, relax_fiesta: 2, lowcost_fancy: 5, invierno_verano: 7, occidental_exotico: 3, streetfood_gourmet: 6, descanso_aventura: 8, solo_grupal: 4, naturaleza_metropolis: 2, moderno_historico: 6, turistico_desconocido: 5 },
+    scales: { playa_ciudad: 2, relax_fiesta: 1, lowcost_fancy: 6, invierno_verano: 9, occidental_exotico: 1, streetfood_gourmet: 7, descanso_aventura: 6, solo_grupal: 3, naturaleza_metropolis: 1, moderno_historico: 6, turistico_desconocido: 5 },
     coords: [42.0396, 9.0129],
     images: [
       'https://images.unsplash.com/photo-1568738229498-30f4e4e1a2a0?auto=format&fit=crop&w=1600&q=75',
@@ -3213,7 +3213,7 @@ export const DESTINATIONS_REST: Destination[] = [
     country: 'España',
     match: '👌', matchLabel: '---', category: 'ok',
     tagline: 'La Mezquita de los 856 arcos, patios con flores, salmorejo helado y la ciudad que fue capital del mundo islámico en Europa.',
-    scales: { playa_ciudad: 9, relax_fiesta: 4, lowcost_fancy: 3, invierno_verano: 5, occidental_exotico: 3, streetfood_gourmet: 7, descanso_aventura: 2, solo_grupal: 4, naturaleza_metropolis: 8, moderno_historico: 10, turistico_desconocido: 4 },
+    scales: { playa_ciudad: 10, relax_fiesta: 4, lowcost_fancy: 2, invierno_verano: 4, occidental_exotico: 2, streetfood_gourmet: 7, descanso_aventura: 2, solo_grupal: 4, naturaleza_metropolis: 9, moderno_historico: 10, turistico_desconocido: 3 },
     coords: [37.8882, -4.7794],
     images: [
       'https://images.unsplash.com/photo-1558642452-9d2a7deb7f62?auto=format&fit=crop&w=1600&q=75',
@@ -3261,7 +3261,7 @@ export const DESTINATIONS_REST: Destination[] = [
     country: 'Polonia',
     match: '👌', matchLabel: '---', category: 'ok',
     tagline: 'La ciudad que resucitó de sus cenizas: casco histórico reconstruido al detalle, escena creativa brutal y precios polacos.',
-    scales: { playa_ciudad: 10, relax_fiesta: 6, lowcost_fancy: 3, invierno_verano: 5, occidental_exotico: 3, streetfood_gourmet: 6, descanso_aventura: 3, solo_grupal: 5, naturaleza_metropolis: 9, moderno_historico: 8, turistico_desconocido: 5 },
+    scales: { playa_ciudad: 10, relax_fiesta: 5, lowcost_fancy: 2, invierno_verano: 5, occidental_exotico: 2, streetfood_gourmet: 6, descanso_aventura: 2, solo_grupal: 5, naturaleza_metropolis: 10, moderno_historico: 8, turistico_desconocido: 6 },
     coords: [52.2297, 21.0122],
     images: [
       'https://images.unsplash.com/photo-1519197924294-4ba991a11128?auto=format&fit=crop&w=1600&q=75',
@@ -3307,7 +3307,7 @@ export const DESTINATIONS_REST: Destination[] = [
     country: 'Bulgaria',
     match: '👌', matchLabel: '---', category: 'ok',
     tagline: 'Iglesias doradas, ruinas romanas bajo el metro, la montaña Vitosha a 20 minutos y todo por el precio de un café en París.',
-    scales: { playa_ciudad: 9, relax_fiesta: 5, lowcost_fancy: 2, invierno_verano: 5, occidental_exotico: 4, streetfood_gourmet: 5, descanso_aventura: 4, solo_grupal: 5, naturaleza_metropolis: 8, moderno_historico: 8, turistico_desconocido: 7 },
+    scales: { playa_ciudad: 10, relax_fiesta: 5, lowcost_fancy: 1, invierno_verano: 5, occidental_exotico: 3, streetfood_gourmet: 5, descanso_aventura: 3, solo_grupal: 5, naturaleza_metropolis: 9, moderno_historico: 8, turistico_desconocido: 8 },
     coords: [42.6977, 23.3219],
     images: [
       'https://images.unsplash.com/photo-1577000748091-37d7c87b9040?auto=format&fit=crop&w=1600&q=75',
@@ -3355,7 +3355,7 @@ export const DESTINATIONS_REST: Destination[] = [
     country: 'Alemania',
     match: '👌', matchLabel: '---', category: 'ok',
     tagline: 'La "Florencia del Elba" bombardeada y reconstruida: barroco sajón, Frauenkirche resurgida y la Bóveda Verde del tesoro más rico de Europa.',
-    scales: { playa_ciudad: 9, relax_fiesta: 3, lowcost_fancy: 4, invierno_verano: 5, occidental_exotico: 2, streetfood_gourmet: 5, descanso_aventura: 3, solo_grupal: 4, naturaleza_metropolis: 8, moderno_historico: 9, turistico_desconocido: 6 },
+    scales: { playa_ciudad: 10, relax_fiesta: 2, lowcost_fancy: 4, invierno_verano: 5, occidental_exotico: 1, streetfood_gourmet: 7, descanso_aventura: 2, solo_grupal: 3, naturaleza_metropolis: 9, moderno_historico: 10, turistico_desconocido: 6 },
     coords: [51.0504, 13.7373],
     images: [
       'https://images.unsplash.com/photo-1519197924294-4ba991a11128?auto=format&fit=crop&w=1600&q=75',
@@ -3403,7 +3403,7 @@ export const DESTINATIONS_REST: Destination[] = [
     country: 'Bosnia y Herzegovina',
     match: '👌', matchLabel: '---', category: 'ok',
     tagline: 'Donde Oriente y Occidente chocan en una calle: mezquitas otomanas, catedrales austrohúngaras, el puente que desató la Gran Guerra y cicatrices de la última guerra europea.',
-    scales: { playa_ciudad: 9, relax_fiesta: 4, lowcost_fancy: 2, invierno_verano: 5, occidental_exotico: 5, streetfood_gourmet: 6, descanso_aventura: 4, solo_grupal: 5, naturaleza_metropolis: 7, moderno_historico: 9, turistico_desconocido: 6 },
+    scales: { playa_ciudad: 9, relax_fiesta: 3, lowcost_fancy: 1, invierno_verano: 5, occidental_exotico: 4, streetfood_gourmet: 6, descanso_aventura: 3, solo_grupal: 4, naturaleza_metropolis: 8, moderno_historico: 10, turistico_desconocido: 7 },
     coords: [43.8563, 18.4131],
     images: [
       'https://images.unsplash.com/photo-1555990793-da11153b2473?auto=format&fit=crop&w=1600&q=75',
@@ -3449,7 +3449,7 @@ export const DESTINATIONS_REST: Destination[] = [
     country: 'Macedonia del Norte',
     match: '👌', matchLabel: '---', category: 'ok',
     tagline: 'El lago más antiguo de Europa, 365 iglesias bizantinas, frescos medievales y la perla escondida de los Balcanes.',
-    scales: { playa_ciudad: 5, relax_fiesta: 3, lowcost_fancy: 2, invierno_verano: 7, occidental_exotico: 4, streetfood_gourmet: 5, descanso_aventura: 5, solo_grupal: 4, naturaleza_metropolis: 4, moderno_historico: 9, turistico_desconocido: 8 },
+    scales: { playa_ciudad: 4, relax_fiesta: 1, lowcost_fancy: 1, invierno_verano: 7, occidental_exotico: 3, streetfood_gourmet: 4, descanso_aventura: 4, solo_grupal: 3, naturaleza_metropolis: 2, moderno_historico: 10, turistico_desconocido: 9 },
     coords: [41.1231, 20.8016],
     images: [
       'https://images.unsplash.com/photo-1580394693717-e2195b392dd1?auto=format&fit=crop&w=1600&q=75',
@@ -3497,7 +3497,7 @@ export const DESTINATIONS_REST: Destination[] = [
     country: 'Marruecos',
     match: '👌', matchLabel: '---', category: 'ok',
     tagline: 'La ciudad azul del Rif: cada pared, escalón y callejón pintado de azul añil entre montañas y con aroma a menta y kif.',
-    scales: { playa_ciudad: 6, relax_fiesta: 2, lowcost_fancy: 2, invierno_verano: 6, occidental_exotico: 7, streetfood_gourmet: 6, descanso_aventura: 5, solo_grupal: 4, naturaleza_metropolis: 4, moderno_historico: 7, turistico_desconocido: 5 },
+    scales: { playa_ciudad: 8, relax_fiesta: 1, lowcost_fancy: 1, invierno_verano: 5, occidental_exotico: 8, streetfood_gourmet: 5, descanso_aventura: 3, solo_grupal: 3, naturaleza_metropolis: 5, moderno_historico: 9, turistico_desconocido: 6 },
     coords: [35.1688, -5.2636],
     images: [
       'https://images.unsplash.com/photo-1553603227-2358aabe821e?auto=format&fit=crop&w=1600&q=75',
@@ -3545,7 +3545,7 @@ export const DESTINATIONS_REST: Destination[] = [
     country: 'Ghana',
     match: '👌', matchLabel: '---', category: 'ok',
     tagline: 'La capital más vibrante de África Occidental: mercados caóticos, fuertes esclavistas, jollof wars y la energía del afrobeats.',
-    scales: { playa_ciudad: 7, relax_fiesta: 7, lowcost_fancy: 3, invierno_verano: 7, occidental_exotico: 9, streetfood_gourmet: 7, descanso_aventura: 5, solo_grupal: 6, naturaleza_metropolis: 7, moderno_historico: 7, turistico_desconocido: 7 },
+    scales: { playa_ciudad: 7, relax_fiesta: 6, lowcost_fancy: 1, invierno_verano: 6, occidental_exotico: 10, streetfood_gourmet: 7, descanso_aventura: 4, solo_grupal: 7, naturaleza_metropolis: 8, moderno_historico: 5, turistico_desconocido: 8 },
     coords: [5.6037, -0.1870],
     images: [
       'https://images.unsplash.com/photo-1571115764595-644a1f56a55c?auto=format&fit=crop&w=1600&q=75',
@@ -3592,7 +3592,7 @@ export const DESTINATIONS_REST: Destination[] = [
     country: 'Rumanía',
     match: '👌', matchLabel: '---', category: 'ok',
     tagline: 'El "pequeño París" de los Balcanes: palacios belle époque entre bloques soviéticos, el Parlamento más grande del mundo y una noche que no para.',
-    scales: { playa_ciudad: 10, relax_fiesta: 7, lowcost_fancy: 3, invierno_verano: 5, occidental_exotico: 4, streetfood_gourmet: 5, descanso_aventura: 3, solo_grupal: 6, naturaleza_metropolis: 9, moderno_historico: 7, turistico_desconocido: 6 },
+    scales: { playa_ciudad: 10, relax_fiesta: 6, lowcost_fancy: 1, invierno_verano: 5, occidental_exotico: 3, streetfood_gourmet: 5, descanso_aventura: 2, solo_grupal: 5, naturaleza_metropolis: 10, moderno_historico: 7, turistico_desconocido: 7 },
     coords: [44.4268, 26.1025],
     images: [
       'https://images.unsplash.com/photo-1586437474934-e3e9b5889096?auto=format&fit=crop&w=1600&q=75',
@@ -3640,7 +3640,7 @@ export const DESTINATIONS_REST: Destination[] = [
     country: 'Chile',
     match: '👌', matchLabel: '---', category: 'ok',
     tagline: 'Cerros con street art, ascensores de 1883, casas de hojalata de colores y la bohemia portuaria de Neruda.',
-    scales: { playa_ciudad: 7, relax_fiesta: 5, lowcost_fancy: 3, invierno_verano: 5, occidental_exotico: 4, streetfood_gourmet: 6, descanso_aventura: 4, solo_grupal: 5, naturaleza_metropolis: 7, moderno_historico: 7, turistico_desconocido: 6 },
+    scales: { playa_ciudad: 8, relax_fiesta: 5, lowcost_fancy: 2, invierno_verano: 6, occidental_exotico: 4, streetfood_gourmet: 6, descanso_aventura: 3, solo_grupal: 5, naturaleza_metropolis: 8, moderno_historico: 7, turistico_desconocido: 6 },
     coords: [-33.0472, -71.6127],
     images: [
       'https://images.unsplash.com/photo-1583353480235-81f1d2c79f52?auto=format&fit=crop&w=1600&q=75',
@@ -3688,7 +3688,7 @@ export const DESTINATIONS_REST: Destination[] = [
     country: 'Canadá',
     match: '👌', matchLabel: '---', category: 'ok',
     tagline: 'La única ciudad amurallada de Norteamérica: calles empedradas francesas, Château Frontenac imponente y poutine humeante bajo la nieve.',
-    scales: { playa_ciudad: 8, relax_fiesta: 4, lowcost_fancy: 5, invierno_verano: 3, occidental_exotico: 2, streetfood_gourmet: 7, descanso_aventura: 5, solo_grupal: 4, naturaleza_metropolis: 6, moderno_historico: 9, turistico_desconocido: 5 },
+    scales: { playa_ciudad: 9, relax_fiesta: 3, lowcost_fancy: 5, invierno_verano: 2, occidental_exotico: 1, streetfood_gourmet: 8, descanso_aventura: 3, solo_grupal: 4, naturaleza_metropolis: 8, moderno_historico: 10, turistico_desconocido: 4 },
     coords: [46.8139, -71.2080],
     images: [
       'https://images.unsplash.com/photo-1519197924294-4ba991a11128?auto=format&fit=crop&w=1600&q=75',
@@ -3736,7 +3736,7 @@ export const DESTINATIONS_REST: Destination[] = [
     country: 'Trinidad y Tobago',
     match: '👌', matchLabel: '---', category: 'ok',
     tagline: 'El Carnaval más explosivo del Caribe, steel drums en cada esquina, selva tropical con colibríes y playas de Tobago sin nadie.',
-    scales: { playa_ciudad: 5, relax_fiesta: 8, lowcost_fancy: 3, invierno_verano: 8, occidental_exotico: 6, streetfood_gourmet: 7, descanso_aventura: 6, solo_grupal: 7, naturaleza_metropolis: 4, moderno_historico: 5, turistico_desconocido: 7 },
+    scales: { playa_ciudad: 3, relax_fiesta: 9, lowcost_fancy: 2, invierno_verano: 8, occidental_exotico: 7, streetfood_gourmet: 5, descanso_aventura: 4, solo_grupal: 9, naturaleza_metropolis: 3, moderno_historico: 4, turistico_desconocido: 7 },
     coords: [10.6918, -61.2225],
     images: [
       'https://images.unsplash.com/photo-1548574505-5e239809ee19?auto=format&fit=crop&w=1600&q=75',
@@ -3784,7 +3784,7 @@ export const DESTINATIONS_REST: Destination[] = [
     country: 'Nicaragua',
     match: '👌', matchLabel: '---', category: 'ok',
     tagline: 'Volcanes humeantes, ciudades coloniales de colores, surf en el Pacífico y la Centroamérica más barata e intacta.',
-    scales: { playa_ciudad: 5, relax_fiesta: 4, lowcost_fancy: 2, invierno_verano: 7, occidental_exotico: 6, streetfood_gourmet: 5, descanso_aventura: 8, solo_grupal: 5, naturaleza_metropolis: 3, moderno_historico: 7, turistico_desconocido: 7 },
+    scales: { playa_ciudad: 3, relax_fiesta: 3, lowcost_fancy: 1, invierno_verano: 6, occidental_exotico: 6, streetfood_gourmet: 3, descanso_aventura: 7, solo_grupal: 4, naturaleza_metropolis: 2, moderno_historico: 8, turistico_desconocido: 8 },
     coords: [11.9344, -85.9560],
     images: [
       'https://images.unsplash.com/photo-1582623838120-455da222cdc7?auto=format&fit=crop&w=1600&q=75',
@@ -3832,7 +3832,7 @@ export const DESTINATIONS_REST: Destination[] = [
     country: 'Corea del Sur',
     match: '👌', matchLabel: '---', category: 'ok',
     tagline: 'El puerto pesquero más vibrante de Asia: mercado de pescado gigante, templos al borde del mar, playas urbanas y la energía coreana sin filtro.',
-    scales: { playa_ciudad: 7, relax_fiesta: 5, lowcost_fancy: 4, invierno_verano: 6, occidental_exotico: 7, streetfood_gourmet: 9, descanso_aventura: 5, solo_grupal: 5, naturaleza_metropolis: 7, moderno_historico: 6, turistico_desconocido: 6 },
+    scales: { playa_ciudad: 4, relax_fiesta: 4, lowcost_fancy: 3, invierno_verano: 7, occidental_exotico: 7, streetfood_gourmet: 9, descanso_aventura: 4, solo_grupal: 5, naturaleza_metropolis: 8, moderno_historico: 6, turistico_desconocido: 6 },
     coords: [35.1796, 129.0756],
     images: [
       'https://images.unsplash.com/photo-1506970845246-a0f0b7715556?auto=format&fit=crop&w=1600&q=75',
@@ -3880,7 +3880,7 @@ export const DESTINATIONS_REST: Destination[] = [
     country: 'Malasia',
     match: '👌', matchLabel: '---', category: 'ok',
     tagline: 'Archipiélago duty-free de selva, manglares, águilas y el sky bridge más vertiginoso del sudeste asiático.',
-    scales: { playa_ciudad: 3, relax_fiesta: 3, lowcost_fancy: 4, invierno_verano: 8, occidental_exotico: 7, streetfood_gourmet: 5, descanso_aventura: 6, solo_grupal: 3, naturaleza_metropolis: 2, moderno_historico: 3, turistico_desconocido: 6 },
+    scales: { playa_ciudad: 1, relax_fiesta: 2, lowcost_fancy: 4, invierno_verano: 8, occidental_exotico: 6, streetfood_gourmet: 5, descanso_aventura: 4, solo_grupal: 4, naturaleza_metropolis: 1, moderno_historico: 4, turistico_desconocido: 5 },
     coords: [6.3500, 99.8000],
     images: [
       'https://images.unsplash.com/photo-1596422846543-75c6fc197f07?auto=format&fit=crop&w=1600&q=75',
@@ -3928,7 +3928,7 @@ export const DESTINATIONS_REST: Destination[] = [
     country: 'Bután',
     match: '👌', matchLabel: '---', category: 'ok',
     tagline: 'El último reino del Himalaya: monasterios en acantilados, el país que mide la Felicidad Nacional Bruta y cero semáforos en la capital.',
-    scales: { playa_ciudad: 2, relax_fiesta: 1, lowcost_fancy: 7, invierno_verano: 4, occidental_exotico: 10, streetfood_gourmet: 4, descanso_aventura: 8, solo_grupal: 5, naturaleza_metropolis: 2, moderno_historico: 9, turistico_desconocido: 9 },
+    scales: { playa_ciudad: 5, relax_fiesta: 1, lowcost_fancy: 8, invierno_verano: 4, occidental_exotico: 10, streetfood_gourmet: 3, descanso_aventura: 7, solo_grupal: 2, naturaleza_metropolis: 2, moderno_historico: 10, turistico_desconocido: 9 },
     coords: [27.5142, 90.4336],
     images: [
       'https://images.unsplash.com/photo-1580060839134-75a5edca2e99?auto=format&fit=crop&w=1600&q=75',
@@ -3976,7 +3976,7 @@ export const DESTINATIONS_REST: Destination[] = [
     country: 'Líbano',
     match: '👌', matchLabel: '---', category: 'ok',
     tagline: 'Ruinas fenicias, cedros milenarios, la mejor comida del Mediterráneo oriental y Beirut resurgiendo entre cicatrices.',
-    scales: { playa_ciudad: 7, relax_fiesta: 6, lowcost_fancy: 5, invierno_verano: 5, occidental_exotico: 6, streetfood_gourmet: 9, descanso_aventura: 5, solo_grupal: 5, naturaleza_metropolis: 6, moderno_historico: 9, turistico_desconocido: 6 },
+    scales: { playa_ciudad: 7, relax_fiesta: 5, lowcost_fancy: 5, invierno_verano: 5, occidental_exotico: 7, streetfood_gourmet: 9, descanso_aventura: 3, solo_grupal: 6, naturaleza_metropolis: 7, moderno_historico: 10, turistico_desconocido: 5 },
     coords: [33.8938, 35.5018],
     images: [
       'https://images.unsplash.com/photo-1573158893667-7e1d0b93a5d5?auto=format&fit=crop&w=1600&q=75',
@@ -4024,7 +4024,7 @@ export const DESTINATIONS_REST: Destination[] = [
     country: 'Samoa',
     match: '👌', matchLabel: '---', category: 'ok',
     tagline: 'La Polinesia auténtica sin resorts: fales en la playa, To Sua Ocean Trench, cultura fa\'a Samoa viva y cero turismo de masas.',
-    scales: { playa_ciudad: 2, relax_fiesta: 2, lowcost_fancy: 3, invierno_verano: 8, occidental_exotico: 10, streetfood_gourmet: 4, descanso_aventura: 7, solo_grupal: 4, naturaleza_metropolis: 1, moderno_historico: 5, turistico_desconocido: 9 },
+    scales: { playa_ciudad: 1, relax_fiesta: 1, lowcost_fancy: 2, invierno_verano: 8, occidental_exotico: 9, streetfood_gourmet: 2, descanso_aventura: 5, solo_grupal: 3, naturaleza_metropolis: 1, moderno_historico: 4, turistico_desconocido: 10 },
     coords: [-13.7590, -172.1046],
     images: [
       'https://images.unsplash.com/photo-1559128010-7c1ad6e1b6a5?auto=format&fit=crop&w=1600&q=75',

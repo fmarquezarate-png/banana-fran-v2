@@ -375,7 +375,7 @@ export const DESTINATIONS_AMERICAS: Destination[] = [
     matchLabel: '---',
     category: 'ok',
     tagline: 'La capital mundial del Malbec: bodegas con los Andes nevados de fondo y una gastronomía difícil de superar.',
-    scales: { playa_ciudad: 5, relax_fiesta: 4, lowcost_fancy: 5, invierno_verano: 7, occidental_exotico: 3, streetfood_gourmet: 8, descanso_aventura: 6, solo_grupal: 4, naturaleza_metropolis: 5, moderno_historico: 4, turistico_desconocido: 5 },
+    scales: { playa_ciudad: 3, relax_fiesta: 2, lowcost_fancy: 3, invierno_verano: 8, occidental_exotico: 2, streetfood_gourmet: 10, descanso_aventura: 6, solo_grupal: 3, naturaleza_metropolis: 3, moderno_historico: 2, turistico_desconocido: 6 },
     coords: [-32.8908, -68.8272],
     images: [
       'https://images.unsplash.com/photo-1564502374649-01acb50f7c41?auto=format&fit=crop&w=1600&q=75',
@@ -448,7 +448,7 @@ export const DESTINATIONS_AMERICAS: Destination[] = [
     matchLabel: '---',
     category: 'ok',
     tagline: 'Entre montañas y océano: la capital más activa y gastronómica de Sudamérica, con los Andes a 30 km.',
-    scales: { playa_ciudad: 9, relax_fiesta: 6, lowcost_fancy: 5, invierno_verano: 7, occidental_exotico: 2, streetfood_gourmet: 7, descanso_aventura: 5, solo_grupal: 5, naturaleza_metropolis: 8, moderno_historico: 5, turistico_desconocido: 4 },
+    scales: { playa_ciudad: 10, relax_fiesta: 5, lowcost_fancy: 5, invierno_verano: 7, occidental_exotico: 1, streetfood_gourmet: 9, descanso_aventura: 5, solo_grupal: 5, naturaleza_metropolis: 9, moderno_historico: 3, turistico_desconocido: 4 },
     coords: [-33.4489, -70.6693],
     images: [
       'https://images.unsplash.com/photo-1602211978684-8d98fcbc3d03?auto=format&fit=crop&w=1600&q=75',
@@ -521,7 +521,7 @@ export const DESTINATIONS_AMERICAS: Destination[] = [
     matchLabel: '---',
     category: 'ok',
     tagline: 'El desierto más árido del mundo: géisers al amanecer, lagunas de flamencos y el cielo de estrellas más limpio del planeta.',
-    scales: { playa_ciudad: 1, relax_fiesta: 2, lowcost_fancy: 7, invierno_verano: 5, occidental_exotico: 8, streetfood_gourmet: 2, descanso_aventura: 8, solo_grupal: 3, naturaleza_metropolis: 1, moderno_historico: 6, turistico_desconocido: 4 },
+    scales: { playa_ciudad: 1, relax_fiesta: 1, lowcost_fancy: 7, invierno_verano: 5, occidental_exotico: 9, streetfood_gourmet: 1, descanso_aventura: 10, solo_grupal: 2, naturaleza_metropolis: 1, moderno_historico: 8, turistico_desconocido: 6 },
     coords: [-22.9087, -68.2000],
     images: [
       'https://images.unsplash.com/photo-1548278489-10ac5e726e8a?auto=format&fit=crop&w=1600&q=75',
@@ -595,7 +595,7 @@ export const DESTINATIONS_AMERICAS: Destination[] = [
     matchLabel: '---',
     category: 'ok',
     tagline: 'El parque más espectacular del hemisferio sur: torres de granito, glaciares azules y cóndores sobre el viento patagónico.',
-    scales: { playa_ciudad: 1, relax_fiesta: 1, lowcost_fancy: 7, invierno_verano: 9, occidental_exotico: 3, streetfood_gourmet: 2, descanso_aventura: 10, solo_grupal: 3, naturaleza_metropolis: 1, moderno_historico: 2, turistico_desconocido: 4 },
+    scales: { playa_ciudad: 1, relax_fiesta: 1, lowcost_fancy: 8, invierno_verano: 10, occidental_exotico: 3, streetfood_gourmet: 1, descanso_aventura: 10, solo_grupal: 2, naturaleza_metropolis: 1, moderno_historico: 2, turistico_desconocido: 5 },
     coords: [-51.0000, -73.0000],
     images: [
       'https://images.unsplash.com/photo-1489391169432-f19bf0c11f79?auto=format&fit=crop&w=1600&q=75',
@@ -670,7 +670,7 @@ export const DESTINATIONS_AMERICAS: Destination[] = [
     matchLabel: '---',
     category: 'ok',
     tagline: 'La ciudad que nunca duerme: el skyline más icónico del mundo, los mejores museos de América y la energía más intensa del planeta.',
-    scales: { playa_ciudad: 10, relax_fiesta: 8, lowcost_fancy: 6, invierno_verano: 5, occidental_exotico: 2, streetfood_gourmet: 7, descanso_aventura: 4, solo_grupal: 7, naturaleza_metropolis: 10, moderno_historico: 6, turistico_desconocido: 2 },
+    scales: { playa_ciudad: 10, relax_fiesta: 8, lowcost_fancy: 9, invierno_verano: 5, occidental_exotico: 1, streetfood_gourmet: 9, descanso_aventura: 3, solo_grupal: 8, naturaleza_metropolis: 10, moderno_historico: 5, turistico_desconocido: 1 },
     coords: [40.7128, -74.0060],
     images: [
       'https://images.unsplash.com/photo-1485871981521-5b1fd3805eee?auto=format&fit=crop&w=1600&q=75',
@@ -742,7 +742,7 @@ export const DESTINATIONS_AMERICAS: Destination[] = [
     matchLabel: '---',
     category: 'ok',
     tagline: 'Sol garantizado, playas de postal, Art Deco de los años 30 y la mejor escena latina de Norteamérica.',
-    scales: { playa_ciudad: 4, relax_fiesta: 9, lowcost_fancy: 7, invierno_verano: 8, occidental_exotico: 4, streetfood_gourmet: 6, descanso_aventura: 5, solo_grupal: 7, naturaleza_metropolis: 6, moderno_historico: 4, turistico_desconocido: 4 },
+    scales: { playa_ciudad: 2, relax_fiesta: 10, lowcost_fancy: 8, invierno_verano: 9, occidental_exotico: 3, streetfood_gourmet: 5, descanso_aventura: 2, solo_grupal: 9, naturaleza_metropolis: 7, moderno_historico: 2, turistico_desconocido: 2 },
     coords: [25.7617, -80.1918],
     images: [
       'https://images.unsplash.com/photo-1514214246283-d427a95c5d2f?auto=format&fit=crop&w=1600&q=75',
@@ -814,7 +814,7 @@ export const DESTINATIONS_AMERICAS: Destination[] = [
     matchLabel: '---',
     category: 'ok',
     tagline: 'Hollywood, surf, secuoyas gigantes, el Golden Gate y la ruta costera más espectacular de América: la PCH.',
-    scales: { playa_ciudad: 4, relax_fiesta: 7, lowcost_fancy: 7, invierno_verano: 8, occidental_exotico: 3, streetfood_gourmet: 7, descanso_aventura: 7, solo_grupal: 6, naturaleza_metropolis: 5, moderno_historico: 3, turistico_desconocido: 5 },
+    scales: { playa_ciudad: 3, relax_fiesta: 6, lowcost_fancy: 8, invierno_verano: 9, occidental_exotico: 1, streetfood_gourmet: 8, descanso_aventura: 8, solo_grupal: 5, naturaleza_metropolis: 5, moderno_historico: 2, turistico_desconocido: 3 },
     coords: [34.0522, -118.2437],
     images: [
       'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=1600&q=75',
@@ -888,7 +888,7 @@ export const DESTINATIONS_AMERICAS: Destination[] = [
     matchLabel: '---',
     category: 'ok',
     tagline: 'El paisaje más impresionante de América del Norte: el Gran Cañón, Monument Valley, Zion, Bryce Canyon y las rutas de los Ancestrales Puebloanos.',
-    scales: { playa_ciudad: 1, relax_fiesta: 2, lowcost_fancy: 4, invierno_verano: 5, occidental_exotico: 4, streetfood_gourmet: 3, descanso_aventura: 9, solo_grupal: 4, naturaleza_metropolis: 1, moderno_historico: 5, turistico_desconocido: 5 },
+    scales: { playa_ciudad: 1, relax_fiesta: 1, lowcost_fancy: 3, invierno_verano: 5, occidental_exotico: 3, streetfood_gourmet: 2, descanso_aventura: 10, solo_grupal: 3, naturaleza_metropolis: 1, moderno_historico: 9, turistico_desconocido: 4 },
     coords: [36.1069, -112.1129],
     images: [
       'https://images.unsplash.com/photo-1474044159687-1ee9f3a51722?auto=format&fit=crop&w=1600&q=75',
@@ -962,7 +962,7 @@ export const DESTINATIONS_AMERICAS: Destination[] = [
     matchLabel: '---',
     category: 'ok',
     tagline: 'La megalópolis más emocionante de América: Teotihuacán, Frida Kahlo, la mejor gastronomía del continente y una energía urbana inagotable.',
-    scales: { playa_ciudad: 9, relax_fiesta: 7, lowcost_fancy: 4, invierno_verano: 6, occidental_exotico: 7, streetfood_gourmet: 9, descanso_aventura: 4, solo_grupal: 6, naturaleza_metropolis: 9, moderno_historico: 8, turistico_desconocido: 4 },
+    scales: { playa_ciudad: 10, relax_fiesta: 7, lowcost_fancy: 2, invierno_verano: 5, occidental_exotico: 8, streetfood_gourmet: 10, descanso_aventura: 3, solo_grupal: 7, naturaleza_metropolis: 10, moderno_historico: 9, turistico_desconocido: 3 },
     coords: [19.4326, -99.1332],
     images: [
       'https://images.unsplash.com/photo-1518638150340-f706e86654de?auto=format&fit=crop&w=1600&q=75',
@@ -1034,7 +1034,7 @@ export const DESTINATIONS_AMERICAS: Destination[] = [
     matchLabel: '---',
     category: 'ok',
     tagline: 'Playas caribeñas de arena blanca, cenotes de agua cristalina, Chichén Itzá y Tulum — el Caribe mexicano en su máxima expresión.',
-    scales: { playa_ciudad: 2, relax_fiesta: 7, lowcost_fancy: 5, invierno_verano: 7, occidental_exotico: 5, streetfood_gourmet: 6, descanso_aventura: 6, solo_grupal: 6, naturaleza_metropolis: 2, moderno_historico: 6, turistico_desconocido: 4 },
+    scales: { playa_ciudad: 1, relax_fiesta: 10, lowcost_fancy: 4, invierno_verano: 9, occidental_exotico: 5, streetfood_gourmet: 3, descanso_aventura: 5, solo_grupal: 9, naturaleza_metropolis: 2, moderno_historico: 8, turistico_desconocido: 1 },
     coords: [20.6296, -87.0739],
     images: [
       'https://images.unsplash.com/photo-1552074284-5e88ef1aef18?auto=format&fit=crop&w=1600&q=75',

@@ -10,7 +10,7 @@ export const DESTINATIONS_SCANDINAVIA: Destination[] = [
     country: 'Noruega',
     match: '👌', matchLabel: '---', category: 'ok',
     tagline: 'Paredes de roca de 1000 m cayendo al mar. El paisaje más espectacular de Europa.',
-    scales: { playa_ciudad: 3, relax_fiesta: 3, lowcost_fancy: 7, invierno_verano: 7, occidental_exotico: 2, streetfood_gourmet: 6, descanso_aventura: 7, solo_grupal: 5, naturaleza_metropolis: 2, moderno_historico: 5, turistico_desconocido: 4 },
+    scales: { playa_ciudad: 1, relax_fiesta: 1, lowcost_fancy: 9, invierno_verano: 8, occidental_exotico: 2, streetfood_gourmet: 5, descanso_aventura: 9, solo_grupal: 3, naturaleza_metropolis: 1, moderno_historico: 4, turistico_desconocido: 5 },
     coords: [60.3913, 5.3221],
     images: [
       'https://images.unsplash.com/photo-1531761535209-180857e963b9?auto=format&fit=crop&w=1600&q=75',
@@ -57,7 +57,7 @@ export const DESTINATIONS_SCANDINAVIA: Destination[] = [
     country: 'Noruega · Ártico',
     match: '👌', matchLabel: '---', category: 'ok',
     tagline: 'Picos de granito que salen del mar, auroras boreales y pueblos de pescadores rojos — dentro del Círculo Polar.',
-    scales: { playa_ciudad: 2, relax_fiesta: 2, lowcost_fancy: 7, invierno_verano: 3, occidental_exotico: 3, streetfood_gourmet: 5, descanso_aventura: 8, solo_grupal: 4, naturaleza_metropolis: 1, moderno_historico: 4, turistico_desconocido: 5 },
+    scales: { playa_ciudad: 1, relax_fiesta: 1, lowcost_fancy: 8, invierno_verano: 8, occidental_exotico: 2, streetfood_gourmet: 3, descanso_aventura: 9, solo_grupal: 2, naturaleza_metropolis: 1, moderno_historico: 3, turistico_desconocido: 9 },
     coords: [68.1545, 13.9996],
     images: [
       'https://images.unsplash.com/photo-1531366936337-7c912a4589a7?auto=format&fit=crop&w=1600&q=75',
@@ -105,7 +105,7 @@ export const DESTINATIONS_SCANDINAVIA: Destination[] = [
     country: 'Islandia',
     match: '👌', matchLabel: '---', category: 'ok',
     tagline: 'Géisers, glaciares, auroras, lava y ballenas. El planeta antes de que llegara la gente.',
-    scales: { playa_ciudad: 2, relax_fiesta: 3, lowcost_fancy: 8, invierno_verano: 4, occidental_exotico: 3, streetfood_gourmet: 5, descanso_aventura: 8, solo_grupal: 4, naturaleza_metropolis: 2, moderno_historico: 5, turistico_desconocido: 4 },
+    scales: { playa_ciudad: 1, relax_fiesta: 1, lowcost_fancy: 9, invierno_verano: 5, occidental_exotico: 3, streetfood_gourmet: 4, descanso_aventura: 10, solo_grupal: 3, naturaleza_metropolis: 1, moderno_historico: 3, turistico_desconocido: 5 },
     coords: [64.9631, -19.0208],
     images: [
       'https://images.unsplash.com/photo-1529963183134-61a90db47eaf?auto=format&fit=crop&w=1600&q=75',
@@ -153,7 +153,7 @@ export const DESTINATIONS_SCANDINAVIA: Destination[] = [
     country: 'Dinamarca',
     match: '👌', matchLabel: '---', category: 'ok',
     tagline: 'La ciudad más feliz del mundo según todos los rankings — y lo entiendes en cuanto llegas.',
-    scales: { playa_ciudad: 9, relax_fiesta: 5, lowcost_fancy: 7, invierno_verano: 6, occidental_exotico: 1, streetfood_gourmet: 8, descanso_aventura: 3, solo_grupal: 6, naturaleza_metropolis: 8, moderno_historico: 7, turistico_desconocido: 4 },
+    scales: { playa_ciudad: 10, relax_fiesta: 5, lowcost_fancy: 9, invierno_verano: 6, occidental_exotico: 1, streetfood_gourmet: 10, descanso_aventura: 2, solo_grupal: 5, naturaleza_metropolis: 9, moderno_historico: 6, turistico_desconocido: 2 },
     coords: [55.6761, 12.5683],
     images: [
       'https://images.unsplash.com/photo-1513622470522-26c3c8a854bc?auto=format&fit=crop&w=1600&q=75',
@@ -201,7 +201,7 @@ export const DESTINATIONS_SCANDINAVIA: Destination[] = [
     country: 'Suecia',
     match: '👌', matchLabel: '---', category: 'ok',
     tagline: 'Catorce islas, agua por todas partes, diseño al nivel de cualquier capital mundial y una calidad de vida que da envidia.',
-    scales: { playa_ciudad: 7, relax_fiesta: 5, lowcost_fancy: 7, invierno_verano: 6, occidental_exotico: 1, streetfood_gourmet: 7, descanso_aventura: 4, solo_grupal: 5, naturaleza_metropolis: 7, moderno_historico: 7, turistico_desconocido: 4 },
+    scales: { playa_ciudad: 10, relax_fiesta: 4, lowcost_fancy: 9, invierno_verano: 6, occidental_exotico: 1, streetfood_gourmet: 9, descanso_aventura: 2, solo_grupal: 4, naturaleza_metropolis: 9, moderno_historico: 8, turistico_desconocido: 2 },
     coords: [59.3293, 18.0686],
     images: [
       'https://images.unsplash.com/photo-1509356843151-3e7d96241e11?auto=format&fit=crop&w=1600&q=75',
@@ -249,7 +249,7 @@ export const DESTINATIONS_SCANDINAVIA: Destination[] = [
     country: 'Finlandia · Suecia · Noruega',
     match: '👌', matchLabel: '---', category: 'ok',
     tagline: 'Auroras boreales, trineos de huskies, renos y cabañas de cristal bajo el cielo ártico.',
-    scales: { playa_ciudad: 2, relax_fiesta: 2, lowcost_fancy: 7, invierno_verano: 2, occidental_exotico: 4, streetfood_gourmet: 4, descanso_aventura: 7, solo_grupal: 4, naturaleza_metropolis: 1, moderno_historico: 3, turistico_desconocido: 5 },
+    scales: { playa_ciudad: 1, relax_fiesta: 1, lowcost_fancy: 9, invierno_verano: 1, occidental_exotico: 3, streetfood_gourmet: 3, descanso_aventura: 8, solo_grupal: 3, naturaleza_metropolis: 1, moderno_historico: 3, turistico_desconocido: 8 },
     coords: [68.4215, 27.4035],
     images: [
       'https://images.unsplash.com/photo-1531366936337-7c912a4589a7?auto=format&fit=crop&w=1600&q=75',

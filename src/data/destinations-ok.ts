@@ -656,7 +656,7 @@ export const DESTINATIONS_OK: Destination[] = [
       actPD: 40,
       ar: 0.30,
     },
-    scales: { playa_ciudad: 5, relax_fiesta: 4, lowcost_fancy: 5, invierno_verano: 7, occidental_exotico: 3, streetfood_gourmet: 8, descanso_aventura: 5, solo_grupal: 5, naturaleza_metropolis: 5, moderno_historico: 9, turistico_desconocido: 3 },
+    scales: { playa_ciudad: 3, relax_fiesta: 3, lowcost_fancy: 4, invierno_verano: 9, occidental_exotico: 1, streetfood_gourmet: 1, descanso_aventura: 6, solo_grupal: 5, naturaleza_metropolis: 4, moderno_historico: 10, turistico_desconocido: 2 },
   },
 
   // ── Chipre ──────────────────────────────────────────────────
@@ -669,7 +669,7 @@ export const DESTINATIONS_OK: Destination[] = [
     matchLabel: '---',
     tagline: 'Playas de bandera azul, mosaicos romanos y un sol que no falla nunca.',
     category: 'ok',
-    scales: { playa_ciudad: 6, relax_fiesta: 5, lowcost_fancy: 4, invierno_verano: 9, occidental_exotico: 3, streetfood_gourmet: 5, descanso_aventura: 4, solo_grupal: 5, naturaleza_metropolis: 3, moderno_historico: 7, turistico_desconocido: 5 },
+    scales: { playa_ciudad: 2, relax_fiesta: 2, lowcost_fancy: 3, invierno_verano: 10, occidental_exotico: 2, streetfood_gourmet: 4, descanso_aventura: 3, solo_grupal: 4, naturaleza_metropolis: 2, moderno_historico: 9, turistico_desconocido: 5 },
     coords: [35.1264, 33.4299],
     images: [
       'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=1600&q=75',
@@ -760,7 +760,7 @@ export const DESTINATIONS_OK: Destination[] = [
     matchLabel: '---',
     tagline: 'La Acrópolis, el caos y el gyros: la ciudad donde nació Occidente sigue viva y ruidosa.',
     category: 'ok',
-    scales: { playa_ciudad: 8, relax_fiesta: 6, lowcost_fancy: 5, invierno_verano: 7, occidental_exotico: 3, streetfood_gourmet: 6, descanso_aventura: 4, solo_grupal: 6, naturaleza_metropolis: 9, moderno_historico: 10, turistico_desconocido: 3 },
+    scales: { playa_ciudad: 10, relax_fiesta: 6, lowcost_fancy: 4, invierno_verano: 8, occidental_exotico: 1, streetfood_gourmet: 2, descanso_aventura: 3, solo_grupal: 6, naturaleza_metropolis: 10, moderno_historico: 10, turistico_desconocido: 1 },
     coords: [37.9838, 23.7275],
     images: [
       'https://images.unsplash.com/photo-1555986392-9c45a91da6ad?auto=format&fit=crop&w=1600&q=75',

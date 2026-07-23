@@ -12,7 +12,7 @@ export const DESTINATIONS_AFRICA: Destination[] = [
     matchLabel: '---',
     category: 'ok',
     tagline: 'La medina más auténtica del Mediterráneo, las ruinas de Cartago y el blanco de Sidi Bou Saïd a solo 20 km de Europa.',
-    scales: { playa_ciudad: 6, relax_fiesta: 3, lowcost_fancy: 3, invierno_verano: 3, occidental_exotico: 8, streetfood_gourmet: 6, descanso_aventura: 4, solo_grupal: 4, naturaleza_metropolis: 6, moderno_historico: 9, turistico_desconocido: 5 },
+    scales: { playa_ciudad: 7, relax_fiesta: 2, lowcost_fancy: 2, invierno_verano: 2, occidental_exotico: 9, streetfood_gourmet: 9, descanso_aventura: 4, solo_grupal: 3, naturaleza_metropolis: 7, moderno_historico: 10, turistico_desconocido: 8 },
     coords: [36.8065, 10.1815],
     images: [
       'https://images.unsplash.com/photo-1539650116574-8efeb43e2750?auto=format&fit=crop&w=1600&q=75',
@@ -86,7 +86,7 @@ export const DESTINATIONS_AFRICA: Destination[] = [
     matchLabel: '---',
     category: 'ok',
     tagline: 'La isla encantada del Mediterráneo: playas blancas, pueblo árabe de cal y la sinagoga más antigua de África.',
-    scales: { playa_ciudad: 2, relax_fiesta: 3, lowcost_fancy: 2, invierno_verano: 5, occidental_exotico: 7, streetfood_gourmet: 5, descanso_aventura: 3, solo_grupal: 3, naturaleza_metropolis: 2, moderno_historico: 7, turistico_desconocido: 5 },
+    scales: { playa_ciudad: 1, relax_fiesta: 1, lowcost_fancy: 1, invierno_verano: 9, occidental_exotico: 9, streetfood_gourmet: 4, descanso_aventura: 2, solo_grupal: 2, naturaleza_metropolis: 2, moderno_historico: 7, turistico_desconocido: 7 },
     coords: [33.8075, 10.8451],
     images: [
       'https://images.unsplash.com/photo-1628093671697-42f7d0cd5b70?auto=format&fit=crop&w=1600&q=75',
@@ -159,7 +159,7 @@ export const DESTINATIONS_AFRICA: Destination[] = [
     matchLabel: '---',
     category: 'ok',
     tagline: 'Casas trogloditas bereber, el anfiteatro romano de El Djem y las primeras dunas del Sahara a 2 horas de la costa.',
-    scales: { playa_ciudad: 1, relax_fiesta: 2, lowcost_fancy: 3, invierno_verano: 3, occidental_exotico: 9, streetfood_gourmet: 4, descanso_aventura: 7, solo_grupal: 3, naturaleza_metropolis: 2, moderno_historico: 8, turistico_desconocido: 7 },
+    scales: { playa_ciudad: 1, relax_fiesta: 1, lowcost_fancy: 2, invierno_verano: 1, occidental_exotico: 10, streetfood_gourmet: 2, descanso_aventura: 10, solo_grupal: 2, naturaleza_metropolis: 1, moderno_historico: 9, turistico_desconocido: 9 },
     coords: [32.9297, 10.1363],
     images: [
       'https://images.unsplash.com/photo-1597212618440-806262de4f6b?auto=format&fit=crop&w=1600&q=75',
@@ -234,7 +234,7 @@ export const DESTINATIONS_AFRICA: Destination[] = [
     matchLabel: '---',
     category: 'ok',
     tagline: 'La ciudad más bella del mundo: entre montaña, océano y viñedos, con una cultura vibrante y atardeceres desde Table Mountain.',
-    scales: { playa_ciudad: 5, relax_fiesta: 5, lowcost_fancy: 5, invierno_verano: 8, occidental_exotico: 6, streetfood_gourmet: 7, descanso_aventura: 7, solo_grupal: 5, naturaleza_metropolis: 5, moderno_historico: 5, turistico_desconocido: 4 },
+    scales: { playa_ciudad: 5, relax_fiesta: 5, lowcost_fancy: 3, invierno_verano: 9, occidental_exotico: 7, streetfood_gourmet: 9, descanso_aventura: 8, solo_grupal: 6, naturaleza_metropolis: 5, moderno_historico: 4, turistico_desconocido: 2 },
     coords: [-33.9249, 18.4241],
     images: [
       'https://images.unsplash.com/photo-1580060839134-75a5edca2e99?auto=format&fit=crop&w=1600&q=75',
@@ -306,7 +306,7 @@ export const DESTINATIONS_AFRICA: Destination[] = [
     matchLabel: '---',
     category: 'ok',
     tagline: 'El safari más accesible del mundo: los Cinco Grandes en 2 millones de hectáreas de sabana que no decepcionan.',
-    scales: { playa_ciudad: 1, relax_fiesta: 2, lowcost_fancy: 6, invierno_verano: 5, occidental_exotico: 8, streetfood_gourmet: 3, descanso_aventura: 8, solo_grupal: 4, naturaleza_metropolis: 1, moderno_historico: 3, turistico_desconocido: 4 },
+    scales: { playa_ciudad: 1, relax_fiesta: 1, lowcost_fancy: 7, invierno_verano: 4, occidental_exotico: 10, streetfood_gourmet: 2, descanso_aventura: 10, solo_grupal: 3, naturaleza_metropolis: 1, moderno_historico: 2, turistico_desconocido: 3 },
     coords: [-24.0000, 31.5000],
     images: [
       'https://images.unsplash.com/photo-1547471080-7cc2caa01a7e?auto=format&fit=crop&w=1600&q=75',
@@ -377,7 +377,7 @@ export const DESTINATIONS_AFRICA: Destination[] = [
     matchLabel: '---',
     category: 'ok',
     tagline: 'La ruta en coche más espectacular de África: lagunas esmeralda, bosques de eucaliptos, ostras y kayak con ballenas.',
-    scales: { playa_ciudad: 2, relax_fiesta: 3, lowcost_fancy: 4, invierno_verano: 7, occidental_exotico: 5, streetfood_gourmet: 5, descanso_aventura: 7, solo_grupal: 3, naturaleza_metropolis: 2, moderno_historico: 3, turistico_desconocido: 6 },
+    scales: { playa_ciudad: 2, relax_fiesta: 2, lowcost_fancy: 2, invierno_verano: 9, occidental_exotico: 7, streetfood_gourmet: 5, descanso_aventura: 9, solo_grupal: 2, naturaleza_metropolis: 1, moderno_historico: 2, turistico_desconocido: 7 },
     coords: [-34.0522, 23.0430],
     images: [
       'https://images.unsplash.com/photo-1533587851505-d119e09a03a2?auto=format&fit=crop&w=1600&q=75',
@@ -451,7 +451,7 @@ export const DESTINATIONS_AFRICA: Destination[] = [
     matchLabel: '---',
     category: 'ok',
     tagline: 'El safari definitivo: la Gran Migración de un millón de ñus, leones de las masas, y los guerreros masái en el horizonte.',
-    scales: { playa_ciudad: 1, relax_fiesta: 2, lowcost_fancy: 7, invierno_verano: 5, occidental_exotico: 9, streetfood_gourmet: 3, descanso_aventura: 9, solo_grupal: 4, naturaleza_metropolis: 1, moderno_historico: 3, turistico_desconocido: 5 },
+    scales: { playa_ciudad: 1, relax_fiesta: 1, lowcost_fancy: 8, invierno_verano: 5, occidental_exotico: 10, streetfood_gourmet: 2, descanso_aventura: 10, solo_grupal: 4, naturaleza_metropolis: 1, moderno_historico: 2, turistico_desconocido: 4 },
     coords: [-1.4061, 35.0062],
     images: [
       'https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?auto=format&fit=crop&w=1600&q=75',
@@ -523,7 +523,7 @@ export const DESTINATIONS_AFRICA: Destination[] = [
     matchLabel: '---',
     category: 'ok',
     tagline: 'La isla especiada del Índico: playas de arena blanca, Stone Town árabe y buceo entre corales prístinos.',
-    scales: { playa_ciudad: 2, relax_fiesta: 4, lowcost_fancy: 4, invierno_verano: 5, occidental_exotico: 8, streetfood_gourmet: 6, descanso_aventura: 5, solo_grupal: 3, naturaleza_metropolis: 2, moderno_historico: 7, turistico_desconocido: 5 },
+    scales: { playa_ciudad: 1, relax_fiesta: 2, lowcost_fancy: 2, invierno_verano: 5, occidental_exotico: 10, streetfood_gourmet: 8, descanso_aventura: 4, solo_grupal: 3, naturaleza_metropolis: 1, moderno_historico: 9, turistico_desconocido: 5 },
     coords: [-6.1659, 39.2026],
     images: [
       'https://images.unsplash.com/photo-1549294413-26f195200c16?auto=format&fit=crop&w=1600&q=75',

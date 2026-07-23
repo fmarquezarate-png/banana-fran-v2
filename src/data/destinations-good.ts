@@ -95,7 +95,7 @@ export const DESTINATIONS_GOOD: Destination[] = [
       actPD: 40,
       ar: 0.20,
     },
-    scales: { playa_ciudad: 7, relax_fiesta: 4, lowcost_fancy: 5, invierno_verano: 9, occidental_exotico: 2, streetfood_gourmet: 7, descanso_aventura: 5, solo_grupal: 5, naturaleza_metropolis: 4, moderno_historico: 7 , turistico_desconocido: 6 },
+    scales: { playa_ciudad: 2, relax_fiesta: 1, lowcost_fancy: 2, invierno_verano: 10, occidental_exotico: 1, streetfood_gourmet: 4, descanso_aventura: 3, solo_grupal: 2, naturaleza_metropolis: 1, moderno_historico: 9, turistico_desconocido: 6 },
   },
   {
     id: 'folegandros',
@@ -190,7 +190,7 @@ export const DESTINATIONS_GOOD: Destination[] = [
       actPD: 35,
       ar: 0.20,
     },
-    scales: { playa_ciudad: 5, relax_fiesta: 2, lowcost_fancy: 4, invierno_verano: 9, occidental_exotico: 2, streetfood_gourmet: 5, descanso_aventura: 4, solo_grupal: 2, naturaleza_metropolis: 3, moderno_historico: 5 , turistico_desconocido: 8 },
+    scales: { playa_ciudad: 1, relax_fiesta: 1, lowcost_fancy: 3, invierno_verano: 9, occidental_exotico: 2, streetfood_gourmet: 3, descanso_aventura: 2, solo_grupal: 1, naturaleza_metropolis: 1, moderno_historico: 5, turistico_desconocido: 10 },
   },
   {
     id: 'koufonisia',
@@ -285,7 +285,7 @@ export const DESTINATIONS_GOOD: Destination[] = [
       actPD: 45,
       ar: 0.20,
     },
-    scales: { playa_ciudad: 8, relax_fiesta: 5, lowcost_fancy: 3, invierno_verano: 9, occidental_exotico: 2, streetfood_gourmet: 4, descanso_aventura: 4, solo_grupal: 6, naturaleza_metropolis: 4, moderno_historico: 3 , turistico_desconocido: 9 },
+    scales: { playa_ciudad: 1, relax_fiesta: 2, lowcost_fancy: 2, invierno_verano: 10, occidental_exotico: 1, streetfood_gourmet: 2, descanso_aventura: 2, solo_grupal: 4, naturaleza_metropolis: 1, moderno_historico: 3, turistico_desconocido: 9 },
   },
   {
     id: 'paxos',
@@ -380,7 +380,7 @@ export const DESTINATIONS_GOOD: Destination[] = [
       actPD: 45,
       ar: 0.20,
     },
-    scales: { playa_ciudad: 7, relax_fiesta: 3, lowcost_fancy: 4, invierno_verano: 8, occidental_exotico: 2, streetfood_gourmet: 6, descanso_aventura: 4, solo_grupal: 3, naturaleza_metropolis: 3, moderno_historico: 4, turistico_desconocido: 7 },
+    scales: { playa_ciudad: 1, relax_fiesta: 1, lowcost_fancy: 5, invierno_verano: 9, occidental_exotico: 1, streetfood_gourmet: 5, descanso_aventura: 2, solo_grupal: 2, naturaleza_metropolis: 1, moderno_historico: 4, turistico_desconocido: 9 },
   },
   {
     id: 'cefalonia',
@@ -475,7 +475,7 @@ export const DESTINATIONS_GOOD: Destination[] = [
       actPD: 40,
       ar: 0.20,
     },
-    scales: { playa_ciudad: 7, relax_fiesta: 4, lowcost_fancy: 5, invierno_verano: 9, occidental_exotico: 2, streetfood_gourmet: 6, descanso_aventura: 6, solo_grupal: 4, naturaleza_metropolis: 3, moderno_historico: 5, turistico_desconocido: 5 },
+    scales: { playa_ciudad: 2, relax_fiesta: 2, lowcost_fancy: 4, invierno_verano: 10, occidental_exotico: 1, streetfood_gourmet: 5, descanso_aventura: 5, solo_grupal: 3, naturaleza_metropolis: 1, moderno_historico: 5, turistico_desconocido: 6 },
   },
   {
     id: 'itaca',
@@ -570,7 +570,7 @@ export const DESTINATIONS_GOOD: Destination[] = [
       actPD: 25,
       ar: 0.20,
     },
-    scales: { playa_ciudad: 5, relax_fiesta: 2, lowcost_fancy: 4, invierno_verano: 8, occidental_exotico: 3, streetfood_gourmet: 5, descanso_aventura: 4, solo_grupal: 2, naturaleza_metropolis: 2, moderno_historico: 7, turistico_desconocido: 8 },
+    scales: { playa_ciudad: 1, relax_fiesta: 1, lowcost_fancy: 3, invierno_verano: 9, occidental_exotico: 2, streetfood_gourmet: 4, descanso_aventura: 3, solo_grupal: 1, naturaleza_metropolis: 1, moderno_historico: 9, turistico_desconocido: 9 },
   },
   {
     id: 'istria',
@@ -581,7 +581,7 @@ export const DESTINATIONS_GOOD: Destination[] = [
     matchLabel: '---',
     tagline: 'La Toscana del Adriático: trufas, vino y pueblos medievales',
     category: 'ok',
-    scales: { playa_ciudad: 5, relax_fiesta: 3, lowcost_fancy: 4, invierno_verano: 8, occidental_exotico: 2, streetfood_gourmet: 8, descanso_aventura: 5, solo_grupal: 3, naturaleza_metropolis: 3, moderno_historico: 7, turistico_desconocido: 6 },
+    scales: { playa_ciudad: 4, relax_fiesta: 2, lowcost_fancy: 4, invierno_verano: 8, occidental_exotico: 1, streetfood_gourmet: 9, descanso_aventura: 3, solo_grupal: 2, naturaleza_metropolis: 2, moderno_historico: 8, turistico_desconocido: 7 },
     coords: [45.2292, 13.9528],
     images: [
       'https://images.unsplash.com/photo-1555993539-1732b0258235?w=800',
@@ -760,7 +760,7 @@ export const DESTINATIONS_GOOD: Destination[] = [
       actPD: 20,
       ar: 0.20,
     },
-    scales: { playa_ciudad: 9, relax_fiesta: 6, lowcost_fancy: 2, invierno_verano: 9, occidental_exotico: 5, streetfood_gourmet: 5, descanso_aventura: 3, solo_grupal: 4, naturaleza_metropolis: 5, moderno_historico: 4 , turistico_desconocido: 8 },
+    scales: { playa_ciudad: 1, relax_fiesta: 4, lowcost_fancy: 1, invierno_verano: 10, occidental_exotico: 4, streetfood_gourmet: 3, descanso_aventura: 2, solo_grupal: 4, naturaleza_metropolis: 1, moderno_historico: 4, turistico_desconocido: 9 },
   },
   {
     id: 'corfu-norte',
@@ -769,7 +769,7 @@ export const DESTINATIONS_GOOD: Destination[] = [
     country: 'Grecia — Islas Jónicas',
     match: '👌',
     matchLabel: '---',
-    scales: { playa_ciudad: 3, relax_fiesta: 3, lowcost_fancy: 4, invierno_verano: 9, occidental_exotico: 2, streetfood_gourmet: 5, descanso_aventura: 4, solo_grupal: 3, naturaleza_metropolis: 2, moderno_historico: 5, turistico_desconocido: 7 },
+    scales: { playa_ciudad: 2, relax_fiesta: 1, lowcost_fancy: 3, invierno_verano: 10, occidental_exotico: 1, streetfood_gourmet: 4, descanso_aventura: 3, solo_grupal: 2, naturaleza_metropolis: 1, moderno_historico: 6, turistico_desconocido: 8 },
     tagline: 'La parte verde y tranquila de Corfú, lejos del turismo de masas',
     category: 'ok',
     coords: [39.8027, 19.7595],
@@ -868,7 +868,7 @@ export const DESTINATIONS_GOOD: Destination[] = [
     matchLabel: '---',
     tagline: 'La ciudad más de moda de Europa que aún no se ha vendido del todo.',
     category: 'ok',
-    scales: { playa_ciudad: 8, relax_fiesta: 5, lowcost_fancy: 4, invierno_verano: 6, occidental_exotico: 2, streetfood_gourmet: 5, descanso_aventura: 4, solo_grupal: 5, naturaleza_metropolis: 8, moderno_historico: 7, turistico_desconocido: 2 },
+    scales: { playa_ciudad: 9, relax_fiesta: 5, lowcost_fancy: 3, invierno_verano: 7, occidental_exotico: 1, streetfood_gourmet: 6, descanso_aventura: 3, solo_grupal: 5, naturaleza_metropolis: 9, moderno_historico: 9, turistico_desconocido: 1 },
     coords: [38.7223, -9.1393],
     images: [
       'https://images.unsplash.com/photo-1555881400-74d7acaacd8b?auto=format&fit=crop&w=1600&q=75',
@@ -958,7 +958,7 @@ export const DESTINATIONS_GOOD: Destination[] = [
     matchLabel: '---',
     tagline: 'Palacios barrocos, baños termales y vida nocturna en ruinas reconvertidas.',
     category: 'ok',
-    scales: { playa_ciudad: 9, relax_fiesta: 6, lowcost_fancy: 3, invierno_verano: 5, occidental_exotico: 2, streetfood_gourmet: 7, descanso_aventura: 4, solo_grupal: 5, naturaleza_metropolis: 9, moderno_historico: 8, turistico_desconocido: 2 },
+    scales: { playa_ciudad: 10, relax_fiesta: 7, lowcost_fancy: 2, invierno_verano: 5, occidental_exotico: 2, streetfood_gourmet: 7, descanso_aventura: 3, solo_grupal: 6, naturaleza_metropolis: 10, moderno_historico: 10, turistico_desconocido: 2 },
     coords: [47.4979, 19.0402],
     images: [
       'https://images.unsplash.com/photo-1592496431122-2349e0fbc666?auto=format&fit=crop&w=1600&q=75',
@@ -1133,7 +1133,7 @@ export const DESTINATIONS_GOOD: Destination[] = [
       actPD: 35,
       ar: 0.30,
     },
-    scales: { playa_ciudad: 4, relax_fiesta: 4, lowcost_fancy: 5, invierno_verano: 8, occidental_exotico: 2, streetfood_gourmet: 9, descanso_aventura: 4, solo_grupal: 5, naturaleza_metropolis: 4, moderno_historico: 8, turistico_desconocido: 5 },
+    scales: { playa_ciudad: 3, relax_fiesta: 2, lowcost_fancy: 2, invierno_verano: 9, occidental_exotico: 1, streetfood_gourmet: 10, descanso_aventura: 2, solo_grupal: 4, naturaleza_metropolis: 2, moderno_historico: 10, turistico_desconocido: 6 },
   },
 
   // ── Estambul ──────────────────────────────────────────────────
@@ -1232,7 +1232,7 @@ export const DESTINATIONS_GOOD: Destination[] = [
       actPD: 30,
       ar: 0.30,
     },
-    scales: { playa_ciudad: 9, relax_fiesta: 6, lowcost_fancy: 5, invierno_verano: 6, occidental_exotico: 8, streetfood_gourmet: 8, descanso_aventura: 4, solo_grupal: 6, naturaleza_metropolis: 9, moderno_historico: 9, turistico_desconocido: 1 },
+    scales: { playa_ciudad: 10, relax_fiesta: 5, lowcost_fancy: 3, invierno_verano: 6, occidental_exotico: 8, streetfood_gourmet: 9, descanso_aventura: 3, solo_grupal: 6, naturaleza_metropolis: 10, moderno_historico: 10, turistico_desconocido: 1 },
   },
 
   // ── Malta ───────────────────────────────────────────────────
@@ -1245,7 +1245,7 @@ export const DESTINATIONS_GOOD: Destination[] = [
     matchLabel: '---',
     tagline: 'Fortalezas barrocas, agua cristalina y 7.000 años de historia en 316 km².',
     category: 'ok',
-    scales: { playa_ciudad: 6, relax_fiesta: 5, lowcost_fancy: 4, invierno_verano: 7, occidental_exotico: 3, streetfood_gourmet: 5, descanso_aventura: 5, solo_grupal: 5, naturaleza_metropolis: 4, moderno_historico: 9, turistico_desconocido: 4 },
+    scales: { playa_ciudad: 4, relax_fiesta: 4, lowcost_fancy: 3, invierno_verano: 9, occidental_exotico: 1, streetfood_gourmet: 5, descanso_aventura: 3, solo_grupal: 5, naturaleza_metropolis: 5, moderno_historico: 10, turistico_desconocido: 3 },
     coords: [35.9375, 14.3754],
     images: [
       'https://images.unsplash.com/photo-1514517604298-cf80e0fb7f1e?auto=format&fit=crop&w=1600&q=75',
@@ -1335,7 +1335,7 @@ export const DESTINATIONS_GOOD: Destination[] = [
     matchLabel: '---',
     tagline: 'La Balear sin postureo: calas turquesas, viento de tramontana y silencio de verdad.',
     category: 'ok',
-    scales: { playa_ciudad: 2, relax_fiesta: 2, lowcost_fancy: 3, invierno_verano: 9, occidental_exotico: 1, streetfood_gourmet: 4, descanso_aventura: 5, solo_grupal: 3, naturaleza_metropolis: 2, moderno_historico: 5, turistico_desconocido: 7 },
+    scales: { playa_ciudad: 1, relax_fiesta: 1, lowcost_fancy: 3, invierno_verano: 10, occidental_exotico: 1, streetfood_gourmet: 4, descanso_aventura: 2, solo_grupal: 2, naturaleza_metropolis: 1, moderno_historico: 5, turistico_desconocido: 7 },
     coords: [39.9496, 4.1135],
     images: [
       'https://images.unsplash.com/photo-1568430462989-44163eb1752f?auto=format&fit=crop&w=1600&q=75',
@@ -1425,7 +1425,7 @@ export const DESTINATIONS_GOOD: Destination[] = [
     matchLabel: '---',
     tagline: 'Ribeira de azulejos, vino de Oporto y una ciudad que sabe ser hermosa sin esforzarse.',
     category: 'ok',
-    scales: { playa_ciudad: 6, relax_fiesta: 5, lowcost_fancy: 3, invierno_verano: 5, occidental_exotico: 2, streetfood_gourmet: 6, descanso_aventura: 3, solo_grupal: 5, naturaleza_metropolis: 7, moderno_historico: 8, turistico_desconocido: 4 },
+    scales: { playa_ciudad: 8, relax_fiesta: 4, lowcost_fancy: 2, invierno_verano: 6, occidental_exotico: 1, streetfood_gourmet: 8, descanso_aventura: 2, solo_grupal: 4, naturaleza_metropolis: 9, moderno_historico: 10, turistico_desconocido: 3 },
     coords: [41.1579, -8.6291],
     images: [
       'https://images.unsplash.com/photo-1555881400-74d7acaacd8b?auto=format&fit=crop&w=1600&q=75',
