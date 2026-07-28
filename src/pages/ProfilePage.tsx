@@ -3,9 +3,25 @@ import toast from 'react-hot-toast'
 import { useAuth } from '@/hooks/useAuth'
 import { useProfile } from '@/hooks/useProfile'
 
-const APP_VERSION = '0.33.1'
+const APP_VERSION = '0.41.0'
 
 const CHANGELOG: { v: string; date: string; notes: string[] }[] = [
+  { v: '0.41.0', date: 'Jul 2026', notes: [
+    'Ronda de limpieza integral del catálogo (250 destinos)',
+    'Escalas: 42.7% de valores extremos (era 24%) — zona warning ahora funciona bien',
+    'Escalas: recalibradas todas las que no cuadraban con el presupuesto real',
+    'plans7: los 15 destinos con "Día 1-2" combinado, ahora con 7 días separados',
+    'Fix crash: /destino/* ya no rompe al elegir 3/5/10/14 días en los 143 destinos que solo tenían plans7',
+    'Región geográfica: mapping ampliado de 30 a 220+ países — antes se penalizaba -25 pts a los no mapeados',
+    'Región geográfica: Oriente Medio ahora encaja bajo "África / Medio Oriente" como dice el quiz',
+    'Multitudes (quiz): usa la escala turistico_desconocido + campo warning en vez de category (que siempre es "ok")',
+    'Musts: implementados los 5 matchers que faltaban (skiing, winetour, wildlife, family, romantic)',
+    'PlacesPage: mapa mundial ahora colorea los 138 países del catálogo (antes solo 40)',
+    'Explorar: buscador ahora también busca en musts y platos ("ceviche" → Perú, "safari" → Kenia)',
+    'Facts: etiquetas normalizadas en la UI (vuelo/flight/idioma/lang/moneda/currency)',
+    'TripsPage: dropdown de países ahora se genera dinámicamente del catálogo',
+    'Datos: normalizados 5 nombres de país duplicados (Fiji/Fiyi, Canada/Canadá, etc.)',
+  ]},
   { v: '0.33.1', date: 'May 2026', notes: [
     'TravelLoader: tiempos ajustados — navegación 0-2s, quiz 3-6s',
     'Quiz thinking: 20 mensajes de investigación que rotan cada 1.4s ("Analizando el clima…", "Revisando restaurantes…", etc.)',
