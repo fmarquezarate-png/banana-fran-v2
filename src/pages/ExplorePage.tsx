@@ -15,7 +15,10 @@ export function ExplorePage() {
       ? DESTINATIONS.filter(d =>
           d.name.toLowerCase().includes(q) ||
           d.country.toLowerCase().includes(q) ||
-          d.tagline.toLowerCase().includes(q)
+          d.tagline.toLowerCase().includes(q) ||
+          d.shortName.toLowerCase().includes(q) ||
+          d.musts.some(m => m.toLowerCase().includes(q)) ||
+          d.dishes.some(dish => dish.toLowerCase().includes(q))
         )
       : DESTINATIONS
     return [...filtered].sort((a, b) => a.name.localeCompare(b.name, 'es'))
@@ -71,9 +74,15 @@ export function ExplorePage() {
             type="text"
             value={search}
             onChange={e => setSearch(e.target.value)}
-            placeholder="Buscar destino, país o temática…"
+            placeholder="Buscar destino, país, plato, actividad…"
             className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-egeo/40"
           />
+
+          {search.trim() && sorted.length > 0 && (
+            <p className="text-xs text-gray-400 px-1">
+              {sorted.length} {sorted.length === 1 ? 'resultado' : 'resultados'}
+            </p>
+          )}
 
           {sorted.length === 0 && (
             <p className="text-center text-gray-400 py-8 text-sm">Sin resultados para "{search}"</p>
