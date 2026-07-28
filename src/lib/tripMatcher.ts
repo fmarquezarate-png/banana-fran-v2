@@ -214,6 +214,14 @@ const KEYWORDS: Record<string, string[]> = {
   photography: ['paisaje', 'panorámica', 'mirador', 'atardecer', 'amanecer', 'fotografía', 'vista espectacular'],
   shopping:    ['mercado', 'compras', 'tiendas', 'artesanía', 'bazar', 'souvenirs', 'Grand Bazaar'],
   wellness:    ['spa', 'termas', 'aguas termales', 'balneario', 'bienestar', 'hammam', 'baño turco'],
+  // musts que faltaban
+  skiing:      ['esquí', 'esqui', 'nieve', 'pista', 'snowboard', 'estación de esquí', 'après-ski', 'telecabina', 'teleférico', 'alpes', 'invierno'],
+  winetour:    ['vino', 'bodega', 'viñedo', 'enología', 'enoturismo', 'cata', 'denominación', 'ribera', 'rioja', 'burdeos', 'toscana', 'napa', 'mendoza'],
+  wildlife:    ['safari', 'fauna', 'animales', 'salvaje', 'león', 'elefante', 'ballena', 'delfín', 'tortuga', 'aves', 'parque nacional', 'reserva', 'big five'],
+  family:      ['familia', 'niños', 'infantil', 'parque temático', 'zoo', 'apto', 'seguro',
+                'todo incluido', 'resort', 'tranquil', 'playa', 'piscina', 'accesible', 'fácil'],
+  romantic:    ['romántico', 'atardecer', 'luna de miel', 'pareja', 'íntimo', 'boutique',
+                'con encanto', 'vistas', 'caldera', 'sunset', 'candlelight', 'terraza'],
   // ritmo
   relaxed:     ['tranquil', 'calma', 'descanso', 'pausado', 'slow', 'silencio', 'relajar'],
   intense:     ['actividades', 'museos', 'rutas', 'excursión', 'visitar', 'imprescindible', 'agenda'],
@@ -300,6 +308,10 @@ export function scoreDests(
         const labels: Record<string, string> = {
           snorkel: 'Snorkel/buceo', hiking: 'Senderismo', nightlife: 'Vida nocturna',
           history: 'Historia', beaches: 'Playas', peace: 'Tranquilidad',
+          gastronomy: 'Gastronomía', art: 'Arte y museos', watersports: 'Deportes acuáticos',
+          photography: 'Fotografía', shopping: 'Compras y mercados', wellness: 'Wellness / Spa',
+          skiing: 'Esquí', winetour: 'Enoturismo', wildlife: 'Fauna salvaje',
+          family: 'Familiar', romantic: 'Romántico',
         }
         reasons.push(`Tiene: ${labels[must] ?? must}`)
       }
