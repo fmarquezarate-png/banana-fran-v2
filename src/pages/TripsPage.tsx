@@ -58,17 +58,14 @@ function TripCard({ trip }: { trip: Trip }) {
   )
 }
 
-// Countries available for the map (superset of what we have in DESTINATIONS)
-const COUNTRIES_FOR_MAP = [
-  'Albania', 'Alemania', 'Austria', 'Bélgica', 'Bulgaria', 'Chipre', 'Croacia',
-  'Dinamarca', 'Eslovaquia', 'Eslovenia', 'España', 'Estonia', 'Finlandia', 'Francia',
-  'Grecia', 'Hungría', 'Irlanda', 'Islandia', 'Italia', 'Letonia', 'Lituania',
-  'Luxemburgo', 'Malta', 'Marruecos', 'Montenegro', 'Noruega', 'Países Bajos',
-  'Polonia', 'Portugal', 'Reino Unido', 'República Checa', 'Rumanía',
-  'Serbia', 'Suecia', 'Suiza', 'Turquía',
-  'Argentina', 'Brasil', 'Chile', 'Colombia', 'Cuba', 'Estados Unidos', 'México', 'Perú',
-  'China', 'Egipto', 'India', 'Japón', 'Jordania', 'Kenia', 'Sudáfrica', 'Tailandia', 'Tanzania', 'Túnez', 'Vietnam',
-]
+// Lista de países disponible para el modal de "viaje pasado".
+// Se deriva del catálogo (una entrada por país) para evitar quedar
+// desincronizada cuando se añaden nuevos destinos, y se ordena en
+// español. La country string se recorta antes del primer separador
+// (— · /) para agrupar variantes como "Grecia — Cícladas" en "Grecia".
+const COUNTRIES_FOR_MAP = Array.from(
+  new Set(DESTINATIONS.map(d => d.country.split(/[—·\/]/)[0].trim()))
+).sort((a, b) => a.localeCompare(b, 'es'))
 
 function PastTripModal({ onClose, onCreate }: {
   onClose: () => void
