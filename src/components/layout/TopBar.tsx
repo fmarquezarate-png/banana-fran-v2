@@ -12,6 +12,9 @@ const NAV_ITEMS = [
 export function TopBar() {
   const { pathname } = useLocation()
 
+  // "/" solo activo si estamos exactamente ahí; el resto también en rutas anidadas.
+  const isActive = (to: string) => to === '/' ? pathname === '/' : pathname === to || pathname.startsWith(to + '/')
+
   return (
     <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-sm border-b border-gray-100 shadow-sm">
       <div className="max-w-5xl mx-auto px-4 h-14 flex items-center justify-between">
@@ -28,7 +31,7 @@ export function TopBar() {
               to={item.to}
               className={clsx(
                 'px-3 py-1.5 rounded-lg text-sm font-medium transition-colors',
-                pathname === item.to
+                isActive(item.to)
                   ? 'bg-egeo/10 text-egeo'
                   : 'text-gray-600 hover:text-egeo hover:bg-egeo/5'
               )}
@@ -47,7 +50,7 @@ export function TopBar() {
             to={item.to}
             className={clsx(
               'flex-1 flex flex-col items-center gap-0.5 py-2 text-xs font-medium transition-colors',
-              pathname === item.to ? 'text-egeo' : 'text-gray-400'
+              isActive(item.to) ? 'text-egeo' : 'text-gray-400'
             )}
           >
             <span className="text-lg">{item.icon}</span>
