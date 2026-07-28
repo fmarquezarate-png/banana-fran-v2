@@ -184,11 +184,11 @@ function TripQuotes({ tripId, estimatedTotal }: { tripId: string; estimatedTotal
 
 function getPlanForDays(dest: Destination, days: number | null): { planDays: number; actualDays: number; plan: ShortPlan | LongPlan; isShort: boolean } {
   const n = days ?? 7
-  if (n <= 4)  return { planDays: 3,  actualDays: n, plan: dest.plans3,  isShort: true  }
-  if (n <= 6)  return { planDays: 5,  actualDays: n, plan: dest.plans5,  isShort: true  }
-  if (n <= 9)  return { planDays: 7,  actualDays: n, plan: dest.plans7,  isShort: false }
-  if (n <= 13) return { planDays: 10, actualDays: n, plan: dest.plans10, isShort: false }
-  return              { planDays: 14, actualDays: n, plan: dest.plans14, isShort: false }
+  if (n <= 4)  return { planDays: 3,  actualDays: n, plan: dest.plans3  ?? dest.plans7, isShort: !dest.plans3  }
+  if (n <= 6)  return { planDays: 5,  actualDays: n, plan: dest.plans5  ?? dest.plans7, isShort: !dest.plans5  }
+  if (n <= 9)  return { planDays: 7,  actualDays: n, plan: dest.plans7,                isShort: false         }
+  if (n <= 13) return { planDays: 10, actualDays: n, plan: dest.plans10 ?? dest.plans7, isShort: false         }
+  return              { planDays: 14, actualDays: n, plan: dest.plans14 ?? dest.plans7, isShort: false         }
 }
 
 function adaptPlan(plan: ShortPlan | LongPlan, planDays: number, actualDays: number, isShort: boolean): ShortPlan | LongPlan {
