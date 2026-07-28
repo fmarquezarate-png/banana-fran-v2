@@ -161,18 +161,23 @@ const REGION_COUNTRIES: Record<string, string[]> = {
     'gales', 'turquía', 'georgia', 'azerbaiyán',
   ],
   africa: [
+    // África subsahariana y Norte de África
     'marruecos', 'túnez', 'egipto', 'kenia', 'tanzanía', 'tanzania', 'sudáfrica',
     'namibia', 'etiopía', 'ghana', 'senegal', 'ruanda', 'uganda', 'madagascar',
     'mozambique', 'nigeria', 'cabo verde', 'zanzibar', 'seychelles', 'mauricio',
     'maldivas', 'reunión',
+    // Oriente Medio (agrupado con África en el quiz)
+    'jordania', 'líbano', 'israel', 'omán', 'emiratos', 'arabia', 'catar', 'kuwait',
+    'baréin', 'irán', 'irak', 'siria', 'yemen',
   ],
   asia: [
+    // Asia Oriental, Sudeste Asiático, Asia del Sur y Central
     'japón', 'tailandia', 'vietnam', 'indonesia', 'india', 'singapur', 'bali', 'camboya',
     'china', 'corea', 'taiwan', 'taiwán', 'hong kong', 'filipinas', 'malasia', 'brunéi',
     'myanmar', 'laos', 'nepal', 'bután', 'sri lanka', 'pakistan', 'bangladés',
     'mongolia', 'kazajistán', 'kazajistan', 'uzbekistán', 'kirguistán', 'tayikistán',
-    'jordania', 'líbano', 'israel', 'omán', 'emiratos', 'arabia', 'catar', 'kuwait', 'baréin',
-    'irán', 'irak', 'siria', 'yemen', 'afganistán',
+    'azerbaiyán', 'georgia',
+    'afganistán',
   ],
   americas: [
     'méxico', 'colombia', 'brasil', 'argentina', 'cuba', 'perú', 'costa rica', 'chile',
