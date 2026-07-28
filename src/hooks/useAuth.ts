@@ -28,14 +28,15 @@ export function useAuth() {
         setUser(session?.user ?? null)
       })
     }
-    document.addEventListener('visibilitychange', () => {
+    function onVisibilityChange() {
       if (!document.hidden) refreshOnFocus()
-    })
+    }
+    document.addEventListener('visibilitychange', onVisibilityChange)
     window.addEventListener('focus', refreshOnFocus)
 
     return () => {
       subscription.unsubscribe()
-      document.removeEventListener('visibilitychange', refreshOnFocus)
+      document.removeEventListener('visibilitychange', onVisibilityChange)
       window.removeEventListener('focus', refreshOnFocus)
     }
   }, [])
