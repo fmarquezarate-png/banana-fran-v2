@@ -3,9 +3,25 @@ import toast from 'react-hot-toast'
 import { useAuth } from '@/hooks/useAuth'
 import { useProfile } from '@/hooks/useProfile'
 
-const APP_VERSION = '0.41.0'
+const APP_VERSION = '0.42.0'
 
 const CHANGELOG: { v: string; date: string; notes: string[] }[] = [
+  { v: '0.42.0', date: 'Jul 2026', notes: [
+    'Segunda ronda de limpieza: bugs sutiles + rendimiento',
+    'Fix crítico: violación de rules-of-hooks en DestinationPage — useFavorites/useRatings/useEffect se llamaban después de un early return',
+    'Fix fuga de memoria: listener visibilitychange en useAuth nunca se removía (referencia distinta al añadir/quitar)',
+    'ErrorBoundary raíz: pantalla amistosa con recargar en vez de white screen al fallar cualquier componente',
+    'Perf: cache de haystack por destino (JSON.stringify + toLowerCase se ejecutaba 5-N veces por dest, ahora una)',
+    'Perf: TripDetailPage/groups colapsado a un solo calcScaleMatch por destino (antes hasta 5)',
+    'Fix: nuevos viajes aparecen arriba en TripsPage (createTrip los añadía al final)',
+    'Coche del quiz: por fin puntúa (era inerte) — usa naturaleza_metropolis como proxy',
+    'Temporada: primavera/otoño restringidas a destinos transitorios (4-7) — antes cualquier verano se colaba en primavera',
+    'ExplorePage: 30 líneas menos de código, sort alfabético en selector de análisis',
+    'TopBar: pestaña activa también en rutas anidadas (/viajes/123 → Viajes)',
+    'Facts: normalizador de etiquetas (vuelo/flight, idioma/lang, moneda/currency)',
+    'Cleanup: eliminado 232 líneas de código muerto (CategoryRow, DestinationCard, useDestinationRating, lib/storage, getDestinationsByCategory)',
+    '0 errores de ESLint (había 11), 0 errores de TypeScript',
+  ]},
   { v: '0.41.0', date: 'Jul 2026', notes: [
     'Ronda de limpieza integral del catálogo (250 destinos)',
     'Escalas: 42.7% de valores extremos (era 24%) — zona warning ahora funciona bien',
