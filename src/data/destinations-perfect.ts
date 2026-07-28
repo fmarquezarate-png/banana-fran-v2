@@ -543,7 +543,7 @@ export const DESTINATIONS_PERFECT: Destination[] = [
       actPD: 30,
       ar: 0.20,
     },
-    scales: { playa_ciudad: 8, relax_fiesta: 3, lowcost_fancy: 2, invierno_verano: 8, occidental_exotico: 4, streetfood_gourmet: 3, descanso_aventura: 7, solo_grupal: 5, naturaleza_metropolis: 4, moderno_historico: 10, turistico_desconocido: 4 },
+    scales: { playa_ciudad: 8, relax_fiesta: 3, lowcost_fancy: 4, invierno_verano: 8, occidental_exotico: 4, streetfood_gourmet: 3, descanso_aventura: 7, solo_grupal: 5, naturaleza_metropolis: 4, moderno_historico: 10, turistico_desconocido: 4 },
   },
 
   // ── Azores ──────────────────────────────────────────────────
@@ -813,7 +813,7 @@ export const DESTINATIONS_PERFECT: Destination[] = [
       actPD: 40,
       ar: 0.30,
     },
-    scales: { playa_ciudad: 2, relax_fiesta: 1, lowcost_fancy: 2, invierno_verano: 8, occidental_exotico: 1, streetfood_gourmet: 5, descanso_aventura: 9, solo_grupal: 3, naturaleza_metropolis: 1, moderno_historico: 5, turistico_desconocido: 5 },
+    scales: { playa_ciudad: 2, relax_fiesta: 1, lowcost_fancy: 5, invierno_verano: 8, occidental_exotico: 1, streetfood_gourmet: 5, descanso_aventura: 9, solo_grupal: 3, naturaleza_metropolis: 1, moderno_historico: 5, turistico_desconocido: 5 },
   },
 
   // ── Highlands de Escocia ──────────────────────────────────────

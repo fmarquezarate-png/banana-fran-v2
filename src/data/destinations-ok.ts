@@ -392,7 +392,7 @@ export const DESTINATIONS_OK: Destination[] = [
     match: '👌',
     matchLabel: '---',
     tagline: 'La ciudad más bonita de Europa central… que ya saben todos.',
-    scales: { playa_ciudad: 10, relax_fiesta: 5, lowcost_fancy: 2, invierno_verano: 5, occidental_exotico: 1, streetfood_gourmet: 4, descanso_aventura: 3, solo_grupal: 5, naturaleza_metropolis: 10, moderno_historico: 10, turistico_desconocido: 1 },
+    scales: { playa_ciudad: 10, relax_fiesta: 5, lowcost_fancy: 5, invierno_verano: 5, occidental_exotico: 1, streetfood_gourmet: 4, descanso_aventura: 3, solo_grupal: 5, naturaleza_metropolis: 10, moderno_historico: 10, turistico_desconocido: 1 },
     category: 'ok',
     coords: [50.0755, 14.4378],
     images: [
@@ -480,7 +480,7 @@ export const DESTINATIONS_OK: Destination[] = [
     match: '👌',
     matchLabel: '---',
     tagline: 'El caos de los souks, el silencio de los riads y el desierto a pocas horas.',
-    scales: { playa_ciudad: 9, relax_fiesta: 4, lowcost_fancy: 2, invierno_verano: 2, occidental_exotico: 10, streetfood_gourmet: 1, descanso_aventura: 7, solo_grupal: 5, naturaleza_metropolis: 8, moderno_historico: 10, turistico_desconocido: 1 },
+    scales: { playa_ciudad: 9, relax_fiesta: 4, lowcost_fancy: 4, invierno_verano: 2, occidental_exotico: 10, streetfood_gourmet: 1, descanso_aventura: 7, solo_grupal: 5, naturaleza_metropolis: 8, moderno_historico: 10, turistico_desconocido: 1 },
     category: 'ok',
     coords: [31.6295, -7.9811],
     images: [

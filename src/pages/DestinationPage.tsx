@@ -18,6 +18,26 @@ const MATCH_BG: Record<Destination['category'], string> = {
   warning: 'bg-warning-red text-white',
 }
 
+// Etiquetas normalizadas para las claves de "facts" que aparecen en las tandas
+// (el tipo es Record<string,string>, y cada tanda usó su propia convención).
+const FACT_LABELS: Record<string, string> = {
+  vuelo: 'Vuelo', flight: 'Vuelo',
+  idioma: 'Idioma', lang: 'Idioma', language: 'Idioma',
+  moneda: 'Moneda', currency: 'Moneda',
+  visado: 'Visado',
+  clima: 'Clima', temp: 'Clima',
+  crowd: 'Ambiente', crowds: 'Ambiente',
+  bestArea: 'Mejor zona',
+  cena: 'Cena',
+}
+
+function factLabel(key: string): string {
+  if (FACT_LABELS[key]) return FACT_LABELS[key]
+  // meses (ene, feb, mar, oct, Oct, ...) → capitalizar
+  if (/^[a-záéíóú]{3}$/i.test(key)) return key.charAt(0).toUpperCase() + key.slice(1).toLowerCase()
+  return key
+}
+
 export function DestinationPage() {
   const { id } = useParams<{ id: string }>()
   const dest = id ? getDestination(id) : undefined
@@ -165,7 +185,7 @@ export function DestinationPage() {
             {Object.entries(dest.facts).map(([key, val]) => (
               <div key={key} className={`flex gap-3 rounded-xl px-4 py-2.5 ${cardBg}`}>
                 <span className={`text-xs font-semibold uppercase tracking-wide w-16 flex-shrink-0 pt-0.5 ${keyText}`}>
-                  {key}
+                  {factLabel(key)}
                 </span>
                 <span className={`text-sm ${W ? 'text-gray-300' : 'text-gray-700'}`}>{val}</span>
               </div>

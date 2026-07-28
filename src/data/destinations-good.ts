@@ -95,7 +95,7 @@ export const DESTINATIONS_GOOD: Destination[] = [
       actPD: 40,
       ar: 0.20,
     },
-    scales: { playa_ciudad: 2, relax_fiesta: 1, lowcost_fancy: 2, invierno_verano: 10, occidental_exotico: 1, streetfood_gourmet: 4, descanso_aventura: 3, solo_grupal: 2, naturaleza_metropolis: 1, moderno_historico: 9, turistico_desconocido: 6 },
+    scales: { playa_ciudad: 2, relax_fiesta: 1, lowcost_fancy: 5, invierno_verano: 10, occidental_exotico: 1, streetfood_gourmet: 4, descanso_aventura: 3, solo_grupal: 2, naturaleza_metropolis: 1, moderno_historico: 9, turistico_desconocido: 6 },
   },
   {
     id: 'folegandros',
@@ -285,7 +285,7 @@ export const DESTINATIONS_GOOD: Destination[] = [
       actPD: 45,
       ar: 0.20,
     },
-    scales: { playa_ciudad: 1, relax_fiesta: 2, lowcost_fancy: 2, invierno_verano: 10, occidental_exotico: 1, streetfood_gourmet: 2, descanso_aventura: 2, solo_grupal: 4, naturaleza_metropolis: 1, moderno_historico: 3, turistico_desconocido: 9 },
+    scales: { playa_ciudad: 1, relax_fiesta: 2, lowcost_fancy: 6, invierno_verano: 10, occidental_exotico: 1, streetfood_gourmet: 2, descanso_aventura: 2, solo_grupal: 4, naturaleza_metropolis: 1, moderno_historico: 3, turistico_desconocido: 9 },
   },
   {
     id: 'paxos',
@@ -958,7 +958,7 @@ export const DESTINATIONS_GOOD: Destination[] = [
     matchLabel: '---',
     tagline: 'Palacios barrocos, baños termales y vida nocturna en ruinas reconvertidas.',
     category: 'ok',
-    scales: { playa_ciudad: 10, relax_fiesta: 7, lowcost_fancy: 2, invierno_verano: 5, occidental_exotico: 2, streetfood_gourmet: 7, descanso_aventura: 3, solo_grupal: 6, naturaleza_metropolis: 10, moderno_historico: 10, turistico_desconocido: 2 },
+    scales: { playa_ciudad: 10, relax_fiesta: 7, lowcost_fancy: 5, invierno_verano: 5, occidental_exotico: 2, streetfood_gourmet: 7, descanso_aventura: 3, solo_grupal: 6, naturaleza_metropolis: 10, moderno_historico: 10, turistico_desconocido: 2 },
     coords: [47.4979, 19.0402],
     images: [
       'https://images.unsplash.com/photo-1592496431122-2349e0fbc666?auto=format&fit=crop&w=1600&q=75',
@@ -1133,7 +1133,7 @@ export const DESTINATIONS_GOOD: Destination[] = [
       actPD: 35,
       ar: 0.30,
     },
-    scales: { playa_ciudad: 3, relax_fiesta: 2, lowcost_fancy: 2, invierno_verano: 9, occidental_exotico: 1, streetfood_gourmet: 10, descanso_aventura: 2, solo_grupal: 4, naturaleza_metropolis: 2, moderno_historico: 10, turistico_desconocido: 6 },
+    scales: { playa_ciudad: 3, relax_fiesta: 2, lowcost_fancy: 5, invierno_verano: 9, occidental_exotico: 1, streetfood_gourmet: 10, descanso_aventura: 2, solo_grupal: 4, naturaleza_metropolis: 2, moderno_historico: 10, turistico_desconocido: 6 },
   },
 
   // ── Estambul ──────────────────────────────────────────────────
@@ -1425,7 +1425,7 @@ export const DESTINATIONS_GOOD: Destination[] = [
     matchLabel: '---',
     tagline: 'Ribeira de azulejos, vino de Oporto y una ciudad que sabe ser hermosa sin esforzarse.',
     category: 'ok',
-    scales: { playa_ciudad: 8, relax_fiesta: 4, lowcost_fancy: 2, invierno_verano: 6, occidental_exotico: 1, streetfood_gourmet: 8, descanso_aventura: 2, solo_grupal: 4, naturaleza_metropolis: 9, moderno_historico: 10, turistico_desconocido: 3 },
+    scales: { playa_ciudad: 8, relax_fiesta: 4, lowcost_fancy: 5, invierno_verano: 6, occidental_exotico: 1, streetfood_gourmet: 8, descanso_aventura: 2, solo_grupal: 4, naturaleza_metropolis: 9, moderno_historico: 10, turistico_desconocido: 3 },
     coords: [41.1579, -8.6291],
     images: [
       'https://images.unsplash.com/photo-1555881400-74d7acaacd8b?auto=format&fit=crop&w=1600&q=75',

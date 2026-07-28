@@ -522,7 +522,7 @@ export const DESTINATIONS_EUROPE_WEST: Destination[] = [
     matchLabel: '---',
     category: 'ok',
     tagline: 'Los Países Bajos secretos: playas del Mar del Norte, islas con dunas, el Delta Works y pueblos medievales sin un turista.',
-    scales: { playa_ciudad: 2, relax_fiesta: 1, lowcost_fancy: 2, invierno_verano: 8, occidental_exotico: 1, streetfood_gourmet: 5, descanso_aventura: 5, solo_grupal: 2, naturaleza_metropolis: 1, moderno_historico: 5, turistico_desconocido: 9 },
+    scales: { playa_ciudad: 2, relax_fiesta: 1, lowcost_fancy: 5, invierno_verano: 8, occidental_exotico: 1, streetfood_gourmet: 5, descanso_aventura: 5, solo_grupal: 2, naturaleza_metropolis: 1, moderno_historico: 5, turistico_desconocido: 9 },
     coords: [51.4940, 3.8497],
     images: [
       'https://images.unsplash.com/photo-1580060839134-75a5edca2e99?auto=format&fit=crop&w=1600&q=75',

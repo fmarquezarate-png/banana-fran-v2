@@ -377,7 +377,7 @@ export const DESTINATIONS_AFRICA: Destination[] = [
     matchLabel: '---',
     category: 'ok',
     tagline: 'La ruta en coche más espectacular de África: lagunas esmeralda, bosques de eucaliptos, ostras y kayak con ballenas.',
-    scales: { playa_ciudad: 2, relax_fiesta: 2, lowcost_fancy: 2, invierno_verano: 9, occidental_exotico: 7, streetfood_gourmet: 5, descanso_aventura: 9, solo_grupal: 2, naturaleza_metropolis: 1, moderno_historico: 2, turistico_desconocido: 7 },
+    scales: { playa_ciudad: 2, relax_fiesta: 2, lowcost_fancy: 4, invierno_verano: 9, occidental_exotico: 7, streetfood_gourmet: 5, descanso_aventura: 9, solo_grupal: 2, naturaleza_metropolis: 1, moderno_historico: 2, turistico_desconocido: 7 },
     coords: [-34.0522, 23.0430],
     images: [
       'https://images.unsplash.com/photo-1533587851505-d119e09a03a2?auto=format&fit=crop&w=1600&q=75',
@@ -523,7 +523,7 @@ export const DESTINATIONS_AFRICA: Destination[] = [
     matchLabel: '---',
     category: 'ok',
     tagline: 'La isla especiada del Índico: playas de arena blanca, Stone Town árabe y buceo entre corales prístinos.',
-    scales: { playa_ciudad: 1, relax_fiesta: 2, lowcost_fancy: 2, invierno_verano: 5, occidental_exotico: 10, streetfood_gourmet: 8, descanso_aventura: 4, solo_grupal: 3, naturaleza_metropolis: 1, moderno_historico: 9, turistico_desconocido: 5 },
+    scales: { playa_ciudad: 1, relax_fiesta: 2, lowcost_fancy: 5, invierno_verano: 5, occidental_exotico: 10, streetfood_gourmet: 8, descanso_aventura: 4, solo_grupal: 3, naturaleza_metropolis: 1, moderno_historico: 9, turistico_desconocido: 5 },
     coords: [-6.1659, 39.2026],
     images: [
       'https://images.unsplash.com/photo-1549294413-26f195200c16?auto=format&fit=crop&w=1600&q=75',

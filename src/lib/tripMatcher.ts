@@ -263,12 +263,20 @@ export function scoreDests(
       }
     }
 
-    // 3. Multitudes (±15)
+    // 3. Multitudes (±15) — usa la escala turistico_desconocido + el campo warning
+    // turistico_desconocido: 1-3 = muy turístico, 8-10 = desconocido/tranquilo
+    const touristScale = (dest.scales?.turistico_desconocido ?? 5) as number
+    const hasWarning = !!dest.warning
     if (answers.crowds === 'hate') {
-      if (dest.category === 'warning') { score -= 15; reasons.push('Muy masificado') }
-      if (dest.category === 'perfect') { score += 8;  reasons.push('Buen nivel de tranquilidad') }
+      if (hasWarning || touristScale <= 2) {
+        score -= 15
+        reasons.push('Muy masificado')
+      } else if (touristScale >= 8) {
+        score += 8
+        reasons.push('Buen nivel de tranquilidad')
+      }
     } else if (answers.crowds === 'ok') {
-      if (dest.category === 'warning') score -= 6
+      if (hasWarning || touristScale <= 2) score -= 6
     }
 
     // 5. Presupuesto (±15) — compara precio estimado contra máximo del usuario

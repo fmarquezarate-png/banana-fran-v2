@@ -3226,7 +3226,7 @@ export const DESTINATIONS_REST: Destination[] = [
     country: 'España',
     match: '👌', matchLabel: '---', category: 'ok',
     tagline: 'La Mezquita de los 856 arcos, patios con flores, salmorejo helado y la ciudad que fue capital del mundo islámico en Europa.',
-    scales: { playa_ciudad: 10, relax_fiesta: 4, lowcost_fancy: 2, invierno_verano: 4, occidental_exotico: 2, streetfood_gourmet: 7, descanso_aventura: 2, solo_grupal: 4, naturaleza_metropolis: 9, moderno_historico: 10, turistico_desconocido: 3 },
+    scales: { playa_ciudad: 10, relax_fiesta: 4, lowcost_fancy: 4, invierno_verano: 4, occidental_exotico: 2, streetfood_gourmet: 7, descanso_aventura: 2, solo_grupal: 4, naturaleza_metropolis: 9, moderno_historico: 10, turistico_desconocido: 3 },
     coords: [37.8882, -4.7794],
     images: [
       'https://images.unsplash.com/photo-1558642452-9d2a7deb7f62?auto=format&fit=crop&w=1600&q=75',
@@ -3749,7 +3749,7 @@ export const DESTINATIONS_REST: Destination[] = [
     country: 'Trinidad y Tobago',
     match: '👌', matchLabel: '---', category: 'ok',
     tagline: 'El Carnaval más explosivo del Caribe, steel drums en cada esquina, selva tropical con colibríes y playas de Tobago sin nadie.',
-    scales: { playa_ciudad: 3, relax_fiesta: 9, lowcost_fancy: 2, invierno_verano: 8, occidental_exotico: 7, streetfood_gourmet: 5, descanso_aventura: 4, solo_grupal: 9, naturaleza_metropolis: 3, moderno_historico: 4, turistico_desconocido: 7 },
+    scales: { playa_ciudad: 3, relax_fiesta: 9, lowcost_fancy: 4, invierno_verano: 8, occidental_exotico: 7, streetfood_gourmet: 5, descanso_aventura: 4, solo_grupal: 9, naturaleza_metropolis: 3, moderno_historico: 4, turistico_desconocido: 7 },
     coords: [10.6918, -61.2225],
     images: [
       'https://images.unsplash.com/photo-1548574505-5e239809ee19?auto=format&fit=crop&w=1600&q=75',
@@ -4181,7 +4181,7 @@ export const DESTINATIONS_REST: Destination[] = [
     country: 'Italia — Campania',
     match: '👌', matchLabel: '---', category: 'ok',
     tagline: 'Donde nació la pizza, a los pies de un volcán activo, con Pompeya y la costa amalfitana a la vuelta de la esquina.',
-    scales: { playa_ciudad: 9, relax_fiesta: 6, lowcost_fancy: 2, invierno_verano: 6, occidental_exotico: 2, streetfood_gourmet: 10, descanso_aventura: 4, solo_grupal: 5, naturaleza_metropolis: 9, moderno_historico: 10, turistico_desconocido: 3 },
+    scales: { playa_ciudad: 9, relax_fiesta: 6, lowcost_fancy: 4, invierno_verano: 6, occidental_exotico: 2, streetfood_gourmet: 10, descanso_aventura: 4, solo_grupal: 5, naturaleza_metropolis: 9, moderno_historico: 10, turistico_desconocido: 3 },
     coords: [40.8518, 14.2681],
     images: [
       'https://images.unsplash.com/photo-1516483638261-f4dbaf036963?auto=format&fit=crop&w=1600&q=75',
@@ -5632,7 +5632,7 @@ export const DESTINATIONS_REST: Destination[] = [
     country: 'Papúa Nueva Guinea',
     match: '👌', matchLabel: '---', category: 'ok',
     tagline: 'El último lugar salvaje de la Tierra: 800 lenguas, tribus que pintan sus cuerpos, arrecifes vírgenes y selvas donde nadie ha puesto un pie.',
-    scales: { playa_ciudad: 1, relax_fiesta: 2, lowcost_fancy: 2, invierno_verano: 7, occidental_exotico: 10, streetfood_gourmet: 2, descanso_aventura: 10, solo_grupal: 5, naturaleza_metropolis: 1, moderno_historico: 5, turistico_desconocido: 10 },
+    scales: { playa_ciudad: 1, relax_fiesta: 2, lowcost_fancy: 5, invierno_verano: 7, occidental_exotico: 10, streetfood_gourmet: 2, descanso_aventura: 10, solo_grupal: 5, naturaleza_metropolis: 1, moderno_historico: 5, turistico_desconocido: 10 },
     coords: [-6.3149, 143.9555],
     images: [
       'https://images.unsplash.com/photo-1516690561799-46d8f74f9abf?auto=format&fit=crop&w=1600&q=75',
