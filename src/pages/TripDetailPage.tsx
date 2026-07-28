@@ -742,25 +742,24 @@ function OpcionesTab({ quizAnswers }: { quizAnswers: TripAnswers | null }) {
       warning: [] as { dest: Destination; score: number; reasons: string[]; antiReasons: string[] }[]
     }
 
-    const isWarn = (s: typeof scored[0]) => {
-      const pct = calcScaleMatch(quizAnswers, s.dest)
-      return getScaleCategory(pct) === 'warning' || s.score < 30
+    // Un solo calcScaleMatch por destino; antes se ejecutaba hasta 5 veces.
+    const withPct = scored.map(s => ({ s, pct: calcScaleMatch(quizAnswers, s.dest) }))
+
+    const perfect: typeof scored = []
+    const good: typeof scored = []
+    const ok: typeof scored = []
+    const warning: { dest: Destination; score: number; reasons: string[]; antiReasons: string[] }[] = []
+
+    for (const { s, pct } of withPct) {
+      const cat = getScaleCategory(pct)
+      if (cat === 'warning' || s.score < 30) {
+        warning.push({ ...s, antiReasons: buildAntiReasons(quizAnswers, s.dest, s.score, pct) })
+      } else if (cat === 'perfect') perfect.push(s)
+      else if (cat === 'good')      good.push(s)
+      else                          ok.push(s)
     }
 
-    const warningList = scored
-      .filter(s => isWarn(s))
-      .map(s => {
-        const pct = calcScaleMatch(quizAnswers, s.dest)
-        return { ...s, antiReasons: buildAntiReasons(quizAnswers, s.dest, s.score, pct) }
-      })
-
-    const nonWarn = scored.filter(s => !isWarn(s))
-    return {
-      perfect: nonWarn.filter(s => getScaleCategory(calcScaleMatch(quizAnswers, s.dest)) === 'perfect'),
-      good:    nonWarn.filter(s => getScaleCategory(calcScaleMatch(quizAnswers, s.dest)) === 'good'),
-      ok:      nonWarn.filter(s => getScaleCategory(calcScaleMatch(quizAnswers, s.dest)) === 'ok'),
-      warning: warningList,
-    }
+    return { perfect, good, ok, warning }
   }, [scored, quizAnswers])
 
   if (!quizAnswers) {

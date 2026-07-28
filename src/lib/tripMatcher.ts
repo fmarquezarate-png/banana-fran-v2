@@ -227,8 +227,20 @@ const KEYWORDS: Record<string, string[]> = {
   intense:     ['actividades', 'museos', 'rutas', 'excursión', 'visitar', 'imprescindible', 'agenda'],
 }
 
+// Cache del texto searchable por destino — JSON.stringify + lowercase
+// era el hotspot: se ejecutaba una vez por cada must del usuario.
+// Ahora se computa una vez y se cachea con WeakMap (se libera cuando
+// el objeto Destination deja de referenciarse).
+const HAYSTACK_CACHE = new WeakMap<Destination, string>()
+function haystackFor(dest: Destination): string {
+  const cached = HAYSTACK_CACHE.get(dest)
+  if (cached !== undefined) return cached
+  const built = JSON.stringify(dest).toLowerCase()
+  HAYSTACK_CACHE.set(dest, built)
+  return built
+}
 function countKeywords(dest: Destination, keys: string[]): number {
-  const haystack = JSON.stringify(dest).toLowerCase()
+  const haystack = haystackFor(dest)
   return keys.filter(k => haystack.includes(k)).length
 }
 
