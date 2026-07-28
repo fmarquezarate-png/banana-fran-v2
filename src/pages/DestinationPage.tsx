@@ -226,7 +226,13 @@ export function DestinationPage() {
           </h2>
 
           <div className="flex gap-2 flex-wrap mb-4">
-            {TRIP_DAYS.map((d) => (
+            {TRIP_DAYS.filter(d =>
+              d === 7 ||
+              (d === 3  && dest.plans3)  ||
+              (d === 5  && dest.plans5)  ||
+              (d === 10 && dest.plans10) ||
+              (d === 14 && dest.plans14)
+            ).map((d) => (
               <button
                 key={d}
                 onClick={() => setPlanDays(d)}
@@ -295,10 +301,10 @@ export function DestinationPage() {
 
 function getPlan(dest: Destination, days: TripDays): (string | [string, string, string])[] {
   switch (days) {
-    case 3:  return dest.plans3
-    case 5:  return dest.plans5
+    case 3:  return dest.plans3 ?? dest.plans7
+    case 5:  return dest.plans5 ?? dest.plans7
     case 7:  return dest.plans7
-    case 10: return dest.plans10
-    case 14: return dest.plans14
+    case 10: return dest.plans10 ?? dest.plans7
+    case 14: return dest.plans14 ?? dest.plans7
   }
 }

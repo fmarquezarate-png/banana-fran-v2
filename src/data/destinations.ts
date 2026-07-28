@@ -43,11 +43,11 @@ export interface Destination {
   facts: Record<string, string>
   musts: string[]
   dishes: string[]
-  plans3: ShortPlan
-  plans5: ShortPlan
+  plans3?: ShortPlan
+  plans5?: ShortPlan
   plans7: LongPlan
-  plans10: LongPlan
-  plans14: LongPlan
+  plans10?: LongPlan
+  plans14?: LongPlan
   budget: DestinationBudget
   scales?: DestinationScales
 }
