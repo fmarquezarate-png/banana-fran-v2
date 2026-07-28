@@ -64,7 +64,7 @@ function TripCard({ trip }: { trip: Trip }) {
 // español. La country string se recorta antes del primer separador
 // (— · /) para agrupar variantes como "Grecia — Cícladas" en "Grecia".
 const COUNTRIES_FOR_MAP = Array.from(
-  new Set(DESTINATIONS.map(d => d.country.split(/[—·\/]/)[0].trim()))
+  new Set(DESTINATIONS.map(d => d.country.split(/[—·/]/)[0].trim()))
 ).sort((a, b) => a.localeCompare(b, 'es'))
 
 function PastTripModal({ onClose, onCreate }: {
@@ -84,7 +84,7 @@ function PastTripModal({ onClose, onCreate }: {
     ? DESTINATIONS.filter(d => {
         const dc = d.country.toLowerCase()
         const cc = country.toLowerCase()
-        return dc.includes(cc) || cc.includes(dc.split(/[—·\/]/)[0].trim().toLowerCase())
+        return dc.includes(cc) || cc.includes(dc.split(/[—·/]/)[0].trim().toLowerCase())
       })
     : []
 

@@ -12,7 +12,7 @@ import { calcBudget, formatPrice, LEVEL_LABEL } from '@/lib/budget'
 import type { BudgetLevel } from '@/lib/budget'
 import {
   scoreDests, calcScaleMatch, getScaleCategory, calcScaleMatchDetail,
-  getNNFailures, SCALE_KEYS, SCALE_LABELS, type TripAnswers,
+  getNNFailures, SCALE_KEYS, type TripAnswers,
 } from '@/lib/tripMatcher'
 
 type MainTab = 'opciones' | 'planificado' | 'tester'
@@ -254,12 +254,16 @@ function DocCard({
 
   useEffect(() => {
     if (!isImage) return
+    let cancelled = false
     setLoadingImg(true)
     getSignedUrl(doc.file_path).then(url => {
+      if (cancelled) return
       setImgUrl(url)
       setLoadingImg(false)
     })
-  }, [doc.file_path])
+    return () => { cancelled = true }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [doc.file_path, isImage])
 
   async function handleOpen() {
     const url = await getSignedUrl(doc.file_path)
@@ -968,8 +972,6 @@ function TesterTab({ quizAnswers, defaultDest }: { quizAnswers: TripAnswers | nu
             {detail.dims.map(d => {
               const [leftLbl] = d.label.split(' ↔ ')
               const c = 44.44  // center%
-              const userPct  = ((d.userVal  - 1) / 9) * 100
-              const destPct  = ((d.destVal  - 1) / 9) * 100
 
               function MiniBar({ val, color }: { val: number; color: string }) {
                 const s = val < 5 ? 'left' : val > 5 ? 'right' : 'neutral'

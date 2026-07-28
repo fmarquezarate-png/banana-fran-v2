@@ -9,6 +9,7 @@ export function useTripDocuments(tripId: string | undefined, userId: string | un
   useEffect(() => {
     if (!tripId) { setLoading(false); return }
     fetchDocs()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tripId])
 
   async function fetchDocs() {

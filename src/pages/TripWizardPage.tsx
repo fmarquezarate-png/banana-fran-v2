@@ -365,7 +365,7 @@ const DEFAULT_ANSWERS: TripAnswers = {
 // Derivado del catálogo — se mantiene sincronizado al añadir destinos.
 // Agrupa variantes ("Grecia — Cícladas" → "Grecia") y ordena en español.
 const DIRECT_COUNTRIES = Array.from(
-  new Set(DESTINATIONS.map(d => d.country.split(/[—·\/]/)[0].trim()))
+  new Set(DESTINATIONS.map(d => d.country.split(/[—·/]/)[0].trim()))
 ).sort((a, b) => a.localeCompare(b, 'es'))
 
 function DirectPicker({ onSelect }: {
@@ -379,7 +379,7 @@ function DirectPicker({ onSelect }: {
     ? DESTINATIONS.filter(d => {
         const dc = d.country.toLowerCase()
         const cc = country.toLowerCase()
-        return dc.includes(cc) || cc.includes(dc.split(/[—·\/]/)[0].trim().toLowerCase())
+        return dc.includes(cc) || cc.includes(dc.split(/[—·/]/)[0].trim().toLowerCase())
       })
     : []
 
@@ -476,6 +476,7 @@ export function TripWizardPage() {
     setSelectedId(destId)
     setTripName(`${dest.shortName} ${new Date().getFullYear() + (new Date().getMonth() >= 8 ? 1 : 0)}`)
     setPhase('create')
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const [tripName,     setTripName]     = useState('')
@@ -512,7 +513,7 @@ export function TripWizardPage() {
     }))
   }
 
-  function advance(ans = answers) {
+  function advance(_ans = answers) {
     if (step < STEPS.length - 1) {
       setStep(s => s + 1)
     } else {

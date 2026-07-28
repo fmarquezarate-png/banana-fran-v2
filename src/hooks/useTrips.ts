@@ -7,12 +7,7 @@ export function useTrips(userId: string | undefined) {
   const [trips, setTrips] = useState<Trip[]>([])
   const [loading, setLoading] = useState(true)
 
-  useEffect(() => {
-    if (!userId) { setLoading(false); return }
-    fetchTrips()
-  }, [userId])
-
-  async function fetchTrips() {
+  const fetchTrips = async () => {
     if (!userId) return
     setLoading(true)
     const { data, error } = await supabase
@@ -24,6 +19,12 @@ export function useTrips(userId: string | undefined) {
     else setTrips(data ?? [])
     setLoading(false)
   }
+
+  useEffect(() => {
+    if (!userId) { setLoading(false); return }
+    fetchTrips()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [userId])
 
   async function createTrip(
     values: Pick<Trip, 'name' | 'description' | 'start_date' | 'end_date' | 'destination_slug' | 'travelers'>

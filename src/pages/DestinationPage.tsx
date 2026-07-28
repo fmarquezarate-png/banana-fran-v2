@@ -42,6 +42,16 @@ export function DestinationPage() {
   const { id } = useParams<{ id: string }>()
   const dest = id ? getDestination(id) : undefined
   const [planDays, setPlanDays] = useState<TripDays>(7)
+  const { isFav, toggle } = useFavorites()
+  const { getRating, setRating } = useRatings()
+  const isWarning = dest?.category === 'warning'
+
+  useEffect(() => {
+    if (isWarning) {
+      document.documentElement.setAttribute('data-theme', 'warning')
+    }
+    return () => document.documentElement.removeAttribute('data-theme')
+  }, [isWarning])
 
   if (!dest) {
     return (
@@ -54,21 +64,11 @@ export function DestinationPage() {
     )
   }
 
-  const { isFav, toggle } = useFavorites()
-  const { getRating, setRating } = useRatings()
   const fav = isFav(dest.id)
   const rating = getRating(dest.id)
-  const isWarning = dest.category === 'warning'
   const plan = getPlan(dest, planDays)
   const storyParagraphs = Array.isArray(dest.story) ? dest.story : [dest.story]
   const fitItems = Array.isArray(dest.fit) ? dest.fit : [dest.fit]
-
-  useEffect(() => {
-    if (isWarning) {
-      document.documentElement.setAttribute('data-theme', 'warning')
-    }
-    return () => document.documentElement.removeAttribute('data-theme')
-  }, [isWarning])
 
   // Clases condicionales para modo warning
   const W = isWarning
