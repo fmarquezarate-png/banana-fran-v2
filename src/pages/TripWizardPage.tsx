@@ -276,10 +276,10 @@ const STEPS: Step[] = [
 
 // Elige el plan más cercano según los días introducidos
 function getPlan(dest: Destination, days: number) {
-  if (days <= 4)  return { n: 3,  plan: dest.plans3,  isShort: true  }
-  if (days <= 6)  return { n: 5,  plan: dest.plans5,  isShort: true  }
-  if (days <= 9)  return { n: 7,  plan: dest.plans7,  isShort: false }
-  return           { n: 10, plan: dest.plans10, isShort: false }
+  if (days <= 4)  return { n: 3,  plan: dest.plans3  ?? dest.plans7, isShort: !dest.plans3  }
+  if (days <= 6)  return { n: 5,  plan: dest.plans5  ?? dest.plans7, isShort: !dest.plans5  }
+  if (days <= 9)  return { n: 7,  plan: dest.plans7,                 isShort: false         }
+  return           { n: 10, plan: dest.plans10 ?? dest.plans7, isShort: false }
 }
 
 // ─────────────────────────────────────────────────────────────
