@@ -151,13 +151,40 @@ export function getScaleCategory(pct: number): DestinationCategory {
 
 
 const REGION_COUNTRIES: Record<string, string[]> = {
-  europe:   ['italia', 'grecia', 'portugal', 'croacia', 'montenegro', 'hungría', 'malta',
-             'república checa', 'españa', 'holanda', 'países bajos', 'austria', 'alemania',
-             'francia', 'suiza', 'bélgica', 'irlanda', 'noruega', 'islandia'],
-  africa:   ['marruecos', 'túnez', 'egipto', 'kenia', 'tanzanía', 'sudáfrica'],
-  asia:     ['japón', 'tailandia', 'vietnam', 'indonesia', 'india', 'singapur', 'bali', 'camboya'],
-  americas: ['méxico', 'colombia', 'brasil', 'argentina', 'cuba', 'perú', 'costa rica', 'chile'],
-  oceania:  ['australia', 'nueva zelanda', 'fiyi', 'tahití'],
+  europe: [
+    'italia', 'grecia', 'portugal', 'croacia', 'montenegro', 'hungría', 'malta',
+    'república checa', 'chequia', 'españa', 'holanda', 'países bajos', 'austria', 'alemania',
+    'francia', 'suiza', 'bélgica', 'irlanda', 'noruega', 'islandia', 'suecia', 'dinamarca',
+    'finlandia', 'laponia', 'estonia', 'letonia', 'lituania', 'polonia', 'eslovaquia',
+    'eslovenia', 'rumanía', 'bulgaria', 'serbia', 'albania', 'bosnia', 'macedonia',
+    'chipre', 'malta', 'mónaco', 'luxemburgo', 'reino unido', 'escocia', 'inglaterra',
+    'gales', 'turquía', 'georgia', 'azerbaiyán',
+  ],
+  africa: [
+    'marruecos', 'túnez', 'egipto', 'kenia', 'tanzanía', 'tanzania', 'sudáfrica',
+    'namibia', 'etiopía', 'ghana', 'senegal', 'ruanda', 'uganda', 'madagascar',
+    'mozambique', 'nigeria', 'cabo verde', 'zanzibar', 'seychelles', 'mauricio',
+    'maldivas', 'reunión',
+  ],
+  asia: [
+    'japón', 'tailandia', 'vietnam', 'indonesia', 'india', 'singapur', 'bali', 'camboya',
+    'china', 'corea', 'taiwan', 'taiwán', 'hong kong', 'filipinas', 'malasia', 'brunéi',
+    'myanmar', 'laos', 'nepal', 'bután', 'sri lanka', 'pakistan', 'bangladés',
+    'mongolia', 'kazajistán', 'kazajistan', 'uzbekistán', 'kirguistán', 'tayikistán',
+    'jordania', 'líbano', 'israel', 'omán', 'emiratos', 'arabia', 'catar', 'kuwait', 'baréin',
+    'irán', 'irak', 'siria', 'yemen', 'afganistán',
+  ],
+  americas: [
+    'méxico', 'colombia', 'brasil', 'argentina', 'cuba', 'perú', 'costa rica', 'chile',
+    'estados unidos', 'canadá', 'canada', 'guatemala', 'honduras', 'nicaragua', 'panamá',
+    'venezuela', 'ecuador', 'bolivia', 'paraguay', 'uruguay',
+    'jamaica', 'bahamas', 'barbados', 'trinidad', 'curazao', 'puerto rico',
+    'república dominicana', 'haití', 'belice', 'el salvador',
+  ],
+  oceania: [
+    'australia', 'nueva zelanda', 'fiyi', 'fiji', 'tahití', 'polinesia',
+    'papua', 'papúa', 'samoa', 'tonga', 'vanuatu', 'islas cook', 'micronesia',
+  ],
 }
 
 const KEYWORDS: Record<string, string[]> = {
