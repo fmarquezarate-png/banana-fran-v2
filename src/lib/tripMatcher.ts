@@ -318,6 +318,19 @@ export function scoreDests(
     }
     score += Math.min(15, actScore)
 
+    // Coche (±5) — proxy: naturaleza (baja metrópoli) suele necesitar coche;
+    // metrópolis grande no. 'maybe' es neutral.
+    if (answers.car === 'yes' || answers.car === 'no') {
+      const nature = (dest.scales?.naturaleza_metropolis ?? 5) as number
+      const wantCar = answers.car === 'yes'
+      const needsCar = nature <= 3       // destino muy naturaleza → coche útil
+      const noCarOK  = nature >= 8       // metrópolis → sin coche va bien
+      if (wantCar && needsCar) { score += 5; reasons.push('Ideal con coche propio') }
+      else if (!wantCar && noCarOK) { score += 5; reasons.push('Se puede recorrer sin coche') }
+      else if (wantCar && noCarOK) score -= 3   // alquilar coche en una gran ciudad es un lastre
+      else if (!wantCar && needsCar) score -= 3 // destino remoto sin coche = limitado
+    }
+
     // 8. Temporada — cruza mes real con preferencia estacional del destino (±8)
     const destSeason = dest.scales?.invierno_verano ?? 5
     if (answers.month && answers.month !== 'any') {
@@ -325,8 +338,11 @@ export function scoreDests(
       if (answers.month === 'summer'  && destSeason <= 3) { score -= 8 }
       if (answers.month === 'winter'  && destSeason <= 4) { score += 5; reasons.push('Funciona bien en invierno') }
       if (answers.month === 'winter'  && destSeason >= 8) { score -= 6 }
-      if (answers.month === 'spring'  && destSeason >= 5) { score += 4; reasons.push('Primavera perfecta') }
-      if (answers.month === 'autumn'  && destSeason >= 5 && destSeason <= 8) { score += 4; reasons.push('Excelente en otoño') }
+      // Primavera/otoño: destinos que peakan en estaciones intermedias (4-7)
+      if (answers.month === 'spring'  && destSeason >= 4 && destSeason <= 7) { score += 4; reasons.push('Primavera perfecta') }
+      if (answers.month === 'spring'  && destSeason >= 9) { score -= 4 }  // demasiado caluroso ya
+      if (answers.month === 'autumn'  && destSeason >= 4 && destSeason <= 7) { score += 4; reasons.push('Excelente en otoño') }
+      if (answers.month === 'autumn'  && destSeason <= 2) { score -= 4 }  // demasiado frío ya
     }
 
     score = Math.max(0, Math.min(100, score))
