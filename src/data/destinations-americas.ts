@@ -596,7 +596,7 @@ export const DESTINATIONS_AMERICAS: Destination[] = [
     category: 'ok',
     tagline: 'El parque más espectacular del hemisferio sur: torres de granito, glaciares azules y cóndores sobre el viento patagónico.',
     scales: { playa_ciudad: 1, relax_fiesta: 1, lowcost_fancy: 8, invierno_verano: 10, occidental_exotico: 3, streetfood_gourmet: 1, descanso_aventura: 10, solo_grupal: 2, naturaleza_metropolis: 1, moderno_historico: 2, turistico_desconocido: 5 },
-    coords: [-51.0000, -73.0000],
+    coords: [-51.2547, -73.1035],
     images: [
       'https://images.unsplash.com/photo-1489391169432-f19bf0c11f79?auto=format&fit=crop&w=1600&q=75',
       'https://images.unsplash.com/photo-1526481280693-3bfa7568e0f3?auto=format&fit=crop&w=1600&q=75',

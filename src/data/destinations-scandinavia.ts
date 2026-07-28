@@ -11,7 +11,7 @@ export const DESTINATIONS_SCANDINAVIA: Destination[] = [
     match: '👌', matchLabel: '---', category: 'ok',
     tagline: 'Paredes de roca de 1000 m cayendo al mar. El paisaje más espectacular de Europa.',
     scales: { playa_ciudad: 1, relax_fiesta: 1, lowcost_fancy: 9, invierno_verano: 8, occidental_exotico: 2, streetfood_gourmet: 5, descanso_aventura: 9, solo_grupal: 3, naturaleza_metropolis: 1, moderno_historico: 4, turistico_desconocido: 5 },
-    coords: [60.3913, 5.3221],
+    coords: [61.2058, 7.0938],
     images: [
       'https://images.unsplash.com/photo-1531761535209-180857e963b9?auto=format&fit=crop&w=1600&q=75',
       'https://images.unsplash.com/photo-1513519245088-0e12902e35ca?auto=format&fit=crop&w=1600&q=75',

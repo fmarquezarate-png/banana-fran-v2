@@ -13,60 +13,69 @@ function isPastTrip(trip: Trip): boolean {
   return false
 }
 
-// ISO 3166-1 numeric codes — handles both destination country strings and pais_* slugs
+// ISO 3166-1 numeric codes — tabla exhaustiva de países en el catálogo.
+// Cada entrada usa una raíz que aparece en la country string del destino
+// (case-insensitive, subcadena). Añadir aliases con | si hace falta.
+const ISO_TABLE: Array<[RegExp, number]> = [
+  // Europa
+  [/albania/, 8], [/alemania|germany/, 276], [/andorra/, 20], [/austria/, 40],
+  [/belgica|bélgica/, 56], [/bielorrusia/, 112], [/bosnia/, 70], [/bulgaria/, 100],
+  [/chipre/, 196], [/croacia/, 191], [/dinamarca/, 208], [/escocia|reino unido|inglaterra|gales|irlanda del norte/, 826],
+  [/eslovaquia/, 703], [/eslovenia|slovenia/, 705], [/españa/, 724], [/estonia/, 233],
+  [/finlandia|laponia/, 246], [/francia/, 250], [/grecia/, 300], [/hungría|hungria/, 348],
+  [/irlanda/, 372], [/islandia/, 352], [/italia/, 380], [/letonia/, 428],
+  [/lituania/, 440], [/luxemburgo/, 442], [/macedonia/, 807], [/malta/, 470],
+  [/moldavia/, 498], [/mónaco|monaco/, 492], [/montenegro/, 499], [/noruega/, 578],
+  [/países bajos|paises bajos|holanda/, 528], [/polonia/, 616], [/portugal/, 620],
+  [/república checa|chequia/, 203], [/rumanía|rumania/, 642], [/serbia/, 688],
+  [/suecia/, 752], [/suiza/, 756], [/turquía|turquia/, 792], [/ucrania/, 804],
+  [/vaticano/, 336], [/liechtenstein/, 438],
+  // Cáucaso
+  [/georgia/, 268], [/armenia/, 51], [/azerbaiyán|azerbaiyan/, 31],
+  // Américas
+  [/argentina/, 32], [/bahamas/, 44], [/barbados/, 52], [/belice/, 84],
+  [/bolivia/, 68], [/brasil/, 76], [/canadá|canada/, 124], [/chile/, 152],
+  [/colombia/, 170], [/costa rica/, 188], [/cuba/, 192], [/curazao/, 531],
+  [/ecuador/, 218], [/el salvador/, 222], [/estados unidos|usa/, 840],
+  [/guatemala/, 320], [/haití|haiti/, 332], [/honduras/, 340], [/jamaica/, 388],
+  [/méxico|mexico/, 484], [/nicaragua/, 558], [/panamá|panama/, 591],
+  [/paraguay/, 600], [/perú|peru/, 604], [/puerto rico/, 630],
+  [/república dominicana|dominicana/, 214], [/trinidad/, 780],
+  [/uruguay/, 858], [/venezuela/, 862],
+  // Asia
+  [/afganistán|afganistan/, 4], [/bangladés|bangladesh/, 50], [/bután|butan|bhutan/, 64],
+  [/brunéi|brunei/, 96], [/camboya/, 116], [/china/, 156], [/corea del sur|corea/, 410],
+  [/corea del norte/, 408], [/filipinas/, 608], [/hong kong/, 344], [/india/, 356],
+  [/indonesia|bali/, 360], [/japón|japon/, 392], [/kazajistán|kazajistan/, 398],
+  [/kirguistán|kirguistan|kyrgyz/, 417], [/laos/, 418], [/malasia/, 458],
+  [/maldivas/, 462], [/mongolia/, 496], [/myanmar/, 104], [/nepal/, 524],
+  [/pakistan/, 586], [/singapur/, 702], [/sri lanka/, 144],
+  [/tailandia/, 764], [/taiwan|taiwán/, 158], [/tayikistán|tayikistan/, 762],
+  [/uzbekistán|uzbekistan/, 860], [/vietnam/, 704],
+  // Oriente Medio
+  [/arabia|saudí|saudita/, 682], [/baréin|bareín|bahrain/, 48], [/catar|qatar/, 634],
+  [/emiratos árabes|emirates/, 784], [/irán|iran/, 364], [/irak|iraq/, 368],
+  [/israel/, 376], [/jordania/, 400], [/kuwait/, 414], [/líbano|libano/, 422],
+  [/omán|oman/, 512], [/palestina/, 275], [/siria/, 760], [/yemen/, 887],
+  // África
+  [/argelia/, 12], [/cabo verde/, 132], [/egipto/, 818], [/etiopía|etiopia/, 231],
+  [/ghana/, 288], [/kenia|kenya/, 404], [/madagascar/, 450], [/malawi/, 454],
+  [/mauricio/, 480], [/marruecos/, 504], [/mozambique/, 508], [/namibia/, 516],
+  [/nigeria/, 566], [/ruanda|rwanda/, 646], [/senegal/, 686], [/seychelles/, 690],
+  [/sudáfrica|sudafrica|south africa/, 710], [/tanzania|tanzanía|zanzibar/, 834],
+  [/túnez|tunez|tunisia/, 788], [/uganda/, 800], [/zimbabue|zimbabwe/, 716],
+  // Oceanía
+  [/australia/, 36], [/fiji|fiyi/, 242], [/nueva zelanda|new zealand/, 554],
+  [/papúa nueva guinea|papua/, 598], [/polinesia francesa|tahití|tahiti/, 258],
+  [/samoa/, 882], [/tonga/, 776], [/vanuatu/, 548],
+]
+
 function getIsoCodes(country: string): number[] {
   const c = country.toLowerCase().replace(/_/g, ' ')
   const codes: number[] = []
-  if (c.includes('albania')) codes.push(8)
-  if (c.includes('alemania')) codes.push(276)
-  if (c.includes('austria')) codes.push(40)
-  if (c.includes('belgica') || c.includes('bélgica')) codes.push(56)
-  if (c.includes('chipre')) codes.push(196)
-  if (c.includes('croacia')) codes.push(191)
-  if (c.includes('dinamarca')) codes.push(208)
-  if (c.includes('eslovenia') || c.includes('slovenia')) codes.push(705)
-  if (c.includes('españa')) codes.push(724)
-  if (c.includes('finlandia')) codes.push(246)
-  if (c.includes('francia')) codes.push(250)
-  if (c.includes('grecia')) codes.push(300)
-  if (c.includes('hungría') || c.includes('hungria')) codes.push(348)
-  if (c.includes('irlanda')) codes.push(372)
-  if (c.includes('islandia')) codes.push(352)
-  if (c.includes('italia')) codes.push(380)
-  if (c.includes('malta')) codes.push(470)
-  if (c.includes('marruecos')) codes.push(504)
-  if (c.includes('montenegro')) codes.push(499)
-  if (c.includes('noruega')) codes.push(578)
-  if (c.includes('países bajos') || c.includes('holanda')) codes.push(528)
-  if (c.includes('polonia')) codes.push(616)
-  if (c.includes('portugal')) codes.push(620)
-  if (c.includes('reino unido') || c.includes('escocia') || c.includes('irlanda del norte')) codes.push(826)
-  if (c.includes('república checa') || c.includes('chequia')) codes.push(203)
-  if (c.includes('rumanía') || c.includes('rumania')) codes.push(642)
-  if (c.includes('suecia')) codes.push(752)
-  if (c.includes('suiza')) codes.push(756)
-  if (c.includes('turquía') || c.includes('turquia')) codes.push(792)
-  // Americas
-  if (c.includes('argentina')) codes.push(32)
-  if (c.includes('brasil')) codes.push(76)
-  if (c.includes('chile')) codes.push(152)
-  if (c.includes('colombia')) codes.push(170)
-  if (c.includes('cuba')) codes.push(192)
-  if (c.includes('estados unidos') || c.includes('usa')) codes.push(840)
-  if (c.includes('méxico') || c.includes('mexico')) codes.push(484)
-  if (c.includes('perú') || c.includes('peru')) codes.push(604)
-  // Asia / Africa
-  if (c.includes('china')) codes.push(156)
-  if (c.includes('egipto')) codes.push(818)
-  if (c.includes('india')) codes.push(356)
-  if (c.includes('japón') || c.includes('japon')) codes.push(392)
-  if (c.includes('jordania')) codes.push(400)
-  if (c.includes('tailandia')) codes.push(764)
-  if (c.includes('túnez') || c.includes('tunez') || c.includes('tunisia')) codes.push(788)
-  if (c.includes('sudáfrica') || c.includes('sudafrica') || c.includes('south africa')) codes.push(710)
-  if (c.includes('kenia') || c.includes('kenya')) codes.push(404)
-  if (c.includes('tanzania')) codes.push(834)
-  if (c.includes('vietnam')) codes.push(704)
+  for (const [re, code] of ISO_TABLE) {
+    if (re.test(c)) codes.push(code)
+  }
   return codes
 }
 
