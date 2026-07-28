@@ -3,6 +3,7 @@ import { Toaster } from 'react-hot-toast'
 import { useState, useEffect, useRef } from 'react'
 import { useAuth } from '@/hooks/useAuth'
 import { TravelLoader } from '@/components/ui/TravelLoader'
+import { ErrorBoundary } from '@/components/ui/ErrorBoundary'
 import { FavoritesProvider } from '@/contexts/FavoritesContext'
 import { RatingsProvider } from '@/contexts/RatingsContext'
 import { TopBar } from '@/components/layout/TopBar'
@@ -95,20 +96,22 @@ function AppRoutes() {
 
 export function App() {
   return (
-    <BrowserRouter>
-      <AppRoutes />
-      <Toaster
-        position="top-center"
-        toastOptions={{
-          duration: 3000,
-          style: {
-            background: '#1a1a1a',
-            color: '#fff',
-            borderRadius: '12px',
-            fontSize: '14px',
-          },
-        }}
-      />
-    </BrowserRouter>
+    <ErrorBoundary>
+      <BrowserRouter>
+        <AppRoutes />
+        <Toaster
+          position="top-center"
+          toastOptions={{
+            duration: 3000,
+            style: {
+              background: '#1a1a1a',
+              color: '#fff',
+              borderRadius: '12px',
+              fontSize: '14px',
+            },
+          }}
+        />
+      </BrowserRouter>
+    </ErrorBoundary>
   )
 }
