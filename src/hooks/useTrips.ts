@@ -41,7 +41,9 @@ export function useTrips(userId: string | undefined) {
       throw error
     }
 
-    setTrips(prev => [...prev, data])
+    // La lista viene ordenada por created_at DESC (más recientes primero);
+    // insertar el nuevo trip al principio para respetar ese orden.
+    setTrips(prev => [data, ...prev])
     return data
   }
 
