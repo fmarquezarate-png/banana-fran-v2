@@ -362,15 +362,11 @@ const DEFAULT_ANSWERS: TripAnswers = {
 }
 
 // Countries + destinations for the "direct" path
-const DIRECT_COUNTRIES = [
-  'Albania', 'Alemania', 'Austria', 'Bélgica', 'Chipre', 'Croacia', 'Dinamarca',
-  'Eslovenia', 'España', 'Francia', 'Grecia', 'Hungría', 'Irlanda', 'Islandia',
-  'Italia', 'Malta', 'Marruecos', 'Montenegro', 'Noruega', 'Países Bajos',
-  'Polonia', 'Portugal', 'Reino Unido', 'República Checa', 'Rumanía', 'Suecia',
-  'Suiza', 'Turquía',
-  'Argentina', 'Brasil', 'Chile', 'Colombia', 'Cuba', 'Estados Unidos', 'México', 'Perú',
-  'China', 'Egipto', 'India', 'Japón', 'Jordania', 'Kenia', 'Sudáfrica', 'Tailandia', 'Tanzania', 'Túnez', 'Vietnam',
-]
+// Derivado del catálogo — se mantiene sincronizado al añadir destinos.
+// Agrupa variantes ("Grecia — Cícladas" → "Grecia") y ordena en español.
+const DIRECT_COUNTRIES = Array.from(
+  new Set(DESTINATIONS.map(d => d.country.split(/[—·\/]/)[0].trim()))
+).sort((a, b) => a.localeCompare(b, 'es'))
 
 function DirectPicker({ onSelect }: {
   onSelect: (destId: string | null, countrySlug: string | null, name: string) => void

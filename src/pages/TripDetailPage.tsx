@@ -928,7 +928,7 @@ function TesterTab({ quizAnswers, defaultDest }: { quizAnswers: TripAnswers | nu
                      focus:outline-none focus:ring-2 focus:ring-egeo/50"
         >
           <option value="">— Elige un destino —</option>
-          {DESTINATIONS.filter(d => d.scales).map(d => (
+          {[...DESTINATIONS].sort((a, b) => a.name.localeCompare(b.name, 'es')).map(d => (
             <option key={d.id} value={d.id}>{d.name} — {d.country}</option>
           ))}
         </select>
