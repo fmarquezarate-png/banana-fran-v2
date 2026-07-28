@@ -101,7 +101,3 @@ export const DESTINATIONS_BY_ID = Object.fromEntries(
 export function getDestination(id: string): Destination | undefined {
   return DESTINATIONS_BY_ID[id]
 }
-
-export function getDestinationsByCategory(category: DestinationCategory): Destination[] {
-  return DESTINATIONS.filter((d) => d.category === category)
-}
