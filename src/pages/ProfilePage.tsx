@@ -481,14 +481,17 @@ export function ProfilePage() {
 
           {/* Versión y changelog */}
           <div className="card p-5">
-            <button
-              onClick={() => setChangelogOpen(o => !o)}
-              className="w-full flex items-center justify-between"
-            >
-              <h2 className="font-semibold text-gray-800">The Vacation Planner</h2>
-              <div className="flex items-center gap-2">
+            <div className="flex items-center justify-between gap-2">
+              <button
+                onClick={() => setChangelogOpen(o => !o)}
+                className="flex items-center gap-2 min-w-0 flex-1 text-left"
+              >
+                <h2 className="font-semibold text-gray-800 truncate">The Vacation Planner</h2>
+                <span className="text-gray-400 text-xs flex-shrink-0">{changelogOpen ? '▲' : '▼'}</span>
+              </button>
+              <div className="flex items-center gap-2 flex-shrink-0">
                 <button
-                  onClick={e => { e.stopPropagation(); window.location.reload() }}
+                  onClick={() => window.location.reload()}
                   className="text-xs bg-gray-100 hover:bg-egeo/10 text-gray-500 hover:text-egeo px-2 py-0.5 rounded-full transition-colors"
                   title="Recargar para obtener la última versión"
                 >
@@ -497,9 +500,8 @@ export function ProfilePage() {
                 <span className="text-xs bg-egeo/10 text-egeo font-semibold px-2 py-0.5 rounded-full">
                   v{APP_VERSION}
                 </span>
-                <span className="text-gray-400 text-xs">{changelogOpen ? '▲' : '▼'}</span>
               </div>
-            </button>
+            </div>
 
             {changelogOpen && (
               <div className="mt-4 space-y-4">

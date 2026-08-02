@@ -144,6 +144,7 @@ export function TripPhotosPage() {
               />
               <button
                 onClick={(e) => { e.stopPropagation(); handleDelete(photo) }}
+                aria-label="Borrar foto"
                 className="absolute top-1 right-1 bg-black/50 text-white rounded-full w-6 h-6
                            text-xs flex items-center justify-center opacity-0 group-hover:opacity-100
                            transition-opacity"
@@ -169,6 +170,7 @@ export function TripPhotosPage() {
           <button
             className="absolute top-4 right-4 text-white text-2xl"
             onClick={() => setLightbox(null)}
+            aria-label="Cerrar lightbox"
           >
             ×
           </button>

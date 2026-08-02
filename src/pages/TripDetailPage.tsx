@@ -126,7 +126,7 @@ function TripQuotes({ tripId, estimatedTotal }: { tripId: string; estimatedTotal
                   </div>
                   <div className="flex items-center gap-2">
                     <span className="text-sm font-semibold text-gray-700">{formatPrice(q.amount)}</span>
-                    <button onClick={() => removeQuote(q.id)} className="text-gray-300 hover:text-red-400 text-lg leading-none">×</button>
+                    <button onClick={() => removeQuote(q.id)} aria-label="Borrar cotización" className="text-gray-300 hover:text-red-400 text-lg leading-none">×</button>
                   </div>
                 </li>
               ))}
@@ -165,7 +165,7 @@ function TripQuotes({ tripId, estimatedTotal }: { tripId: string; estimatedTotal
                   className="flex-1 border border-gray-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-egeo/50"
                 />
                 <button onClick={addQuote} className="btn-primary px-4 text-sm">Añadir</button>
-                <button onClick={() => setShowForm(false)} className="btn-secondary px-3 text-sm">✕</button>
+                <button onClick={() => setShowForm(false)} aria-label="Cancelar" className="btn-secondary px-3 text-sm">✕</button>
               </div>
             </div>
           ) : (

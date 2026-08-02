@@ -1034,7 +1034,7 @@ export function TripWizardPage() {
   return (
     <main className="max-w-lg mx-auto px-4 py-6 pb-24 sm:pb-8">
       <div className="flex items-center gap-3 mb-8">
-        <button onClick={back} className="text-gray-400 hover:text-gray-700 flex-shrink-0 text-lg">←</button>
+        <button onClick={back} aria-label="Volver" className="text-gray-400 hover:text-gray-700 flex-shrink-0 text-lg">←</button>
         <div className="flex-1">
           <div className="flex justify-between text-xs text-gray-400 mb-1.5">
             <span>Pregunta {step + 1} de {STEPS.length}</span>
