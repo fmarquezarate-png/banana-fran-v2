@@ -3,9 +3,20 @@ import toast from 'react-hot-toast'
 import { useAuth } from '@/hooks/useAuth'
 import { useProfile } from '@/hooks/useProfile'
 
-const APP_VERSION = '0.42.0'
+const APP_VERSION = '0.43.0'
 
 const CHANGELOG: { v: string; date: string; notes: string[] }[] = [
+  { v: '0.43.0', date: 'Jul 2026', notes: [
+    'Tercera ronda: performance de carga inicial + a11y + robustez',
+    'Code splitting por ruta: bundle inicial de 1.8MB a 400KB (117KB gzip). Cada página se descarga on-demand',
+    'Datos del catálogo se cargan diferidos también — no bloquean el login ni el home',
+    'HTML válido: eliminado <button> anidado dentro de <button> en ProfilePage',
+    'aria-labels en botones de solo icono (×, ←, ↻, ✕) para accesibilidad',
+    'Fix silent bug: TripJournal/Photos delete tragaban errores de Supabase (query rota no lanzaba, estado local divergía del backend)',
+    'Fix: eliminar viaje redirige a /viajes en lugar de window.history.back() (que se iba de la app en share links)',
+    'Perf: hoisted sort de destinos alfabéticos del render de TesterTab',
+    'Perf: lazy loading en imágenes de listas fuera de pantalla',
+  ]},
   { v: '0.42.0', date: 'Jul 2026', notes: [
     'Segunda ronda de limpieza: bugs sutiles + rendimiento',
     'Fix crítico: violación de rules-of-hooks en DestinationPage — useFavorites/useRatings/useEffect se llamaban después de un early return',
