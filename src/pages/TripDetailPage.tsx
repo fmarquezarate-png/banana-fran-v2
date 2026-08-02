@@ -1,4 +1,4 @@
-import { useParams, Link } from 'react-router-dom'
+import { useParams, useNavigate, Link } from 'react-router-dom'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import toast from 'react-hot-toast'
 import { supabase } from '@/lib/supabase'
@@ -1049,6 +1049,7 @@ function TesterTab({ quizAnswers, defaultDest }: { quizAnswers: TripAnswers | nu
 // ─────────────────────────────────────────────────────────────
 export function TripDetailPage() {
   const { id } = useParams<{ id: string }>()
+  const navigate = useNavigate()
   const { user } = useAuth()
   const { trips, deleteTrip, updateTrip } = useTrips(user?.id)
   const { docs, loading: docsLoading, uploadDocument, deleteDocument, getSignedUrl } = useTripDocuments(id, user?.id)
@@ -1089,7 +1090,7 @@ export function TripDetailPage() {
   async function handleDelete() {
     if (!trip) return
     if (!confirm(`¿Eliminar "${trip.name}"? Esta acción no se puede deshacer.`)) return
-    try { await deleteTrip(trip.id); toast.success('Viaje eliminado'); window.history.back() }
+    try { await deleteTrip(trip.id); toast.success('Viaje eliminado'); navigate('/viajes') }
     catch { toast.error('Error eliminando el viaje') }
   }
 

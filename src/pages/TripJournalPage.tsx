@@ -161,12 +161,12 @@ export function TripJournalPage() {
   }, [tripId])
 
   async function handleDelete(id: string) {
-    try {
-      await supabase.from('trip_journal').delete().eq('id', id)
-      setEntries((prev) => prev.filter((e) => e.id !== id))
-    } catch {
+    const { error } = await supabase.from('trip_journal').delete().eq('id', id)
+    if (error) {
       toast.error('Error eliminando entrada')
+      return
     }
+    setEntries((prev) => prev.filter((e) => e.id !== id))
   }
 
   return (

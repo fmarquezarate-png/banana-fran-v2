@@ -77,14 +77,15 @@ export function TripPhotosPage() {
   }
 
   async function handleDelete(photo: TripPhoto) {
-    try {
-      await supabase.storage.from('photos').remove([photo.file_path])
-      await supabase.from('trip_photos').delete().eq('id', photo.id)
-      setPhotos((prev) => prev.filter((p) => p.id !== photo.id))
-      if (lightbox === photo.file_path) setLightbox(null)
-    } catch {
-      toast.error('Error eliminando la foto')
-    }
+    // Supabase devuelve { data, error } — no lanza excepciones para errores
+    // de query. Comprobamos error explícitamente en cada paso para no dejar
+    // el estado local divergiendo del backend.
+    const { error: storageErr } = await supabase.storage.from('photos').remove([photo.file_path])
+    if (storageErr) { toast.error('Error eliminando la foto'); return }
+    const { error: dbErr } = await supabase.from('trip_photos').delete().eq('id', photo.id)
+    if (dbErr) { toast.error('Error eliminando la foto'); return }
+    setPhotos((prev) => prev.filter((p) => p.id !== photo.id))
+    if (lightbox === photo.file_path) setLightbox(null)
   }
 
   return (
