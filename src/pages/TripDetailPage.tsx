@@ -651,7 +651,7 @@ function MatchDestCard({
   const comment = quizAnswers ? buildMatchComment(quizAnswers, dest, pct) : ''
   return (
     <Link to={`/destino/${dest.id}`} className="card p-3 flex gap-3 hover:shadow-md transition-shadow">
-      <img src={dest.images[0]} alt={dest.name}
+      <img src={dest.images[0]} alt={dest.name} loading="lazy"
         className="w-16 h-16 object-cover rounded-xl flex-shrink-0" />
       <div className="min-w-0 flex-1">
         <div className="flex items-center justify-between gap-2">
@@ -678,7 +678,7 @@ function WarningMatchCard({ dest, score, antiReasons }: { dest: Destination; sco
       className="group relative rounded-xl overflow-hidden border border-warning-yellow/30
                  hover:border-warning-yellow/60 transition-all duration-200 block">
       <div className="relative h-28 overflow-hidden bg-black">
-        <img src={dest.images[0]} alt={dest.name}
+        <img src={dest.images[0]} alt={dest.name} loading="lazy"
           className="w-full h-full object-cover opacity-30 group-hover:opacity-50 transition-opacity duration-300" />
         <div className="absolute inset-0 bg-gradient-to-t from-black via-black/30 to-transparent" />
         <span className="absolute top-2 left-2 text-[10px] font-bold text-black
@@ -837,7 +837,7 @@ function OpcionesTab({ quizAnswers }: { quizAnswers: TripAnswers | null }) {
               >
                 <span className="text-xs text-gray-300 font-bold w-5 flex-shrink-0 text-right">{i + 1}</span>
                 <div className="w-8 h-8 rounded-lg overflow-hidden flex-shrink-0">
-                  <img src={s.dest.images[0]} alt={s.dest.name} className="w-full h-full object-cover" />
+                  <img src={s.dest.images[0]} alt={s.dest.name} loading="lazy" className="w-full h-full object-cover" />
                 </div>
                 <div className="flex-1 min-w-0">
                   <p className="text-sm font-semibold text-gray-900 leading-tight truncate">{s.dest.shortName}</p>

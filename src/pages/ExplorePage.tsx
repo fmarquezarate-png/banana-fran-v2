@@ -98,6 +98,7 @@ export function ExplorePage() {
                 <img
                   src={dest.images[0]}
                   alt={dest.name}
+                  loading="lazy"
                   className="w-16 h-16 rounded-xl object-cover flex-shrink-0"
                 />
                 <div className="min-w-0">
