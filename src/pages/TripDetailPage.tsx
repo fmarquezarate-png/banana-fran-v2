@@ -898,6 +898,9 @@ function OpcionesTab({ quizAnswers }: { quizAnswers: TripAnswers | null }) {
 // ─────────────────────────────────────────────────────────────
 // Tester tab
 // ─────────────────────────────────────────────────────────────
+// Ordena una vez al importar el módulo — el orden no cambia entre renders.
+const DESTINATIONS_ALPHA = [...DESTINATIONS].sort((a, b) => a.name.localeCompare(b.name, 'es'))
+
 function TesterTab({ quizAnswers, defaultDest }: { quizAnswers: TripAnswers | null; defaultDest: Destination | null }) {
   const [selectedId, setSelectedId] = useState<string>(defaultDest?.id ?? '')
   const dest = DESTINATIONS.find(d => d.id === selectedId) ?? null
@@ -932,7 +935,7 @@ function TesterTab({ quizAnswers, defaultDest }: { quizAnswers: TripAnswers | nu
                      focus:outline-none focus:ring-2 focus:ring-egeo/50"
         >
           <option value="">— Elige un destino —</option>
-          {[...DESTINATIONS].sort((a, b) => a.name.localeCompare(b.name, 'es')).map(d => (
+          {DESTINATIONS_ALPHA.map(d => (
             <option key={d.id} value={d.id}>{d.name} — {d.country}</option>
           ))}
         </select>
