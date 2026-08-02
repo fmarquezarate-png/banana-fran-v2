@@ -1,25 +1,27 @@
 import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom'
 import { Toaster } from 'react-hot-toast'
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, lazy, Suspense } from 'react'
 import { useAuth } from '@/hooks/useAuth'
 import { TravelLoader } from '@/components/ui/TravelLoader'
 import { ErrorBoundary } from '@/components/ui/ErrorBoundary'
 import { FavoritesProvider } from '@/contexts/FavoritesContext'
 import { RatingsProvider } from '@/contexts/RatingsContext'
 import { TopBar } from '@/components/layout/TopBar'
+// Rutas ligeras y de arranque: eager (usuario aterriza aquí).
 import { LoginPage } from '@/pages/LoginPage'
 import { AuthCallbackPage } from '@/pages/AuthCallbackPage'
 import { HomePage } from '@/pages/HomePage'
-import { DestinationPage } from '@/pages/DestinationPage'
-import { TripsPage } from '@/pages/TripsPage'
-import { TripDetailPage } from '@/pages/TripDetailPage'
-import { TripPhotosPage } from '@/pages/TripPhotosPage'
-import { TripJournalPage } from '@/pages/TripJournalPage'
-import { TripWizardPage } from '@/pages/TripWizardPage'
-import { ProfilePage } from '@/pages/ProfilePage'
-import { PlacesPage } from '@/pages/PlacesPage'
-import { ExplorePage } from '@/pages/ExplorePage'
-import { AnalysisPage } from '@/pages/AnalysisPage'
+// Rutas pesadas o de uso ocasional: lazy — se descargan on-demand.
+const DestinationPage  = lazy(() => import('@/pages/DestinationPage').then(m => ({ default: m.DestinationPage })))
+const TripsPage        = lazy(() => import('@/pages/TripsPage').then(m => ({ default: m.TripsPage })))
+const TripDetailPage   = lazy(() => import('@/pages/TripDetailPage').then(m => ({ default: m.TripDetailPage })))
+const TripPhotosPage   = lazy(() => import('@/pages/TripPhotosPage').then(m => ({ default: m.TripPhotosPage })))
+const TripJournalPage  = lazy(() => import('@/pages/TripJournalPage').then(m => ({ default: m.TripJournalPage })))
+const TripWizardPage   = lazy(() => import('@/pages/TripWizardPage').then(m => ({ default: m.TripWizardPage })))
+const ProfilePage      = lazy(() => import('@/pages/ProfilePage').then(m => ({ default: m.ProfilePage })))
+const PlacesPage       = lazy(() => import('@/pages/PlacesPage').then(m => ({ default: m.PlacesPage })))
+const ExplorePage      = lazy(() => import('@/pages/ExplorePage').then(m => ({ default: m.ExplorePage })))
+const AnalysisPage     = lazy(() => import('@/pages/AnalysisPage').then(m => ({ default: m.AnalysisPage })))
 
 const LOADING_EMOJIS = ['✈️', '🛳️', '🏖️', '⛰️', '🧳', '🌍', '🗺️', '🍌']
 
@@ -60,20 +62,22 @@ function AuthenticatedApp() {
     <FavoritesProvider>
       <NavigationLoader />
       <TopBar />
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/destino/:id" element={<DestinationPage />} />
-        <Route path="/viajes" element={<TripsPage />} />
-        <Route path="/viajes/nuevo" element={<TripWizardPage />} />
-        <Route path="/viajes/:id" element={<TripDetailPage />} />
-        <Route path="/viajes/:id/fotos" element={<TripPhotosPage />} />
-        <Route path="/viajes/:id/diario" element={<TripJournalPage />} />
-        <Route path="/explorar" element={<ExplorePage />} />
-        <Route path="/analisis" element={<AnalysisPage />} />
-        <Route path="/places" element={<PlacesPage />} />
-        <Route path="/perfil" element={<ProfilePage />} />
-        <Route path="*" element={<Navigate to="/" replace />} />
-      </Routes>
+      <Suspense fallback={<div className="min-h-[60vh]" />}>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/destino/:id" element={<DestinationPage />} />
+          <Route path="/viajes" element={<TripsPage />} />
+          <Route path="/viajes/nuevo" element={<TripWizardPage />} />
+          <Route path="/viajes/:id" element={<TripDetailPage />} />
+          <Route path="/viajes/:id/fotos" element={<TripPhotosPage />} />
+          <Route path="/viajes/:id/diario" element={<TripJournalPage />} />
+          <Route path="/explorar" element={<ExplorePage />} />
+          <Route path="/analisis" element={<AnalysisPage />} />
+          <Route path="/places" element={<PlacesPage />} />
+          <Route path="/perfil" element={<ProfilePage />} />
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
+      </Suspense>
     </FavoritesProvider>
     </RatingsProvider>
   )
